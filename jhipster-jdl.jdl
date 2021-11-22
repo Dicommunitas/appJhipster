@@ -1,0 +1,79 @@
+
+application {
+  config {
+    baseName myApp
+    applicationType gateway
+    packageName com.myapp
+    authenticationType jwt
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    clientFramework angularX
+    nativeLanguage 	pt-br
+    languages 	[pt-br, en]
+    //searchEngine elasticsearch
+    //serviceDiscoveryType eureka
+    //searchEngine elasticsearch
+    //testFrameworks [gatling]
+  }
+  entities C, D
+  
+  // Verificar criação de classe de validação
+  // service * with serviceClass
+  // dto A with mapstruct
+  // dto A with serviceImpl
+  
+}
+
+application {
+  config {
+    baseName myApp1
+    applicationType microservice
+    packageName com.myapp
+    authenticationType jwt
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    clientFramework angularX
+  }
+  entities A, B
+  
+  // Verificar opção de busca
+  //search A with elasticsearch
+  
+  // Verificar criação de classe de validação
+  //dto A with serviceImpl
+}
+
+application {
+  config {
+    baseName myApp2
+    applicationType microservice
+    packageName com.myapp
+    authenticationType jwt
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    clientFramework angularX
+  }
+  entities C
+}
+
+entity A {}
+
+entity B {}
+
+entity C {}
+
+entity D {}
+
+relationship OneToMany {
+  A to B
+}
+
+// Usar um dos comandos abaixo para gerar o código.
+// jhipster jdl ./my-jdl-file.jdl 
+// jhipster jdl ./my-jdl-file.jdl --json-only
+// By default jdl regenerates only entities which have changed, if you want all your entities to be regenerated
+// then pass in the --force flag. Please note that this will overwrite all your local changes to the entity files
+// jhipster jdl ./my-jdl-file.jdl --force
+    
+// Usar o comando abaixo dentro do diretório raiz do gateway para iniciar o servidor.
+// npm start
