@@ -1,0 +1,25 @@
+{
+  "name": "B",
+  "fields": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "a",
+      "otherEntityRelationshipName": "b",
+      "relationshipName": "a"
+    }
+  ],
+  "entityTableName": "b",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleAmostraGateway", "controleAmostraMicroservice"],
+  "microserviceName": "controleAmostraMicroservice",
+  "clientRootFolder": "controleAmostraMicroservice",
+  "databaseType": "sql",
+  "changelogDate": "20211128070458"
+}
