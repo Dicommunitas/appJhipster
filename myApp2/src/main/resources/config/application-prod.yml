@@ -17,7 +17,7 @@ logging:
   level:
     ROOT: INFO
     tech.jhipster: INFO
-    com.myapp: INFO
+    com.operacional.myapp2: INFO
 
 eureka:
   instance:
@@ -103,7 +103,7 @@ server:
   shutdown: graceful # see https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-graceful-shutdown
   compression:
     enabled: true
-    mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+    mime-types: text/html,text/xml,text/plain,text/css,application/javascript,application/json,image/svg+xml
     min-response-size: 1024
 
 # ===================================================================
@@ -130,7 +130,7 @@ jhipster:
         # - In the JHipster Registry (which includes a Spring Cloud Config server)
         # - In a separate `application-prod.yml` file, in the same folder as your executable JAR file
         # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
-        base64-secret: OTMwMWYzNzM4MDY2MGQ3YTBkYTljODk1YjllMmQwMzkxZGRlNmZmOTRmNTM5ZjU1NmQyNTE2NTQ2M2Y3Y2QxM2NhNDE2ZTBmMTFhOGFhZTk0MDFmYzA4ODNlYmUxOWNkNjg3MTY5ZDUzZjcxYTMzMTNlZGFlMzMwYmYyNmVmMzg=
+        base64-secret: MjI1NWFiZTAyYTFhNjExYWRjZTI5NTU1OWQwYjJiYWEyZGI5MjI4OWRmYmQ1ZWJkMjk0ZWJkNmM5MzBjZTA2MWU5Nzc0ZDEzYzZhYmVjYzgxY2Y5M2JhNzE3YzljYmM0ZGYwMDE5ZjZiNGIwMDNkY2I3MjJmZDk4ZTJmOTJjNzA=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

@@ -5,14 +5,14 @@
   "entityTableName": "c",
   "dto": "no",
   "pagination": "no",
-  "service": "no",
+  "service": "serviceImpl",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,
-  "applications": ["myApp", "myApp2"],
+  "applications": ["controleAmostraGateway", "myApp2"],
   "microserviceName": "myApp2",
   "clientRootFolder": "myApp2",
   "databaseType": "sql",
-  "changelogDate": "20211022082234"
+  "changelogDate": "20211128070458"
 }

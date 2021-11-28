@@ -1,0 +1,24 @@
+{
+  "controleAmostraGatewayApp": {
+    "b": {
+      "home": {
+        "title": "BS",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo B",
+        "createOrEditLabel": "Criar ou editar B",
+        "notFound": "Nenhum B encontrado"
+      },
+      "created": "Um novo B foi criado com o identificador {{ param }}",
+      "updated": "Um B foi atualizado com o identificador {{ param }}",
+      "deleted": "Um B foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir B {{ id }}?"
+      },
+      "detail": {
+        "title": "B"
+      },
+      "id": "ID",
+      "a": "A"
+    }
+  }
+}

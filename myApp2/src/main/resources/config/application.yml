@@ -191,8 +191,8 @@ jhipster:
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/.*
     management-include-pattern: ${server.servlet.context-path:}/management/.*
-    title: myApp2 API
-    description: myApp2 API documentation
+    title: My App 2 API
+    description: My App 2 API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:
