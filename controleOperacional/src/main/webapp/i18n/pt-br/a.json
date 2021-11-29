@@ -1,0 +1,24 @@
+{
+  "controleOperacionalApp": {
+    "a": {
+      "home": {
+        "title": "AS",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo A",
+        "createOrEditLabel": "Criar ou editar A",
+        "notFound": "Nenhum A encontrado"
+      },
+      "created": "Um novo A foi criado com o identificador {{ param }}",
+      "updated": "Um A foi atualizado com o identificador {{ param }}",
+      "deleted": "Um A foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir A {{ id }}?"
+      },
+      "detail": {
+        "title": "A"
+      },
+      "id": "ID",
+      "b": "B"
+    }
+  }
+}
