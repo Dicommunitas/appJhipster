@@ -1,0 +1,33 @@
+{
+  "controleOperacionalApp": {
+    "lembrete": {
+      "home": {
+        "title": "Lembretes",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Lembrete",
+        "createOrEditLabel": "Create or edit a Lembrete",
+        "notFound": "No Lembretes found"
+      },
+      "created": "A new Lembrete is created with identifier {{ param }}",
+      "updated": "A Lembrete is updated with identifier {{ param }}",
+      "deleted": "A Lembrete is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Lembrete {{ id }}?"
+      },
+      "detail": {
+        "title": "Lembrete"
+      },
+      "id": "ID",
+      "data": "Data",
+      "nome": "Nome",
+      "texto": "Texto",
+      "tipoRelatorio": "Tipo Relatorio",
+      "tipoOperacao": "Tipo Operacao",
+      "help": {
+        "data": "Atributo data.\nA data em que o Lembrete foi criado",
+        "nome": "Atributo nome.\nnome do lembrete",
+        "texto": "Atributo texto.\nLembretes diversos"
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "Produto",
+  "fields": [
+    {
+      "fieldName": "codigo",
+      "fieldType": "String",
+      "javadoc": "Atributo codigo deve ter no\\nmáximo 3 aracteres",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "3"
+    },
+    {
+      "fieldName": "nomeCurto",
+      "fieldType": "String",
+      "javadoc": "Atributo nomeCurto",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nomeCompleto",
+      "fieldType": "String",
+      "javadoc": "Atributo nomeCompleto",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "alertaProduto",
+      "otherEntityRelationshipName": "produtos",
+      "javadoc": "Irá informar uma\\nlista de alertas pré definidos.",
+      "relationshipName": "alertas",
+      "otherEntityField": "descricao",
+      "ownerSide": true
+    }
+  ],
+  "javadoc": "Entidade OrigemAmostra, irá descrever de onde\\na amostra foi retirada, linha 01, tanque 02...\\nO local onde a amostra foi coletada.\\n@author Diego.",
+  "entityTableName": "produto",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220204163031"
+}

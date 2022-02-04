@@ -1,0 +1,86 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="amostra">
+      <h2 data-cy="amostraDetailsHeading"><span jhiTranslate="controleOperacionalApp.amostra.detail.title">Amostra</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ amostra.id }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.amostra.dataHora"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.dataHora' | translate"
+            >Data Hora</span
+          >
+        </dt>
+        <dd>
+          <span>{{ amostra.dataHora | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.observacao">Observacao</span></dt>
+        <dd>
+          <span>{{ amostra.observacao }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.identificadorExterno">Identificador Externo</span></dt>
+        <dd>
+          <span>{{ amostra.identificadorExterno }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.amostraNoLaboratorio">Amostra No Laboratorio</span></dt>
+        <dd>
+          <span>{{ amostra.amostraNoLaboratorio }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.operacao">Operacao</span></dt>
+        <dd>
+          <div *ngIf="amostra.operacao">
+            <a [routerLink]="['/operacao', amostra.operacao?.id, 'view']">{{ amostra.operacao?.descricao }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.origemAmostra">Origem Amostra</span></dt>
+        <dd>
+          <div *ngIf="amostra.origemAmostra">
+            <a [routerLink]="['/origem-amostra', amostra.origemAmostra?.id, 'view']">{{ amostra.origemAmostra?.descricao }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.produto">Produto</span></dt>
+        <dd>
+          <div *ngIf="amostra.produto">
+            <a [routerLink]="['/produto', amostra.produto?.id, 'view']">{{ amostra.produto?.nomeCurto }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.tipoAmostra">Tipo Amostra</span></dt>
+        <dd>
+          <div *ngIf="amostra.tipoAmostra">
+            <a [routerLink]="['/tipo-amostra', amostra.tipoAmostra?.id, 'view']">{{ amostra.tipoAmostra?.descricao }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.amostradaPor">Amostrada Por</span></dt>
+        <dd>
+          <div *ngIf="amostra.amostradaPor">
+            <a [routerLink]="['/usuario', amostra.amostradaPor?.id, 'view']">{{ amostra.amostradaPor?.nome }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.recebidaPor">Recebida Por</span></dt>
+        <dd>
+          <div *ngIf="amostra.recebidaPor">
+            <a [routerLink]="['/usuario', amostra.recebidaPor?.id, 'view']">{{ amostra.recebidaPor?.nome }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/amostra', amostra.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   controleoperacional-mysql:
-    image: mysql:8.0.26
+    image: mysql:8.0.27
     # volumes:
     #   - ~/volumes/jhipster/controleOperacional/mysql/:/var/lib/mysql/
     environment:

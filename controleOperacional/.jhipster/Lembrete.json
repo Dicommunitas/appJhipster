@@ -1,0 +1,54 @@
+{
+  "name": "Lembrete",
+  "fields": [
+    {
+      "fieldName": "data",
+      "fieldType": "ZonedDateTime",
+      "javadoc": "Atributo data.\\nA data em que o Lembrete foi criado",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "javadoc": "Atributo nome.\\nnome do lembrete",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "texto",
+      "fieldType": "byte[]",
+      "javadoc": "Atributo texto.\\nLembretes diversos",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "tipoRelatorio",
+      "otherEntityRelationshipName": "lembrete",
+      "relationshipValidateRules": "required",
+      "javadoc": "Define os lembretes que servirão como guia para\\ntodos os relatórios desse tipo",
+      "relationshipName": "tipoRelatorio",
+      "otherEntityField": "nome"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "tipoOperacao",
+      "otherEntityRelationshipName": "lembrete",
+      "javadoc": "O lembrete deverá ser exibido sempre que\\numa operação selecionar o mesmo tipoOperacao\\ndo lembrete.",
+      "relationshipName": "tipoOperacao",
+      "otherEntityField": "descricao"
+    }
+  ],
+  "javadoc": "Entidade Lembrete.\\n@author Diego.\\nOs lembrestes devem ficar ao lada da tela de visualização e edição\\ndos relatórios que o tever associado.",
+  "entityTableName": "lembrete",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220204162131"
+}

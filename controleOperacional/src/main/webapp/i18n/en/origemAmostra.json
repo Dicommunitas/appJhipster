@@ -1,0 +1,29 @@
+{
+  "controleOperacionalApp": {
+    "origemAmostra": {
+      "home": {
+        "title": "Origem Amostras",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Origem Amostra",
+        "createOrEditLabel": "Create or edit a Origem Amostra",
+        "notFound": "No Origem Amostras found"
+      },
+      "created": "A new Origem Amostra is created with identifier {{ param }}",
+      "updated": "A Origem Amostra is updated with identifier {{ param }}",
+      "deleted": "A Origem Amostra is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Origem Amostra {{ id }}?"
+      },
+      "detail": {
+        "title": "Origem Amostra"
+      },
+      "id": "ID",
+      "descricao": "Descricao",
+      "emUso": "Em Uso",
+      "help": {
+        "descricao": "Atributo descrição, é o nome do local,\nlinha 01, tanque 02...\nA principal informação descritiva da origem.",
+        "emUso": "Atributo emUso, irá informar se esta\nOrigemAmostra ainda está em uso.\nCaso não esteja mais em uso não deverá\nser permitido sua seleção e nem deve ser\nmostrado no formulario de preenchimento\nda amostra."
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "FinalidadeAmostra",
+  "fields": [
+    {
+      "fieldName": "lacre",
+      "fieldType": "String",
+      "javadoc": "Atributo lacre.\\nAmostras que tenham alguma finalidade sem lacre\\ncom obrigatoriedade de lacre não poderão ser impressas,\\nporém podem ser criadas.",
+      "fieldValidateRules": ["unique"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "tipoFinalidadeAmostra",
+      "otherEntityRelationshipName": "finalidadeAmostra",
+      "relationshipValidateRules": "required",
+      "javadoc": "Define qual a finalidade da amostra (Arquivo, Análise...)",
+      "relationshipName": "tipoFinalidadeAmostra",
+      "otherEntityField": "descricao"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "amostra",
+      "otherEntityRelationshipName": "finalidades",
+      "relationshipValidateRules": "required",
+      "relationshipName": "amostra",
+      "otherEntityField": "dataHora"
+    }
+  ],
+  "javadoc": "Entidade FinalidadeAmostra.\\n@author Diego.",
+  "entityTableName": "finalidade_amostra",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220204162831"
+}

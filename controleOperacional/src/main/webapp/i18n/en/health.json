@@ -15,14 +15,13 @@
       "refreshScope": "Microservice Refresh Scope",
       "clientConfigServer": "Microservice Config Server",
       "hystrix": "Hystrix",
-
-      "reactiveDiscoveryClients": "Microservice Discovery Clients",
+      "hazelcast": "Hazelcast",
       "diskSpace": "Disk space",
       "mail": "Email",
       "livenessState": "Liveness state",
       "readinessState": "Readiness state",
       "ping": "Application",
-      "r2dbc": "Database"
+      "db": "Database"
     },
     "table": {
       "service": "Service name",

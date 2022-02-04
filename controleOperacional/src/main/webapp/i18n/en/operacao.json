@@ -1,0 +1,34 @@
+{
+  "controleOperacionalApp": {
+    "operacao": {
+      "home": {
+        "title": "Operacaos",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Operacao",
+        "createOrEditLabel": "Create or edit a Operacao",
+        "notFound": "No Operacaos found"
+      },
+      "created": "A new Operacao is created with identifier {{ param }}",
+      "updated": "A Operacao is updated with identifier {{ param }}",
+      "deleted": "A Operacao is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Operacao {{ id }}?"
+      },
+      "detail": {
+        "title": "Operacao"
+      },
+      "id": "ID",
+      "descricao": "Descricao",
+      "volume": "Volume",
+      "inicio": "Inicio",
+      "fim": "Fim",
+      "quantidadeAmostras": "Quantidade Amostras",
+      "observacao": "Observacao",
+      "tipoOperacao": "Tipo Operacao",
+      "help": {
+        "descricao": "Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.",
+        "quantidadeAmostras": "Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia."
+      }
+    }
+  }
+}

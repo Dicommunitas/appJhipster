@@ -1,0 +1,25 @@
+{
+  "controleOperacionalApp": {
+    "alertaProduto": {
+      "home": {
+        "title": "Alerta Produtos",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Alerta Produto",
+        "createOrEditLabel": "Criar ou editar Alerta Produto",
+        "notFound": "Nenhum Alerta Produto encontrado"
+      },
+      "created": "Um novo Alerta Produto foi criado com o identificador {{ param }}",
+      "updated": "Um Alerta Produto foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Alerta Produto foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Alerta Produto {{ id }}?"
+      },
+      "detail": {
+        "title": "Alerta Produto"
+      },
+      "id": "ID",
+      "descricao": "Descricao",
+      "produtos": "Produtos"
+    }
+  }
+}

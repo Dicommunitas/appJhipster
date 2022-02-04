@@ -1,0 +1,11 @@
+id;data_zoned_date_time;data_local_date;data_instant;data_duration;descricao;criticidade;aceitar_finalizacao;foto;foto_content_type;impacto;relator_id
+1;2022-02-03T19:19:29;2022-02-04;2022-02-04T04:24:57;14566;Peixe;ALTA;true;../fake-data/blob/hipster.png;image/png;Etiópia Pequeno Quality-focused;1
+2;2022-02-04T00:36:26;2022-02-03;2022-02-03T23:08:25;90499;Direct;BAIXA;true;../fake-data/blob/hipster.png;image/png;Filmes;2
+3;2022-02-04T07:27:59;2022-02-03;2022-02-03T20:35:07;65690;Tactics Concreto Turismo;ALTA;false;../fake-data/blob/hipster.png;image/png;rosa turquesa Rupee;2
+4;2022-02-03T22:01:20;2022-02-04;2022-02-03T16:24:58;15035;Buckinghamshire;IMEDIATA;false;../fake-data/blob/hipster.png;image/png;Pequeno;2
+5;2022-02-04T04:20:48;2022-02-04;2022-02-04T09:05:26;16436;Bedfordshire Pernambuco verde-azulado;BAIXA;false;../fake-data/blob/hipster.png;image/png;Concreto;1
+6;2022-02-04T03:12:41;2022-02-03;2022-02-04T10:31:36;29402;attitude;IMEDIATA;false;../fake-data/blob/hipster.png;image/png;24/7;2
+7;2022-02-04T03:16:47;2022-02-04;2022-02-03T20:44:50;52349;Feito;IMEDIATA;true;../fake-data/blob/hipster.png;image/png;Travessa;1
+8;2022-02-03T22:27:31;2022-02-03;2022-02-04T15:57:28;35488;Frango Rua;ALTA;false;../fake-data/blob/hipster.png;image/png;Optimized;2
+9;2022-02-04T14:59:40;2022-02-03;2022-02-04T03:07:32;81069;Borders;BAIXA;true;../fake-data/blob/hipster.png;image/png;Human Avon;1
+10;2022-02-04T10:29:54;2022-02-04;2022-02-04T04:11:39;80232;invoice;MEDIA;false;../fake-data/blob/hipster.png;image/png;synthesize payment;2

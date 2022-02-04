@@ -1,0 +1,37 @@
+{
+  "controleOperacionalApp": {
+    "amostra": {
+      "home": {
+        "title": "Amostras",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Amostra",
+        "createOrEditLabel": "Criar ou editar Amostra",
+        "notFound": "Nenhum Amostra encontrado"
+      },
+      "created": "Um novo Amostra foi criado com o identificador {{ param }}",
+      "updated": "Um Amostra foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Amostra foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Amostra {{ id }}?"
+      },
+      "detail": {
+        "title": "Amostra"
+      },
+      "id": "ID",
+      "dataHora": "Data Hora",
+      "observacao": "Observacao",
+      "identificadorExterno": "Identificador Externo",
+      "amostraNoLaboratorio": "Amostra No Laboratorio",
+      "finalidades": "Finalidades",
+      "operacao": "Operacao",
+      "origemAmostra": "Origem Amostra",
+      "produto": "Produto",
+      "tipoAmostra": "Tipo Amostra",
+      "amostradaPor": "Amostrada Por",
+      "recebidaPor": "Recebida Por",
+      "help": {
+        "dataHora": "Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "OrigemAmostra",
+  "fields": [
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "javadoc": "Atributo descrição, é o nome do local,\\nlinha 01, tanque 02...\\nA principal informação descritiva da origem.",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "emUso",
+      "fieldType": "Boolean",
+      "javadoc": "Atributo emUso, irá informar se esta\\nOrigemAmostra ainda está em uso.\\nCaso não esteja mais em uso não deverá\\nser permitido sua seleção e nem deve ser\\nmostrado no formulario de preenchimento\\nda amostra.",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [],
+  "javadoc": "Entidade OrigemAmostra, irá descrever de onde\\na amostra foi retirada, linha 01, tanque 02...\\nO local onde a amostra foi coletada.\\n@author Diego.",
+  "entityTableName": "origem_amostra",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220204162631"
+}

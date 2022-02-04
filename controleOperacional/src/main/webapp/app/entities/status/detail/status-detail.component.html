@@ -1,0 +1,74 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="status">
+      <h2 data-cy="statusDetailsHeading"><span jhiTranslate="controleOperacionalApp.status.detail.title">Status</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ status.id }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.status.descricao"
+            [ngbTooltip]="'controleOperacionalApp.status.help.descricao' | translate"
+            >Descricao</span
+          >
+        </dt>
+        <dd>
+          <span>{{ status.descricao }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="controleOperacionalApp.status.prazo" [ngbTooltip]="'controleOperacionalApp.status.help.prazo' | translate"
+            >Prazo</span
+          >
+        </dt>
+        <dd>
+          <span>{{ status.prazo | formatMediumDatetime }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.status.resolvido"
+            [ngbTooltip]="'controleOperacionalApp.status.help.resolvido' | translate"
+            >Resolvido</span
+          >
+        </dt>
+        <dd>
+          <span>{{ status.resolvido }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.status.relator">Relator</span></dt>
+        <dd>
+          <div *ngIf="status.relator">
+            <a [routerLink]="['/usuario', status.relator?.id, 'view']">{{ status.relator?.nome }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.status.responsavel">Responsavel</span></dt>
+        <dd>
+          <div *ngIf="status.responsavel">
+            <a [routerLink]="['/usuario', status.responsavel?.id, 'view']">{{ status.responsavel?.nome }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.status.problema">Problema</span></dt>
+        <dd>
+          <div *ngIf="status.problema">
+            <a [routerLink]="['/problema', status.problema?.id, 'view']">{{ status.problema?.descricao }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/status', status.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+{
+  "name": "Usuario",
+  "fields": [
+    {
+      "fieldName": "chave",
+      "fieldType": "String",
+      "javadoc": "Atributo chave.\\nA chave do usuário",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "unique"],
+      "fieldValidateRulesMinlength": "4",
+      "fieldValidateRulesMaxlength": "4"
+    },
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "javadoc": "Atributo nome.\\nO nome do usuário",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "linksExternos",
+      "fieldType": "String",
+      "javadoc": "Atributo linksExternos.\\nVerificar a viabilidade de usar iframe"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "usuario",
+      "relationshipValidateRules": "required",
+      "javadoc": "Irá ligar usuário ao User",
+      "relationshipName": "user",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "tipoRelatorio",
+      "otherEntityRelationshipName": "usuariosAut",
+      "relationshipName": "relAutorizados",
+      "otherEntityField": "nome",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "usuario",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220204162231"
+}

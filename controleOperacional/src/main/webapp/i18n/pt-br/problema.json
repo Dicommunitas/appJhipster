@@ -1,0 +1,41 @@
+{
+  "controleOperacionalApp": {
+    "problema": {
+      "home": {
+        "title": "Problemas",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Problema",
+        "createOrEditLabel": "Criar ou editar Problema",
+        "notFound": "Nenhum Problema encontrado"
+      },
+      "created": "Um novo Problema foi criado com o identificador {{ param }}",
+      "updated": "Um Problema foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Problema foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Problema {{ id }}?"
+      },
+      "detail": {
+        "title": "Problema"
+      },
+      "id": "ID",
+      "dataZonedDateTime": "Data Zoned Date Time",
+      "dataLocalDate": "Data Local Date",
+      "dataInstant": "Data Instant",
+      "dataDuration": "Data Duration",
+      "descricao": "Descricao",
+      "criticidade": "Criticidade",
+      "aceitarFinalizacao": "Aceitar Finalizacao",
+      "foto": "Foto",
+      "impacto": "Impacto",
+      "status": "Status",
+      "relator": "Relator",
+      "help": {
+        "dataZonedDateTime": "Atributo data.\nA data em que o Problema foi criado",
+        "descricao": "Atributo descrição.\nDescrivo do problema.",
+        "criticidade": "Atributo criticidade.\nGravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
+        "aceitarFinalizacao": "Atributo aceitarFinalizacao.\nImforma se o problema foi finalizado/sanado.\nSomente quem criou o problema deve ter permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos (true).",
+        "impacto": "Atributo impacto.\nImpácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco"
+      }
+    }
+  }
+}

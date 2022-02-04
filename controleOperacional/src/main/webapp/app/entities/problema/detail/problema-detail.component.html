@@ -1,0 +1,105 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="problema">
+      <h2 data-cy="problemaDetailsHeading"><span jhiTranslate="controleOperacionalApp.problema.detail.title">Problema</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ problema.id }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.problema.dataZonedDateTime"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.dataZonedDateTime' | translate"
+            >Data Zoned Date Time</span
+          >
+        </dt>
+        <dd>
+          <span>{{ problema.dataZonedDateTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.problema.dataLocalDate">Data Local Date</span></dt>
+        <dd>
+          <span>{{ problema.dataLocalDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.problema.dataInstant">Data Instant</span></dt>
+        <dd>
+          <span>{{ problema.dataInstant | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.problema.dataDuration">Data Duration</span></dt>
+        <dd>
+          <span>{{ problema.dataDuration | duration }} ({{ problema.dataDuration }})</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.problema.descricao"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.descricao' | translate"
+            >Descricao</span
+          >
+        </dt>
+        <dd>
+          <span>{{ problema.descricao }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.problema.criticidade"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.criticidade' | translate"
+            >Criticidade</span
+          >
+        </dt>
+        <dd>
+          <span jhiTranslate="{{ 'controleOperacionalApp.Criticidade.' + problema.criticidade }}">{{ problema.criticidade }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.problema.aceitarFinalizacao"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.aceitarFinalizacao' | translate"
+            >Aceitar Finalizacao</span
+          >
+        </dt>
+        <dd>
+          <span>{{ problema.aceitarFinalizacao }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.problema.foto">Foto</span></dt>
+        <dd>
+          <div *ngIf="problema.foto">
+            <a (click)="openFile(problema.foto, problema.fotoContentType)">
+              <img [src]="'data:' + problema.fotoContentType + ';base64,' + problema.foto" style="max-width: 100%" alt="problema image" />
+            </a>
+            {{ problema.fotoContentType }}, {{ byteSize(problema.foto) }}
+          </div>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.problema.impacto"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.impacto' | translate"
+            >Impacto</span
+          >
+        </dt>
+        <dd>
+          <span>{{ problema.impacto }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.problema.relator">Relator</span></dt>
+        <dd>
+          <div *ngIf="problema.relator">
+            <a [routerLink]="['/usuario', problema.relator?.id, 'view']">{{ problema.relator?.nome }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/problema', problema.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

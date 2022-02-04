@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="operacao">
+      <h2 data-cy="operacaoDetailsHeading"><span jhiTranslate="controleOperacionalApp.operacao.detail.title">Operacao</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ operacao.id }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.operacao.descricao"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.descricao' | translate"
+            >Descricao</span
+          >
+        </dt>
+        <dd>
+          <span>{{ operacao.descricao }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.volume">Volume</span></dt>
+        <dd>
+          <span>{{ operacao.volume }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.inicio">Inicio</span></dt>
+        <dd>
+          <span>{{ operacao.inicio | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.fim">Fim</span></dt>
+        <dd>
+          <span>{{ operacao.fim | formatMediumDatetime }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.operacao.quantidadeAmostras"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.quantidadeAmostras' | translate"
+            >Quantidade Amostras</span
+          >
+        </dt>
+        <dd>
+          <span>{{ operacao.quantidadeAmostras }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.observacao">Observacao</span></dt>
+        <dd>
+          <span>{{ operacao.observacao }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.tipoOperacao">Tipo Operacao</span></dt>
+        <dd>
+          <div *ngIf="operacao.tipoOperacao">
+            <a [routerLink]="['/tipo-operacao', operacao.tipoOperacao?.id, 'view']">{{ operacao.tipoOperacao?.descricao }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/operacao', operacao.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

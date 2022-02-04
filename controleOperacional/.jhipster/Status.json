@@ -1,0 +1,61 @@
+{
+  "name": "Status",
+  "fields": [
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "javadoc": "Atributo descrição.\\nDescreve o status, a situação atual que está sendo tratada.",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "prazo",
+      "fieldType": "ZonedDateTime",
+      "javadoc": "Atributo prazo.\\nO prazo em que o status deve ser resolvido",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "resolvido",
+      "fieldType": "Boolean",
+      "javadoc": "Atributo resolvido.\\nIndica se o status foi ou não resolvido."
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "status",
+      "relationshipValidateRules": "required",
+      "javadoc": "Quem foi o relator do status,\\no último usuário que atualizou",
+      "relationshipName": "relator",
+      "otherEntityField": "nome"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "status",
+      "relationshipValidateRules": "required",
+      "javadoc": "Atributo responsável.\\ndescreve qual será o usuário que deve dar\\na tratativa para resolver o status",
+      "relationshipName": "responsavel",
+      "otherEntityField": "nome"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "problema",
+      "otherEntityRelationshipName": "status",
+      "relationshipValidateRules": "required",
+      "relationshipName": "problema",
+      "otherEntityField": "descricao"
+    }
+  ],
+  "javadoc": "Entidade Status.\\n@author Diego.\\nDescreve a situação do andamento para solução\\nde um problema. Um problema pode ter vários\\nstatus até sua finalização.\\nUm status só pode ser alterado por quem for\\no atual responsável em resolve-lo.",
+  "entityTableName": "status",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220204161731"
+}

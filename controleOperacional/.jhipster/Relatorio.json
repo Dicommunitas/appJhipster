@@ -1,0 +1,46 @@
+{
+  "name": "Relatorio",
+  "fields": [
+    {
+      "fieldName": "relato",
+      "fieldType": "byte[]",
+      "javadoc": "Atributo relato.\\nVerificar a viabilidade de usar um objeto\\ne não um texto.\\n\\nUsar comparação de texto para visualizar as\\nalterações entre o últomo relatório criado e o último\\nrelatório criado pelo usuário.",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "linksExternos",
+      "fieldType": "String",
+      "javadoc": "Atributo linksExternos.\\nVerificar a viabilidade de usar iframe"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "tipoRelatorio",
+      "otherEntityRelationshipName": "relatorio",
+      "javadoc": "Define de que tipo é o relatório (Supervisor, controle, píer...)",
+      "relationshipName": "tipo",
+      "otherEntityField": "nome"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "relatorio",
+      "relationshipValidateRules": "required",
+      "relationshipName": "responsavel",
+      "otherEntityField": "nome"
+    }
+  ],
+  "javadoc": "Entidade Relatorio.\\n@author Diego.\\nNa tela de visualização/edição de um relatório\\ndeve ser mostrado uma lista das operações com fim em branco\\nou início em até 12 horas antes da hora de criação do relatório,\\numa lista dos problemas com o campo aceitarFinalizacao em falso\\ne uma lista das amostras criadas em até 12 horas antes da\\ncriação do relatório.\\nTambém deve ser apresentado um \"satatus\" do\\nplano de amostragem.\\n\\nUm relatório só pode ser alterado/excluído por quem o criou\\ne se ele for o último relatório do seu tipo.\\n\\nNa tela de visualização/edição de um relatório\\ndeve ser mostrado as telas dos linksExternos\\nexemplo a tela do Paranaguá pilots.\\n\\nAo usar iframe verificar o funcionamento de links com\\ncaminhos relativos, para dentro do projeto com links internos,\\ne caminhos absolutos, para links externos.\\nhttps:",
+  "entityTableName": "relatorio",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220204161931"
+}

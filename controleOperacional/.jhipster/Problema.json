@@ -1,0 +1,87 @@
+{
+  "name": "Problema",
+  "fields": [
+    {
+      "fieldName": "dataZonedDateTime",
+      "fieldType": "ZonedDateTime",
+      "javadoc": "Atributo data.\\nA data em que o Problema foi criado",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dataLocalDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dataInstant",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dataDuration",
+      "fieldType": "Duration",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "javadoc": "Atributo descrição.\\nDescrivo do problema.",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "criticidade",
+      "fieldType": "Criticidade",
+      "javadoc": "Atributo criticidade.\\nGravidade do problema.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco",
+      "fieldValues": "BAIXA,MEDIA,ALTA,IMEDIATA",
+      "fieldTypeJavadoc": "Entidade Criticidade.\\n@author Diego.",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "aceitarFinalizacao",
+      "fieldType": "Boolean",
+      "javadoc": "Atributo aceitarFinalizacao.\\nImforma se o problema foi finalizado/sanado.\\nSomente quem criou o problema deve ter permisão\\npara aceitar sua finalização.\\nO problema só pode ser finalizado se ele tiver\\ntodos os seus status resolvidos (true)."
+    },
+    {
+      "fieldName": "foto",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image",
+      "fieldValidateRules": ["maxbytes"],
+      "fieldValidateRulesMaxbytes": "500"
+    },
+    {
+      "fieldName": "impacto",
+      "fieldType": "String",
+      "javadoc": "Atributo impacto.\\nImpácto do problema ao sistema como um todo.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "status",
+      "otherEntityRelationshipName": "problema",
+      "javadoc": "Todo problema deverá ter pelo menos\\num Status, que será um relato da situação\\ndo problema.",
+      "relationshipName": "status",
+      "otherEntityField": "descricao"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "problema",
+      "relationshipValidateRules": "required",
+      "relationshipName": "relator",
+      "otherEntityField": "nome"
+    }
+  ],
+  "javadoc": "Entidade Problema.\\n@author Diego.\\nUm problema pode ser qualquer anormalidade encontrada.\\nUm problema pode ter vários status para sua finalização\\ncada status devem ser tratado por uma área necessária ao\\ntratamento do problema.\\nOs problemas devem ter sua apresentação para\\no usuário de forma diferenciada com relação\\naos status resolvidos e não resolvidos, assim\\ncomo problemas já finalizados e não finalizados.",
+  "entityTableName": "problema",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220204161631"
+}

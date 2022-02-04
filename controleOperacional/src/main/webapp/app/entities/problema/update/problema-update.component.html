@@ -1,0 +1,319 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-problema-heading"
+        data-cy="ProblemaCreateUpdateHeading"
+        jhiTranslate="controleOperacionalApp.problema.home.createOrEditLabel"
+      >
+        Create or edit a Problema
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.problema.dataZonedDateTime"
+            for="field_dataZonedDateTime"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.dataZonedDateTime' | translate"
+            >Data Zoned Date Time</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_dataZonedDateTime"
+              data-cy="dataZonedDateTime"
+              type="datetime-local"
+              class="form-control"
+              name="dataZonedDateTime"
+              formControlName="dataZonedDateTime"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="
+              editForm.get('dataZonedDateTime')!.invalid &&
+              (editForm.get('dataZonedDateTime')!.dirty || editForm.get('dataZonedDateTime')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dataZonedDateTime')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('dataZonedDateTime')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.dataLocalDate" for="field_dataLocalDate"
+            >Data Local Date</label
+          >
+          <div class="input-group">
+            <input
+              id="field_dataLocalDate"
+              data-cy="dataLocalDate"
+              type="text"
+              class="form-control"
+              name="dataLocalDate"
+              ngbDatepicker
+              #dataLocalDateDp="ngbDatepicker"
+              formControlName="dataLocalDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="dataLocalDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+          <div
+            *ngIf="
+              editForm.get('dataLocalDate')!.invalid && (editForm.get('dataLocalDate')!.dirty || editForm.get('dataLocalDate')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dataLocalDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.dataInstant" for="field_dataInstant"
+            >Data Instant</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_dataInstant"
+              data-cy="dataInstant"
+              type="datetime-local"
+              class="form-control"
+              name="dataInstant"
+              formControlName="dataInstant"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('dataInstant')!.invalid && (editForm.get('dataInstant')!.dirty || editForm.get('dataInstant')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dataInstant')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('dataInstant')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.dataDuration" for="field_dataDuration"
+            >Data Duration</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="dataDuration"
+            id="field_dataDuration"
+            data-cy="dataDuration"
+            formControlName="dataDuration"
+          />
+          <div
+            *ngIf="editForm.get('dataDuration')!.invalid && (editForm.get('dataDuration')!.dirty || editForm.get('dataDuration')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dataDuration')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('dataDuration')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.problema.descricao"
+            for="field_descricao"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.descricao' | translate"
+            >Descricao</label
+          >
+          <input type="text" class="form-control" name="descricao" id="field_descricao" data-cy="descricao" formControlName="descricao" />
+          <div *ngIf="editForm.get('descricao')!.invalid && (editForm.get('descricao')!.dirty || editForm.get('descricao')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('descricao')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.problema.criticidade"
+            for="field_criticidade"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.criticidade' | translate"
+            >Criticidade</label
+          >
+          <select class="form-control" name="criticidade" formControlName="criticidade" id="field_criticidade" data-cy="criticidade">
+            <option [ngValue]="null">{{ 'controleOperacionalApp.Criticidade.null' | translate }}</option>
+            <option *ngFor="let criticidade of criticidadeValues" [value]="criticidade">
+              {{ 'controleOperacionalApp.Criticidade.' + criticidade | translate }}
+            </option>
+          </select>
+          <div *ngIf="editForm.get('criticidade')!.invalid && (editForm.get('criticidade')!.dirty || editForm.get('criticidade')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('criticidade')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.problema.aceitarFinalizacao"
+            for="field_aceitarFinalizacao"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.aceitarFinalizacao' | translate"
+            >Aceitar Finalizacao</label
+          >
+          <input
+            type="checkbox"
+            class="form-check"
+            name="aceitarFinalizacao"
+            id="field_aceitarFinalizacao"
+            data-cy="aceitarFinalizacao"
+            formControlName="aceitarFinalizacao"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.foto" for="field_foto">Foto</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('fotoContentType')!.value + ';base64,' + editForm.get('foto')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('foto')!.value"
+              alt="problema image"
+            />
+            <div *ngIf="editForm.get('foto')!.value" class="form-text text-danger clearfix">
+              <span class="pull-left">{{ editForm.get('fotoContentType')!.value }}, {{ byteSize(editForm.get('foto')!.value) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('foto', 'fotoContentType', 'file_foto')"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_foto"
+              data-cy="foto"
+              (change)="setFileData($event, 'foto', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="foto" id="field_foto" data-cy="foto" formControlName="foto" />
+          <input type="hidden" class="form-control" name="fotoContentType" id="field_fotoContentType" formControlName="fotoContentType" />
+          <div *ngIf="editForm.get('foto')!.invalid && (editForm.get('foto')!.dirty || editForm.get('foto')!.touched)"></div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.problema.impacto"
+            for="field_impacto"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.impacto' | translate"
+            >Impacto</label
+          >
+          <input type="text" class="form-control" name="impacto" id="field_impacto" data-cy="impacto" formControlName="impacto" />
+          <div *ngIf="editForm.get('impacto')!.invalid && (editForm.get('impacto')!.dirty || editForm.get('impacto')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('impacto')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.relator" for="field_relator">Relator</label>
+          <select class="form-control" id="field_relator" data-cy="relator" name="relator" formControlName="relator">
+            <option *ngIf="!editForm.get('relator')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="usuarioOption.id === editForm.get('relator')!.value?.id ? editForm.get('relator')!.value : usuarioOption"
+              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+            >
+              {{ usuarioOption.nome }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['relator'])!.invalid && (editForm.get(['relator'])!.dirty || editForm.get(['relator'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['relator'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

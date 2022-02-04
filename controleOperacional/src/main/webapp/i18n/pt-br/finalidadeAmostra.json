@@ -1,0 +1,29 @@
+{
+  "controleOperacionalApp": {
+    "finalidadeAmostra": {
+      "home": {
+        "title": "Finalidade Amostras",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Finalidade Amostra",
+        "createOrEditLabel": "Criar ou editar Finalidade Amostra",
+        "notFound": "Nenhum Finalidade Amostra encontrado"
+      },
+      "created": "Um novo Finalidade Amostra foi criado com o identificador {{ param }}",
+      "updated": "Um Finalidade Amostra foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Finalidade Amostra foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Finalidade Amostra {{ id }}?"
+      },
+      "detail": {
+        "title": "Finalidade Amostra"
+      },
+      "id": "ID",
+      "lacre": "Lacre",
+      "tipoFinalidadeAmostra": "Tipo Finalidade Amostra",
+      "amostra": "Amostra",
+      "help": {
+        "lacre": "Atributo lacre.\nAmostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas."
+      }
+    }
+  }
+}

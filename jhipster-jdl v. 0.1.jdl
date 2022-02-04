@@ -1,0 +1,459 @@
+//======================================== Criando o projeto ==================================================
+application {
+  config {
+    applicationType monolith
+    baseName controleOperacional
+    serverPort 8080
+    packageName com.operacional.controleoperacional
+    
+    //Mecanismo para balanceamento 
+    //de carga de servidores
+    serviceDiscoveryType eureka
+    
+    authenticationType jwt
+    // **** não consegui fazer funcionar oauth2 *****
+    //authenticationType oauth2
+    prodDatabaseType mysql
+    devDatabaseType mysql
+    
+    //Mecanismo de cache para 
+    //o banco de dados
+    cacheProvider hazelcast
+    enableHibernateCache true
+    
+    buildTool maven
+    
+    //Mecanismo para facilitar buscas
+    //no banco de dados (não funciona com Hibernate)
+    // **** não consegui fazer funcionar *****
+    //searchEngine elasticsearch
+    //enableHibernateCache false
+    
+    
+    // Para trabalhar com mensageria em tempo real
+    //messageBroker kafka
+    
+    //Swagger Codegen is an open source project 
+    //which allows generation of API client 
+    //libraries (SDK generation), server stubs, 
+    //and documentation automatically from an 
+    //OpenAPI Specification.
+    enableSwaggerCodegen true
+    
+    clientFramework angularX
+    
+    //Do you want to generate the admin UI?
+    //withAdminUi true
+    
+    //Bootswatch themes for Bootstrap
+    clientTheme cosmo
+    clientThemeVariant dark
+    
+    nativeLanguage 	pt-br
+    languages 	[pt-br, en]
+
+	// gatling - teste de performance (teste de carga)
+	// cucumber - teste BDD (Behavior-Driven Development
+    // - Desenvolvimento Orientado por Comportamento) 
+	// protractor - teste de aplicação AngularJS end-to-end
+	// cypress - teste de aplicação JavaScript End to End
+    testFrameworks [ cypress, gatling, cucumber]
+    //cypressCoverage true
+    
+  }
+  entities *
+  
+  // Criação da classe de validação para 
+  // as regras de negócios
+  service * with serviceImpl
+  //dto A with mapstruct
+  
+}
+
+//======================================== Fim da criação do projeto ==================================================
+
+//======================================== Exemplo de criação de um projeto com microservice ==================================================
+
+//application {
+//  config {
+//    applicationType microservice
+//    baseName controleAmostraMicroservice
+//    serverPort 8081
+//    packageName com.operacional.controleamostramicroservice
+//    
+//    serviceDiscoveryType eureka  
+//    authenticationType jwt
+//    prodDatabaseType mysql
+//    devDatabaseType mysql
+//    buildTool maven
+//    enableSwaggerCodegen true
+//    nativeLanguage 	pt-br
+//    languages 	[pt-br, en]
+//    testFrameworks [ gatling, cucumber]
+//  }
+//  entities A, B
+  
+  // Verificar opção de busca
+  //search A with elasticsearch
+  
+  // Criação da classe de validação para 
+  // as regras de negócios
+  // service A with serviceImpl
+//}
+
+//======================================== Fim do exemplo de criação de um projeto com microservice ==================================================
+
+//======================================== Criando as entidades ==================================================
+
+/**
+ * Entidade Problema.
+ * @author Diego.
+ */
+entity Problema {
+	/**
+	* Atributo descrição.
+	*/
+    descricao String required,
+    criticidade Criticidade required,
+    aceitarFinalizacao Boolean,
+    foto ImageBlob maxbytes(500),
+    priorizar Integer,
+    numeroVezesUsadoComoPadrao Integer
+    //criadoPor User,
+    //atualizadoPor User,
+    //criadoEm DateTime,
+    //atualizadoEm DateTime
+}
+
+/**
+ * Entidade Status.
+ * @author Diego.
+ */
+entity Status {
+	/**
+	* Atributo descrição.
+	*/
+    descricao String required,
+	/**
+	* Atributo prazo deve ser do mesmo tipo de createdAt e updetedAt.
+	*/
+    prazo ZonedDateTime required,
+    solicitarFinalizacao Boolean
+    //criadoPor User,
+    //atualizadoPor User,
+    //criadoEm DateTime,
+    //atualizadoEm DateTime
+}
+
+/**
+ * Entidade Criticidade.
+ * @author Diego.
+ */
+enum Criticidade {
+    BAIXA, MEDIA, ALTA, URGENTE
+}
+
+/**
+ * Entidade CuidadosAmostra.
+ * @author Diego.
+ */
+enum AlertasProduto {
+    BENZENO, INFLAMAVEL
+}
+
+/**
+ * Entidade Relatorio.
+ * @author Diego.
+ * Na tela de visualização/edição de um relatório
+ * deve ser mostrado uma lista das operações com fim em branco
+ * ou início em até 12 horas antes da criação do relatório,
+ * uma lista dos problemas com o campo aceitarFinalizacao em falso 
+ * e uma lista das amostras criadas em até 12 horas antes da
+ * criação do relatório.
+ * Também deve ser apresentado um "satatus" do
+ * plano de amostragem.
+ */
+entity Relatorio {
+	/**
+	* Atributo descrição.
+    * Verificar a viabilidade de usar um objeto
+    * e não um texto.
+	*/
+    descricao TextBlob
+    
+    
+    //Usar recurso de WYSIWYG na TextArea colocando
+    //no html a class="ckeditor" e inserindo o pacote 
+    //CKEditor nos recursos javascript
+    //criadoPor User,
+    //atualizadoPor User,
+    //criadoEm DateTime,
+    //atualizadoEm DateTime
+}
+
+/**
+ * Entidade TipoRelatorio.
+ * @author Diego.
+ * O TipoRelatorio irá descrever de que tipo é
+ * o relatório, relatório de sutur, relatório píer, cco...
+ * Deve existir uma tela com um botão para listar todos
+ * os relatórios agrupados por seus tipos.
+ */
+entity TipoRelatorio {
+	/**
+	* Atributo descrição.
+	*/
+    descricao String required
+}
+
+entity User {
+	/**
+	* Atributo anotações. Anotações pessoais do usuário.
+    * Verificar a viabilidade de usar um objeto
+    * e não um texto.
+	*/
+    anotacoes TextBlob
+    
+    //Usar recurso de WYSIWYG na TextArea colocando
+    //no html a class="ckeditor" e inserindo o pacote 
+    //CKEditor nos recursos javascript
+}
+
+/**
+ * Entidade Amostra.
+ * @author Diego.
+ */
+entity Amostra {
+	/**
+	* Atributo dataHora.
+    * não deve ser obrigatório e as amostras
+    * por padrão devem ser ordenadas pela data
+    * ficando as mais novas por primeiro na 
+    * vizualização e as sem data por útimo
+	*/
+	dataHora Instant,
+    observacao String,
+	identificadorExterno String,
+    amostraNoLaboratorio Boolean
+    //criadoPor User,
+    //atualizadoPor User,
+    //criadoEm DateTime,
+    //atualizadoEm DateTime
+}
+
+/**
+ * Entidade Operação.
+ * @author Diego.
+ * Ao criar uma Operação deve existir
+ * uma opção de usar operações passadas
+ * como modelo para sua criação, inclusive
+ * copiando o plano de amostragem
+ */
+entity Operacao {
+	/**
+	* Atributo descrição.
+    * Deve existir algum tipo de indicação
+    * que mostre a quantidade de amostras
+    * suficiente ou insuficiente para a operação.
+    * Deve existir uma visualização em lista 
+    * de todas as amostras pertencentes a operação
+    * na sua tela de visualização
+    * Deve existir um recurso para facilitar
+    * a conferência do plano de amostragem
+    * durante a criação da operação/plano de 
+    * amostragem.
+	*/
+    descricao String required,
+	volume Integer required,
+	inicio Instant,
+	fim Instant,
+	/**
+	* Atributo quantidadeAmostras
+    * ou planoDeAmostragem irão dizer,
+    * somente um deles o outro será removido,
+    * quantas amostras e ou quais tipos
+    * devem fazer parte da operação. 
+    * Foco em cumprir o plano de amostragem.
+    * Uma possível solução seria um botão
+    * para criar novas operações usando 
+    * operações passadas como modelo, outra
+    * solução mais elaborada seria existir 
+    * vários planos de amostragem já
+    * cadastrados, esses planos teriam um nome
+    * e uma lista de amostras, assim sempre
+    * que uma operação selecionar este plano
+    * novas amostras seriam criadas, usando
+    * a lista do plano de amostragem como
+    * modelo.
+	*/
+	quantidadeAmostras Integer required,
+	planoDeAmostragem Integer required,
+	observacao String
+    //criadoPor User,
+    //atualizadoPor User,
+    //criadoEm DateTime,
+    //atualizadoEm DateTime
+}
+
+/**
+ * Entidade OrigemAmostra, irá descrever de onde
+ * a amostra foi retirada, linha 01, tanque 02...
+ * O local onde a amostra foi coletada.
+ * @author Diego.
+ */
+entity OrigemAmostra {
+
+	/**
+	* Atributo descrição, é o nome do local,
+    * linha 01, tanque 02...
+    * A principal informação descritiva da origem.
+	*/
+    descricao String required,
+    
+    
+	/**
+	* Atributo emUso, irá informar se esta
+    * OrigemAmostra ainda está em uso.
+    * Caso não esteja mais em uso não deverá
+    * ser permitido sua seleção e nem deve ser 
+    * mostrado no formulario de preenchimento
+    * da amostra.
+	*/
+    emUso Boolean required
+}
+
+/**
+ * Entidade TipoAmostra.
+ * @author Diego.
+ */
+entity TipoAmostra {
+	/**
+	* Atributo descrição.
+	*/
+    descricao String required,
+}
+
+/**
+ * Entidade FinalidadeAmostra.
+ * @author Diego.
+ */
+entity FinalidadeAmostra {
+	/**
+	* Atributo lacre.
+	* Amostras que tenham alguma finalidade sem lacre
+    * com obrigatoriedade de lacre não poderão ser impressas,
+    * porém podem ser criadas.
+	*/
+    lacre String unique,
+}
+
+/**
+ * Entidade TipoFinalidadeAmostra.
+ * Irá informar para qual finalidade a amostra
+ * será utilizada, análise, arqivo...
+ * @author Diego.
+ */
+entity TipoFinalidadeAmostra {
+	/**
+	* Atributo descrição.
+	* Irá informar a descrição da finalidade.
+	* A principal informação da finalidade.
+    * Análise, arqivo...
+	*/
+    descricao String required,
+    
+	/**
+	* Amostras que tenham alguma finalidade sem lacre
+    * com obrigatoriedade de lacre não poderão ser impressas,
+    * porém podem ser criadas.
+	*/
+    obrigatorioLacre Boolean required
+}
+
+/**
+ * Entidade OrigemAmostra, irá descrever de onde
+ * a amostra foi retirada, linha 01, tanque 02...
+ * O local onde a amostra foi coletada.
+ * @author Diego.
+ */
+entity Produto {
+
+	/**
+	* Atributo codigo deve ter no 
+    * máximo 3 aracteres
+	*/
+    codigo String required maxlength(3) unique
+	/**
+	* Atributo nomeCurto
+	*/
+    nomeCurto String required
+	/**
+	* Atributo nomeCompleto
+	*/
+    nomeCompleto String required
+    
+	/**
+	* Atributo AlertasProduto, irá informar uma
+    * lista de alertas pré definidos.
+	*/
+    alertas AlertasProduto
+}
+
+
+//======================================== Fim da Criação das entidades ==================================================
+
+
+//======================================== Comandos úteis ==================================================
+
+// Usar um dos comandos abaixo para gerar o código.
+// jhipster jdl ./jhipster-jdl.jdl 
+// jhipster jdl ./my-jdl-file.jdl --json-only
+// By default jdl regenerates only entities which have changed, 
+// if you want all your entities to be regenerated
+// then pass in the --force flag. Please note that this 
+// will overwrite all your local changes to the entity files
+// jhipster jdl ./my-jdl-file.jdl --force
+    
+// Ao término da criação da aplicação terá um arquivo
+// .yo-rc.json
+// este aquivo mostra todas as opções escolhidas durante a criação do projeto
+
+// Alterar a senha no arquivo de configuração do banco de dados em:
+// .../src/main/resources/config/application-dev OU prod.yml
+
+// Usar o comando abaixo dentro do diretório raiz do projeto para iniciar o servidor frontend.
+// npm start
+
+// Usar o comando abaixo dentro do diretório raiz do projeto para iniciar o servidor backend.
+// ./mvnw
+
+// Cypress/Protractor
+// UI integration tests are done with Cypress or Protractor,
+// and are located in the src/test/javascript/e2e folder.
+// Those tests will launch a Web browser and use the application
+// like a real user would do, so you need to have a real application
+// running, with its database set-up.
+// Those tests can be run using: 
+// npm run e2e.
+
+// As regras de negócios ficam dentro de 
+// /src/main/java/.../service
+// criar e usar serviceImpl 
+
+
+// Application “hot restart” with Spring Boot devtools
+// Spring Boot devtools is configured by JHipster, 
+// and will “hot restart” your application when 
+// classes from your project are compiled.
+// To use it within Visual Studio Code, you need to:
+//    Run your application in a terminal, typically by typing ./mvnw
+//    In another terminal, compile your application: ./mvnw compile
+
+// Como conectar ao MySQL
+// mysql -u root -p
+// SHOW DATABASES;
+// USE nome-do-banco;
+// SHOW tables;
+// DESCRIBE nome-da-tabela;
+// DROP DATABASE nome-do-banco;
+

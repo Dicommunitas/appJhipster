@@ -25,5 +25,10 @@ components:
       description: JWT Authentication
       scheme: bearer
       bearerFormat: JWT
+    basic:
+      type: http
+      description: Basic Authentication
+      scheme: basic
 security:
   - jwt: []
+  - basic: []

@@ -1,0 +1,291 @@
+jest.mock('@angular/router');
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { of, Subject } from 'rxjs';
+
+import { AmostraService } from '../service/amostra.service';
+import { IAmostra, Amostra } from '../amostra.model';
+import { IOperacao } from 'app/entities/operacao/operacao.model';
+import { OperacaoService } from 'app/entities/operacao/service/operacao.service';
+import { IOrigemAmostra } from 'app/entities/origem-amostra/origem-amostra.model';
+import { OrigemAmostraService } from 'app/entities/origem-amostra/service/origem-amostra.service';
+import { IProduto } from 'app/entities/produto/produto.model';
+import { ProdutoService } from 'app/entities/produto/service/produto.service';
+import { ITipoAmostra } from 'app/entities/tipo-amostra/tipo-amostra.model';
+import { TipoAmostraService } from 'app/entities/tipo-amostra/service/tipo-amostra.service';
+import { IUsuario } from 'app/entities/usuario/usuario.model';
+import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+
+import { AmostraUpdateComponent } from './amostra-update.component';
+
+describe('Amostra Management Update Component', () => {
+  let comp: AmostraUpdateComponent;
+  let fixture: ComponentFixture<AmostraUpdateComponent>;
+  let activatedRoute: ActivatedRoute;
+  let amostraService: AmostraService;
+  let operacaoService: OperacaoService;
+  let origemAmostraService: OrigemAmostraService;
+  let produtoService: ProdutoService;
+  let tipoAmostraService: TipoAmostraService;
+  let usuarioService: UsuarioService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [AmostraUpdateComponent],
+      providers: [FormBuilder, ActivatedRoute],
+    })
+      .overrideTemplate(AmostraUpdateComponent, '')
+      .compileComponents();
+
+    fixture = TestBed.createComponent(AmostraUpdateComponent);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    amostraService = TestBed.inject(AmostraService);
+    operacaoService = TestBed.inject(OperacaoService);
+    origemAmostraService = TestBed.inject(OrigemAmostraService);
+    produtoService = TestBed.inject(ProdutoService);
+    tipoAmostraService = TestBed.inject(TipoAmostraService);
+    usuarioService = TestBed.inject(UsuarioService);
+
+    comp = fixture.componentInstance;
+  });
+
+  describe('ngOnInit', () => {
+    it('Should call Operacao query and add missing value', () => {
+      const amostra: IAmostra = { id: 456 };
+      const operacao: IOperacao = { id: 45185 };
+      amostra.operacao = operacao;
+
+      const operacaoCollection: IOperacao[] = [{ id: 77772 }];
+      jest.spyOn(operacaoService, 'query').mockReturnValue(of(new HttpResponse({ body: operacaoCollection })));
+      const additionalOperacaos = [operacao];
+      const expectedCollection: IOperacao[] = [...additionalOperacaos, ...operacaoCollection];
+      jest.spyOn(operacaoService, 'addOperacaoToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      expect(operacaoService.query).toHaveBeenCalled();
+      expect(operacaoService.addOperacaoToCollectionIfMissing).toHaveBeenCalledWith(operacaoCollection, ...additionalOperacaos);
+      expect(comp.operacaosSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call OrigemAmostra query and add missing value', () => {
+      const amostra: IAmostra = { id: 456 };
+      const origemAmostra: IOrigemAmostra = { id: 78160 };
+      amostra.origemAmostra = origemAmostra;
+
+      const origemAmostraCollection: IOrigemAmostra[] = [{ id: 48497 }];
+      jest.spyOn(origemAmostraService, 'query').mockReturnValue(of(new HttpResponse({ body: origemAmostraCollection })));
+      const additionalOrigemAmostras = [origemAmostra];
+      const expectedCollection: IOrigemAmostra[] = [...additionalOrigemAmostras, ...origemAmostraCollection];
+      jest.spyOn(origemAmostraService, 'addOrigemAmostraToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      expect(origemAmostraService.query).toHaveBeenCalled();
+      expect(origemAmostraService.addOrigemAmostraToCollectionIfMissing).toHaveBeenCalledWith(
+        origemAmostraCollection,
+        ...additionalOrigemAmostras
+      );
+      expect(comp.origemAmostrasSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call Produto query and add missing value', () => {
+      const amostra: IAmostra = { id: 456 };
+      const produto: IProduto = { id: 10568 };
+      amostra.produto = produto;
+
+      const produtoCollection: IProduto[] = [{ id: 48074 }];
+      jest.spyOn(produtoService, 'query').mockReturnValue(of(new HttpResponse({ body: produtoCollection })));
+      const additionalProdutos = [produto];
+      const expectedCollection: IProduto[] = [...additionalProdutos, ...produtoCollection];
+      jest.spyOn(produtoService, 'addProdutoToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      expect(produtoService.query).toHaveBeenCalled();
+      expect(produtoService.addProdutoToCollectionIfMissing).toHaveBeenCalledWith(produtoCollection, ...additionalProdutos);
+      expect(comp.produtosSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call TipoAmostra query and add missing value', () => {
+      const amostra: IAmostra = { id: 456 };
+      const tipoAmostra: ITipoAmostra = { id: 91619 };
+      amostra.tipoAmostra = tipoAmostra;
+
+      const tipoAmostraCollection: ITipoAmostra[] = [{ id: 40957 }];
+      jest.spyOn(tipoAmostraService, 'query').mockReturnValue(of(new HttpResponse({ body: tipoAmostraCollection })));
+      const additionalTipoAmostras = [tipoAmostra];
+      const expectedCollection: ITipoAmostra[] = [...additionalTipoAmostras, ...tipoAmostraCollection];
+      jest.spyOn(tipoAmostraService, 'addTipoAmostraToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      expect(tipoAmostraService.query).toHaveBeenCalled();
+      expect(tipoAmostraService.addTipoAmostraToCollectionIfMissing).toHaveBeenCalledWith(tipoAmostraCollection, ...additionalTipoAmostras);
+      expect(comp.tipoAmostrasSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call Usuario query and add missing value', () => {
+      const amostra: IAmostra = { id: 456 };
+      const amostradaPor: IUsuario = { id: 97867 };
+      amostra.amostradaPor = amostradaPor;
+      const recebidaPor: IUsuario = { id: 96921 };
+      amostra.recebidaPor = recebidaPor;
+
+      const usuarioCollection: IUsuario[] = [{ id: 95807 }];
+      jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
+      const additionalUsuarios = [amostradaPor, recebidaPor];
+      const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
+      jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      expect(usuarioService.query).toHaveBeenCalled();
+      expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(usuarioCollection, ...additionalUsuarios);
+      expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const amostra: IAmostra = { id: 456 };
+      const operacao: IOperacao = { id: 73150 };
+      amostra.operacao = operacao;
+      const origemAmostra: IOrigemAmostra = { id: 25637 };
+      amostra.origemAmostra = origemAmostra;
+      const produto: IProduto = { id: 24178 };
+      amostra.produto = produto;
+      const tipoAmostra: ITipoAmostra = { id: 30560 };
+      amostra.tipoAmostra = tipoAmostra;
+      const amostradaPor: IUsuario = { id: 92270 };
+      amostra.amostradaPor = amostradaPor;
+      const recebidaPor: IUsuario = { id: 92569 };
+      amostra.recebidaPor = recebidaPor;
+
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      expect(comp.editForm.value).toEqual(expect.objectContaining(amostra));
+      expect(comp.operacaosSharedCollection).toContain(operacao);
+      expect(comp.origemAmostrasSharedCollection).toContain(origemAmostra);
+      expect(comp.produtosSharedCollection).toContain(produto);
+      expect(comp.tipoAmostrasSharedCollection).toContain(tipoAmostra);
+      expect(comp.usuariosSharedCollection).toContain(amostradaPor);
+      expect(comp.usuariosSharedCollection).toContain(recebidaPor);
+    });
+  });
+
+  describe('save', () => {
+    it('Should call update service on save for existing entity', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<Amostra>>();
+      const amostra = { id: 123 };
+      jest.spyOn(amostraService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.next(new HttpResponse({ body: amostra }));
+      saveSubject.complete();
+
+      // THEN
+      expect(comp.previousState).toHaveBeenCalled();
+      expect(amostraService.update).toHaveBeenCalledWith(amostra);
+      expect(comp.isSaving).toEqual(false);
+    });
+
+    it('Should call create service on save for new entity', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<Amostra>>();
+      const amostra = new Amostra();
+      jest.spyOn(amostraService, 'create').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.next(new HttpResponse({ body: amostra }));
+      saveSubject.complete();
+
+      // THEN
+      expect(amostraService.create).toHaveBeenCalledWith(amostra);
+      expect(comp.isSaving).toEqual(false);
+      expect(comp.previousState).toHaveBeenCalled();
+    });
+
+    it('Should set isSaving to false on error', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<Amostra>>();
+      const amostra = { id: 123 };
+      jest.spyOn(amostraService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ amostra });
+      comp.ngOnInit();
+
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.error('This is an error!');
+
+      // THEN
+      expect(amostraService.update).toHaveBeenCalledWith(amostra);
+      expect(comp.isSaving).toEqual(false);
+      expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Tracking relationships identifiers', () => {
+    describe('trackOperacaoById', () => {
+      it('Should return tracked Operacao primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackOperacaoById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackOrigemAmostraById', () => {
+      it('Should return tracked OrigemAmostra primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackOrigemAmostraById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackProdutoById', () => {
+      it('Should return tracked Produto primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackProdutoById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackTipoAmostraById', () => {
+      it('Should return tracked TipoAmostra primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackTipoAmostraById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackUsuarioById', () => {
+      it('Should return tracked Usuario primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackUsuarioById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+  });
+});

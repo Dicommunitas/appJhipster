@@ -1,0 +1,29 @@
+{
+  "controleOperacionalApp": {
+    "tipoFinalidadeAmostra": {
+      "home": {
+        "title": "Tipo Finalidade Amostras",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Tipo Finalidade Amostra",
+        "createOrEditLabel": "Create or edit a Tipo Finalidade Amostra",
+        "notFound": "No Tipo Finalidade Amostras found"
+      },
+      "created": "A new Tipo Finalidade Amostra is created with identifier {{ param }}",
+      "updated": "A Tipo Finalidade Amostra is updated with identifier {{ param }}",
+      "deleted": "A Tipo Finalidade Amostra is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Tipo Finalidade Amostra {{ id }}?"
+      },
+      "detail": {
+        "title": "Tipo Finalidade Amostra"
+      },
+      "id": "ID",
+      "descricao": "Descricao",
+      "obrigatorioLacre": "Obrigatorio Lacre",
+      "help": {
+        "descricao": "Atributo descrição.\nIrá informar a descrição da finalidade.\nA principal informação da finalidade.\nAnálise, arqivo...",
+        "obrigatorioLacre": "Amostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas."
+      }
+    }
+  }
+}
