@@ -1,11 +1,60 @@
 id;descricao;em_uso
-1;grid-enabled virtual;false
-2;Casa portals;true
-3;next-generation platforms;false
-4;database;false
-5;grená;true
-6;Alameda Alagoas;false
-7;SSL Technician Borracha;true
-8;Cross-platform;true
-9;Assurance EXE;true
-10;Acre;false
+1;(Píer) L3 GA 12";true
+2;(Píer) L3 NDD12";true
+3;(Píer) L3 ODB 12";true
+4;(Píer) L3 QAV 16";true
+5;(Píer) L3 MTBE 12";true
+6;(Píer) L3 METANOL 12";true
+7;(Píer) L3 LTN 12";true
+8;(Píer) L3 OC 12";true
+9;(Píer) MF ABT 10";true
+10;(Píer) MGO ABT 8";true
+11;TQ-001;true
+12;TQ-002;true
+13;TQ-101;true
+14;TQ-102;true
+15;TQ-103;true
+16;TQ-105;true
+17;TQ-106;true
+18;TQ-107;true
+19;TQ-109;true
+20;TQ-111;true
+21;TQ-113;true
+22;TQ-201;true
+23;TQ-203;true
+24;TQ-204;true
+25;TQ-205;true
+26;TQ-206;true
+27;TQ-207;true
+28;TQ-209;true
+29;TQ-210;true
+30;TQ-211;true
+31;TQ-212;true
+32;TQ-301;true
+33;TQ-302;true
+34;TQ-303;true
+35;TQ-304;true
+36;TQ-305;true
+37;TQ-306;true
+38;TQ-401;true
+39;TQ-402;true
+40;TQ-403;true
+41;E01;true
+42;E02;true
+43;E03;true
+44;Navio / Vessel;true
+45;Vagão;true
+46;Caminhão;true
+47;Barcaça;true
+48;Olapa;true
+49;(Píer) L3 DSM 12";true
+50;Caldeira;true
+51;(Área) L3 GA 12";true
+52;(Área) L3 NDD 16";true
+53;(Área) L3 ODB 12";true
+54;(Área) L3 DSM 12";true
+55;REPAR;true
+56;TQ-208;true
+57;(Área) L3 OC 12";true
+58;TOMADA 1 DA LINHA DE DG DE CT;true
+59;TOMADA 2 DA LINHA DE DG DE CT;true
