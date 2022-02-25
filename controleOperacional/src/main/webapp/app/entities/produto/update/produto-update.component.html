@@ -20,19 +20,30 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.produto.codigo"
-            for="field_codigo"
-            [ngbTooltip]="'controleOperacionalApp.produto.help.codigo' | translate"
-            >Codigo</label
+            jhiTranslate="controleOperacionalApp.produto.codigoBDEMQ"
+            for="field_codigoBDEMQ"
+            [ngbTooltip]="'controleOperacionalApp.produto.help.codigoBDEMQ' | translate"
+            >Codigo BDEMQ</label
           >
-          <input type="text" class="form-control" name="codigo" id="field_codigo" data-cy="codigo" formControlName="codigo" />
-          <div *ngIf="editForm.get('codigo')!.invalid && (editForm.get('codigo')!.dirty || editForm.get('codigo')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('codigo')?.errors?.required" jhiTranslate="entity.validation.required">
+          <input
+            type="text"
+            class="form-control"
+            name="codigoBDEMQ"
+            id="field_codigoBDEMQ"
+            data-cy="codigoBDEMQ"
+            formControlName="codigoBDEMQ"
+          />
+          <div *ngIf="editForm.get('codigoBDEMQ')!.invalid && (editForm.get('codigoBDEMQ')!.dirty || editForm.get('codigoBDEMQ')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('codigoBDEMQ')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
               This field is required.
             </small>
             <small
               class="form-text text-danger"
-              *ngIf="editForm.get('codigo')?.errors?.maxlength"
+              *ngIf="editForm.get('codigoBDEMQ')?.errors?.maxlength"
               jhiTranslate="entity.validation.maxlength"
               [translateValues]="{ max: 3 }"
             >

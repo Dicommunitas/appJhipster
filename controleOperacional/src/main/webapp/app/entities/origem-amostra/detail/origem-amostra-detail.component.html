@@ -26,16 +26,6 @@
         <dd>
           <span>{{ origemAmostra.descricao }}</span>
         </dd>
-        <dt>
-          <span
-            jhiTranslate="controleOperacionalApp.origemAmostra.emUso"
-            [ngbTooltip]="'controleOperacionalApp.origemAmostra.help.emUso' | translate"
-            >Em Uso</span
-          >
-        </dt>
-        <dd>
-          <span>{{ origemAmostra.emUso }}</span>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { ILembrete, Lembrete } from '../lembrete.model';
 
 import { LembreteService } from './lembrete.service';
@@ -12,7 +10,6 @@ describe('Lembrete Service', () => {
   let httpMock: HttpTestingController;
   let elemDefault: ILembrete;
   let expectedResult: ILembrete | ILembrete[] | boolean | null;
-  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,24 +18,17 @@ describe('Lembrete Service', () => {
     expectedResult = null;
     service = TestBed.inject(LembreteService);
     httpMock = TestBed.inject(HttpTestingController);
-    currentDate = dayjs();
 
     elemDefault = {
       id: 0,
-      data: currentDate,
       nome: 'AAAAAAA',
-      texto: 'AAAAAAA',
+      descricao: 'AAAAAAA',
     };
   });
 
   describe('Service methods', () => {
     it('should find an element', () => {
-      const returnedFromService = Object.assign(
-        {
-          data: currentDate.format(DATE_TIME_FORMAT),
-        },
-        elemDefault
-      );
+      const returnedFromService = Object.assign({}, elemDefault);
 
       service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -51,17 +41,11 @@ describe('Lembrete Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          data: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          data: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.create(new Lembrete()).subscribe(resp => (expectedResult = resp.body));
 
@@ -74,19 +58,13 @@ describe('Lembrete Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          data: currentDate.format(DATE_TIME_FORMAT),
           nome: 'BBBBBB',
-          texto: 'BBBBBB',
+          descricao: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          data: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -98,19 +76,14 @@ describe('Lembrete Service', () => {
     it('should partial update a Lembrete', () => {
       const patchObject = Object.assign(
         {
-          data: currentDate.format(DATE_TIME_FORMAT),
+          nome: 'BBBBBB',
         },
         new Lembrete()
       );
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
-      const expected = Object.assign(
-        {
-          data: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -123,19 +96,13 @@ describe('Lembrete Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          data: currentDate.format(DATE_TIME_FORMAT),
           nome: 'BBBBBB',
-          texto: 'BBBBBB',
+          descricao: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          data: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -182,7 +149,7 @@ describe('Lembrete Service', () => {
       });
 
       it('should add only unique Lembrete to an array', () => {
-        const lembreteArray: ILembrete[] = [{ id: 123 }, { id: 456 }, { id: 26881 }];
+        const lembreteArray: ILembrete[] = [{ id: 123 }, { id: 456 }, { id: 23692 }];
         const lembreteCollection: ILembrete[] = [{ id: 123 }];
         expectedResult = service.addLembreteToCollectionIfMissing(lembreteCollection, ...lembreteArray);
         expect(expectedResult).toHaveLength(3);

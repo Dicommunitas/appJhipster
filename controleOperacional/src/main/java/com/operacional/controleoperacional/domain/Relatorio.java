@@ -23,15 +23,16 @@ public class Relatorio implements Serializable {
     private Long id;
 
     /**
-     * Atributo relato.\nVerificar a viabilidade de usar um objeto\ne não um texto.\n\nUsar comparação de texto para visualizar as\nalterações entre o últomo relatório criado e o último\nrelatório criado pelo usuário.
+     * Atributo relato.\nVerificar a viabilidade de usar um objeto\ne não um texto.\n\nUsar comparação de texto para visualizar as\nalterações entre o últomo relatório criado e o último\nrelatório criado pelo usuário.\n\nRelato descritivo. As informações pertinentes para o relatório.
      */
     @Lob
     @Column(name = "relato", nullable = false)
     private String relato;
 
     /**
-     * Atributo linksExternos.\nVerificar a viabilidade de usar iframe
+     * Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o relatório.
      */
+    @Lob
     @Column(name = "links_externos")
     private String linksExternos;
 

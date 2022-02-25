@@ -7,9 +7,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.operacional.controleoperacional.IntegrationTest;
+import com.operacional.controleoperacional.domain.AlertaProduto;
 import com.operacional.controleoperacional.domain.Produto;
 import com.operacional.controleoperacional.repository.ProdutoRepository;
 import com.operacional.controleoperacional.service.ProdutoService;
+import com.operacional.controleoperacional.service.criteria.ProdutoCriteria;
 import com.operacional.controleoperacional.service.dto.ProdutoDTO;
 import com.operacional.controleoperacional.service.mapper.ProdutoMapper;
 import java.util.ArrayList;
@@ -40,8 +42,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class ProdutoResourceIT {
 
-    private static final String DEFAULT_CODIGO = "AAA";
-    private static final String UPDATED_CODIGO = "BBB";
+    private static final String DEFAULT_CODIGO_BDEMQ = "AAA";
+    private static final String UPDATED_CODIGO_BDEMQ = "BBB";
 
     private static final String DEFAULT_NOME_CURTO = "AAAAAAAAAA";
     private static final String UPDATED_NOME_CURTO = "BBBBBBBBBB";
@@ -82,7 +84,7 @@ class ProdutoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Produto createEntity(EntityManager em) {
-        Produto produto = new Produto().codigo(DEFAULT_CODIGO).nomeCurto(DEFAULT_NOME_CURTO).nomeCompleto(DEFAULT_NOME_COMPLETO);
+        Produto produto = new Produto().codigoBDEMQ(DEFAULT_CODIGO_BDEMQ).nomeCurto(DEFAULT_NOME_CURTO).nomeCompleto(DEFAULT_NOME_COMPLETO);
         return produto;
     }
 
@@ -93,7 +95,7 @@ class ProdutoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Produto createUpdatedEntity(EntityManager em) {
-        Produto produto = new Produto().codigo(UPDATED_CODIGO).nomeCurto(UPDATED_NOME_CURTO).nomeCompleto(UPDATED_NOME_COMPLETO);
+        Produto produto = new Produto().codigoBDEMQ(UPDATED_CODIGO_BDEMQ).nomeCurto(UPDATED_NOME_CURTO).nomeCompleto(UPDATED_NOME_COMPLETO);
         return produto;
     }
 
@@ -116,7 +118,7 @@ class ProdutoResourceIT {
         List<Produto> produtoList = produtoRepository.findAll();
         assertThat(produtoList).hasSize(databaseSizeBeforeCreate + 1);
         Produto testProduto = produtoList.get(produtoList.size() - 1);
-        assertThat(testProduto.getCodigo()).isEqualTo(DEFAULT_CODIGO);
+        assertThat(testProduto.getCodigoBDEMQ()).isEqualTo(DEFAULT_CODIGO_BDEMQ);
         assertThat(testProduto.getNomeCurto()).isEqualTo(DEFAULT_NOME_CURTO);
         assertThat(testProduto.getNomeCompleto()).isEqualTo(DEFAULT_NOME_COMPLETO);
     }
@@ -142,10 +144,10 @@ class ProdutoResourceIT {
 
     @Test
     @Transactional
-    void checkCodigoIsRequired() throws Exception {
+    void checkCodigoBDEMQIsRequired() throws Exception {
         int databaseSizeBeforeTest = produtoRepository.findAll().size();
         // set the field null
-        produto.setCodigo(null);
+        produto.setCodigoBDEMQ(null);
 
         // Create the Produto, which fails.
         ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
@@ -206,7 +208,7 @@ class ProdutoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(produto.getId().intValue())))
-            .andExpect(jsonPath("$.[*].codigo").value(hasItem(DEFAULT_CODIGO)))
+            .andExpect(jsonPath("$.[*].codigoBDEMQ").value(hasItem(DEFAULT_CODIGO_BDEMQ)))
             .andExpect(jsonPath("$.[*].nomeCurto").value(hasItem(DEFAULT_NOME_CURTO)))
             .andExpect(jsonPath("$.[*].nomeCompleto").value(hasItem(DEFAULT_NOME_COMPLETO)));
     }
@@ -241,9 +243,327 @@ class ProdutoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(produto.getId().intValue()))
-            .andExpect(jsonPath("$.codigo").value(DEFAULT_CODIGO))
+            .andExpect(jsonPath("$.codigoBDEMQ").value(DEFAULT_CODIGO_BDEMQ))
             .andExpect(jsonPath("$.nomeCurto").value(DEFAULT_NOME_CURTO))
             .andExpect(jsonPath("$.nomeCompleto").value(DEFAULT_NOME_COMPLETO));
+    }
+
+    @Test
+    @Transactional
+    void getProdutosByIdFiltering() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        Long id = produto.getId();
+
+        defaultProdutoShouldBeFound("id.equals=" + id);
+        defaultProdutoShouldNotBeFound("id.notEquals=" + id);
+
+        defaultProdutoShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultProdutoShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultProdutoShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultProdutoShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByCodigoBDEMQIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where codigoBDEMQ equals to DEFAULT_CODIGO_BDEMQ
+        defaultProdutoShouldBeFound("codigoBDEMQ.equals=" + DEFAULT_CODIGO_BDEMQ);
+
+        // Get all the produtoList where codigoBDEMQ equals to UPDATED_CODIGO_BDEMQ
+        defaultProdutoShouldNotBeFound("codigoBDEMQ.equals=" + UPDATED_CODIGO_BDEMQ);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByCodigoBDEMQIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where codigoBDEMQ not equals to DEFAULT_CODIGO_BDEMQ
+        defaultProdutoShouldNotBeFound("codigoBDEMQ.notEquals=" + DEFAULT_CODIGO_BDEMQ);
+
+        // Get all the produtoList where codigoBDEMQ not equals to UPDATED_CODIGO_BDEMQ
+        defaultProdutoShouldBeFound("codigoBDEMQ.notEquals=" + UPDATED_CODIGO_BDEMQ);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByCodigoBDEMQIsInShouldWork() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where codigoBDEMQ in DEFAULT_CODIGO_BDEMQ or UPDATED_CODIGO_BDEMQ
+        defaultProdutoShouldBeFound("codigoBDEMQ.in=" + DEFAULT_CODIGO_BDEMQ + "," + UPDATED_CODIGO_BDEMQ);
+
+        // Get all the produtoList where codigoBDEMQ equals to UPDATED_CODIGO_BDEMQ
+        defaultProdutoShouldNotBeFound("codigoBDEMQ.in=" + UPDATED_CODIGO_BDEMQ);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByCodigoBDEMQIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where codigoBDEMQ is not null
+        defaultProdutoShouldBeFound("codigoBDEMQ.specified=true");
+
+        // Get all the produtoList where codigoBDEMQ is null
+        defaultProdutoShouldNotBeFound("codigoBDEMQ.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByCodigoBDEMQContainsSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where codigoBDEMQ contains DEFAULT_CODIGO_BDEMQ
+        defaultProdutoShouldBeFound("codigoBDEMQ.contains=" + DEFAULT_CODIGO_BDEMQ);
+
+        // Get all the produtoList where codigoBDEMQ contains UPDATED_CODIGO_BDEMQ
+        defaultProdutoShouldNotBeFound("codigoBDEMQ.contains=" + UPDATED_CODIGO_BDEMQ);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByCodigoBDEMQNotContainsSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where codigoBDEMQ does not contain DEFAULT_CODIGO_BDEMQ
+        defaultProdutoShouldNotBeFound("codigoBDEMQ.doesNotContain=" + DEFAULT_CODIGO_BDEMQ);
+
+        // Get all the produtoList where codigoBDEMQ does not contain UPDATED_CODIGO_BDEMQ
+        defaultProdutoShouldBeFound("codigoBDEMQ.doesNotContain=" + UPDATED_CODIGO_BDEMQ);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCurtoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCurto equals to DEFAULT_NOME_CURTO
+        defaultProdutoShouldBeFound("nomeCurto.equals=" + DEFAULT_NOME_CURTO);
+
+        // Get all the produtoList where nomeCurto equals to UPDATED_NOME_CURTO
+        defaultProdutoShouldNotBeFound("nomeCurto.equals=" + UPDATED_NOME_CURTO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCurtoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCurto not equals to DEFAULT_NOME_CURTO
+        defaultProdutoShouldNotBeFound("nomeCurto.notEquals=" + DEFAULT_NOME_CURTO);
+
+        // Get all the produtoList where nomeCurto not equals to UPDATED_NOME_CURTO
+        defaultProdutoShouldBeFound("nomeCurto.notEquals=" + UPDATED_NOME_CURTO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCurtoIsInShouldWork() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCurto in DEFAULT_NOME_CURTO or UPDATED_NOME_CURTO
+        defaultProdutoShouldBeFound("nomeCurto.in=" + DEFAULT_NOME_CURTO + "," + UPDATED_NOME_CURTO);
+
+        // Get all the produtoList where nomeCurto equals to UPDATED_NOME_CURTO
+        defaultProdutoShouldNotBeFound("nomeCurto.in=" + UPDATED_NOME_CURTO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCurtoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCurto is not null
+        defaultProdutoShouldBeFound("nomeCurto.specified=true");
+
+        // Get all the produtoList where nomeCurto is null
+        defaultProdutoShouldNotBeFound("nomeCurto.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCurtoContainsSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCurto contains DEFAULT_NOME_CURTO
+        defaultProdutoShouldBeFound("nomeCurto.contains=" + DEFAULT_NOME_CURTO);
+
+        // Get all the produtoList where nomeCurto contains UPDATED_NOME_CURTO
+        defaultProdutoShouldNotBeFound("nomeCurto.contains=" + UPDATED_NOME_CURTO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCurtoNotContainsSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCurto does not contain DEFAULT_NOME_CURTO
+        defaultProdutoShouldNotBeFound("nomeCurto.doesNotContain=" + DEFAULT_NOME_CURTO);
+
+        // Get all the produtoList where nomeCurto does not contain UPDATED_NOME_CURTO
+        defaultProdutoShouldBeFound("nomeCurto.doesNotContain=" + UPDATED_NOME_CURTO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCompletoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCompleto equals to DEFAULT_NOME_COMPLETO
+        defaultProdutoShouldBeFound("nomeCompleto.equals=" + DEFAULT_NOME_COMPLETO);
+
+        // Get all the produtoList where nomeCompleto equals to UPDATED_NOME_COMPLETO
+        defaultProdutoShouldNotBeFound("nomeCompleto.equals=" + UPDATED_NOME_COMPLETO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCompletoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCompleto not equals to DEFAULT_NOME_COMPLETO
+        defaultProdutoShouldNotBeFound("nomeCompleto.notEquals=" + DEFAULT_NOME_COMPLETO);
+
+        // Get all the produtoList where nomeCompleto not equals to UPDATED_NOME_COMPLETO
+        defaultProdutoShouldBeFound("nomeCompleto.notEquals=" + UPDATED_NOME_COMPLETO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCompletoIsInShouldWork() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCompleto in DEFAULT_NOME_COMPLETO or UPDATED_NOME_COMPLETO
+        defaultProdutoShouldBeFound("nomeCompleto.in=" + DEFAULT_NOME_COMPLETO + "," + UPDATED_NOME_COMPLETO);
+
+        // Get all the produtoList where nomeCompleto equals to UPDATED_NOME_COMPLETO
+        defaultProdutoShouldNotBeFound("nomeCompleto.in=" + UPDATED_NOME_COMPLETO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCompletoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCompleto is not null
+        defaultProdutoShouldBeFound("nomeCompleto.specified=true");
+
+        // Get all the produtoList where nomeCompleto is null
+        defaultProdutoShouldNotBeFound("nomeCompleto.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCompletoContainsSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCompleto contains DEFAULT_NOME_COMPLETO
+        defaultProdutoShouldBeFound("nomeCompleto.contains=" + DEFAULT_NOME_COMPLETO);
+
+        // Get all the produtoList where nomeCompleto contains UPDATED_NOME_COMPLETO
+        defaultProdutoShouldNotBeFound("nomeCompleto.contains=" + UPDATED_NOME_COMPLETO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByNomeCompletoNotContainsSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where nomeCompleto does not contain DEFAULT_NOME_COMPLETO
+        defaultProdutoShouldNotBeFound("nomeCompleto.doesNotContain=" + DEFAULT_NOME_COMPLETO);
+
+        // Get all the produtoList where nomeCompleto does not contain UPDATED_NOME_COMPLETO
+        defaultProdutoShouldBeFound("nomeCompleto.doesNotContain=" + UPDATED_NOME_COMPLETO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProdutosByAlertasIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+        AlertaProduto alertas;
+        if (TestUtil.findAll(em, AlertaProduto.class).isEmpty()) {
+            alertas = AlertaProdutoResourceIT.createEntity(em);
+            em.persist(alertas);
+            em.flush();
+        } else {
+            alertas = TestUtil.findAll(em, AlertaProduto.class).get(0);
+        }
+        em.persist(alertas);
+        em.flush();
+        produto.addAlertas(alertas);
+        produtoRepository.saveAndFlush(produto);
+        Long alertasId = alertas.getId();
+
+        // Get all the produtoList where alertas equals to alertasId
+        defaultProdutoShouldBeFound("alertasId.equals=" + alertasId);
+
+        // Get all the produtoList where alertas equals to (alertasId + 1)
+        defaultProdutoShouldNotBeFound("alertasId.equals=" + (alertasId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultProdutoShouldBeFound(String filter) throws Exception {
+        restProdutoMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(produto.getId().intValue())))
+            .andExpect(jsonPath("$.[*].codigoBDEMQ").value(hasItem(DEFAULT_CODIGO_BDEMQ)))
+            .andExpect(jsonPath("$.[*].nomeCurto").value(hasItem(DEFAULT_NOME_CURTO)))
+            .andExpect(jsonPath("$.[*].nomeCompleto").value(hasItem(DEFAULT_NOME_COMPLETO)));
+
+        // Check, that the count call also returns 1
+        restProdutoMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultProdutoShouldNotBeFound(String filter) throws Exception {
+        restProdutoMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restProdutoMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test
@@ -265,7 +585,7 @@ class ProdutoResourceIT {
         Produto updatedProduto = produtoRepository.findById(produto.getId()).get();
         // Disconnect from session so that the updates on updatedProduto are not directly saved in db
         em.detach(updatedProduto);
-        updatedProduto.codigo(UPDATED_CODIGO).nomeCurto(UPDATED_NOME_CURTO).nomeCompleto(UPDATED_NOME_COMPLETO);
+        updatedProduto.codigoBDEMQ(UPDATED_CODIGO_BDEMQ).nomeCurto(UPDATED_NOME_CURTO).nomeCompleto(UPDATED_NOME_COMPLETO);
         ProdutoDTO produtoDTO = produtoMapper.toDto(updatedProduto);
 
         restProdutoMockMvc
@@ -280,7 +600,7 @@ class ProdutoResourceIT {
         List<Produto> produtoList = produtoRepository.findAll();
         assertThat(produtoList).hasSize(databaseSizeBeforeUpdate);
         Produto testProduto = produtoList.get(produtoList.size() - 1);
-        assertThat(testProduto.getCodigo()).isEqualTo(UPDATED_CODIGO);
+        assertThat(testProduto.getCodigoBDEMQ()).isEqualTo(UPDATED_CODIGO_BDEMQ);
         assertThat(testProduto.getNomeCurto()).isEqualTo(UPDATED_NOME_CURTO);
         assertThat(testProduto.getNomeCompleto()).isEqualTo(UPDATED_NOME_COMPLETO);
     }
@@ -374,7 +694,7 @@ class ProdutoResourceIT {
         List<Produto> produtoList = produtoRepository.findAll();
         assertThat(produtoList).hasSize(databaseSizeBeforeUpdate);
         Produto testProduto = produtoList.get(produtoList.size() - 1);
-        assertThat(testProduto.getCodigo()).isEqualTo(DEFAULT_CODIGO);
+        assertThat(testProduto.getCodigoBDEMQ()).isEqualTo(DEFAULT_CODIGO_BDEMQ);
         assertThat(testProduto.getNomeCurto()).isEqualTo(DEFAULT_NOME_CURTO);
         assertThat(testProduto.getNomeCompleto()).isEqualTo(DEFAULT_NOME_COMPLETO);
     }
@@ -391,7 +711,7 @@ class ProdutoResourceIT {
         Produto partialUpdatedProduto = new Produto();
         partialUpdatedProduto.setId(produto.getId());
 
-        partialUpdatedProduto.codigo(UPDATED_CODIGO).nomeCurto(UPDATED_NOME_CURTO).nomeCompleto(UPDATED_NOME_COMPLETO);
+        partialUpdatedProduto.codigoBDEMQ(UPDATED_CODIGO_BDEMQ).nomeCurto(UPDATED_NOME_CURTO).nomeCompleto(UPDATED_NOME_COMPLETO);
 
         restProdutoMockMvc
             .perform(
@@ -405,7 +725,7 @@ class ProdutoResourceIT {
         List<Produto> produtoList = produtoRepository.findAll();
         assertThat(produtoList).hasSize(databaseSizeBeforeUpdate);
         Produto testProduto = produtoList.get(produtoList.size() - 1);
-        assertThat(testProduto.getCodigo()).isEqualTo(UPDATED_CODIGO);
+        assertThat(testProduto.getCodigoBDEMQ()).isEqualTo(UPDATED_CODIGO_BDEMQ);
         assertThat(testProduto.getNomeCurto()).isEqualTo(UPDATED_NOME_CURTO);
         assertThat(testProduto.getNomeCompleto()).isEqualTo(UPDATED_NOME_COMPLETO);
     }

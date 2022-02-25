@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link UsuarioResource} REST controller.
@@ -186,7 +187,7 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(usuario.getId().intValue())))
             .andExpect(jsonPath("$.[*].chave").value(hasItem(DEFAULT_CHAVE)))
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
-            .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS)));
+            .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS.toString())));
     }
 
     @Test
@@ -203,7 +204,7 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.id").value(usuario.getId().intValue()))
             .andExpect(jsonPath("$.chave").value(DEFAULT_CHAVE))
             .andExpect(jsonPath("$.nome").value(DEFAULT_NOME))
-            .andExpect(jsonPath("$.linksExternos").value(DEFAULT_LINKS_EXTERNOS));
+            .andExpect(jsonPath("$.linksExternos").value(DEFAULT_LINKS_EXTERNOS.toString()));
     }
 
     @Test

@@ -15,10 +15,10 @@ public class TipoAmostraDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.
+     * Deve descrever de forma simples de qual tipo é a amostra.
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo descrição.", required = true)
+    @ApiModelProperty(value = "Deve descrever de forma simples de qual tipo é a amostra.", required = true)
     private String descricao;
 
     public Long getId() {

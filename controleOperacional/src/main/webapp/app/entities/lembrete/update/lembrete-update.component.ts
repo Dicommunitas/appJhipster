@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { ILembrete, Lembrete } from '../lembrete.model';
 import { LembreteService } from '../service/lembrete.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -30,10 +27,9 @@ export class LembreteUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    data: [null, [Validators.required]],
     nome: [null, [Validators.required]],
-    texto: [null, [Validators.required]],
-    tipoRelatorio: [null, Validators.required],
+    descricao: [null, [Validators.required]],
+    tipoRelatorio: [],
     tipoOperacao: [],
   });
 
@@ -49,11 +45,6 @@ export class LembreteUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ lembrete }) => {
-      if (lembrete.id === undefined) {
-        const today = dayjs().startOf('day');
-        lembrete.data = today;
-      }
-
       this.updateForm(lembrete);
 
       this.loadRelationshipsOptions();
@@ -121,9 +112,8 @@ export class LembreteUpdateComponent implements OnInit {
   protected updateForm(lembrete: ILembrete): void {
     this.editForm.patchValue({
       id: lembrete.id,
-      data: lembrete.data ? lembrete.data.format(DATE_TIME_FORMAT) : null,
       nome: lembrete.nome,
-      texto: lembrete.texto,
+      descricao: lembrete.descricao,
       tipoRelatorio: lembrete.tipoRelatorio,
       tipoOperacao: lembrete.tipoOperacao,
     });
@@ -164,9 +154,8 @@ export class LembreteUpdateComponent implements OnInit {
     return {
       ...new Lembrete(),
       id: this.editForm.get(['id'])!.value,
-      data: this.editForm.get(['data'])!.value ? dayjs(this.editForm.get(['data'])!.value, DATE_TIME_FORMAT) : undefined,
       nome: this.editForm.get(['nome'])!.value,
-      texto: this.editForm.get(['texto'])!.value,
+      descricao: this.editForm.get(['descricao'])!.value,
       tipoRelatorio: this.editForm.get(['tipoRelatorio'])!.value,
       tipoOperacao: this.editForm.get(['tipoOperacao'])!.value,
     };

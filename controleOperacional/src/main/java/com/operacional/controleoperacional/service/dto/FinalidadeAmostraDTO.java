@@ -15,13 +15,13 @@ public class FinalidadeAmostraDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo lacre.\nAmostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas.
+     * O número do lacre do recipiente da amostra.\nAmostras que tenham alguma finalidade com\nobrigatoriedade de lacre porém estejam sem lacre\nnão poderão ser impressas, mas podem ser criadas.
      */
 
     @ApiModelProperty(
-        value = "Atributo lacre.\nAmostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas."
+        value = "O número do lacre do recipiente da amostra.\nAmostras que tenham alguma finalidade com\nobrigatoriedade de lacre porém estejam sem lacre\nnão poderão ser impressas, mas podem ser criadas."
     )
-    private String lacre;
+    private Integer lacre;
 
     private TipoFinalidadeAmostraDTO tipoFinalidadeAmostra;
 
@@ -35,11 +35,11 @@ public class FinalidadeAmostraDTO implements Serializable {
         this.id = id;
     }
 
-    public String getLacre() {
+    public Integer getLacre() {
         return lacre;
     }
 
-    public void setLacre(String lacre) {
+    public void setLacre(Integer lacre) {
         this.lacre = lacre;
     }
 
@@ -85,7 +85,7 @@ public class FinalidadeAmostraDTO implements Serializable {
     public String toString() {
         return "FinalidadeAmostraDTO{" +
             "id=" + getId() +
-            ", lacre='" + getLacre() + "'" +
+            ", lacre=" + getLacre() +
             ", tipoFinalidadeAmostra=" + getTipoFinalidadeAmostra() +
             ", amostra=" + getAmostra() +
             "}";

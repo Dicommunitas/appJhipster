@@ -9,21 +9,21 @@
     <!--
         Added the entity Amostra.
     -->
-    <changeSet id="20220204162331-1" author="jhipster">
+    <changeSet id="20220225084534-1" author="jhipster">
         <createTable tableName="amostra" remarks="Entidade Amostra.\n@author Diego.">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="data_hora" type="${datetimeType}" remarks="Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo">
+            <column name="data_hora" type="${datetimeType}" remarks="Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo\n\nData e hora que a amostra foi coletada.">
                 <constraints nullable="true" />
             </column>
-            <column name="observacao" type="varchar(255)">
+            <column name="observacao" type="varchar(255)" remarks="Observações que forem necessárias para melhorar\na identificação da amostra.">
                 <constraints nullable="true" />
             </column>
-            <column name="identificador_externo" type="varchar(255)">
+            <column name="identificador_externo" type="varchar(255)" remarks="Identificador que &quot;ligue&quot; esse registro em outro sistema.">
                 <constraints nullable="true" />
             </column>
-            <column name="amostra_no_laboratorio" type="boolean">
+            <column name="amostra_no_laboratorio" type="boolean" remarks="Identifica se a amostra está ou não no laboratório.">
                 <constraints nullable="true" />
             </column>
             <column name="operacao_id" type="bigint">
@@ -59,7 +59,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220204162331-1-data" author="jhipster" context="faker">
+    <changeSet id="20220225084534-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/amostra.csv"
                   separator=";"

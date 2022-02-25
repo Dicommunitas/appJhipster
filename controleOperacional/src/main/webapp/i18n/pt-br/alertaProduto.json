@@ -19,7 +19,10 @@
       },
       "id": "ID",
       "descricao": "Descricao",
-      "produtos": "Produtos"
+      "produtos": "Produtos",
+      "help": {
+        "descricao": "Descreve um alerta para ser usado nos produtos,\nalgo que deva ser tratado com cuidado."
+      }
     }
   }
 }

@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Amostra.
     -->
-    <changeSet id="20220204162331-2" author="jhipster">
+    <changeSet id="20220225084534-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="operacao_id"
                                  baseTableName="amostra"

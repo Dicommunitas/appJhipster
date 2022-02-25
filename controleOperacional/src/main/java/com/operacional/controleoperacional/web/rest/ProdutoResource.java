@@ -1,7 +1,9 @@
 package com.operacional.controleoperacional.web.rest;
 
 import com.operacional.controleoperacional.repository.ProdutoRepository;
+import com.operacional.controleoperacional.service.ProdutoQueryService;
 import com.operacional.controleoperacional.service.ProdutoService;
+import com.operacional.controleoperacional.service.criteria.ProdutoCriteria;
 import com.operacional.controleoperacional.service.dto.ProdutoDTO;
 import com.operacional.controleoperacional.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -43,9 +45,12 @@ public class ProdutoResource {
 
     private final ProdutoRepository produtoRepository;
 
-    public ProdutoResource(ProdutoService produtoService, ProdutoRepository produtoRepository) {
+    private final ProdutoQueryService produtoQueryService;
+
+    public ProdutoResource(ProdutoService produtoService, ProdutoRepository produtoRepository, ProdutoQueryService produtoQueryService) {
         this.produtoService = produtoService;
         this.produtoRepository = produtoRepository;
+        this.produtoQueryService = produtoQueryService;
     }
 
     /**
@@ -142,23 +147,27 @@ public class ProdutoResource {
      * {@code GET  /produtos} : get all the produtos.
      *
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of produtos in body.
      */
     @GetMapping("/produtos")
-    public ResponseEntity<List<ProdutoDTO>> getAllProdutos(
-        Pageable pageable,
-        @RequestParam(required = false, defaultValue = "false") boolean eagerload
-    ) {
-        log.debug("REST request to get a page of Produtos");
-        Page<ProdutoDTO> page;
-        if (eagerload) {
-            page = produtoService.findAllWithEagerRelationships(pageable);
-        } else {
-            page = produtoService.findAll(pageable);
-        }
+    public ResponseEntity<List<ProdutoDTO>> getAllProdutos(ProdutoCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Produtos by criteria: {}", criteria);
+        Page<ProdutoDTO> page = produtoQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /produtos/count} : count all the produtos.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/produtos/count")
+    public ResponseEntity<Long> countProdutos(ProdutoCriteria criteria) {
+        log.debug("REST request to count Produtos by criteria: {}", criteria);
+        return ResponseEntity.ok().body(produtoQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -16,7 +16,13 @@
         <dd>
           <span>{{ alertaProduto.id }}</span>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.alertaProduto.descricao">Descricao</span></dt>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.alertaProduto.descricao"
+            [ngbTooltip]="'controleOperacionalApp.alertaProduto.help.descricao' | translate"
+            >Descricao</span
+          >
+        </dt>
         <dd>
           <span>{{ alertaProduto.descricao }}</span>
         </dd>

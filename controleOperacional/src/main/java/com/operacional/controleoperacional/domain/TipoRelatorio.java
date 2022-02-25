@@ -25,7 +25,7 @@ public class TipoRelatorio implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.
+     * Nome dado ao grupo de relatórios.
      */
     @NotNull
     @Column(name = "nome", nullable = false)

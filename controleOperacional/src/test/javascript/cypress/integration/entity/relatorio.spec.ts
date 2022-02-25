@@ -36,7 +36,7 @@ describe('Relatorio e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/usuarios',
-      body: {"chave":"Visi","nome":"regional Roupas","linksExternos":"1080p Música Groelândia"},
+      body: {"chave":"Visi","nome":"regional Roupas","linksExternos":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ="},
     }).then(({ body }) => {
       usuario = body;
     });
@@ -217,7 +217,10 @@ describe('Relatorio e2e test', () => {
         .invoke('val')
         .should('match', new RegExp('../fake-data/blob/hipster.txt'));
 
-      cy.get(`[data-cy="linksExternos"]`).type('Montenegro Corporate').should('have.value', 'Montenegro Corporate');
+      cy.get(`[data-cy="linksExternos"]`)
+        .type('../fake-data/blob/hipster.txt')
+        .invoke('val')
+        .should('match', new RegExp('../fake-data/blob/hipster.txt'));
 
       cy.get(`[data-cy="responsavel"]`).select(1);
 

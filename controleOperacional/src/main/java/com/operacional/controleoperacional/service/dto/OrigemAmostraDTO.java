@@ -17,24 +17,14 @@ public class OrigemAmostraDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição, é o nome do local,\nlinha 01, tanque 02...\nA principal informação descritiva da origem.
+     * Descreve de forma simples a origem de uma amostra.\nO local da coleta como, linha, tanque...\nA principal informação descritiva da origem.
      */
     @NotNull
     @ApiModelProperty(
-        value = "Atributo descrição, é o nome do local,\nlinha 01, tanque 02...\nA principal informação descritiva da origem.",
+        value = "Descreve de forma simples a origem de uma amostra.\nO local da coleta como, linha, tanque...\nA principal informação descritiva da origem.",
         required = true
     )
     private String descricao;
-
-    /**
-     * Atributo emUso, irá informar se esta\nOrigemAmostra ainda está em uso.\nCaso não esteja mais em uso não deverá\nser permitido sua seleção e nem deve ser\nmostrado no formulario de preenchimento\nda amostra.
-     */
-    @NotNull
-    @ApiModelProperty(
-        value = "Atributo emUso, irá informar se esta\nOrigemAmostra ainda está em uso.\nCaso não esteja mais em uso não deverá\nser permitido sua seleção e nem deve ser\nmostrado no formulario de preenchimento\nda amostra.",
-        required = true
-    )
-    private Boolean emUso;
 
     public Long getId() {
         return id;
@@ -50,14 +40,6 @@ public class OrigemAmostraDTO implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Boolean getEmUso() {
-        return emUso;
-    }
-
-    public void setEmUso(Boolean emUso) {
-        this.emUso = emUso;
     }
 
     @Override
@@ -87,7 +69,6 @@ public class OrigemAmostraDTO implements Serializable {
         return "OrigemAmostraDTO{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
-            ", emUso='" + getEmUso() + "'" +
             "}";
     }
 }

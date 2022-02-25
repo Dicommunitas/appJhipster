@@ -22,7 +22,7 @@
       "tipoFinalidadeAmostra": "Tipo Finalidade Amostra",
       "amostra": "Amostra",
       "help": {
-        "lacre": "Atributo lacre.\nAmostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas."
+        "lacre": "O número do lacre do recipiente da amostra.\nAmostras que tenham alguma finalidade com\nobrigatoriedade de lacre porém estejam sem lacre\nnão poderão ser impressas, mas podem ser criadas."
       }
     }
   }

@@ -73,7 +73,7 @@ class UsuarioGatlingTest extends Simulation {
             .body(StringBody("""{
                 "chave":"SAMPLE_TEXT"
                 , "nome":"SAMPLE_TEXT"
-                , "linksExternos":"SAMPLE_TEXT"
+                , "linksExternos":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_usuario_url"))).exitHereIfFailed

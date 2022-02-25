@@ -73,14 +73,13 @@
             [ngbTooltip]="'controleOperacionalApp.usuario.help.linksExternos' | translate"
             >Links Externos</label
           >
-          <input
-            type="text"
+          <textarea
             class="form-control"
             name="linksExternos"
             id="field_linksExternos"
             data-cy="linksExternos"
             formControlName="linksExternos"
-          />
+          ></textarea>
         </div>
 
         <div class="form-group">
@@ -91,7 +90,7 @@
               [ngValue]="userOption.id === editForm.get('user')!.value?.id ? editForm.get('user')!.value : userOption"
               *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ userOption.id }}
+              {{ userOption.login }}
             </option>
           </select>
         </div>

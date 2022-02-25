@@ -72,7 +72,7 @@ class RelatorioGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "relato":null
-                , "linksExternos":"SAMPLE_TEXT"
+                , "linksExternos":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_relatorio_url"))).exitHereIfFailed

@@ -90,9 +90,6 @@ public class RelatorioQueryService extends QueryService<Relatorio> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Relatorio_.id));
             }
-            if (criteria.getLinksExternos() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getLinksExternos(), Relatorio_.linksExternos));
-            }
             if (criteria.getTipoId() != null) {
                 specification =
                     specification.and(

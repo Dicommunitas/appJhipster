@@ -24,15 +24,33 @@
         <dd>
           <span>{{ amostra.dataHora | formatMediumDatetime }}</span>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.amostra.observacao">Observacao</span></dt>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.amostra.observacao"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.observacao' | translate"
+            >Observacao</span
+          >
+        </dt>
         <dd>
           <span>{{ amostra.observacao }}</span>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.amostra.identificadorExterno">Identificador Externo</span></dt>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.amostra.identificadorExterno"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.identificadorExterno' | translate"
+            >Identificador Externo</span
+          >
+        </dt>
         <dd>
           <span>{{ amostra.identificadorExterno }}</span>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.amostra.amostraNoLaboratorio">Amostra No Laboratorio</span></dt>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.amostra.amostraNoLaboratorio"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.amostraNoLaboratorio' | translate"
+            >Amostra No Laboratorio</span
+          >
+        </dt>
         <dd>
           <span>{{ amostra.amostraNoLaboratorio }}</span>
         </dd>

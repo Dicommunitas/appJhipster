@@ -25,22 +25,22 @@ public class Produto implements Serializable {
     private Long id;
 
     /**
-     * Atributo codigo deve ter no\nmáximo 3 aracteres
+     * O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
     @Size(max = 3)
-    @Column(name = "codigo", length = 3, nullable = false, unique = true)
-    private String codigo;
+    @Column(name = "codigo_bdemq", length = 3, nullable = false, unique = true)
+    private String codigoBDEMQ;
 
     /**
-     * Atributo nomeCurto
+     * Informa o nome curto do produto.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
     @Column(name = "nome_curto", nullable = false)
     private String nomeCurto;
 
     /**
-     * Atributo nomeCompleto
+     * Informa o nome completo do produto.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
     @Column(name = "nome_completo", nullable = false)
@@ -74,17 +74,17 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public String getCodigo() {
-        return this.codigo;
+    public String getCodigoBDEMQ() {
+        return this.codigoBDEMQ;
     }
 
-    public Produto codigo(String codigo) {
-        this.setCodigo(codigo);
+    public Produto codigoBDEMQ(String codigoBDEMQ) {
+        this.setCodigoBDEMQ(codigoBDEMQ);
         return this;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCodigoBDEMQ(String codigoBDEMQ) {
+        this.codigoBDEMQ = codigoBDEMQ;
     }
 
     public String getNomeCurto() {
@@ -162,7 +162,7 @@ public class Produto implements Serializable {
     public String toString() {
         return "Produto{" +
             "id=" + getId() +
-            ", codigo='" + getCodigo() + "'" +
+            ", codigoBDEMQ='" + getCodigoBDEMQ() + "'" +
             ", nomeCurto='" + getNomeCurto() + "'" +
             ", nomeCompleto='" + getNomeCompleto() + "'" +
             "}";

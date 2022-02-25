@@ -1,6 +1,5 @@
 package com.operacional.controleoperacional.web.rest;
 
-import static com.operacional.controleoperacional.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -15,13 +14,8 @@ import com.operacional.controleoperacional.repository.ProblemaRepository;
 import com.operacional.controleoperacional.service.criteria.ProblemaCriteria;
 import com.operacional.controleoperacional.service.dto.ProblemaDTO;
 import com.operacional.controleoperacional.service.mapper.ProblemaMapper;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -44,20 +38,9 @@ import org.springframework.util.Base64Utils;
 @WithMockUser
 class ProblemaResourceIT {
 
-    private static final ZonedDateTime DEFAULT_DATA_ZONED_DATE_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_DATA_ZONED_DATE_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-    private static final ZonedDateTime SMALLER_DATA_ZONED_DATE_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
-
-    private static final LocalDate DEFAULT_DATA_LOCAL_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATA_LOCAL_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_DATA_LOCAL_DATE = LocalDate.ofEpochDay(-1L);
-
-    private static final Instant DEFAULT_DATA_INSTANT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATA_INSTANT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Duration DEFAULT_DATA_DURATION = Duration.ofHours(6);
-    private static final Duration UPDATED_DATA_DURATION = Duration.ofHours(12);
-    private static final Duration SMALLER_DATA_DURATION = Duration.ofHours(5);
+    private static final LocalDate DEFAULT_DATA = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATA = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_DATA = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
@@ -104,10 +87,7 @@ class ProblemaResourceIT {
      */
     public static Problema createEntity(EntityManager em) {
         Problema problema = new Problema()
-            .dataZonedDateTime(DEFAULT_DATA_ZONED_DATE_TIME)
-            .dataLocalDate(DEFAULT_DATA_LOCAL_DATE)
-            .dataInstant(DEFAULT_DATA_INSTANT)
-            .dataDuration(DEFAULT_DATA_DURATION)
+            .data(DEFAULT_DATA)
             .descricao(DEFAULT_DESCRICAO)
             .criticidade(DEFAULT_CRITICIDADE)
             .aceitarFinalizacao(DEFAULT_ACEITAR_FINALIZACAO)
@@ -135,10 +115,7 @@ class ProblemaResourceIT {
      */
     public static Problema createUpdatedEntity(EntityManager em) {
         Problema problema = new Problema()
-            .dataZonedDateTime(UPDATED_DATA_ZONED_DATE_TIME)
-            .dataLocalDate(UPDATED_DATA_LOCAL_DATE)
-            .dataInstant(UPDATED_DATA_INSTANT)
-            .dataDuration(UPDATED_DATA_DURATION)
+            .data(UPDATED_DATA)
             .descricao(UPDATED_DESCRICAO)
             .criticidade(UPDATED_CRITICIDADE)
             .aceitarFinalizacao(UPDATED_ACEITAR_FINALIZACAO)
@@ -177,10 +154,7 @@ class ProblemaResourceIT {
         List<Problema> problemaList = problemaRepository.findAll();
         assertThat(problemaList).hasSize(databaseSizeBeforeCreate + 1);
         Problema testProblema = problemaList.get(problemaList.size() - 1);
-        assertThat(testProblema.getDataZonedDateTime()).isEqualTo(DEFAULT_DATA_ZONED_DATE_TIME);
-        assertThat(testProblema.getDataLocalDate()).isEqualTo(DEFAULT_DATA_LOCAL_DATE);
-        assertThat(testProblema.getDataInstant()).isEqualTo(DEFAULT_DATA_INSTANT);
-        assertThat(testProblema.getDataDuration()).isEqualTo(DEFAULT_DATA_DURATION);
+        assertThat(testProblema.getData()).isEqualTo(DEFAULT_DATA);
         assertThat(testProblema.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testProblema.getCriticidade()).isEqualTo(DEFAULT_CRITICIDADE);
         assertThat(testProblema.getAceitarFinalizacao()).isEqualTo(DEFAULT_ACEITAR_FINALIZACAO);
@@ -210,64 +184,10 @@ class ProblemaResourceIT {
 
     @Test
     @Transactional
-    void checkDataZonedDateTimeIsRequired() throws Exception {
+    void checkDataIsRequired() throws Exception {
         int databaseSizeBeforeTest = problemaRepository.findAll().size();
         // set the field null
-        problema.setDataZonedDateTime(null);
-
-        // Create the Problema, which fails.
-        ProblemaDTO problemaDTO = problemaMapper.toDto(problema);
-
-        restProblemaMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(problemaDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Problema> problemaList = problemaRepository.findAll();
-        assertThat(problemaList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkDataLocalDateIsRequired() throws Exception {
-        int databaseSizeBeforeTest = problemaRepository.findAll().size();
-        // set the field null
-        problema.setDataLocalDate(null);
-
-        // Create the Problema, which fails.
-        ProblemaDTO problemaDTO = problemaMapper.toDto(problema);
-
-        restProblemaMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(problemaDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Problema> problemaList = problemaRepository.findAll();
-        assertThat(problemaList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkDataInstantIsRequired() throws Exception {
-        int databaseSizeBeforeTest = problemaRepository.findAll().size();
-        // set the field null
-        problema.setDataInstant(null);
-
-        // Create the Problema, which fails.
-        ProblemaDTO problemaDTO = problemaMapper.toDto(problema);
-
-        restProblemaMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(problemaDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Problema> problemaList = problemaRepository.findAll();
-        assertThat(problemaList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkDataDurationIsRequired() throws Exception {
-        int databaseSizeBeforeTest = problemaRepository.findAll().size();
-        // set the field null
-        problema.setDataDuration(null);
+        problema.setData(null);
 
         // Create the Problema, which fails.
         ProblemaDTO problemaDTO = problemaMapper.toDto(problema);
@@ -346,10 +266,7 @@ class ProblemaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(problema.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dataZonedDateTime").value(hasItem(sameInstant(DEFAULT_DATA_ZONED_DATE_TIME))))
-            .andExpect(jsonPath("$.[*].dataLocalDate").value(hasItem(DEFAULT_DATA_LOCAL_DATE.toString())))
-            .andExpect(jsonPath("$.[*].dataInstant").value(hasItem(DEFAULT_DATA_INSTANT.toString())))
-            .andExpect(jsonPath("$.[*].dataDuration").value(hasItem(DEFAULT_DATA_DURATION.toString())))
+            .andExpect(jsonPath("$.[*].data").value(hasItem(DEFAULT_DATA.toString())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
             .andExpect(jsonPath("$.[*].criticidade").value(hasItem(DEFAULT_CRITICIDADE.toString())))
             .andExpect(jsonPath("$.[*].aceitarFinalizacao").value(hasItem(DEFAULT_ACEITAR_FINALIZACAO.booleanValue())))
@@ -370,10 +287,7 @@ class ProblemaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(problema.getId().intValue()))
-            .andExpect(jsonPath("$.dataZonedDateTime").value(sameInstant(DEFAULT_DATA_ZONED_DATE_TIME)))
-            .andExpect(jsonPath("$.dataLocalDate").value(DEFAULT_DATA_LOCAL_DATE.toString()))
-            .andExpect(jsonPath("$.dataInstant").value(DEFAULT_DATA_INSTANT.toString()))
-            .andExpect(jsonPath("$.dataDuration").value(DEFAULT_DATA_DURATION.toString()))
+            .andExpect(jsonPath("$.data").value(DEFAULT_DATA.toString()))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
             .andExpect(jsonPath("$.criticidade").value(DEFAULT_CRITICIDADE.toString()))
             .andExpect(jsonPath("$.aceitarFinalizacao").value(DEFAULT_ACEITAR_FINALIZACAO.booleanValue()))
@@ -402,366 +316,106 @@ class ProblemaResourceIT {
 
     @Test
     @Transactional
-    void getAllProblemasByDataZonedDateTimeIsEqualToSomething() throws Exception {
+    void getAllProblemasByDataIsEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where dataZonedDateTime equals to DEFAULT_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldBeFound("dataZonedDateTime.equals=" + DEFAULT_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data equals to DEFAULT_DATA
+        defaultProblemaShouldBeFound("data.equals=" + DEFAULT_DATA);
 
-        // Get all the problemaList where dataZonedDateTime equals to UPDATED_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldNotBeFound("dataZonedDateTime.equals=" + UPDATED_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data equals to UPDATED_DATA
+        defaultProblemaShouldNotBeFound("data.equals=" + UPDATED_DATA);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataZonedDateTimeIsNotEqualToSomething() throws Exception {
+    void getAllProblemasByDataIsNotEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where dataZonedDateTime not equals to DEFAULT_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldNotBeFound("dataZonedDateTime.notEquals=" + DEFAULT_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data not equals to DEFAULT_DATA
+        defaultProblemaShouldNotBeFound("data.notEquals=" + DEFAULT_DATA);
 
-        // Get all the problemaList where dataZonedDateTime not equals to UPDATED_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldBeFound("dataZonedDateTime.notEquals=" + UPDATED_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data not equals to UPDATED_DATA
+        defaultProblemaShouldBeFound("data.notEquals=" + UPDATED_DATA);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataZonedDateTimeIsInShouldWork() throws Exception {
+    void getAllProblemasByDataIsInShouldWork() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where dataZonedDateTime in DEFAULT_DATA_ZONED_DATE_TIME or UPDATED_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldBeFound("dataZonedDateTime.in=" + DEFAULT_DATA_ZONED_DATE_TIME + "," + UPDATED_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data in DEFAULT_DATA or UPDATED_DATA
+        defaultProblemaShouldBeFound("data.in=" + DEFAULT_DATA + "," + UPDATED_DATA);
 
-        // Get all the problemaList where dataZonedDateTime equals to UPDATED_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldNotBeFound("dataZonedDateTime.in=" + UPDATED_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data equals to UPDATED_DATA
+        defaultProblemaShouldNotBeFound("data.in=" + UPDATED_DATA);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataZonedDateTimeIsNullOrNotNull() throws Exception {
+    void getAllProblemasByDataIsNullOrNotNull() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where dataZonedDateTime is not null
-        defaultProblemaShouldBeFound("dataZonedDateTime.specified=true");
+        // Get all the problemaList where data is not null
+        defaultProblemaShouldBeFound("data.specified=true");
 
-        // Get all the problemaList where dataZonedDateTime is null
-        defaultProblemaShouldNotBeFound("dataZonedDateTime.specified=false");
+        // Get all the problemaList where data is null
+        defaultProblemaShouldNotBeFound("data.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataZonedDateTimeIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllProblemasByDataIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where dataZonedDateTime is greater than or equal to DEFAULT_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldBeFound("dataZonedDateTime.greaterThanOrEqual=" + DEFAULT_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data is greater than or equal to DEFAULT_DATA
+        defaultProblemaShouldBeFound("data.greaterThanOrEqual=" + DEFAULT_DATA);
 
-        // Get all the problemaList where dataZonedDateTime is greater than or equal to UPDATED_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldNotBeFound("dataZonedDateTime.greaterThanOrEqual=" + UPDATED_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data is greater than or equal to UPDATED_DATA
+        defaultProblemaShouldNotBeFound("data.greaterThanOrEqual=" + UPDATED_DATA);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataZonedDateTimeIsLessThanOrEqualToSomething() throws Exception {
+    void getAllProblemasByDataIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where dataZonedDateTime is less than or equal to DEFAULT_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldBeFound("dataZonedDateTime.lessThanOrEqual=" + DEFAULT_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data is less than or equal to DEFAULT_DATA
+        defaultProblemaShouldBeFound("data.lessThanOrEqual=" + DEFAULT_DATA);
 
-        // Get all the problemaList where dataZonedDateTime is less than or equal to SMALLER_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldNotBeFound("dataZonedDateTime.lessThanOrEqual=" + SMALLER_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data is less than or equal to SMALLER_DATA
+        defaultProblemaShouldNotBeFound("data.lessThanOrEqual=" + SMALLER_DATA);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataZonedDateTimeIsLessThanSomething() throws Exception {
+    void getAllProblemasByDataIsLessThanSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where dataZonedDateTime is less than DEFAULT_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldNotBeFound("dataZonedDateTime.lessThan=" + DEFAULT_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data is less than DEFAULT_DATA
+        defaultProblemaShouldNotBeFound("data.lessThan=" + DEFAULT_DATA);
 
-        // Get all the problemaList where dataZonedDateTime is less than UPDATED_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldBeFound("dataZonedDateTime.lessThan=" + UPDATED_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data is less than UPDATED_DATA
+        defaultProblemaShouldBeFound("data.lessThan=" + UPDATED_DATA);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataZonedDateTimeIsGreaterThanSomething() throws Exception {
+    void getAllProblemasByDataIsGreaterThanSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where dataZonedDateTime is greater than DEFAULT_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldNotBeFound("dataZonedDateTime.greaterThan=" + DEFAULT_DATA_ZONED_DATE_TIME);
+        // Get all the problemaList where data is greater than DEFAULT_DATA
+        defaultProblemaShouldNotBeFound("data.greaterThan=" + DEFAULT_DATA);
 
-        // Get all the problemaList where dataZonedDateTime is greater than SMALLER_DATA_ZONED_DATE_TIME
-        defaultProblemaShouldBeFound("dataZonedDateTime.greaterThan=" + SMALLER_DATA_ZONED_DATE_TIME);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataLocalDateIsEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataLocalDate equals to DEFAULT_DATA_LOCAL_DATE
-        defaultProblemaShouldBeFound("dataLocalDate.equals=" + DEFAULT_DATA_LOCAL_DATE);
-
-        // Get all the problemaList where dataLocalDate equals to UPDATED_DATA_LOCAL_DATE
-        defaultProblemaShouldNotBeFound("dataLocalDate.equals=" + UPDATED_DATA_LOCAL_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataLocalDateIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataLocalDate not equals to DEFAULT_DATA_LOCAL_DATE
-        defaultProblemaShouldNotBeFound("dataLocalDate.notEquals=" + DEFAULT_DATA_LOCAL_DATE);
-
-        // Get all the problemaList where dataLocalDate not equals to UPDATED_DATA_LOCAL_DATE
-        defaultProblemaShouldBeFound("dataLocalDate.notEquals=" + UPDATED_DATA_LOCAL_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataLocalDateIsInShouldWork() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataLocalDate in DEFAULT_DATA_LOCAL_DATE or UPDATED_DATA_LOCAL_DATE
-        defaultProblemaShouldBeFound("dataLocalDate.in=" + DEFAULT_DATA_LOCAL_DATE + "," + UPDATED_DATA_LOCAL_DATE);
-
-        // Get all the problemaList where dataLocalDate equals to UPDATED_DATA_LOCAL_DATE
-        defaultProblemaShouldNotBeFound("dataLocalDate.in=" + UPDATED_DATA_LOCAL_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataLocalDateIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataLocalDate is not null
-        defaultProblemaShouldBeFound("dataLocalDate.specified=true");
-
-        // Get all the problemaList where dataLocalDate is null
-        defaultProblemaShouldNotBeFound("dataLocalDate.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataLocalDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataLocalDate is greater than or equal to DEFAULT_DATA_LOCAL_DATE
-        defaultProblemaShouldBeFound("dataLocalDate.greaterThanOrEqual=" + DEFAULT_DATA_LOCAL_DATE);
-
-        // Get all the problemaList where dataLocalDate is greater than or equal to UPDATED_DATA_LOCAL_DATE
-        defaultProblemaShouldNotBeFound("dataLocalDate.greaterThanOrEqual=" + UPDATED_DATA_LOCAL_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataLocalDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataLocalDate is less than or equal to DEFAULT_DATA_LOCAL_DATE
-        defaultProblemaShouldBeFound("dataLocalDate.lessThanOrEqual=" + DEFAULT_DATA_LOCAL_DATE);
-
-        // Get all the problemaList where dataLocalDate is less than or equal to SMALLER_DATA_LOCAL_DATE
-        defaultProblemaShouldNotBeFound("dataLocalDate.lessThanOrEqual=" + SMALLER_DATA_LOCAL_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataLocalDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataLocalDate is less than DEFAULT_DATA_LOCAL_DATE
-        defaultProblemaShouldNotBeFound("dataLocalDate.lessThan=" + DEFAULT_DATA_LOCAL_DATE);
-
-        // Get all the problemaList where dataLocalDate is less than UPDATED_DATA_LOCAL_DATE
-        defaultProblemaShouldBeFound("dataLocalDate.lessThan=" + UPDATED_DATA_LOCAL_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataLocalDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataLocalDate is greater than DEFAULT_DATA_LOCAL_DATE
-        defaultProblemaShouldNotBeFound("dataLocalDate.greaterThan=" + DEFAULT_DATA_LOCAL_DATE);
-
-        // Get all the problemaList where dataLocalDate is greater than SMALLER_DATA_LOCAL_DATE
-        defaultProblemaShouldBeFound("dataLocalDate.greaterThan=" + SMALLER_DATA_LOCAL_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataInstantIsEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataInstant equals to DEFAULT_DATA_INSTANT
-        defaultProblemaShouldBeFound("dataInstant.equals=" + DEFAULT_DATA_INSTANT);
-
-        // Get all the problemaList where dataInstant equals to UPDATED_DATA_INSTANT
-        defaultProblemaShouldNotBeFound("dataInstant.equals=" + UPDATED_DATA_INSTANT);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataInstantIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataInstant not equals to DEFAULT_DATA_INSTANT
-        defaultProblemaShouldNotBeFound("dataInstant.notEquals=" + DEFAULT_DATA_INSTANT);
-
-        // Get all the problemaList where dataInstant not equals to UPDATED_DATA_INSTANT
-        defaultProblemaShouldBeFound("dataInstant.notEquals=" + UPDATED_DATA_INSTANT);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataInstantIsInShouldWork() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataInstant in DEFAULT_DATA_INSTANT or UPDATED_DATA_INSTANT
-        defaultProblemaShouldBeFound("dataInstant.in=" + DEFAULT_DATA_INSTANT + "," + UPDATED_DATA_INSTANT);
-
-        // Get all the problemaList where dataInstant equals to UPDATED_DATA_INSTANT
-        defaultProblemaShouldNotBeFound("dataInstant.in=" + UPDATED_DATA_INSTANT);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataInstantIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataInstant is not null
-        defaultProblemaShouldBeFound("dataInstant.specified=true");
-
-        // Get all the problemaList where dataInstant is null
-        defaultProblemaShouldNotBeFound("dataInstant.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataDurationIsEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataDuration equals to DEFAULT_DATA_DURATION
-        defaultProblemaShouldBeFound("dataDuration.equals=" + DEFAULT_DATA_DURATION);
-
-        // Get all the problemaList where dataDuration equals to UPDATED_DATA_DURATION
-        defaultProblemaShouldNotBeFound("dataDuration.equals=" + UPDATED_DATA_DURATION);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataDurationIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataDuration not equals to DEFAULT_DATA_DURATION
-        defaultProblemaShouldNotBeFound("dataDuration.notEquals=" + DEFAULT_DATA_DURATION);
-
-        // Get all the problemaList where dataDuration not equals to UPDATED_DATA_DURATION
-        defaultProblemaShouldBeFound("dataDuration.notEquals=" + UPDATED_DATA_DURATION);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataDurationIsInShouldWork() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataDuration in DEFAULT_DATA_DURATION or UPDATED_DATA_DURATION
-        defaultProblemaShouldBeFound("dataDuration.in=" + DEFAULT_DATA_DURATION + "," + UPDATED_DATA_DURATION);
-
-        // Get all the problemaList where dataDuration equals to UPDATED_DATA_DURATION
-        defaultProblemaShouldNotBeFound("dataDuration.in=" + UPDATED_DATA_DURATION);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataDurationIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataDuration is not null
-        defaultProblemaShouldBeFound("dataDuration.specified=true");
-
-        // Get all the problemaList where dataDuration is null
-        defaultProblemaShouldNotBeFound("dataDuration.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataDurationIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataDuration is greater than or equal to DEFAULT_DATA_DURATION
-        defaultProblemaShouldBeFound("dataDuration.greaterThanOrEqual=" + DEFAULT_DATA_DURATION);
-
-        // Get all the problemaList where dataDuration is greater than or equal to UPDATED_DATA_DURATION
-        defaultProblemaShouldNotBeFound("dataDuration.greaterThanOrEqual=" + UPDATED_DATA_DURATION);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataDurationIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataDuration is less than or equal to DEFAULT_DATA_DURATION
-        defaultProblemaShouldBeFound("dataDuration.lessThanOrEqual=" + DEFAULT_DATA_DURATION);
-
-        // Get all the problemaList where dataDuration is less than or equal to SMALLER_DATA_DURATION
-        defaultProblemaShouldNotBeFound("dataDuration.lessThanOrEqual=" + SMALLER_DATA_DURATION);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataDurationIsLessThanSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataDuration is less than DEFAULT_DATA_DURATION
-        defaultProblemaShouldNotBeFound("dataDuration.lessThan=" + DEFAULT_DATA_DURATION);
-
-        // Get all the problemaList where dataDuration is less than UPDATED_DATA_DURATION
-        defaultProblemaShouldBeFound("dataDuration.lessThan=" + UPDATED_DATA_DURATION);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByDataDurationIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where dataDuration is greater than DEFAULT_DATA_DURATION
-        defaultProblemaShouldNotBeFound("dataDuration.greaterThan=" + DEFAULT_DATA_DURATION);
-
-        // Get all the problemaList where dataDuration is greater than SMALLER_DATA_DURATION
-        defaultProblemaShouldBeFound("dataDuration.greaterThan=" + SMALLER_DATA_DURATION);
+        // Get all the problemaList where data is greater than SMALLER_DATA
+        defaultProblemaShouldBeFound("data.greaterThan=" + SMALLER_DATA);
     }
 
     @Test
@@ -1085,10 +739,7 @@ class ProblemaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(problema.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dataZonedDateTime").value(hasItem(sameInstant(DEFAULT_DATA_ZONED_DATE_TIME))))
-            .andExpect(jsonPath("$.[*].dataLocalDate").value(hasItem(DEFAULT_DATA_LOCAL_DATE.toString())))
-            .andExpect(jsonPath("$.[*].dataInstant").value(hasItem(DEFAULT_DATA_INSTANT.toString())))
-            .andExpect(jsonPath("$.[*].dataDuration").value(hasItem(DEFAULT_DATA_DURATION.toString())))
+            .andExpect(jsonPath("$.[*].data").value(hasItem(DEFAULT_DATA.toString())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
             .andExpect(jsonPath("$.[*].criticidade").value(hasItem(DEFAULT_CRITICIDADE.toString())))
             .andExpect(jsonPath("$.[*].aceitarFinalizacao").value(hasItem(DEFAULT_ACEITAR_FINALIZACAO.booleanValue())))
@@ -1143,10 +794,7 @@ class ProblemaResourceIT {
         // Disconnect from session so that the updates on updatedProblema are not directly saved in db
         em.detach(updatedProblema);
         updatedProblema
-            .dataZonedDateTime(UPDATED_DATA_ZONED_DATE_TIME)
-            .dataLocalDate(UPDATED_DATA_LOCAL_DATE)
-            .dataInstant(UPDATED_DATA_INSTANT)
-            .dataDuration(UPDATED_DATA_DURATION)
+            .data(UPDATED_DATA)
             .descricao(UPDATED_DESCRICAO)
             .criticidade(UPDATED_CRITICIDADE)
             .aceitarFinalizacao(UPDATED_ACEITAR_FINALIZACAO)
@@ -1167,10 +815,7 @@ class ProblemaResourceIT {
         List<Problema> problemaList = problemaRepository.findAll();
         assertThat(problemaList).hasSize(databaseSizeBeforeUpdate);
         Problema testProblema = problemaList.get(problemaList.size() - 1);
-        assertThat(testProblema.getDataZonedDateTime()).isEqualTo(UPDATED_DATA_ZONED_DATE_TIME);
-        assertThat(testProblema.getDataLocalDate()).isEqualTo(UPDATED_DATA_LOCAL_DATE);
-        assertThat(testProblema.getDataInstant()).isEqualTo(UPDATED_DATA_INSTANT);
-        assertThat(testProblema.getDataDuration()).isEqualTo(UPDATED_DATA_DURATION);
+        assertThat(testProblema.getData()).isEqualTo(UPDATED_DATA);
         assertThat(testProblema.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testProblema.getCriticidade()).isEqualTo(UPDATED_CRITICIDADE);
         assertThat(testProblema.getAceitarFinalizacao()).isEqualTo(UPDATED_ACEITAR_FINALIZACAO);
@@ -1257,9 +902,7 @@ class ProblemaResourceIT {
         partialUpdatedProblema.setId(problema.getId());
 
         partialUpdatedProblema
-            .dataInstant(UPDATED_DATA_INSTANT)
-            .dataDuration(UPDATED_DATA_DURATION)
-            .descricao(UPDATED_DESCRICAO)
+            .criticidade(UPDATED_CRITICIDADE)
             .aceitarFinalizacao(UPDATED_ACEITAR_FINALIZACAO)
             .foto(UPDATED_FOTO)
             .fotoContentType(UPDATED_FOTO_CONTENT_TYPE);
@@ -1276,12 +919,9 @@ class ProblemaResourceIT {
         List<Problema> problemaList = problemaRepository.findAll();
         assertThat(problemaList).hasSize(databaseSizeBeforeUpdate);
         Problema testProblema = problemaList.get(problemaList.size() - 1);
-        assertThat(testProblema.getDataZonedDateTime()).isEqualTo(DEFAULT_DATA_ZONED_DATE_TIME);
-        assertThat(testProblema.getDataLocalDate()).isEqualTo(DEFAULT_DATA_LOCAL_DATE);
-        assertThat(testProblema.getDataInstant()).isEqualTo(UPDATED_DATA_INSTANT);
-        assertThat(testProblema.getDataDuration()).isEqualTo(UPDATED_DATA_DURATION);
-        assertThat(testProblema.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testProblema.getCriticidade()).isEqualTo(DEFAULT_CRITICIDADE);
+        assertThat(testProblema.getData()).isEqualTo(DEFAULT_DATA);
+        assertThat(testProblema.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testProblema.getCriticidade()).isEqualTo(UPDATED_CRITICIDADE);
         assertThat(testProblema.getAceitarFinalizacao()).isEqualTo(UPDATED_ACEITAR_FINALIZACAO);
         assertThat(testProblema.getFoto()).isEqualTo(UPDATED_FOTO);
         assertThat(testProblema.getFotoContentType()).isEqualTo(UPDATED_FOTO_CONTENT_TYPE);
@@ -1301,10 +941,7 @@ class ProblemaResourceIT {
         partialUpdatedProblema.setId(problema.getId());
 
         partialUpdatedProblema
-            .dataZonedDateTime(UPDATED_DATA_ZONED_DATE_TIME)
-            .dataLocalDate(UPDATED_DATA_LOCAL_DATE)
-            .dataInstant(UPDATED_DATA_INSTANT)
-            .dataDuration(UPDATED_DATA_DURATION)
+            .data(UPDATED_DATA)
             .descricao(UPDATED_DESCRICAO)
             .criticidade(UPDATED_CRITICIDADE)
             .aceitarFinalizacao(UPDATED_ACEITAR_FINALIZACAO)
@@ -1324,10 +961,7 @@ class ProblemaResourceIT {
         List<Problema> problemaList = problemaRepository.findAll();
         assertThat(problemaList).hasSize(databaseSizeBeforeUpdate);
         Problema testProblema = problemaList.get(problemaList.size() - 1);
-        assertThat(testProblema.getDataZonedDateTime()).isEqualTo(UPDATED_DATA_ZONED_DATE_TIME);
-        assertThat(testProblema.getDataLocalDate()).isEqualTo(UPDATED_DATA_LOCAL_DATE);
-        assertThat(testProblema.getDataInstant()).isEqualTo(UPDATED_DATA_INSTANT);
-        assertThat(testProblema.getDataDuration()).isEqualTo(UPDATED_DATA_DURATION);
+        assertThat(testProblema.getData()).isEqualTo(UPDATED_DATA);
         assertThat(testProblema.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testProblema.getCriticidade()).isEqualTo(UPDATED_CRITICIDADE);
         assertThat(testProblema.getAceitarFinalizacao()).isEqualTo(UPDATED_ACEITAR_FINALIZACAO);

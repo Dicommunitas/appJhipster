@@ -1,23 +1,20 @@
-import * as dayjs from 'dayjs';
 import { ITipoRelatorio } from 'app/entities/tipo-relatorio/tipo-relatorio.model';
 import { ITipoOperacao } from 'app/entities/tipo-operacao/tipo-operacao.model';
 
 export interface ILembrete {
   id?: number;
-  data?: dayjs.Dayjs;
   nome?: string;
-  texto?: string;
-  tipoRelatorio?: ITipoRelatorio;
+  descricao?: string;
+  tipoRelatorio?: ITipoRelatorio | null;
   tipoOperacao?: ITipoOperacao | null;
 }
 
 export class Lembrete implements ILembrete {
   constructor(
     public id?: number,
-    public data?: dayjs.Dayjs,
     public nome?: string,
-    public texto?: string,
-    public tipoRelatorio?: ITipoRelatorio,
+    public descricao?: string,
+    public tipoRelatorio?: ITipoRelatorio | null,
     public tipoOperacao?: ITipoOperacao | null
   ) {}
 }

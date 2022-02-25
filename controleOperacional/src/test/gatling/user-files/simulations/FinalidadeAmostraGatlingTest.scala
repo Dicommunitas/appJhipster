@@ -71,7 +71,7 @@ class FinalidadeAmostraGatlingTest extends Simulation {
             .post("/api/finalidade-amostras")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "lacre":"SAMPLE_TEXT"
+                "lacre":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_finalidadeAmostra_url"))).exitHereIfFailed

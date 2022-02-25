@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { IStatus, Status } from '../status.model';
 import { StatusService } from '../service/status.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
+import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 import { IProblema } from 'app/entities/problema/problema.model';
@@ -36,6 +36,8 @@ export class StatusUpdateComponent implements OnInit {
   });
 
   constructor(
+    protected dataUtils: DataUtils,
+    protected eventManager: EventManager,
     protected statusService: StatusService,
     protected usuarioService: UsuarioService,
     protected problemaService: ProblemaService,
@@ -45,14 +47,26 @@ export class StatusUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ status }) => {
-      if (status.id === undefined) {
-        const today = dayjs().startOf('day');
-        status.prazo = today;
-      }
-
       this.updateForm(status);
 
       this.loadRelationshipsOptions();
+    });
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    this.dataUtils.openFile(base64String, contentType);
+  }
+
+  setFileData(event: Event, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
+      error: (err: FileLoadError) =>
+        this.eventManager.broadcast(
+          new EventWithContent<AlertError>('controleOperacionalApp.error', { ...err, key: 'error.file.' + err.key })
+        ),
     });
   }
 
@@ -101,7 +115,7 @@ export class StatusUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: status.id,
       descricao: status.descricao,
-      prazo: status.prazo ? status.prazo.format(DATE_TIME_FORMAT) : null,
+      prazo: status.prazo,
       resolvido: status.resolvido,
       relator: status.relator,
       responsavel: status.responsavel,
@@ -147,7 +161,7 @@ export class StatusUpdateComponent implements OnInit {
       ...new Status(),
       id: this.editForm.get(['id'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
-      prazo: this.editForm.get(['prazo'])!.value ? dayjs(this.editForm.get(['prazo'])!.value, DATE_TIME_FORMAT) : undefined,
+      prazo: this.editForm.get(['prazo'])!.value,
       resolvido: this.editForm.get(['resolvido'])!.value,
       relator: this.editForm.get(['relator'])!.value,
       responsavel: this.editForm.get(['responsavel'])!.value,

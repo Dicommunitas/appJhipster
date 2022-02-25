@@ -16,7 +16,7 @@ describe('OrigemAmostra e2e test', () => {
   const origemAmostraPageUrlPattern = new RegExp('/origem-amostra(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const origemAmostraSample = { descricao: 'Luxemburgo Senior', emUso: true };
+  const origemAmostraSample = { descricao: 'Loan Salada Infrastructure' };
 
   let origemAmostra: any;
 
@@ -154,9 +154,6 @@ describe('OrigemAmostra e2e test', () => {
 
     it('should create an instance of OrigemAmostra', () => {
       cy.get(`[data-cy="descricao"]`).type('Dollar Identity').should('have.value', 'Dollar Identity');
-
-      cy.get(`[data-cy="emUso"]`).should('not.be.checked');
-      cy.get(`[data-cy="emUso"]`).click().should('be.checked');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

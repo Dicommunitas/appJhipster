@@ -15,14 +15,6 @@
           <span>{{ lembrete.id }}</span>
         </dd>
         <dt>
-          <span jhiTranslate="controleOperacionalApp.lembrete.data" [ngbTooltip]="'controleOperacionalApp.lembrete.help.data' | translate"
-            >Data</span
-          >
-        </dt>
-        <dd>
-          <span>{{ lembrete.data | formatMediumDatetime }}</span>
-        </dd>
-        <dt>
           <span jhiTranslate="controleOperacionalApp.lembrete.nome" [ngbTooltip]="'controleOperacionalApp.lembrete.help.nome' | translate"
             >Nome</span
           >
@@ -31,12 +23,14 @@
           <span>{{ lembrete.nome }}</span>
         </dd>
         <dt>
-          <span jhiTranslate="controleOperacionalApp.lembrete.texto" [ngbTooltip]="'controleOperacionalApp.lembrete.help.texto' | translate"
-            >Texto</span
+          <span
+            jhiTranslate="controleOperacionalApp.lembrete.descricao"
+            [ngbTooltip]="'controleOperacionalApp.lembrete.help.descricao' | translate"
+            >Descricao</span
           >
         </dt>
         <dd>
-          <span>{{ lembrete.texto }}</span>
+          <span>{{ lembrete.descricao }}</span>
         </dd>
         <dt><span jhiTranslate="controleOperacionalApp.lembrete.tipoRelatorio">Tipo Relatorio</span></dt>
         <dd>

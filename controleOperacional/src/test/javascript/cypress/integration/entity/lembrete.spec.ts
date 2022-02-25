@@ -16,10 +16,9 @@ describe('Lembrete e2e test', () => {
   const lembretePageUrlPattern = new RegExp('/lembrete(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const lembreteSample = { data: '2022-02-03T22:26:20.970Z', nome: 'monetize', texto: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
+  const lembreteSample = { nome: 'concept Rústico', descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
 
   let lembrete: any;
-  let tipoRelatorio: any;
 
   before(() => {
     cy.window().then(win => {
@@ -31,33 +30,9 @@ describe('Lembrete e2e test', () => {
   });
 
   beforeEach(() => {
-    // create an instance at the required relationship entity:
-    cy.authenticatedRequest({
-      method: 'POST',
-      url: '/api/tipo-relatorios',
-      body: { nome: 'systems bypass Rodovia' },
-    }).then(({ body }) => {
-      tipoRelatorio = body;
-    });
-  });
-
-  beforeEach(() => {
     cy.intercept('GET', '/api/lembretes+(?*|)').as('entitiesRequest');
     cy.intercept('POST', '/api/lembretes').as('postEntityRequest');
     cy.intercept('DELETE', '/api/lembretes/*').as('deleteEntityRequest');
-  });
-
-  beforeEach(() => {
-    // Simulate relationships api for better performance and reproducibility.
-    cy.intercept('GET', '/api/tipo-relatorios', {
-      statusCode: 200,
-      body: [tipoRelatorio],
-    });
-
-    cy.intercept('GET', '/api/tipo-operacaos', {
-      statusCode: 200,
-      body: [],
-    });
   });
 
   afterEach(() => {
@@ -67,17 +42,6 @@ describe('Lembrete e2e test', () => {
         url: `/api/lembretes/${lembrete.id}`,
       }).then(() => {
         lembrete = undefined;
-      });
-    }
-  });
-
-  afterEach(() => {
-    if (tipoRelatorio) {
-      cy.authenticatedRequest({
-        method: 'DELETE',
-        url: `/api/tipo-relatorios/${tipoRelatorio.id}`,
-      }).then(() => {
-        tipoRelatorio = undefined;
       });
     }
   });
@@ -121,11 +85,7 @@ describe('Lembrete e2e test', () => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/lembretes',
-
-          body: {
-            ...lembreteSample,
-            tipoRelatorio: tipoRelatorio,
-          },
+          body: lembreteSample,
         }).then(({ body }) => {
           lembrete = body;
 
@@ -193,16 +153,12 @@ describe('Lembrete e2e test', () => {
     });
 
     it('should create an instance of Lembrete', () => {
-      cy.get(`[data-cy="data"]`).type('2022-02-03T17:13').should('have.value', '2022-02-03T17:13');
+      cy.get(`[data-cy="nome"]`).type('e-services value-added monitor').should('have.value', 'e-services value-added monitor');
 
-      cy.get(`[data-cy="nome"]`).type('algorithm Jogos').should('have.value', 'algorithm Jogos');
-
-      cy.get(`[data-cy="texto"]`)
+      cy.get(`[data-cy="descricao"]`)
         .type('../fake-data/blob/hipster.txt')
         .invoke('val')
         .should('match', new RegExp('../fake-data/blob/hipster.txt'));
-
-      cy.get(`[data-cy="tipoRelatorio"]`).select(1);
 
       cy.get(entityCreateSaveButtonSelector).click();
 

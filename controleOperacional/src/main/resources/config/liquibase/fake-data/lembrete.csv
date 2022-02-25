@@ -1,3 +1,3 @@
-id;data;nome;texto;tipo_relatorio_id
-1;2022-02-03T21:30:04;Technician Planner Acre;../fake-data/blob/hipster.txt;1
+id;nome;descricao
+1;parse Borracha Beleza;../fake-data/blob/hipster.txt
 

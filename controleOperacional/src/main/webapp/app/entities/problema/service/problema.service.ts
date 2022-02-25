@@ -76,17 +76,13 @@ export class ProblemaService {
 
   protected convertDateFromClient(problema: IProblema): IProblema {
     return Object.assign({}, problema, {
-      dataZonedDateTime: problema.dataZonedDateTime?.isValid() ? problema.dataZonedDateTime.toJSON() : undefined,
-      dataLocalDate: problema.dataLocalDate?.isValid() ? problema.dataLocalDate.format(DATE_FORMAT) : undefined,
-      dataInstant: problema.dataInstant?.isValid() ? problema.dataInstant.toJSON() : undefined,
+      data: problema.data?.isValid() ? problema.data.format(DATE_FORMAT) : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.dataZonedDateTime = res.body.dataZonedDateTime ? dayjs(res.body.dataZonedDateTime) : undefined;
-      res.body.dataLocalDate = res.body.dataLocalDate ? dayjs(res.body.dataLocalDate) : undefined;
-      res.body.dataInstant = res.body.dataInstant ? dayjs(res.body.dataInstant) : undefined;
+      res.body.data = res.body.data ? dayjs(res.body.data) : undefined;
     }
     return res;
   }
@@ -94,9 +90,7 @@ export class ProblemaService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((problema: IProblema) => {
-        problema.dataZonedDateTime = problema.dataZonedDateTime ? dayjs(problema.dataZonedDateTime) : undefined;
-        problema.dataLocalDate = problema.dataLocalDate ? dayjs(problema.dataLocalDate) : undefined;
-        problema.dataInstant = problema.dataInstant ? dayjs(problema.dataInstant) : undefined;
+        problema.data = problema.data ? dayjs(problema.data) : undefined;
       });
     }
     return res;

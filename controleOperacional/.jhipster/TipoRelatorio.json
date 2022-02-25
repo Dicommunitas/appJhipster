@@ -4,7 +4,7 @@
     {
       "fieldName": "nome",
       "fieldType": "String",
-      "javadoc": "Atributo descrição.",
+      "javadoc": "Nome dado ao grupo de relatórios.",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -29,5 +29,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204162031"
+  "changelogDate": "20220225084234"
 }

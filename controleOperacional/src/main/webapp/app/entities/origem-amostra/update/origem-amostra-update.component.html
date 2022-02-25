@@ -36,22 +36,6 @@
             </small>
           </div>
         </div>
-
-        <div class="form-group">
-          <label
-            class="form-control-label"
-            jhiTranslate="controleOperacionalApp.origemAmostra.emUso"
-            for="field_emUso"
-            [ngbTooltip]="'controleOperacionalApp.origemAmostra.help.emUso' | translate"
-            >Em Uso</label
-          >
-          <input type="checkbox" class="form-check" name="emUso" id="field_emUso" data-cy="emUso" formControlName="emUso" />
-          <div *ngIf="editForm.get('emUso')!.invalid && (editForm.get('emUso')!.dirty || editForm.get('emUso')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('emUso')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
       </div>
 
       <div>

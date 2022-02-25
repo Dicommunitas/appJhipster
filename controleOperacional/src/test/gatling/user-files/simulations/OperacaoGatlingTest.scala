@@ -72,7 +72,7 @@ class OperacaoGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "descricao":"SAMPLE_TEXT"
-                , "volume":"0"
+                , "volumePeso":"0"
                 , "inicio":"2020-01-01T00:00:00.000Z"
                 , "fim":"2020-01-01T00:00:00.000Z"
                 , "quantidadeAmostras":"0"

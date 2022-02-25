@@ -33,8 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class FinalidadeAmostraResourceIT {
 
-    private static final String DEFAULT_LACRE = "AAAAAAAAAA";
-    private static final String UPDATED_LACRE = "BBBBBBBBBB";
+    private static final Integer DEFAULT_LACRE = 1;
+    private static final Integer UPDATED_LACRE = 2;
 
     private static final String ENTITY_API_URL = "/api/finalidade-amostras";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";

@@ -3,7 +3,7 @@ package com.operacional.controleoperacional.service.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -16,17 +16,29 @@ public class AmostraDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo
+     * Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo\n\nData e hora que a amostra foi coletada.
      */
     @ApiModelProperty(
-        value = "Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo"
+        value = "Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo\n\nData e hora que a amostra foi coletada."
     )
-    private Instant dataHora;
+    private ZonedDateTime dataHora;
 
+    /**
+     * Observações que forem necessárias para melhorar\na identificação da amostra.
+     */
+    @ApiModelProperty(value = "Observações que forem necessárias para melhorar\na identificação da amostra.")
     private String observacao;
 
+    /**
+     * Identificador que \"ligue\" esse registro em outro sistema.
+     */
+    @ApiModelProperty(value = "Identificador que \"ligue\" esse registro em outro sistema.")
     private String identificadorExterno;
 
+    /**
+     * Identifica se a amostra está ou não no laboratório.
+     */
+    @ApiModelProperty(value = "Identifica se a amostra está ou não no laboratório.")
     private Boolean amostraNoLaboratorio;
 
     private OperacaoDTO operacao;
@@ -49,11 +61,11 @@ public class AmostraDTO implements Serializable {
         this.id = id;
     }
 
-    public Instant getDataHora() {
+    public ZonedDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(Instant dataHora) {
+    public void setDataHora(ZonedDateTime dataHora) {
         this.dataHora = dataHora;
     }
 

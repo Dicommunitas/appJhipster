@@ -20,7 +20,7 @@
       "id": "ID",
       "descricao": "Descricao",
       "help": {
-        "descricao": "Atributo descrição."
+        "descricao": "Descreve de forma simples um tipo de operação."
       }
     }
   }

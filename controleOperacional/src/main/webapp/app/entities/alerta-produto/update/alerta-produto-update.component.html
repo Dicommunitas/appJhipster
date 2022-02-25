@@ -18,7 +18,11 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.alertaProduto.descricao" for="field_descricao"
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.alertaProduto.descricao"
+            for="field_descricao"
+            [ngbTooltip]="'controleOperacionalApp.alertaProduto.help.descricao' | translate"
             >Descricao</label
           >
           <input type="text" class="form-control" name="descricao" id="field_descricao" data-cy="descricao" formControlName="descricao" />

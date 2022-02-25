@@ -24,15 +24,31 @@
         <dd>
           <span>{{ operacao.descricao }}</span>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.operacao.volume">Volume</span></dt>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.operacao.volumePeso"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.volumePeso' | translate"
+            >Volume Peso</span
+          >
+        </dt>
         <dd>
-          <span>{{ operacao.volume }}</span>
+          <span>{{ operacao.volumePeso }}</span>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.operacao.inicio">Inicio</span></dt>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.operacao.inicio"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.inicio' | translate"
+            >Inicio</span
+          >
+        </dt>
         <dd>
           <span>{{ operacao.inicio | formatMediumDatetime }}</span>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.operacao.fim">Fim</span></dt>
+        <dt>
+          <span jhiTranslate="controleOperacionalApp.operacao.fim" [ngbTooltip]="'controleOperacionalApp.operacao.help.fim' | translate"
+            >Fim</span
+          >
+        </dt>
         <dd>
           <span>{{ operacao.fim | formatMediumDatetime }}</span>
         </dd>
@@ -46,7 +62,13 @@
         <dd>
           <span>{{ operacao.quantidadeAmostras }}</span>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.operacao.observacao">Observacao</span></dt>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.operacao.observacao"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.observacao' | translate"
+            >Observacao</span
+          >
+        </dt>
         <dd>
           <span>{{ operacao.observacao }}</span>
         </dd>

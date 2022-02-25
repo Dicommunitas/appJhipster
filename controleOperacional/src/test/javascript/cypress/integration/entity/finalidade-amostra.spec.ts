@@ -45,7 +45,7 @@ describe('FinalidadeAmostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/amostras',
-      body: {"dataHora":"2022-02-04T13:12:05.305Z","observacao":"copying","identificadorExterno":"Prático FTP","amostraNoLaboratorio":true},
+      body: {"dataHora":"2022-02-25T05:34:08.305Z","observacao":"copying","identificadorExterno":"Prático FTP","amostraNoLaboratorio":true},
     }).then(({ body }) => {
       amostra = body;
     });
@@ -230,7 +230,7 @@ describe('FinalidadeAmostra e2e test', () => {
     });
 
     it.skip('should create an instance of FinalidadeAmostra', () => {
-      cy.get(`[data-cy="lacre"]`).type('indexing Innovative').should('have.value', 'indexing Innovative');
+      cy.get(`[data-cy="lacre"]`).type('35119').should('have.value', '35119');
 
       cy.get(`[data-cy="tipoFinalidadeAmostra"]`).select(1);
       cy.get(`[data-cy="amostra"]`).select(1);

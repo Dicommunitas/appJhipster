@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { IProblema, Problema } from '../problema.model';
 import { ProblemaService } from '../service/problema.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -29,10 +26,7 @@ export class ProblemaUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    dataZonedDateTime: [null, [Validators.required]],
-    dataLocalDate: [null, [Validators.required]],
-    dataInstant: [null, [Validators.required]],
-    dataDuration: [null, [Validators.required]],
+    data: [null, [Validators.required]],
     descricao: [null, [Validators.required]],
     criticidade: [null, [Validators.required]],
     aceitarFinalizacao: [],
@@ -54,12 +48,6 @@ export class ProblemaUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ problema }) => {
-      if (problema.id === undefined) {
-        const today = dayjs().startOf('day');
-        problema.dataZonedDateTime = today;
-        problema.dataInstant = today;
-      }
-
       this.updateForm(problema);
 
       this.loadRelationshipsOptions();
@@ -133,10 +121,7 @@ export class ProblemaUpdateComponent implements OnInit {
   protected updateForm(problema: IProblema): void {
     this.editForm.patchValue({
       id: problema.id,
-      dataZonedDateTime: problema.dataZonedDateTime ? problema.dataZonedDateTime.format(DATE_TIME_FORMAT) : null,
-      dataLocalDate: problema.dataLocalDate,
-      dataInstant: problema.dataInstant ? problema.dataInstant.format(DATE_TIME_FORMAT) : null,
-      dataDuration: problema.dataDuration,
+      data: problema.data,
       descricao: problema.descricao,
       criticidade: problema.criticidade,
       aceitarFinalizacao: problema.aceitarFinalizacao,
@@ -163,14 +148,7 @@ export class ProblemaUpdateComponent implements OnInit {
     return {
       ...new Problema(),
       id: this.editForm.get(['id'])!.value,
-      dataZonedDateTime: this.editForm.get(['dataZonedDateTime'])!.value
-        ? dayjs(this.editForm.get(['dataZonedDateTime'])!.value, DATE_TIME_FORMAT)
-        : undefined,
-      dataLocalDate: this.editForm.get(['dataLocalDate'])!.value,
-      dataInstant: this.editForm.get(['dataInstant'])!.value
-        ? dayjs(this.editForm.get(['dataInstant'])!.value, DATE_TIME_FORMAT)
-        : undefined,
-      dataDuration: this.editForm.get(['dataDuration'])!.value,
+      data: this.editForm.get(['data'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
       criticidade: this.editForm.get(['criticidade'])!.value,
       aceitarFinalizacao: this.editForm.get(['aceitarFinalizacao'])!.value,

@@ -19,10 +19,10 @@ public class TipoRelatorioDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.
+     * Nome dado ao grupo de relatórios.
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo descrição.", required = true)
+    @ApiModelProperty(value = "Nome dado ao grupo de relatórios.", required = true)
     private String nome;
 
     private Set<UsuarioDTO> usuariosAuts = new HashSet<>();

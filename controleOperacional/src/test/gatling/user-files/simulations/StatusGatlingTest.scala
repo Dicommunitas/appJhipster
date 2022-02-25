@@ -71,7 +71,7 @@ class StatusGatlingTest extends Simulation {
             .post("/api/statuses")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "descricao":"SAMPLE_TEXT"
+                "descricao":null
                 , "prazo":"2020-01-01T00:00:00.000Z"
                 , "resolvido":null
                 }""")).asJson

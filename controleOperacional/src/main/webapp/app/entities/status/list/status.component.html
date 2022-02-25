@@ -48,7 +48,7 @@
             <a [routerLink]="['/status', status.id, 'view']">{{ status.id }}</a>
           </td>
           <td>{{ status.descricao }}</td>
-          <td>{{ status.prazo | formatMediumDatetime }}</td>
+          <td>{{ status.prazo | formatMediumDate }}</td>
           <td>{{ status.resolvido }}</td>
           <td>
             <div *ngIf="status.relator">

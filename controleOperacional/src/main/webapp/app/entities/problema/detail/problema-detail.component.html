@@ -15,26 +15,12 @@
           <span>{{ problema.id }}</span>
         </dd>
         <dt>
-          <span
-            jhiTranslate="controleOperacionalApp.problema.dataZonedDateTime"
-            [ngbTooltip]="'controleOperacionalApp.problema.help.dataZonedDateTime' | translate"
-            >Data Zoned Date Time</span
+          <span jhiTranslate="controleOperacionalApp.problema.data" [ngbTooltip]="'controleOperacionalApp.problema.help.data' | translate"
+            >Data</span
           >
         </dt>
         <dd>
-          <span>{{ problema.dataZonedDateTime | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.problema.dataLocalDate">Data Local Date</span></dt>
-        <dd>
-          <span>{{ problema.dataLocalDate | formatMediumDate }}</span>
-        </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.problema.dataInstant">Data Instant</span></dt>
-        <dd>
-          <span>{{ problema.dataInstant | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.problema.dataDuration">Data Duration</span></dt>
-        <dd>
-          <span>{{ problema.dataDuration | duration }} ({{ problema.dataDuration }})</span>
+          <span>{{ problema.data | formatMediumDate }}</span>
         </dd>
         <dt>
           <span

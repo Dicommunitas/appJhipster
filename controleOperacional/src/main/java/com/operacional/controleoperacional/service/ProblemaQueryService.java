@@ -90,17 +90,8 @@ public class ProblemaQueryService extends QueryService<Problema> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Problema_.id));
             }
-            if (criteria.getDataZonedDateTime() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataZonedDateTime(), Problema_.dataZonedDateTime));
-            }
-            if (criteria.getDataLocalDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataLocalDate(), Problema_.dataLocalDate));
-            }
-            if (criteria.getDataInstant() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataInstant(), Problema_.dataInstant));
-            }
-            if (criteria.getDataDuration() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataDuration(), Problema_.dataDuration));
+            if (criteria.getData() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getData(), Problema_.data));
             }
             if (criteria.getDescricao() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescricao(), Problema_.descricao));

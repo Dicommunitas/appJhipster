@@ -3,20 +3,23 @@
   "fields": [
     {
       "fieldName": "dataHora",
-      "fieldType": "Instant",
-      "javadoc": "Atributo dataHora.\\nnão deve ser obrigatório e as amostras\\npor padrão devem ser ordenadas pela data\\nficando as mais novas por primeiro na\\nvizualização e as sem data por útimo"
+      "fieldType": "ZonedDateTime",
+      "javadoc": "Atributo dataHora.\\nnão deve ser obrigatório e as amostras\\npor padrão devem ser ordenadas pela data\\nficando as mais novas por primeiro na\\nvizualização e as sem data por útimo\\n\\nData e hora que a amostra foi coletada."
     },
     {
       "fieldName": "observacao",
-      "fieldType": "String"
+      "fieldType": "String",
+      "javadoc": "Observações que forem necessárias para melhorar\\na identificação da amostra."
     },
     {
       "fieldName": "identificadorExterno",
-      "fieldType": "String"
+      "fieldType": "String",
+      "javadoc": "Identificador que \"ligue\" esse registro em outro sistema."
     },
     {
       "fieldName": "amostraNoLaboratorio",
-      "fieldType": "Boolean"
+      "fieldType": "Boolean",
+      "javadoc": "Identifica se a amostra está ou não no laboratório."
     }
   ],
   "relationships": [
@@ -90,5 +93,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204162331"
+  "changelogDate": "20220225084534"
 }

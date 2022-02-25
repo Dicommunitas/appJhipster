@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IStatus, Status } from '../status.model';
 
 import { StatusService } from './status.service';
@@ -35,7 +35,7 @@ describe('Status Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          prazo: currentDate.format(DATE_TIME_FORMAT),
+          prazo: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -51,7 +51,7 @@ describe('Status Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          prazo: currentDate.format(DATE_TIME_FORMAT),
+          prazo: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -75,7 +75,7 @@ describe('Status Service', () => {
         {
           id: 1,
           descricao: 'BBBBBB',
-          prazo: currentDate.format(DATE_TIME_FORMAT),
+          prazo: currentDate.format(DATE_FORMAT),
           resolvido: true,
         },
         elemDefault
@@ -99,7 +99,7 @@ describe('Status Service', () => {
       const patchObject = Object.assign(
         {
           descricao: 'BBBBBB',
-          prazo: currentDate.format(DATE_TIME_FORMAT),
+          prazo: currentDate.format(DATE_FORMAT),
           resolvido: true,
         },
         new Status()
@@ -126,7 +126,7 @@ describe('Status Service', () => {
         {
           id: 1,
           descricao: 'BBBBBB',
-          prazo: currentDate.format(DATE_TIME_FORMAT),
+          prazo: currentDate.format(DATE_FORMAT),
           resolvido: true,
         },
         elemDefault

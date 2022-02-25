@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IStatus } from '../status.model';
 import { StatusService } from '../service/status.service';
 import { StatusDeleteDialogComponent } from '../delete/status-delete-dialog.component';
+import { DataUtils } from 'app/core/util/data-util.service';
 
 @Component({
   selector: 'jhi-status',
@@ -14,7 +15,7 @@ export class StatusComponent implements OnInit {
   statuses?: IStatus[];
   isLoading = false;
 
-  constructor(protected statusService: StatusService, protected modalService: NgbModal) {}
+  constructor(protected statusService: StatusService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -36,6 +37,14 @@ export class StatusComponent implements OnInit {
 
   trackId(index: number, item: IStatus): number {
     return item.id!;
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    return this.dataUtils.openFile(base64String, contentType);
   }
 
   delete(status: IStatus): void {

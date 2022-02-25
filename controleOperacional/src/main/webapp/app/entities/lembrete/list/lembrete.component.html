@@ -33,9 +33,8 @@
       <thead>
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.data">Data</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.nome">Nome</span></th>
-          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.texto">Texto</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.descricao">Descricao</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.tipoRelatorio">Tipo Relatorio</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.tipoOperacao">Tipo Operacao</span></th>
           <th scope="col"></th>
@@ -46,9 +45,8 @@
           <td>
             <a [routerLink]="['/lembrete', lembrete.id, 'view']">{{ lembrete.id }}</a>
           </td>
-          <td>{{ lembrete.data | formatMediumDatetime }}</td>
           <td>{{ lembrete.nome }}</td>
-          <td>{{ lembrete.texto }}</td>
+          <td>{{ lembrete.descricao }}</td>
           <td>
             <div *ngIf="lembrete.tipoRelatorio">
               <a [routerLink]="['/tipo-relatorio', lembrete.tipoRelatorio?.id, 'view']">{{ lembrete.tipoRelatorio?.nome }}</a>

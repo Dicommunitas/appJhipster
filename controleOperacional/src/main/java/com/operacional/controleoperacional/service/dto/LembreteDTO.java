@@ -3,7 +3,6 @@ package com.operacional.controleoperacional.service.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import java.util.Objects;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
@@ -12,33 +11,26 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.operacional.controleoperacional.domain.Lembrete} entity.
  */
 @ApiModel(
-    description = "Entidade Lembrete.\n@author Diego.\nOs lembrestes devem ficar ao lada da tela de visualização e edição\ndos relatórios que o tever associado."
+    description = "Entidade Lembrete.\n@author Diego.\nOs lembrestes devem ficar ao lada da tela de visualização e edição\ndos relatórios, para os relatórios que o tiverem os tipos associados\ncom o lembretes. (Lembretes associados aos Tipos de Relatórios\nna tela do relatórios )"
 )
 public class LembreteDTO implements Serializable {
 
     private Long id;
 
     /**
-     * Atributo data.\nA data em que o Lembrete foi criado
+     * Nome dado para o lembrete
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo data.\nA data em que o Lembrete foi criado", required = true)
-    private ZonedDateTime data;
-
-    /**
-     * Atributo nome.\nnome do lembrete
-     */
-    @NotNull
-    @ApiModelProperty(value = "Atributo nome.\nnome do lembrete", required = true)
+    @ApiModelProperty(value = "Nome dado para o lembrete", required = true)
     private String nome;
 
     /**
-     * Atributo texto.\nLembretes diversos
+     * Lembrete de apoio para relatório e/ou operação.
      */
 
-    @ApiModelProperty(value = "Atributo texto.\nLembretes diversos", required = true)
+    @ApiModelProperty(value = "Lembrete de apoio para relatório e/ou operação.", required = true)
     @Lob
-    private String texto;
+    private String descricao;
 
     private TipoRelatorioDTO tipoRelatorio;
 
@@ -52,14 +44,6 @@ public class LembreteDTO implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getData() {
-        return data;
-    }
-
-    public void setData(ZonedDateTime data) {
-        this.data = data;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -68,12 +52,12 @@ public class LembreteDTO implements Serializable {
         this.nome = nome;
     }
 
-    public String getTexto() {
-        return texto;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public TipoRelatorioDTO getTipoRelatorio() {
@@ -118,9 +102,8 @@ public class LembreteDTO implements Serializable {
     public String toString() {
         return "LembreteDTO{" +
             "id=" + getId() +
-            ", data='" + getData() + "'" +
             ", nome='" + getNome() + "'" +
-            ", texto='" + getTexto() + "'" +
+            ", descricao='" + getDescricao() + "'" +
             ", tipoRelatorio=" + getTipoRelatorio() +
             ", tipoOperacao=" + getTipoOperacao() +
             "}";

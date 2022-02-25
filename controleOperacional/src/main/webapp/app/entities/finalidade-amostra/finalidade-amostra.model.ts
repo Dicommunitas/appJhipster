@@ -3,7 +3,7 @@ import { IAmostra } from 'app/entities/amostra/amostra.model';
 
 export interface IFinalidadeAmostra {
   id?: number;
-  lacre?: string | null;
+  lacre?: number | null;
   tipoFinalidadeAmostra?: ITipoFinalidadeAmostra;
   amostra?: IAmostra;
 }
@@ -11,7 +11,7 @@ export interface IFinalidadeAmostra {
 export class FinalidadeAmostra implements IFinalidadeAmostra {
   constructor(
     public id?: number,
-    public lacre?: string | null,
+    public lacre?: number | null,
     public tipoFinalidadeAmostra?: ITipoFinalidadeAmostra,
     public amostra?: IAmostra
   ) {}

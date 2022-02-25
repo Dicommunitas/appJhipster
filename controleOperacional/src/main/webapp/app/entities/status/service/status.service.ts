@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IStatus, getStatusIdentifier } from '../status.model';
@@ -75,7 +76,7 @@ export class StatusService {
 
   protected convertDateFromClient(status: IStatus): IStatus {
     return Object.assign({}, status, {
-      prazo: status.prazo?.isValid() ? status.prazo.toJSON() : undefined,
+      prazo: status.prazo?.isValid() ? status.prazo.format(DATE_FORMAT) : undefined,
     });
   }
 

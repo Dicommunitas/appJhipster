@@ -1,5 +1,6 @@
 package com.operacional.controleoperacional.web.rest;
 
+import static com.operacional.controleoperacional.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -13,7 +14,9 @@ import com.operacional.controleoperacional.service.criteria.OperacaoCriteria;
 import com.operacional.controleoperacional.service.dto.OperacaoDTO;
 import com.operacional.controleoperacional.service.mapper.OperacaoMapper;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,15 +41,17 @@ class OperacaoResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_VOLUME = 1;
-    private static final Integer UPDATED_VOLUME = 2;
-    private static final Integer SMALLER_VOLUME = 1 - 1;
+    private static final Integer DEFAULT_VOLUME_PESO = 1;
+    private static final Integer UPDATED_VOLUME_PESO = 2;
+    private static final Integer SMALLER_VOLUME_PESO = 1 - 1;
 
-    private static final Instant DEFAULT_INICIO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final ZonedDateTime DEFAULT_INICIO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_INICIO = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final ZonedDateTime SMALLER_INICIO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
 
-    private static final Instant DEFAULT_FIM = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_FIM = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final ZonedDateTime DEFAULT_FIM = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_FIM = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final ZonedDateTime SMALLER_FIM = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
 
     private static final Integer DEFAULT_QUANTIDADE_AMOSTRAS = 1;
     private static final Integer UPDATED_QUANTIDADE_AMOSTRAS = 2;
@@ -84,7 +89,7 @@ class OperacaoResourceIT {
     public static Operacao createEntity(EntityManager em) {
         Operacao operacao = new Operacao()
             .descricao(DEFAULT_DESCRICAO)
-            .volume(DEFAULT_VOLUME)
+            .volumePeso(DEFAULT_VOLUME_PESO)
             .inicio(DEFAULT_INICIO)
             .fim(DEFAULT_FIM)
             .quantidadeAmostras(DEFAULT_QUANTIDADE_AMOSTRAS)
@@ -111,7 +116,7 @@ class OperacaoResourceIT {
     public static Operacao createUpdatedEntity(EntityManager em) {
         Operacao operacao = new Operacao()
             .descricao(UPDATED_DESCRICAO)
-            .volume(UPDATED_VOLUME)
+            .volumePeso(UPDATED_VOLUME_PESO)
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
@@ -149,7 +154,7 @@ class OperacaoResourceIT {
         assertThat(operacaoList).hasSize(databaseSizeBeforeCreate + 1);
         Operacao testOperacao = operacaoList.get(operacaoList.size() - 1);
         assertThat(testOperacao.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
-        assertThat(testOperacao.getVolume()).isEqualTo(DEFAULT_VOLUME);
+        assertThat(testOperacao.getVolumePeso()).isEqualTo(DEFAULT_VOLUME_PESO);
         assertThat(testOperacao.getInicio()).isEqualTo(DEFAULT_INICIO);
         assertThat(testOperacao.getFim()).isEqualTo(DEFAULT_FIM);
         assertThat(testOperacao.getQuantidadeAmostras()).isEqualTo(DEFAULT_QUANTIDADE_AMOSTRAS);
@@ -195,10 +200,10 @@ class OperacaoResourceIT {
 
     @Test
     @Transactional
-    void checkVolumeIsRequired() throws Exception {
+    void checkVolumePesoIsRequired() throws Exception {
         int databaseSizeBeforeTest = operacaoRepository.findAll().size();
         // set the field null
-        operacao.setVolume(null);
+        operacao.setVolumePeso(null);
 
         // Create the Operacao, which fails.
         OperacaoDTO operacaoDTO = operacaoMapper.toDto(operacao);
@@ -242,9 +247,9 @@ class OperacaoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(operacao.getId().intValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
-            .andExpect(jsonPath("$.[*].volume").value(hasItem(DEFAULT_VOLUME)))
-            .andExpect(jsonPath("$.[*].inicio").value(hasItem(DEFAULT_INICIO.toString())))
-            .andExpect(jsonPath("$.[*].fim").value(hasItem(DEFAULT_FIM.toString())))
+            .andExpect(jsonPath("$.[*].volumePeso").value(hasItem(DEFAULT_VOLUME_PESO)))
+            .andExpect(jsonPath("$.[*].inicio").value(hasItem(sameInstant(DEFAULT_INICIO))))
+            .andExpect(jsonPath("$.[*].fim").value(hasItem(sameInstant(DEFAULT_FIM))))
             .andExpect(jsonPath("$.[*].quantidadeAmostras").value(hasItem(DEFAULT_QUANTIDADE_AMOSTRAS)))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)));
     }
@@ -262,9 +267,9 @@ class OperacaoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(operacao.getId().intValue()))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
-            .andExpect(jsonPath("$.volume").value(DEFAULT_VOLUME))
-            .andExpect(jsonPath("$.inicio").value(DEFAULT_INICIO.toString()))
-            .andExpect(jsonPath("$.fim").value(DEFAULT_FIM.toString()))
+            .andExpect(jsonPath("$.volumePeso").value(DEFAULT_VOLUME_PESO))
+            .andExpect(jsonPath("$.inicio").value(sameInstant(DEFAULT_INICIO)))
+            .andExpect(jsonPath("$.fim").value(sameInstant(DEFAULT_FIM)))
             .andExpect(jsonPath("$.quantidadeAmostras").value(DEFAULT_QUANTIDADE_AMOSTRAS))
             .andExpect(jsonPath("$.observacao").value(DEFAULT_OBSERVACAO));
     }
@@ -367,106 +372,106 @@ class OperacaoResourceIT {
 
     @Test
     @Transactional
-    void getAllOperacaosByVolumeIsEqualToSomething() throws Exception {
+    void getAllOperacaosByVolumePesoIsEqualToSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
 
-        // Get all the operacaoList where volume equals to DEFAULT_VOLUME
-        defaultOperacaoShouldBeFound("volume.equals=" + DEFAULT_VOLUME);
+        // Get all the operacaoList where volumePeso equals to DEFAULT_VOLUME_PESO
+        defaultOperacaoShouldBeFound("volumePeso.equals=" + DEFAULT_VOLUME_PESO);
 
-        // Get all the operacaoList where volume equals to UPDATED_VOLUME
-        defaultOperacaoShouldNotBeFound("volume.equals=" + UPDATED_VOLUME);
+        // Get all the operacaoList where volumePeso equals to UPDATED_VOLUME_PESO
+        defaultOperacaoShouldNotBeFound("volumePeso.equals=" + UPDATED_VOLUME_PESO);
     }
 
     @Test
     @Transactional
-    void getAllOperacaosByVolumeIsNotEqualToSomething() throws Exception {
+    void getAllOperacaosByVolumePesoIsNotEqualToSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
 
-        // Get all the operacaoList where volume not equals to DEFAULT_VOLUME
-        defaultOperacaoShouldNotBeFound("volume.notEquals=" + DEFAULT_VOLUME);
+        // Get all the operacaoList where volumePeso not equals to DEFAULT_VOLUME_PESO
+        defaultOperacaoShouldNotBeFound("volumePeso.notEquals=" + DEFAULT_VOLUME_PESO);
 
-        // Get all the operacaoList where volume not equals to UPDATED_VOLUME
-        defaultOperacaoShouldBeFound("volume.notEquals=" + UPDATED_VOLUME);
+        // Get all the operacaoList where volumePeso not equals to UPDATED_VOLUME_PESO
+        defaultOperacaoShouldBeFound("volumePeso.notEquals=" + UPDATED_VOLUME_PESO);
     }
 
     @Test
     @Transactional
-    void getAllOperacaosByVolumeIsInShouldWork() throws Exception {
+    void getAllOperacaosByVolumePesoIsInShouldWork() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
 
-        // Get all the operacaoList where volume in DEFAULT_VOLUME or UPDATED_VOLUME
-        defaultOperacaoShouldBeFound("volume.in=" + DEFAULT_VOLUME + "," + UPDATED_VOLUME);
+        // Get all the operacaoList where volumePeso in DEFAULT_VOLUME_PESO or UPDATED_VOLUME_PESO
+        defaultOperacaoShouldBeFound("volumePeso.in=" + DEFAULT_VOLUME_PESO + "," + UPDATED_VOLUME_PESO);
 
-        // Get all the operacaoList where volume equals to UPDATED_VOLUME
-        defaultOperacaoShouldNotBeFound("volume.in=" + UPDATED_VOLUME);
+        // Get all the operacaoList where volumePeso equals to UPDATED_VOLUME_PESO
+        defaultOperacaoShouldNotBeFound("volumePeso.in=" + UPDATED_VOLUME_PESO);
     }
 
     @Test
     @Transactional
-    void getAllOperacaosByVolumeIsNullOrNotNull() throws Exception {
+    void getAllOperacaosByVolumePesoIsNullOrNotNull() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
 
-        // Get all the operacaoList where volume is not null
-        defaultOperacaoShouldBeFound("volume.specified=true");
+        // Get all the operacaoList where volumePeso is not null
+        defaultOperacaoShouldBeFound("volumePeso.specified=true");
 
-        // Get all the operacaoList where volume is null
-        defaultOperacaoShouldNotBeFound("volume.specified=false");
+        // Get all the operacaoList where volumePeso is null
+        defaultOperacaoShouldNotBeFound("volumePeso.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllOperacaosByVolumeIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllOperacaosByVolumePesoIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
 
-        // Get all the operacaoList where volume is greater than or equal to DEFAULT_VOLUME
-        defaultOperacaoShouldBeFound("volume.greaterThanOrEqual=" + DEFAULT_VOLUME);
+        // Get all the operacaoList where volumePeso is greater than or equal to DEFAULT_VOLUME_PESO
+        defaultOperacaoShouldBeFound("volumePeso.greaterThanOrEqual=" + DEFAULT_VOLUME_PESO);
 
-        // Get all the operacaoList where volume is greater than or equal to UPDATED_VOLUME
-        defaultOperacaoShouldNotBeFound("volume.greaterThanOrEqual=" + UPDATED_VOLUME);
+        // Get all the operacaoList where volumePeso is greater than or equal to UPDATED_VOLUME_PESO
+        defaultOperacaoShouldNotBeFound("volumePeso.greaterThanOrEqual=" + UPDATED_VOLUME_PESO);
     }
 
     @Test
     @Transactional
-    void getAllOperacaosByVolumeIsLessThanOrEqualToSomething() throws Exception {
+    void getAllOperacaosByVolumePesoIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
 
-        // Get all the operacaoList where volume is less than or equal to DEFAULT_VOLUME
-        defaultOperacaoShouldBeFound("volume.lessThanOrEqual=" + DEFAULT_VOLUME);
+        // Get all the operacaoList where volumePeso is less than or equal to DEFAULT_VOLUME_PESO
+        defaultOperacaoShouldBeFound("volumePeso.lessThanOrEqual=" + DEFAULT_VOLUME_PESO);
 
-        // Get all the operacaoList where volume is less than or equal to SMALLER_VOLUME
-        defaultOperacaoShouldNotBeFound("volume.lessThanOrEqual=" + SMALLER_VOLUME);
+        // Get all the operacaoList where volumePeso is less than or equal to SMALLER_VOLUME_PESO
+        defaultOperacaoShouldNotBeFound("volumePeso.lessThanOrEqual=" + SMALLER_VOLUME_PESO);
     }
 
     @Test
     @Transactional
-    void getAllOperacaosByVolumeIsLessThanSomething() throws Exception {
+    void getAllOperacaosByVolumePesoIsLessThanSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
 
-        // Get all the operacaoList where volume is less than DEFAULT_VOLUME
-        defaultOperacaoShouldNotBeFound("volume.lessThan=" + DEFAULT_VOLUME);
+        // Get all the operacaoList where volumePeso is less than DEFAULT_VOLUME_PESO
+        defaultOperacaoShouldNotBeFound("volumePeso.lessThan=" + DEFAULT_VOLUME_PESO);
 
-        // Get all the operacaoList where volume is less than UPDATED_VOLUME
-        defaultOperacaoShouldBeFound("volume.lessThan=" + UPDATED_VOLUME);
+        // Get all the operacaoList where volumePeso is less than UPDATED_VOLUME_PESO
+        defaultOperacaoShouldBeFound("volumePeso.lessThan=" + UPDATED_VOLUME_PESO);
     }
 
     @Test
     @Transactional
-    void getAllOperacaosByVolumeIsGreaterThanSomething() throws Exception {
+    void getAllOperacaosByVolumePesoIsGreaterThanSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
 
-        // Get all the operacaoList where volume is greater than DEFAULT_VOLUME
-        defaultOperacaoShouldNotBeFound("volume.greaterThan=" + DEFAULT_VOLUME);
+        // Get all the operacaoList where volumePeso is greater than DEFAULT_VOLUME_PESO
+        defaultOperacaoShouldNotBeFound("volumePeso.greaterThan=" + DEFAULT_VOLUME_PESO);
 
-        // Get all the operacaoList where volume is greater than SMALLER_VOLUME
-        defaultOperacaoShouldBeFound("volume.greaterThan=" + SMALLER_VOLUME);
+        // Get all the operacaoList where volumePeso is greater than SMALLER_VOLUME_PESO
+        defaultOperacaoShouldBeFound("volumePeso.greaterThan=" + SMALLER_VOLUME_PESO);
     }
 
     @Test
@@ -523,6 +528,58 @@ class OperacaoResourceIT {
 
     @Test
     @Transactional
+    void getAllOperacaosByInicioIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where inicio is greater than or equal to DEFAULT_INICIO
+        defaultOperacaoShouldBeFound("inicio.greaterThanOrEqual=" + DEFAULT_INICIO);
+
+        // Get all the operacaoList where inicio is greater than or equal to UPDATED_INICIO
+        defaultOperacaoShouldNotBeFound("inicio.greaterThanOrEqual=" + UPDATED_INICIO);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByInicioIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where inicio is less than or equal to DEFAULT_INICIO
+        defaultOperacaoShouldBeFound("inicio.lessThanOrEqual=" + DEFAULT_INICIO);
+
+        // Get all the operacaoList where inicio is less than or equal to SMALLER_INICIO
+        defaultOperacaoShouldNotBeFound("inicio.lessThanOrEqual=" + SMALLER_INICIO);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByInicioIsLessThanSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where inicio is less than DEFAULT_INICIO
+        defaultOperacaoShouldNotBeFound("inicio.lessThan=" + DEFAULT_INICIO);
+
+        // Get all the operacaoList where inicio is less than UPDATED_INICIO
+        defaultOperacaoShouldBeFound("inicio.lessThan=" + UPDATED_INICIO);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByInicioIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where inicio is greater than DEFAULT_INICIO
+        defaultOperacaoShouldNotBeFound("inicio.greaterThan=" + DEFAULT_INICIO);
+
+        // Get all the operacaoList where inicio is greater than SMALLER_INICIO
+        defaultOperacaoShouldBeFound("inicio.greaterThan=" + SMALLER_INICIO);
+    }
+
+    @Test
+    @Transactional
     void getAllOperacaosByFimIsEqualToSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
@@ -571,6 +628,58 @@ class OperacaoResourceIT {
 
         // Get all the operacaoList where fim is null
         defaultOperacaoShouldNotBeFound("fim.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByFimIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where fim is greater than or equal to DEFAULT_FIM
+        defaultOperacaoShouldBeFound("fim.greaterThanOrEqual=" + DEFAULT_FIM);
+
+        // Get all the operacaoList where fim is greater than or equal to UPDATED_FIM
+        defaultOperacaoShouldNotBeFound("fim.greaterThanOrEqual=" + UPDATED_FIM);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByFimIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where fim is less than or equal to DEFAULT_FIM
+        defaultOperacaoShouldBeFound("fim.lessThanOrEqual=" + DEFAULT_FIM);
+
+        // Get all the operacaoList where fim is less than or equal to SMALLER_FIM
+        defaultOperacaoShouldNotBeFound("fim.lessThanOrEqual=" + SMALLER_FIM);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByFimIsLessThanSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where fim is less than DEFAULT_FIM
+        defaultOperacaoShouldNotBeFound("fim.lessThan=" + DEFAULT_FIM);
+
+        // Get all the operacaoList where fim is less than UPDATED_FIM
+        defaultOperacaoShouldBeFound("fim.lessThan=" + UPDATED_FIM);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByFimIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where fim is greater than DEFAULT_FIM
+        defaultOperacaoShouldNotBeFound("fim.greaterThan=" + DEFAULT_FIM);
+
+        // Get all the operacaoList where fim is greater than SMALLER_FIM
+        defaultOperacaoShouldBeFound("fim.greaterThan=" + SMALLER_FIM);
     }
 
     @Test
@@ -791,9 +900,9 @@ class OperacaoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(operacao.getId().intValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
-            .andExpect(jsonPath("$.[*].volume").value(hasItem(DEFAULT_VOLUME)))
-            .andExpect(jsonPath("$.[*].inicio").value(hasItem(DEFAULT_INICIO.toString())))
-            .andExpect(jsonPath("$.[*].fim").value(hasItem(DEFAULT_FIM.toString())))
+            .andExpect(jsonPath("$.[*].volumePeso").value(hasItem(DEFAULT_VOLUME_PESO)))
+            .andExpect(jsonPath("$.[*].inicio").value(hasItem(sameInstant(DEFAULT_INICIO))))
+            .andExpect(jsonPath("$.[*].fim").value(hasItem(sameInstant(DEFAULT_FIM))))
             .andExpect(jsonPath("$.[*].quantidadeAmostras").value(hasItem(DEFAULT_QUANTIDADE_AMOSTRAS)))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)));
 
@@ -845,7 +954,7 @@ class OperacaoResourceIT {
         em.detach(updatedOperacao);
         updatedOperacao
             .descricao(UPDATED_DESCRICAO)
-            .volume(UPDATED_VOLUME)
+            .volumePeso(UPDATED_VOLUME_PESO)
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
@@ -865,7 +974,7 @@ class OperacaoResourceIT {
         assertThat(operacaoList).hasSize(databaseSizeBeforeUpdate);
         Operacao testOperacao = operacaoList.get(operacaoList.size() - 1);
         assertThat(testOperacao.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testOperacao.getVolume()).isEqualTo(UPDATED_VOLUME);
+        assertThat(testOperacao.getVolumePeso()).isEqualTo(UPDATED_VOLUME_PESO);
         assertThat(testOperacao.getInicio()).isEqualTo(UPDATED_INICIO);
         assertThat(testOperacao.getFim()).isEqualTo(UPDATED_FIM);
         assertThat(testOperacao.getQuantidadeAmostras()).isEqualTo(UPDATED_QUANTIDADE_AMOSTRAS);
@@ -964,7 +1073,7 @@ class OperacaoResourceIT {
         assertThat(operacaoList).hasSize(databaseSizeBeforeUpdate);
         Operacao testOperacao = operacaoList.get(operacaoList.size() - 1);
         assertThat(testOperacao.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testOperacao.getVolume()).isEqualTo(DEFAULT_VOLUME);
+        assertThat(testOperacao.getVolumePeso()).isEqualTo(DEFAULT_VOLUME_PESO);
         assertThat(testOperacao.getInicio()).isEqualTo(DEFAULT_INICIO);
         assertThat(testOperacao.getFim()).isEqualTo(UPDATED_FIM);
         assertThat(testOperacao.getQuantidadeAmostras()).isEqualTo(DEFAULT_QUANTIDADE_AMOSTRAS);
@@ -985,7 +1094,7 @@ class OperacaoResourceIT {
 
         partialUpdatedOperacao
             .descricao(UPDATED_DESCRICAO)
-            .volume(UPDATED_VOLUME)
+            .volumePeso(UPDATED_VOLUME_PESO)
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
@@ -1004,7 +1113,7 @@ class OperacaoResourceIT {
         assertThat(operacaoList).hasSize(databaseSizeBeforeUpdate);
         Operacao testOperacao = operacaoList.get(operacaoList.size() - 1);
         assertThat(testOperacao.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testOperacao.getVolume()).isEqualTo(UPDATED_VOLUME);
+        assertThat(testOperacao.getVolumePeso()).isEqualTo(UPDATED_VOLUME_PESO);
         assertThat(testOperacao.getInicio()).isEqualTo(UPDATED_INICIO);
         assertThat(testOperacao.getFim()).isEqualTo(UPDATED_FIM);
         assertThat(testOperacao.getQuantidadeAmostras()).isEqualTo(UPDATED_QUANTIDADE_AMOSTRAS);

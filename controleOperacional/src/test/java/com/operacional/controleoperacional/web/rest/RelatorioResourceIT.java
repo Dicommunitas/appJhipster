@@ -158,7 +158,7 @@ class RelatorioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(relatorio.getId().intValue())))
             .andExpect(jsonPath("$.[*].relato").value(hasItem(DEFAULT_RELATO.toString())))
-            .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS)));
+            .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS.toString())));
     }
 
     @Test
@@ -174,7 +174,7 @@ class RelatorioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(relatorio.getId().intValue()))
             .andExpect(jsonPath("$.relato").value(DEFAULT_RELATO.toString()))
-            .andExpect(jsonPath("$.linksExternos").value(DEFAULT_LINKS_EXTERNOS));
+            .andExpect(jsonPath("$.linksExternos").value(DEFAULT_LINKS_EXTERNOS.toString()));
     }
 
     @Test
@@ -193,84 +193,6 @@ class RelatorioResourceIT {
 
         defaultRelatorioShouldBeFound("id.lessThanOrEqual=" + id);
         defaultRelatorioShouldNotBeFound("id.lessThan=" + id);
-    }
-
-    @Test
-    @Transactional
-    void getAllRelatoriosByLinksExternosIsEqualToSomething() throws Exception {
-        // Initialize the database
-        relatorioRepository.saveAndFlush(relatorio);
-
-        // Get all the relatorioList where linksExternos equals to DEFAULT_LINKS_EXTERNOS
-        defaultRelatorioShouldBeFound("linksExternos.equals=" + DEFAULT_LINKS_EXTERNOS);
-
-        // Get all the relatorioList where linksExternos equals to UPDATED_LINKS_EXTERNOS
-        defaultRelatorioShouldNotBeFound("linksExternos.equals=" + UPDATED_LINKS_EXTERNOS);
-    }
-
-    @Test
-    @Transactional
-    void getAllRelatoriosByLinksExternosIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        relatorioRepository.saveAndFlush(relatorio);
-
-        // Get all the relatorioList where linksExternos not equals to DEFAULT_LINKS_EXTERNOS
-        defaultRelatorioShouldNotBeFound("linksExternos.notEquals=" + DEFAULT_LINKS_EXTERNOS);
-
-        // Get all the relatorioList where linksExternos not equals to UPDATED_LINKS_EXTERNOS
-        defaultRelatorioShouldBeFound("linksExternos.notEquals=" + UPDATED_LINKS_EXTERNOS);
-    }
-
-    @Test
-    @Transactional
-    void getAllRelatoriosByLinksExternosIsInShouldWork() throws Exception {
-        // Initialize the database
-        relatorioRepository.saveAndFlush(relatorio);
-
-        // Get all the relatorioList where linksExternos in DEFAULT_LINKS_EXTERNOS or UPDATED_LINKS_EXTERNOS
-        defaultRelatorioShouldBeFound("linksExternos.in=" + DEFAULT_LINKS_EXTERNOS + "," + UPDATED_LINKS_EXTERNOS);
-
-        // Get all the relatorioList where linksExternos equals to UPDATED_LINKS_EXTERNOS
-        defaultRelatorioShouldNotBeFound("linksExternos.in=" + UPDATED_LINKS_EXTERNOS);
-    }
-
-    @Test
-    @Transactional
-    void getAllRelatoriosByLinksExternosIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        relatorioRepository.saveAndFlush(relatorio);
-
-        // Get all the relatorioList where linksExternos is not null
-        defaultRelatorioShouldBeFound("linksExternos.specified=true");
-
-        // Get all the relatorioList where linksExternos is null
-        defaultRelatorioShouldNotBeFound("linksExternos.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllRelatoriosByLinksExternosContainsSomething() throws Exception {
-        // Initialize the database
-        relatorioRepository.saveAndFlush(relatorio);
-
-        // Get all the relatorioList where linksExternos contains DEFAULT_LINKS_EXTERNOS
-        defaultRelatorioShouldBeFound("linksExternos.contains=" + DEFAULT_LINKS_EXTERNOS);
-
-        // Get all the relatorioList where linksExternos contains UPDATED_LINKS_EXTERNOS
-        defaultRelatorioShouldNotBeFound("linksExternos.contains=" + UPDATED_LINKS_EXTERNOS);
-    }
-
-    @Test
-    @Transactional
-    void getAllRelatoriosByLinksExternosNotContainsSomething() throws Exception {
-        // Initialize the database
-        relatorioRepository.saveAndFlush(relatorio);
-
-        // Get all the relatorioList where linksExternos does not contain DEFAULT_LINKS_EXTERNOS
-        defaultRelatorioShouldNotBeFound("linksExternos.doesNotContain=" + DEFAULT_LINKS_EXTERNOS);
-
-        // Get all the relatorioList where linksExternos does not contain UPDATED_LINKS_EXTERNOS
-        defaultRelatorioShouldBeFound("linksExternos.doesNotContain=" + UPDATED_LINKS_EXTERNOS);
     }
 
     @Test
@@ -335,7 +257,7 @@ class RelatorioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(relatorio.getId().intValue())))
             .andExpect(jsonPath("$.[*].relato").value(hasItem(DEFAULT_RELATO.toString())))
-            .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS)));
+            .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS.toString())));
 
         // Check, that the count call also returns 1
         restRelatorioMockMvc

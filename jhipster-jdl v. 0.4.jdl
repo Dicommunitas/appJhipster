@@ -63,6 +63,7 @@ application {
   }
   entities *
   paginate Produto, Amostra, Operacao, Problema, Relatorio with infinite-scroll
+  //paginate * with pagination
   //paginate Produto with pagination
   //paginate FinalidadeAmostra with pager  
   // pager is only available in AngularJS
@@ -675,7 +676,7 @@ relationship OneToMany {
 	* Descreve quais serão as finalidades de uma amostra
 	*/
 	Amostra{finalidades(lacre)} 
-    	to FinalidadeAmostra{amostra(operacao) required}
+    	to FinalidadeAmostra{amostra(dataHora) required}
 }
 
 //define vários relacionamentos ManyToMany com comentários
@@ -702,7 +703,7 @@ relationship OneToOne {
 	/**
 	* Irá ligar usuário ao User
 	*/
-	Usuario{user(email) required} to User
+	Usuario{user(login) required} to User
 
 }
 

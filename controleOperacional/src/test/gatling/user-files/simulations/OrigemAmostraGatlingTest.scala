@@ -72,7 +72,6 @@ class OrigemAmostraGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "descricao":"SAMPLE_TEXT"
-                , "emUso":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_origemAmostra_url"))).exitHereIfFailed

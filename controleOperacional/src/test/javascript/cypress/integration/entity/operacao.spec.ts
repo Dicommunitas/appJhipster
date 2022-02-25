@@ -16,7 +16,7 @@ describe('Operacao e2e test', () => {
   const operacaoPageUrlPattern = new RegExp('/operacao(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const operacaoSample = { descricao: 'set', volume: 722, quantidadeAmostras: 62873 };
+  const operacaoSample = { descricao: 'set', volumePeso: 722, quantidadeAmostras: 62873 };
 
   let operacao: any;
   let tipoOperacao: any;
@@ -190,11 +190,11 @@ describe('Operacao e2e test', () => {
     it('should create an instance of Operacao', () => {
       cy.get(`[data-cy="descricao"]`).type('quantify parallelism').should('have.value', 'quantify parallelism');
 
-      cy.get(`[data-cy="volume"]`).type('14105').should('have.value', '14105');
+      cy.get(`[data-cy="volumePeso"]`).type('14105').should('have.value', '14105');
 
-      cy.get(`[data-cy="inicio"]`).type('2022-02-04T06:36').should('have.value', '2022-02-04T06:36');
+      cy.get(`[data-cy="inicio"]`).type('2022-02-24T22:58').should('have.value', '2022-02-24T22:58');
 
-      cy.get(`[data-cy="fim"]`).type('2022-02-04T07:57').should('have.value', '2022-02-04T07:57');
+      cy.get(`[data-cy="fim"]`).type('2022-02-25T00:19').should('have.value', '2022-02-25T00:19');
 
       cy.get(`[data-cy="quantidadeAmostras"]`).type('60880').should('have.value', '60880');
 

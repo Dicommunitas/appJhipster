@@ -18,15 +18,13 @@
         "title": "Lembrete"
       },
       "id": "ID",
-      "data": "Data",
       "nome": "Nome",
-      "texto": "Texto",
+      "descricao": "Descricao",
       "tipoRelatorio": "Tipo Relatorio",
       "tipoOperacao": "Tipo Operacao",
       "help": {
-        "data": "Atributo data.\nA data em que o Lembrete foi criado",
-        "nome": "Atributo nome.\nnome do lembrete",
-        "texto": "Atributo texto.\nLembretes diversos"
+        "nome": "Nome dado para o lembrete",
+        "descricao": "Lembrete de apoio para relatório e/ou operação."
       }
     }
   }

@@ -7,10 +7,10 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.ZonedDateTimeFilter;
 
 /**
  * Criteria class for the {@link com.operacional.controleoperacional.domain.Operacao} entity. This class is used
@@ -29,11 +29,11 @@ public class OperacaoCriteria implements Serializable, Criteria {
 
     private StringFilter descricao;
 
-    private IntegerFilter volume;
+    private IntegerFilter volumePeso;
 
-    private InstantFilter inicio;
+    private ZonedDateTimeFilter inicio;
 
-    private InstantFilter fim;
+    private ZonedDateTimeFilter fim;
 
     private IntegerFilter quantidadeAmostras;
 
@@ -48,7 +48,7 @@ public class OperacaoCriteria implements Serializable, Criteria {
     public OperacaoCriteria(OperacaoCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.descricao = other.descricao == null ? null : other.descricao.copy();
-        this.volume = other.volume == null ? null : other.volume.copy();
+        this.volumePeso = other.volumePeso == null ? null : other.volumePeso.copy();
         this.inicio = other.inicio == null ? null : other.inicio.copy();
         this.fim = other.fim == null ? null : other.fim.copy();
         this.quantidadeAmostras = other.quantidadeAmostras == null ? null : other.quantidadeAmostras.copy();
@@ -92,48 +92,48 @@ public class OperacaoCriteria implements Serializable, Criteria {
         this.descricao = descricao;
     }
 
-    public IntegerFilter getVolume() {
-        return volume;
+    public IntegerFilter getVolumePeso() {
+        return volumePeso;
     }
 
-    public IntegerFilter volume() {
-        if (volume == null) {
-            volume = new IntegerFilter();
+    public IntegerFilter volumePeso() {
+        if (volumePeso == null) {
+            volumePeso = new IntegerFilter();
         }
-        return volume;
+        return volumePeso;
     }
 
-    public void setVolume(IntegerFilter volume) {
-        this.volume = volume;
+    public void setVolumePeso(IntegerFilter volumePeso) {
+        this.volumePeso = volumePeso;
     }
 
-    public InstantFilter getInicio() {
+    public ZonedDateTimeFilter getInicio() {
         return inicio;
     }
 
-    public InstantFilter inicio() {
+    public ZonedDateTimeFilter inicio() {
         if (inicio == null) {
-            inicio = new InstantFilter();
+            inicio = new ZonedDateTimeFilter();
         }
         return inicio;
     }
 
-    public void setInicio(InstantFilter inicio) {
+    public void setInicio(ZonedDateTimeFilter inicio) {
         this.inicio = inicio;
     }
 
-    public InstantFilter getFim() {
+    public ZonedDateTimeFilter getFim() {
         return fim;
     }
 
-    public InstantFilter fim() {
+    public ZonedDateTimeFilter fim() {
         if (fim == null) {
-            fim = new InstantFilter();
+            fim = new ZonedDateTimeFilter();
         }
         return fim;
     }
 
-    public void setFim(InstantFilter fim) {
+    public void setFim(ZonedDateTimeFilter fim) {
         this.fim = fim;
     }
 
@@ -202,7 +202,7 @@ public class OperacaoCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(descricao, that.descricao) &&
-            Objects.equals(volume, that.volume) &&
+            Objects.equals(volumePeso, that.volumePeso) &&
             Objects.equals(inicio, that.inicio) &&
             Objects.equals(fim, that.fim) &&
             Objects.equals(quantidadeAmostras, that.quantidadeAmostras) &&
@@ -214,7 +214,7 @@ public class OperacaoCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descricao, volume, inicio, fim, quantidadeAmostras, observacao, tipoOperacaoId, distinct);
+        return Objects.hash(id, descricao, volumePeso, inicio, fim, quantidadeAmostras, observacao, tipoOperacaoId, distinct);
     }
 
     // prettier-ignore
@@ -223,7 +223,7 @@ public class OperacaoCriteria implements Serializable, Criteria {
         return "OperacaoCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (descricao != null ? "descricao=" + descricao + ", " : "") +
-            (volume != null ? "volume=" + volume + ", " : "") +
+            (volumePeso != null ? "volumePeso=" + volumePeso + ", " : "") +
             (inicio != null ? "inicio=" + inicio + ", " : "") +
             (fim != null ? "fim=" + fim + ", " : "") +
             (quantidadeAmostras != null ? "quantidadeAmostras=" + quantidadeAmostras + ", " : "") +

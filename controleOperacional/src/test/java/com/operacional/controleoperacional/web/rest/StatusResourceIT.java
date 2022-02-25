@@ -1,6 +1,5 @@
 package com.operacional.controleoperacional.web.rest;
 
-import static com.operacional.controleoperacional.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -13,10 +12,8 @@ import com.operacional.controleoperacional.domain.Usuario;
 import com.operacional.controleoperacional.repository.StatusRepository;
 import com.operacional.controleoperacional.service.dto.StatusDTO;
 import com.operacional.controleoperacional.service.mapper.StatusMapper;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link StatusResource} REST controller.
@@ -41,8 +39,8 @@ class StatusResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_PRAZO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_PRAZO = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_PRAZO = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_PRAZO = LocalDate.now(ZoneId.systemDefault());
 
     private static final Boolean DEFAULT_RESOLVIDO = false;
     private static final Boolean UPDATED_RESOLVIDO = true;
@@ -178,24 +176,6 @@ class StatusResourceIT {
 
     @Test
     @Transactional
-    void checkDescricaoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = statusRepository.findAll().size();
-        // set the field null
-        status.setDescricao(null);
-
-        // Create the Status, which fails.
-        StatusDTO statusDTO = statusMapper.toDto(status);
-
-        restStatusMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(statusDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Status> statusList = statusRepository.findAll();
-        assertThat(statusList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void checkPrazoIsRequired() throws Exception {
         int databaseSizeBeforeTest = statusRepository.findAll().size();
         // set the field null
@@ -224,8 +204,8 @@ class StatusResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(status.getId().intValue())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
-            .andExpect(jsonPath("$.[*].prazo").value(hasItem(sameInstant(DEFAULT_PRAZO))))
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].prazo").value(hasItem(DEFAULT_PRAZO.toString())))
             .andExpect(jsonPath("$.[*].resolvido").value(hasItem(DEFAULT_RESOLVIDO.booleanValue())));
     }
 
@@ -241,8 +221,8 @@ class StatusResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(status.getId().intValue()))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
-            .andExpect(jsonPath("$.prazo").value(sameInstant(DEFAULT_PRAZO)))
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.prazo").value(DEFAULT_PRAZO.toString()))
             .andExpect(jsonPath("$.resolvido").value(DEFAULT_RESOLVIDO.booleanValue()));
     }
 

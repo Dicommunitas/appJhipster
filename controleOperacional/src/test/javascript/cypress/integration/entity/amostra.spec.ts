@@ -39,7 +39,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/operacaos',
-      body: {"descricao":"Orchestrator","volume":32077,"inicio":"2022-02-03T16:54:45.755Z","fim":"2022-02-04T05:50:08.791Z","quantidadeAmostras":73104,"observacao":"payment TCP"},
+      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-02-24T09:16:48.755Z","fim":"2022-02-24T22:12:11.791Z","quantidadeAmostras":73104,"observacao":"payment TCP"},
     }).then(({ body }) => {
       operacao = body;
     });
@@ -47,7 +47,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/origem-amostras',
-      body: {"descricao":"Catarina navigate","emUso":false},
+      body: {"descricao":"Catarina navigate"},
     }).then(({ body }) => {
       origemAmostra = body;
     });
@@ -55,7 +55,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/produtos',
-      body: {"codigo":"Cas","nomeCurto":"Turismo virtual maximized","nomeCompleto":"optical SQL"},
+      body: {"codigoBDEMQ":"Cas","nomeCurto":"Turismo virtual maximized","nomeCompleto":"optical SQL"},
     }).then(({ body }) => {
       produto = body;
     });
@@ -286,7 +286,7 @@ describe('Amostra e2e test', () => {
     });
 
     it.skip('should create an instance of Amostra', () => {
-      cy.get(`[data-cy="dataHora"]`).type('2022-02-04T04:21').should('have.value', '2022-02-04T04:21');
+      cy.get(`[data-cy="dataHora"]`).type('2022-02-24T20:43').should('have.value', '2022-02-24T20:43');
 
       cy.get(`[data-cy="observacao"]`).type('Filipinas').should('have.value', 'Filipinas');
 

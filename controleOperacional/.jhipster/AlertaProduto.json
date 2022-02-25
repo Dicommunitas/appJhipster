@@ -4,6 +4,7 @@
     {
       "fieldName": "descricao",
       "fieldType": "String",
+      "javadoc": "Descreve um alerta para ser usado nos produtos,\\nalgo que deva ser tratado com cuidado.",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -27,5 +28,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204161831"
+  "changelogDate": "20220225084034"
 }

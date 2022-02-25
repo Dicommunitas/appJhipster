@@ -16,7 +16,7 @@ describe('Produto e2e test', () => {
   const produtoPageUrlPattern = new RegExp('/produto(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const produtoSample = { codigo: 'unl', nomeCurto: 'Account Libéria', nomeCompleto: 'pixel navigate Luvas' };
+  const produtoSample = { codigoBDEMQ: 'unl', nomeCurto: 'Account Libéria', nomeCompleto: 'pixel navigate Luvas' };
 
   let produto: any;
 
@@ -153,7 +153,7 @@ describe('Produto e2e test', () => {
     });
 
     it('should create an instance of Produto', () => {
-      cy.get(`[data-cy="codigo"]`).type('pro').should('have.value', 'pro');
+      cy.get(`[data-cy="codigoBDEMQ"]`).type('pro').should('have.value', 'pro');
 
       cy.get(`[data-cy="nomeCurto"]`).type('bi-directional Licenciado connect').should('have.value', 'bi-directional Licenciado connect');
 

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { Criticidade } from 'app/entities/enumerations/criticidade.model';
 import { IProblema, Problema } from '../problema.model';
 
@@ -26,10 +26,7 @@ describe('Problema Service', () => {
 
     elemDefault = {
       id: 0,
-      dataZonedDateTime: currentDate,
-      dataLocalDate: currentDate,
-      dataInstant: currentDate,
-      dataDuration: 'PT1S',
+      data: currentDate,
       descricao: 'AAAAAAA',
       criticidade: Criticidade.BAIXA,
       aceitarFinalizacao: false,
@@ -43,9 +40,7 @@ describe('Problema Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          dataZonedDateTime: currentDate.format(DATE_TIME_FORMAT),
-          dataLocalDate: currentDate.format(DATE_FORMAT),
-          dataInstant: currentDate.format(DATE_TIME_FORMAT),
+          data: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -61,18 +56,14 @@ describe('Problema Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          dataZonedDateTime: currentDate.format(DATE_TIME_FORMAT),
-          dataLocalDate: currentDate.format(DATE_FORMAT),
-          dataInstant: currentDate.format(DATE_TIME_FORMAT),
+          data: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
 
       const expected = Object.assign(
         {
-          dataZonedDateTime: currentDate,
-          dataLocalDate: currentDate,
-          dataInstant: currentDate,
+          data: currentDate,
         },
         returnedFromService
       );
@@ -88,10 +79,7 @@ describe('Problema Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          dataZonedDateTime: currentDate.format(DATE_TIME_FORMAT),
-          dataLocalDate: currentDate.format(DATE_FORMAT),
-          dataInstant: currentDate.format(DATE_TIME_FORMAT),
-          dataDuration: 'BBBBBB',
+          data: currentDate.format(DATE_FORMAT),
           descricao: 'BBBBBB',
           criticidade: 'BBBBBB',
           aceitarFinalizacao: true,
@@ -103,9 +91,7 @@ describe('Problema Service', () => {
 
       const expected = Object.assign(
         {
-          dataZonedDateTime: currentDate,
-          dataLocalDate: currentDate,
-          dataInstant: currentDate,
+          data: currentDate,
         },
         returnedFromService
       );
@@ -120,12 +106,10 @@ describe('Problema Service', () => {
     it('should partial update a Problema', () => {
       const patchObject = Object.assign(
         {
-          dataZonedDateTime: currentDate.format(DATE_TIME_FORMAT),
-          dataLocalDate: currentDate.format(DATE_FORMAT),
+          data: currentDate.format(DATE_FORMAT),
           descricao: 'BBBBBB',
-          criticidade: 'BBBBBB',
-          aceitarFinalizacao: true,
           foto: 'BBBBBB',
+          impacto: 'BBBBBB',
         },
         new Problema()
       );
@@ -134,9 +118,7 @@ describe('Problema Service', () => {
 
       const expected = Object.assign(
         {
-          dataZonedDateTime: currentDate,
-          dataLocalDate: currentDate,
-          dataInstant: currentDate,
+          data: currentDate,
         },
         returnedFromService
       );
@@ -152,10 +134,7 @@ describe('Problema Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          dataZonedDateTime: currentDate.format(DATE_TIME_FORMAT),
-          dataLocalDate: currentDate.format(DATE_FORMAT),
-          dataInstant: currentDate.format(DATE_TIME_FORMAT),
-          dataDuration: 'BBBBBB',
+          data: currentDate.format(DATE_FORMAT),
           descricao: 'BBBBBB',
           criticidade: 'BBBBBB',
           aceitarFinalizacao: true,
@@ -167,9 +146,7 @@ describe('Problema Service', () => {
 
       const expected = Object.assign(
         {
-          dataZonedDateTime: currentDate,
-          dataLocalDate: currentDate,
-          dataInstant: currentDate,
+          data: currentDate,
         },
         returnedFromService
       );
@@ -219,7 +196,7 @@ describe('Problema Service', () => {
       });
 
       it('should add only unique Problema to an array', () => {
-        const problemaArray: IProblema[] = [{ id: 123 }, { id: 456 }, { id: 49433 }];
+        const problemaArray: IProblema[] = [{ id: 123 }, { id: 456 }, { id: 85340 }];
         const problemaCollection: IProblema[] = [{ id: 123 }];
         expectedResult = service.addProblemaToCollectionIfMissing(problemaCollection, ...problemaArray);
         expect(expectedResult).toHaveLength(3);

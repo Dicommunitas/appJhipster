@@ -3,8 +3,9 @@ package com.operacional.controleoperacional.service.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
+import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
 /**
@@ -18,23 +19,27 @@ public class StatusDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.\nDescreve o status, a situação atual que está sendo tratada.
+     * Descreve o status, a situação atual que está sendo tratada.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.
      */
-    @NotNull
-    @ApiModelProperty(value = "Atributo descrição.\nDescreve o status, a situação atual que está sendo tratada.", required = true)
+
+    @ApiModelProperty(
+        value = "Descreve o status, a situação atual que está sendo tratada.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.",
+        required = true
+    )
+    @Lob
     private String descricao;
 
     /**
-     * Atributo prazo.\nO prazo em que o status deve ser resolvido
+     * O prazo em que o status deve ser resolvido
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo prazo.\nO prazo em que o status deve ser resolvido", required = true)
-    private ZonedDateTime prazo;
+    @ApiModelProperty(value = "O prazo em que o status deve ser resolvido", required = true)
+    private LocalDate prazo;
 
     /**
-     * Atributo resolvido.\nIndica se o status foi ou não resolvido.
+     * Indica se o status foi ou não resolvido.
      */
-    @ApiModelProperty(value = "Atributo resolvido.\nIndica se o status foi ou não resolvido.")
+    @ApiModelProperty(value = "Indica se o status foi ou não resolvido.")
     private Boolean resolvido;
 
     private UsuarioDTO relator;
@@ -59,11 +64,11 @@ public class StatusDTO implements Serializable {
         this.descricao = descricao;
     }
 
-    public ZonedDateTime getPrazo() {
+    public LocalDate getPrazo() {
         return prazo;
     }
 
-    public void setPrazo(ZonedDateTime prazo) {
+    public void setPrazo(LocalDate prazo) {
         this.prazo = prazo;
     }
 

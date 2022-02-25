@@ -4,7 +4,7 @@
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Atributo descrição.",
+      "javadoc": "Deve descrever de forma simples de qual tipo é a amostra.",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -19,5 +19,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204162731"
+  "changelogDate": "20220225084934"
 }

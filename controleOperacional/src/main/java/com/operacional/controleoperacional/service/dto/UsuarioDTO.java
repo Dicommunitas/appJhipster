@@ -3,6 +3,7 @@ package com.operacional.controleoperacional.service.dto;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
 /**
@@ -13,24 +14,27 @@ public class UsuarioDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo chave.\nA chave do usuário
+     * Chave do usuário, deve ter 4 caracteres.
      */
     @NotNull
     @Size(min = 4, max = 4)
-    @ApiModelProperty(value = "Atributo chave.\nA chave do usuário", required = true)
+    @ApiModelProperty(value = "Chave do usuário, deve ter 4 caracteres.", required = true)
     private String chave;
 
     /**
-     * Atributo nome.\nO nome do usuário
+     * Nome do usuário.
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo nome.\nO nome do usuário", required = true)
+    @ApiModelProperty(value = "Nome do usuário.", required = true)
     private String nome;
 
     /**
-     * Atributo linksExternos.\nVerificar a viabilidade de usar iframe
+     * Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o usuário.
      */
-    @ApiModelProperty(value = "Atributo linksExternos.\nVerificar a viabilidade de usar iframe")
+    @ApiModelProperty(
+        value = "Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o usuário."
+    )
+    @Lob
     private String linksExternos;
 
     private UserDTO user;

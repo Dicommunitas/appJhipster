@@ -21,7 +21,7 @@
       "nome": "Nome",
       "usuariosAut": "Usuarios Aut",
       "help": {
-        "nome": "Atributo descrição."
+        "nome": "Nome dado ao grupo de relatórios."
       }
     }
   }

@@ -34,9 +34,6 @@ class OrigemAmostraResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_EM_USO = false;
-    private static final Boolean UPDATED_EM_USO = true;
-
     private static final String ENTITY_API_URL = "/api/origem-amostras";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -64,7 +61,7 @@ class OrigemAmostraResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static OrigemAmostra createEntity(EntityManager em) {
-        OrigemAmostra origemAmostra = new OrigemAmostra().descricao(DEFAULT_DESCRICAO).emUso(DEFAULT_EM_USO);
+        OrigemAmostra origemAmostra = new OrigemAmostra().descricao(DEFAULT_DESCRICAO);
         return origemAmostra;
     }
 
@@ -75,7 +72,7 @@ class OrigemAmostraResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static OrigemAmostra createUpdatedEntity(EntityManager em) {
-        OrigemAmostra origemAmostra = new OrigemAmostra().descricao(UPDATED_DESCRICAO).emUso(UPDATED_EM_USO);
+        OrigemAmostra origemAmostra = new OrigemAmostra().descricao(UPDATED_DESCRICAO);
         return origemAmostra;
     }
 
@@ -101,7 +98,6 @@ class OrigemAmostraResourceIT {
         assertThat(origemAmostraList).hasSize(databaseSizeBeforeCreate + 1);
         OrigemAmostra testOrigemAmostra = origemAmostraList.get(origemAmostraList.size() - 1);
         assertThat(testOrigemAmostra.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
-        assertThat(testOrigemAmostra.getEmUso()).isEqualTo(DEFAULT_EM_USO);
     }
 
     @Test
@@ -147,26 +143,6 @@ class OrigemAmostraResourceIT {
 
     @Test
     @Transactional
-    void checkEmUsoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = origemAmostraRepository.findAll().size();
-        // set the field null
-        origemAmostra.setEmUso(null);
-
-        // Create the OrigemAmostra, which fails.
-        OrigemAmostraDTO origemAmostraDTO = origemAmostraMapper.toDto(origemAmostra);
-
-        restOrigemAmostraMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(origemAmostraDTO))
-            )
-            .andExpect(status().isBadRequest());
-
-        List<OrigemAmostra> origemAmostraList = origemAmostraRepository.findAll();
-        assertThat(origemAmostraList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllOrigemAmostras() throws Exception {
         // Initialize the database
         origemAmostraRepository.saveAndFlush(origemAmostra);
@@ -177,8 +153,7 @@ class OrigemAmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(origemAmostra.getId().intValue())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
-            .andExpect(jsonPath("$.[*].emUso").value(hasItem(DEFAULT_EM_USO.booleanValue())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)));
     }
 
     @Test
@@ -193,8 +168,7 @@ class OrigemAmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(origemAmostra.getId().intValue()))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
-            .andExpect(jsonPath("$.emUso").value(DEFAULT_EM_USO.booleanValue()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO));
     }
 
     @Test
@@ -216,7 +190,7 @@ class OrigemAmostraResourceIT {
         OrigemAmostra updatedOrigemAmostra = origemAmostraRepository.findById(origemAmostra.getId()).get();
         // Disconnect from session so that the updates on updatedOrigemAmostra are not directly saved in db
         em.detach(updatedOrigemAmostra);
-        updatedOrigemAmostra.descricao(UPDATED_DESCRICAO).emUso(UPDATED_EM_USO);
+        updatedOrigemAmostra.descricao(UPDATED_DESCRICAO);
         OrigemAmostraDTO origemAmostraDTO = origemAmostraMapper.toDto(updatedOrigemAmostra);
 
         restOrigemAmostraMockMvc
@@ -232,7 +206,6 @@ class OrigemAmostraResourceIT {
         assertThat(origemAmostraList).hasSize(databaseSizeBeforeUpdate);
         OrigemAmostra testOrigemAmostra = origemAmostraList.get(origemAmostraList.size() - 1);
         assertThat(testOrigemAmostra.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testOrigemAmostra.getEmUso()).isEqualTo(UPDATED_EM_USO);
     }
 
     @Test
@@ -314,7 +287,7 @@ class OrigemAmostraResourceIT {
         OrigemAmostra partialUpdatedOrigemAmostra = new OrigemAmostra();
         partialUpdatedOrigemAmostra.setId(origemAmostra.getId());
 
-        partialUpdatedOrigemAmostra.descricao(UPDATED_DESCRICAO).emUso(UPDATED_EM_USO);
+        partialUpdatedOrigemAmostra.descricao(UPDATED_DESCRICAO);
 
         restOrigemAmostraMockMvc
             .perform(
@@ -329,7 +302,6 @@ class OrigemAmostraResourceIT {
         assertThat(origemAmostraList).hasSize(databaseSizeBeforeUpdate);
         OrigemAmostra testOrigemAmostra = origemAmostraList.get(origemAmostraList.size() - 1);
         assertThat(testOrigemAmostra.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testOrigemAmostra.getEmUso()).isEqualTo(UPDATED_EM_USO);
     }
 
     @Test
@@ -344,7 +316,7 @@ class OrigemAmostraResourceIT {
         OrigemAmostra partialUpdatedOrigemAmostra = new OrigemAmostra();
         partialUpdatedOrigemAmostra.setId(origemAmostra.getId());
 
-        partialUpdatedOrigemAmostra.descricao(UPDATED_DESCRICAO).emUso(UPDATED_EM_USO);
+        partialUpdatedOrigemAmostra.descricao(UPDATED_DESCRICAO);
 
         restOrigemAmostraMockMvc
             .perform(
@@ -359,7 +331,6 @@ class OrigemAmostraResourceIT {
         assertThat(origemAmostraList).hasSize(databaseSizeBeforeUpdate);
         OrigemAmostra testOrigemAmostra = origemAmostraList.get(origemAmostraList.size() - 1);
         assertThat(testOrigemAmostra.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testOrigemAmostra.getEmUso()).isEqualTo(UPDATED_EM_USO);
     }
 
     @Test

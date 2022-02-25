@@ -1,5 +1,6 @@
 package com.operacional.controleoperacional.web.rest;
 
+import static com.operacional.controleoperacional.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -18,7 +19,9 @@ import com.operacional.controleoperacional.service.criteria.AmostraCriteria;
 import com.operacional.controleoperacional.service.dto.AmostraDTO;
 import com.operacional.controleoperacional.service.mapper.AmostraMapper;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -40,8 +43,9 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class AmostraResourceIT {
 
-    private static final Instant DEFAULT_DATA_HORA = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATA_HORA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final ZonedDateTime DEFAULT_DATA_HORA = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_DATA_HORA = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final ZonedDateTime SMALLER_DATA_HORA = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
 
     private static final String DEFAULT_OBSERVACAO = "AAAAAAAAAA";
     private static final String UPDATED_OBSERVACAO = "BBBBBBBBBB";
@@ -238,7 +242,7 @@ class AmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amostra.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dataHora").value(hasItem(DEFAULT_DATA_HORA.toString())))
+            .andExpect(jsonPath("$.[*].dataHora").value(hasItem(sameInstant(DEFAULT_DATA_HORA))))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
             .andExpect(jsonPath("$.[*].identificadorExterno").value(hasItem(DEFAULT_IDENTIFICADOR_EXTERNO)))
             .andExpect(jsonPath("$.[*].amostraNoLaboratorio").value(hasItem(DEFAULT_AMOSTRA_NO_LABORATORIO.booleanValue())));
@@ -256,7 +260,7 @@ class AmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(amostra.getId().intValue()))
-            .andExpect(jsonPath("$.dataHora").value(DEFAULT_DATA_HORA.toString()))
+            .andExpect(jsonPath("$.dataHora").value(sameInstant(DEFAULT_DATA_HORA)))
             .andExpect(jsonPath("$.observacao").value(DEFAULT_OBSERVACAO))
             .andExpect(jsonPath("$.identificadorExterno").value(DEFAULT_IDENTIFICADOR_EXTERNO))
             .andExpect(jsonPath("$.amostraNoLaboratorio").value(DEFAULT_AMOSTRA_NO_LABORATORIO.booleanValue()));
@@ -330,6 +334,58 @@ class AmostraResourceIT {
 
         // Get all the amostraList where dataHora is null
         defaultAmostraShouldNotBeFound("dataHora.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDataHoraIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where dataHora is greater than or equal to DEFAULT_DATA_HORA
+        defaultAmostraShouldBeFound("dataHora.greaterThanOrEqual=" + DEFAULT_DATA_HORA);
+
+        // Get all the amostraList where dataHora is greater than or equal to UPDATED_DATA_HORA
+        defaultAmostraShouldNotBeFound("dataHora.greaterThanOrEqual=" + UPDATED_DATA_HORA);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDataHoraIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where dataHora is less than or equal to DEFAULT_DATA_HORA
+        defaultAmostraShouldBeFound("dataHora.lessThanOrEqual=" + DEFAULT_DATA_HORA);
+
+        // Get all the amostraList where dataHora is less than or equal to SMALLER_DATA_HORA
+        defaultAmostraShouldNotBeFound("dataHora.lessThanOrEqual=" + SMALLER_DATA_HORA);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDataHoraIsLessThanSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where dataHora is less than DEFAULT_DATA_HORA
+        defaultAmostraShouldNotBeFound("dataHora.lessThan=" + DEFAULT_DATA_HORA);
+
+        // Get all the amostraList where dataHora is less than UPDATED_DATA_HORA
+        defaultAmostraShouldBeFound("dataHora.lessThan=" + UPDATED_DATA_HORA);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDataHoraIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where dataHora is greater than DEFAULT_DATA_HORA
+        defaultAmostraShouldNotBeFound("dataHora.greaterThan=" + DEFAULT_DATA_HORA);
+
+        // Get all the amostraList where dataHora is greater than SMALLER_DATA_HORA
+        defaultAmostraShouldBeFound("dataHora.greaterThan=" + SMALLER_DATA_HORA);
     }
 
     @Test
@@ -731,7 +787,7 @@ class AmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amostra.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dataHora").value(hasItem(DEFAULT_DATA_HORA.toString())))
+            .andExpect(jsonPath("$.[*].dataHora").value(hasItem(sameInstant(DEFAULT_DATA_HORA))))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
             .andExpect(jsonPath("$.[*].identificadorExterno").value(hasItem(DEFAULT_IDENTIFICADOR_EXTERNO)))
             .andExpect(jsonPath("$.[*].amostraNoLaboratorio").value(hasItem(DEFAULT_AMOSTRA_NO_LABORATORIO.booleanValue())));

@@ -4,10 +4,7 @@ import com.operacional.controleoperacional.domain.enumeration.Criticidade;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.Objects;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
@@ -23,43 +20,34 @@ public class ProblemaDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo data.\nA data em que o Problema foi criado
+     * A data em que o problema foi verificado
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo data.\nA data em que o Problema foi criado", required = true)
-    private ZonedDateTime dataZonedDateTime;
-
-    @NotNull
-    private LocalDate dataLocalDate;
-
-    @NotNull
-    private Instant dataInstant;
-
-    @NotNull
-    private Duration dataDuration;
+    @ApiModelProperty(value = "A data em que o problema foi verificado", required = true)
+    private LocalDate data;
 
     /**
-     * Atributo descrição.\nDescrivo do problema.
+     * Descrição do problema.
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo descrição.\nDescrivo do problema.", required = true)
+    @ApiModelProperty(value = "Descrição do problema.", required = true)
     private String descricao;
 
     /**
-     * Atributo criticidade.\nGravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
+     * Gravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
      */
     @NotNull
     @ApiModelProperty(
-        value = "Atributo criticidade.\nGravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
+        value = "Gravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
         required = true
     )
     private Criticidade criticidade;
 
     /**
-     * Atributo aceitarFinalizacao.\nImforma se o problema foi finalizado/sanado.\nSomente quem criou o problema deve ter permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos (true).
+     * Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos.
      */
     @ApiModelProperty(
-        value = "Atributo aceitarFinalizacao.\nImforma se o problema foi finalizado/sanado.\nSomente quem criou o problema deve ter permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos (true)."
+        value = "Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos."
     )
     private Boolean aceitarFinalizacao;
 
@@ -69,11 +57,11 @@ public class ProblemaDTO implements Serializable {
     private String fotoContentType;
 
     /**
-     * Atributo impacto.\nImpácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
+     * Impácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
      */
     @NotNull
     @ApiModelProperty(
-        value = "Atributo impacto.\nImpácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
+        value = "Impácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
         required = true
     )
     private String impacto;
@@ -88,36 +76,12 @@ public class ProblemaDTO implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDataZonedDateTime() {
-        return dataZonedDateTime;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setDataZonedDateTime(ZonedDateTime dataZonedDateTime) {
-        this.dataZonedDateTime = dataZonedDateTime;
-    }
-
-    public LocalDate getDataLocalDate() {
-        return dataLocalDate;
-    }
-
-    public void setDataLocalDate(LocalDate dataLocalDate) {
-        this.dataLocalDate = dataLocalDate;
-    }
-
-    public Instant getDataInstant() {
-        return dataInstant;
-    }
-
-    public void setDataInstant(Instant dataInstant) {
-        this.dataInstant = dataInstant;
-    }
-
-    public Duration getDataDuration() {
-        return dataDuration;
-    }
-
-    public void setDataDuration(Duration dataDuration) {
-        this.dataDuration = dataDuration;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public String getDescricao() {
@@ -202,10 +166,7 @@ public class ProblemaDTO implements Serializable {
     public String toString() {
         return "ProblemaDTO{" +
             "id=" + getId() +
-            ", dataZonedDateTime='" + getDataZonedDateTime() + "'" +
-            ", dataLocalDate='" + getDataLocalDate() + "'" +
-            ", dataInstant='" + getDataInstant() + "'" +
-            ", dataDuration='" + getDataDuration() + "'" +
+            ", data='" + getData() + "'" +
             ", descricao='" + getDescricao() + "'" +
             ", criticidade='" + getCriticidade() + "'" +
             ", aceitarFinalizacao='" + getAceitarFinalizacao() + "'" +

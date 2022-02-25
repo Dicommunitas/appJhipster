@@ -36,8 +36,8 @@
           <th scope="col" jhiSortBy="descricao">
             <span jhiTranslate="controleOperacionalApp.operacao.descricao">Descricao</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="volume">
-            <span jhiTranslate="controleOperacionalApp.operacao.volume">Volume</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="volumePeso">
+            <span jhiTranslate="controleOperacionalApp.operacao.volumePeso">Volume Peso</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="inicio">
             <span jhiTranslate="controleOperacionalApp.operacao.inicio">Inicio</span> <fa-icon icon="sort"></fa-icon>
@@ -64,7 +64,7 @@
             <a [routerLink]="['/operacao', operacao.id, 'view']">{{ operacao.id }}</a>
           </td>
           <td>{{ operacao.descricao }}</td>
-          <td>{{ operacao.volume }}</td>
+          <td>{{ operacao.volumePeso }}</td>
           <td>{{ operacao.inicio | formatMediumDatetime }}</td>
           <td>{{ operacao.fim | formatMediumDatetime }}</td>
           <td>{{ operacao.quantidadeAmostras }}</td>

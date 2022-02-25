@@ -7,31 +7,21 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity Lembrete.
+        Added the entity TipoFinalidadeAmostra.
     -->
-    <changeSet id="20220204162131-1" author="jhipster">
-        <createTable tableName="lembrete" remarks="Entidade Lembrete.\n@author Diego.\nOs lembrestes devem ficar ao lada da tela de visualização e edição\ndos relatórios que o tever associado.">
+    <changeSet id="20220225085134-1" author="jhipster">
+        <createTable tableName="tipo_finalidade_amostra" remarks="Entidade TipoFinalidadeAmostra.\nIrá informar para qual finalidade a amostra\nserá utilizada, análise, arqivo...\n@author Diego.">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="data" type="${datetimeType}" remarks="Atributo data.\nA data em que o Lembrete foi criado">
+            <column name="descricao" type="varchar(255)" remarks="Descreve a finalidade.\nA principal informação da finalidade.\nPara o que a amostra será usada.">
                 <constraints nullable="false" />
             </column>
-            <column name="nome" type="varchar(255)" remarks="Atributo nome.\nnome do lembrete">
+            <column name="obrigatorio_lacre" type="boolean" remarks="Amostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas.">
                 <constraints nullable="false" />
-            </column>
-            <column name="texto" type="${clobType}" remarks="Atributo texto.\nLembretes diversos">
-                <constraints nullable="false" />
-            </column>
-            <column name="tipo_relatorio_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
-            <column name="tipo_operacao_id" type="bigint">
-                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="lembrete" columnName="data" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -44,17 +34,15 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220204162131-1-data" author="jhipster" context="faker">
+    <changeSet id="20220225085134-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/lembrete.csv"
+                  file="config/liquibase/fake-data/tipo_finalidade_amostra.csv"
                   separator=";"
-                  tableName="lembrete"
+                  tableName="tipo_finalidade_amostra"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="data" type="date"/>
-            <column name="nome" type="string"/>
-            <column name="texto" type="clob"/>
-            <column name="tipo_relatorio_id" type="numeric"/>
+            <column name="descricao" type="string"/>
+            <column name="obrigatorio_lacre" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

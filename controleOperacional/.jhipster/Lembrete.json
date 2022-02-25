@@ -2,21 +2,15 @@
   "name": "Lembrete",
   "fields": [
     {
-      "fieldName": "data",
-      "fieldType": "ZonedDateTime",
-      "javadoc": "Atributo data.\\nA data em que o Lembrete foi criado",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "nome",
       "fieldType": "String",
-      "javadoc": "Atributo nome.\\nnome do lembrete",
+      "javadoc": "Nome dado para o lembrete",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "texto",
+      "fieldName": "descricao",
       "fieldType": "byte[]",
-      "javadoc": "Atributo texto.\\nLembretes diversos",
+      "javadoc": "Lembrete de apoio para relatório e/ou operação.",
       "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"]
     }
@@ -26,7 +20,6 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "tipoRelatorio",
       "otherEntityRelationshipName": "lembrete",
-      "relationshipValidateRules": "required",
       "javadoc": "Define os lembretes que servirão como guia para\\ntodos os relatórios desse tipo",
       "relationshipName": "tipoRelatorio",
       "otherEntityField": "nome"
@@ -40,7 +33,7 @@
       "otherEntityField": "descricao"
     }
   ],
-  "javadoc": "Entidade Lembrete.\\n@author Diego.\\nOs lembrestes devem ficar ao lada da tela de visualização e edição\\ndos relatórios que o tever associado.",
+  "javadoc": "Entidade Lembrete.\\n@author Diego.\\nOs lembrestes devem ficar ao lada da tela de visualização e edição\\ndos relatórios, para os relatórios que o tiverem os tipos associados\\ncom o lembretes. (Lembretes associados aos Tipos de Relatórios\\nna tela do relatórios )",
   "entityTableName": "lembrete",
   "dto": "mapstruct",
   "pagination": "no",
@@ -50,5 +43,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204162131"
+  "changelogDate": "20220225084334"
 }

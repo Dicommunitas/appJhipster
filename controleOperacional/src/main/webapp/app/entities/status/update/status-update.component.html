@@ -21,7 +21,7 @@
             [ngbTooltip]="'controleOperacionalApp.status.help.descricao' | translate"
             >Descricao</label
           >
-          <input type="text" class="form-control" name="descricao" id="field_descricao" data-cy="descricao" formControlName="descricao" />
+          <textarea class="form-control" name="descricao" id="field_descricao" data-cy="descricao" formControlName="descricao"></textarea>
           <div *ngIf="editForm.get('descricao')!.invalid && (editForm.get('descricao')!.dirty || editForm.get('descricao')!.touched)">
             <small
               class="form-text text-danger"
@@ -41,27 +41,24 @@
             [ngbTooltip]="'controleOperacionalApp.status.help.prazo' | translate"
             >Prazo</label
           >
-          <div class="d-flex">
+          <div class="input-group">
             <input
               id="field_prazo"
               data-cy="prazo"
-              type="datetime-local"
+              type="text"
               class="form-control"
               name="prazo"
+              ngbDatepicker
+              #prazoDp="ngbDatepicker"
               formControlName="prazo"
-              placeholder="YYYY-MM-DD HH:mm"
             />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="prazoDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
           </div>
           <div *ngIf="editForm.get('prazo')!.invalid && (editForm.get('prazo')!.dirty || editForm.get('prazo')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('prazo')?.errors?.required" jhiTranslate="entity.validation.required">
               This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('prazo')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
-            >
-              This field should be a date and time.
             </small>
           </div>
         </div>

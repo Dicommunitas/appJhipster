@@ -22,18 +22,11 @@ public class OrigemAmostra implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição, é o nome do local,\nlinha 01, tanque 02...\nA principal informação descritiva da origem.
+     * Descreve de forma simples a origem de uma amostra.\nO local da coleta como, linha, tanque...\nA principal informação descritiva da origem.
      */
     @NotNull
     @Column(name = "descricao", nullable = false)
     private String descricao;
-
-    /**
-     * Atributo emUso, irá informar se esta\nOrigemAmostra ainda está em uso.\nCaso não esteja mais em uso não deverá\nser permitido sua seleção e nem deve ser\nmostrado no formulario de preenchimento\nda amostra.
-     */
-    @NotNull
-    @Column(name = "em_uso", nullable = false)
-    private Boolean emUso;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -63,19 +56,6 @@ public class OrigemAmostra implements Serializable {
         this.descricao = descricao;
     }
 
-    public Boolean getEmUso() {
-        return this.emUso;
-    }
-
-    public OrigemAmostra emUso(Boolean emUso) {
-        this.setEmUso(emUso);
-        return this;
-    }
-
-    public void setEmUso(Boolean emUso) {
-        this.emUso = emUso;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -101,7 +81,6 @@ public class OrigemAmostra implements Serializable {
         return "OrigemAmostra{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
-            ", emUso='" + getEmUso() + "'" +
             "}";
     }
 }

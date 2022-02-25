@@ -24,6 +24,9 @@ public class AlertaProduto implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    /**
+     * Descreve um alerta para ser usado nos produtos,\nalgo que deva ser tratado com cuidado.
+     */
     @NotNull
     @Column(name = "descricao", nullable = false)
     private String descricao;

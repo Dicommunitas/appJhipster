@@ -1,6 +1,5 @@
 package com.operacional.controleoperacional.web.rest;
 
-import static com.operacional.controleoperacional.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -8,14 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.operacional.controleoperacional.IntegrationTest;
 import com.operacional.controleoperacional.domain.Lembrete;
-import com.operacional.controleoperacional.domain.TipoRelatorio;
 import com.operacional.controleoperacional.repository.LembreteRepository;
 import com.operacional.controleoperacional.service.dto.LembreteDTO;
 import com.operacional.controleoperacional.service.mapper.LembreteMapper;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,14 +32,11 @@ import org.springframework.util.Base64Utils;
 @WithMockUser
 class LembreteResourceIT {
 
-    private static final ZonedDateTime DEFAULT_DATA = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_DATA = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-
     private static final String DEFAULT_NOME = "AAAAAAAAAA";
     private static final String UPDATED_NOME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TEXTO = "AAAAAAAAAA";
-    private static final String UPDATED_TEXTO = "BBBBBBBBBB";
+    private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/lembretes";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -74,17 +65,7 @@ class LembreteResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Lembrete createEntity(EntityManager em) {
-        Lembrete lembrete = new Lembrete().data(DEFAULT_DATA).nome(DEFAULT_NOME).texto(DEFAULT_TEXTO);
-        // Add required entity
-        TipoRelatorio tipoRelatorio;
-        if (TestUtil.findAll(em, TipoRelatorio.class).isEmpty()) {
-            tipoRelatorio = TipoRelatorioResourceIT.createEntity(em);
-            em.persist(tipoRelatorio);
-            em.flush();
-        } else {
-            tipoRelatorio = TestUtil.findAll(em, TipoRelatorio.class).get(0);
-        }
-        lembrete.setTipoRelatorio(tipoRelatorio);
+        Lembrete lembrete = new Lembrete().nome(DEFAULT_NOME).descricao(DEFAULT_DESCRICAO);
         return lembrete;
     }
 
@@ -95,17 +76,7 @@ class LembreteResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Lembrete createUpdatedEntity(EntityManager em) {
-        Lembrete lembrete = new Lembrete().data(UPDATED_DATA).nome(UPDATED_NOME).texto(UPDATED_TEXTO);
-        // Add required entity
-        TipoRelatorio tipoRelatorio;
-        if (TestUtil.findAll(em, TipoRelatorio.class).isEmpty()) {
-            tipoRelatorio = TipoRelatorioResourceIT.createUpdatedEntity(em);
-            em.persist(tipoRelatorio);
-            em.flush();
-        } else {
-            tipoRelatorio = TestUtil.findAll(em, TipoRelatorio.class).get(0);
-        }
-        lembrete.setTipoRelatorio(tipoRelatorio);
+        Lembrete lembrete = new Lembrete().nome(UPDATED_NOME).descricao(UPDATED_DESCRICAO);
         return lembrete;
     }
 
@@ -128,9 +99,8 @@ class LembreteResourceIT {
         List<Lembrete> lembreteList = lembreteRepository.findAll();
         assertThat(lembreteList).hasSize(databaseSizeBeforeCreate + 1);
         Lembrete testLembrete = lembreteList.get(lembreteList.size() - 1);
-        assertThat(testLembrete.getData()).isEqualTo(DEFAULT_DATA);
         assertThat(testLembrete.getNome()).isEqualTo(DEFAULT_NOME);
-        assertThat(testLembrete.getTexto()).isEqualTo(DEFAULT_TEXTO);
+        assertThat(testLembrete.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
     }
 
     @Test
@@ -150,24 +120,6 @@ class LembreteResourceIT {
         // Validate the Lembrete in the database
         List<Lembrete> lembreteList = lembreteRepository.findAll();
         assertThat(lembreteList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkDataIsRequired() throws Exception {
-        int databaseSizeBeforeTest = lembreteRepository.findAll().size();
-        // set the field null
-        lembrete.setData(null);
-
-        // Create the Lembrete, which fails.
-        LembreteDTO lembreteDTO = lembreteMapper.toDto(lembrete);
-
-        restLembreteMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(lembreteDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Lembrete> lembreteList = lembreteRepository.findAll();
-        assertThat(lembreteList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -200,9 +152,8 @@ class LembreteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(lembrete.getId().intValue())))
-            .andExpect(jsonPath("$.[*].data").value(hasItem(sameInstant(DEFAULT_DATA))))
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
-            .andExpect(jsonPath("$.[*].texto").value(hasItem(DEFAULT_TEXTO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
     }
 
     @Test
@@ -217,9 +168,8 @@ class LembreteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(lembrete.getId().intValue()))
-            .andExpect(jsonPath("$.data").value(sameInstant(DEFAULT_DATA)))
             .andExpect(jsonPath("$.nome").value(DEFAULT_NOME))
-            .andExpect(jsonPath("$.texto").value(DEFAULT_TEXTO.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
     }
 
     @Test
@@ -241,7 +191,7 @@ class LembreteResourceIT {
         Lembrete updatedLembrete = lembreteRepository.findById(lembrete.getId()).get();
         // Disconnect from session so that the updates on updatedLembrete are not directly saved in db
         em.detach(updatedLembrete);
-        updatedLembrete.data(UPDATED_DATA).nome(UPDATED_NOME).texto(UPDATED_TEXTO);
+        updatedLembrete.nome(UPDATED_NOME).descricao(UPDATED_DESCRICAO);
         LembreteDTO lembreteDTO = lembreteMapper.toDto(updatedLembrete);
 
         restLembreteMockMvc
@@ -256,9 +206,8 @@ class LembreteResourceIT {
         List<Lembrete> lembreteList = lembreteRepository.findAll();
         assertThat(lembreteList).hasSize(databaseSizeBeforeUpdate);
         Lembrete testLembrete = lembreteList.get(lembreteList.size() - 1);
-        assertThat(testLembrete.getData()).isEqualTo(UPDATED_DATA);
         assertThat(testLembrete.getNome()).isEqualTo(UPDATED_NOME);
-        assertThat(testLembrete.getTexto()).isEqualTo(UPDATED_TEXTO);
+        assertThat(testLembrete.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
     }
 
     @Test
@@ -338,7 +287,7 @@ class LembreteResourceIT {
         Lembrete partialUpdatedLembrete = new Lembrete();
         partialUpdatedLembrete.setId(lembrete.getId());
 
-        partialUpdatedLembrete.data(UPDATED_DATA).nome(UPDATED_NOME).texto(UPDATED_TEXTO);
+        partialUpdatedLembrete.nome(UPDATED_NOME).descricao(UPDATED_DESCRICAO);
 
         restLembreteMockMvc
             .perform(
@@ -352,9 +301,8 @@ class LembreteResourceIT {
         List<Lembrete> lembreteList = lembreteRepository.findAll();
         assertThat(lembreteList).hasSize(databaseSizeBeforeUpdate);
         Lembrete testLembrete = lembreteList.get(lembreteList.size() - 1);
-        assertThat(testLembrete.getData()).isEqualTo(UPDATED_DATA);
         assertThat(testLembrete.getNome()).isEqualTo(UPDATED_NOME);
-        assertThat(testLembrete.getTexto()).isEqualTo(UPDATED_TEXTO);
+        assertThat(testLembrete.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
     }
 
     @Test
@@ -369,7 +317,7 @@ class LembreteResourceIT {
         Lembrete partialUpdatedLembrete = new Lembrete();
         partialUpdatedLembrete.setId(lembrete.getId());
 
-        partialUpdatedLembrete.data(UPDATED_DATA).nome(UPDATED_NOME).texto(UPDATED_TEXTO);
+        partialUpdatedLembrete.nome(UPDATED_NOME).descricao(UPDATED_DESCRICAO);
 
         restLembreteMockMvc
             .perform(
@@ -383,9 +331,8 @@ class LembreteResourceIT {
         List<Lembrete> lembreteList = lembreteRepository.findAll();
         assertThat(lembreteList).hasSize(databaseSizeBeforeUpdate);
         Lembrete testLembrete = lembreteList.get(lembreteList.size() - 1);
-        assertThat(testLembrete.getData()).isEqualTo(UPDATED_DATA);
         assertThat(testLembrete.getNome()).isEqualTo(UPDATED_NOME);
-        assertThat(testLembrete.getTexto()).isEqualTo(UPDATED_TEXTO);
+        assertThat(testLembrete.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
     }
 
     @Test

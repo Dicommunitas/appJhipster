@@ -21,7 +21,7 @@ describe('FinalidadeAmostra Service', () => {
 
     elemDefault = {
       id: 0,
-      lacre: 'AAAAAAA',
+      lacre: 0,
     };
   });
 
@@ -57,7 +57,7 @@ describe('FinalidadeAmostra Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          lacre: 'BBBBBB',
+          lacre: 1,
         },
         elemDefault
       );
@@ -74,7 +74,7 @@ describe('FinalidadeAmostra Service', () => {
     it('should partial update a FinalidadeAmostra', () => {
       const patchObject = Object.assign(
         {
-          lacre: 'BBBBBB',
+          lacre: 1,
         },
         new FinalidadeAmostra()
       );
@@ -94,7 +94,7 @@ describe('FinalidadeAmostra Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          lacre: 'BBBBBB',
+          lacre: 1,
         },
         elemDefault
       );

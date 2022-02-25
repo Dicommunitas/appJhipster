@@ -2,14 +2,13 @@ package com.operacional.controleoperacional.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * Entidade Lembrete.\n@author Diego.\nOs lembrestes devem ficar ao lada da tela de visualização e edição\ndos relatórios que o tever associado.
+ * Entidade Lembrete.\n@author Diego.\nOs lembrestes devem ficar ao lada da tela de visualização e edição\ndos relatórios, para os relatórios que o tiverem os tipos associados\ncom o lembretes. (Lembretes associados aos Tipos de Relatórios\nna tela do relatórios )
  */
 @Entity
 @Table(name = "lembrete")
@@ -24,31 +23,23 @@ public class Lembrete implements Serializable {
     private Long id;
 
     /**
-     * Atributo data.\nA data em que o Lembrete foi criado
-     */
-    @NotNull
-    @Column(name = "data", nullable = false)
-    private ZonedDateTime data;
-
-    /**
-     * Atributo nome.\nnome do lembrete
+     * Nome dado para o lembrete
      */
     @NotNull
     @Column(name = "nome", nullable = false)
     private String nome;
 
     /**
-     * Atributo texto.\nLembretes diversos
+     * Lembrete de apoio para relatório e/ou operação.
      */
     @Lob
-    @Column(name = "texto", nullable = false)
-    private String texto;
+    @Column(name = "descricao", nullable = false)
+    private String descricao;
 
     /**
      * Define os lembretes que servirão como guia para\ntodos os relatórios desse tipo
      */
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties(value = { "usuariosAuts" }, allowSetters = true)
     private TipoRelatorio tipoRelatorio;
 
@@ -73,19 +64,6 @@ public class Lembrete implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getData() {
-        return this.data;
-    }
-
-    public Lembrete data(ZonedDateTime data) {
-        this.setData(data);
-        return this;
-    }
-
-    public void setData(ZonedDateTime data) {
-        this.data = data;
-    }
-
     public String getNome() {
         return this.nome;
     }
@@ -99,17 +77,17 @@ public class Lembrete implements Serializable {
         this.nome = nome;
     }
 
-    public String getTexto() {
-        return this.texto;
+    public String getDescricao() {
+        return this.descricao;
     }
 
-    public Lembrete texto(String texto) {
-        this.setTexto(texto);
+    public Lembrete descricao(String descricao) {
+        this.setDescricao(descricao);
         return this;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public TipoRelatorio getTipoRelatorio() {
@@ -162,9 +140,8 @@ public class Lembrete implements Serializable {
     public String toString() {
         return "Lembrete{" +
             "id=" + getId() +
-            ", data='" + getData() + "'" +
             ", nome='" + getNome() + "'" +
-            ", texto='" + getTexto() + "'" +
+            ", descricao='" + getDescricao() + "'" +
             "}";
     }
 }

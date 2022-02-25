@@ -26,7 +26,7 @@ describe('Operacao Service', () => {
     elemDefault = {
       id: 0,
       descricao: 'AAAAAAA',
-      volume: 0,
+      volumePeso: 0,
       inicio: currentDate,
       fim: currentDate,
       quantidadeAmostras: 0,
@@ -81,7 +81,7 @@ describe('Operacao Service', () => {
         {
           id: 1,
           descricao: 'BBBBBB',
-          volume: 1,
+          volumePeso: 1,
           inicio: currentDate.format(DATE_TIME_FORMAT),
           fim: currentDate.format(DATE_TIME_FORMAT),
           quantidadeAmostras: 1,
@@ -137,7 +137,7 @@ describe('Operacao Service', () => {
         {
           id: 1,
           descricao: 'BBBBBB',
-          volume: 1,
+          volumePeso: 1,
           inicio: currentDate.format(DATE_TIME_FORMAT),
           fim: currentDate.format(DATE_TIME_FORMAT),
           quantidadeAmostras: 1,

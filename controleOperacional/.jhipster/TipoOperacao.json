@@ -4,7 +4,7 @@
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Atributo descrição.",
+      "javadoc": "Descreve de forma simples um tipo de operação.",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -19,5 +19,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204162531"
+  "changelogDate": "20220225084734"
 }

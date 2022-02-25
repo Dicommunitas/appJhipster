@@ -1,3 +1,2 @@
-id;data_zoned_date_time;data_local_date;data_instant;data_duration;descricao;criticidade;aceitar_finalizacao;foto;foto_content_type;impacto;relator_id
-1;2022-02-03T19:19:29;2022-02-04;2022-02-04T04:24:57;14566;Peixe;ALTA;true;../fake-data/blob/hipster.png;image/png;Etiópia Pequeno Quality-focused;1
-
+id;data;descricao;criticidade;aceitar_finalizacao;foto;foto_content_type;impacto;relator_id
+1;2022-02-24;Avon;BAIXA;true;../fake-data/blob/hipster.png;image/png;pixel;1

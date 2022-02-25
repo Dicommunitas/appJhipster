@@ -9,27 +9,27 @@
     <!--
         Added the entity Operacao.
     -->
-    <changeSet id="20220204162431-1" author="jhipster">
+    <changeSet id="20220225084634-1" author="jhipster">
         <createTable tableName="operacao" remarks="Entidade Operação.\n@author Diego.\nAo criar uma Operação deve existir\numa opção de usar operações passadas\ncomo modelo para sua criação, inclusive\ncopiando o plano de amostragem">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="descricao" type="varchar(255)" remarks="Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.">
+            <column name="descricao" type="varchar(255)" remarks="Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.\n\nDescreve de forma simples a operação.">
                 <constraints nullable="false" />
             </column>
-            <column name="volume" type="integer">
+            <column name="volume_peso" type="integer" remarks="O volume ou peso total da operação.">
                 <constraints nullable="false" />
             </column>
-            <column name="inicio" type="${datetimeType}">
+            <column name="inicio" type="${datetimeType}" remarks="O horário de início da operação.">
                 <constraints nullable="true" />
             </column>
-            <column name="fim" type="${datetimeType}">
+            <column name="fim" type="${datetimeType}" remarks="O horário de término da operação.">
                 <constraints nullable="true" />
             </column>
-            <column name="quantidade_amostras" type="integer" remarks="Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.">
+            <column name="quantidade_amostras" type="integer" remarks="Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.\n\nQuantas amostras devem ter nessa operação.">
                 <constraints nullable="false" />
             </column>
-            <column name="observacao" type="varchar(255)">
+            <column name="observacao" type="varchar(255)" remarks="Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.">
                 <constraints nullable="true" />
             </column>
             <column name="tipo_operacao_id" type="bigint">
@@ -51,7 +51,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220204162431-1-data" author="jhipster" context="faker">
+    <changeSet id="20220225084634-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/operacao.csv"
                   separator=";"
@@ -59,7 +59,7 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="descricao" type="string"/>
-            <column name="volume" type="numeric"/>
+            <column name="volume_peso" type="numeric"/>
             <column name="inicio" type="date"/>
             <column name="fim" type="date"/>
             <column name="quantidade_amostras" type="numeric"/>

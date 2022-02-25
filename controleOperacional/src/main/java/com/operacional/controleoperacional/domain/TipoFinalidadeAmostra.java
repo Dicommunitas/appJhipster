@@ -22,7 +22,7 @@ public class TipoFinalidadeAmostra implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.\nIrá informar a descrição da finalidade.\nA principal informação da finalidade.\nAnálise, arqivo...
+     * Descreve a finalidade.\nA principal informação da finalidade.\nPara o que a amostra será usada.
      */
     @NotNull
     @Column(name = "descricao", nullable = false)

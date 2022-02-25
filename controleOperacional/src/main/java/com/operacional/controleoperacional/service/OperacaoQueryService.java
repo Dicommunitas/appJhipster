@@ -93,8 +93,8 @@ public class OperacaoQueryService extends QueryService<Operacao> {
             if (criteria.getDescricao() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescricao(), Operacao_.descricao));
             }
-            if (criteria.getVolume() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getVolume(), Operacao_.volume));
+            if (criteria.getVolumePeso() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getVolumePeso(), Operacao_.volumePeso));
             }
             if (criteria.getInicio() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getInicio(), Operacao_.inicio));

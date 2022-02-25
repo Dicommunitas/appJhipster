@@ -5,10 +5,7 @@ import { Criticidade } from 'app/entities/enumerations/criticidade.model';
 
 export interface IProblema {
   id?: number;
-  dataZonedDateTime?: dayjs.Dayjs;
-  dataLocalDate?: dayjs.Dayjs;
-  dataInstant?: dayjs.Dayjs;
-  dataDuration?: string;
+  data?: dayjs.Dayjs;
   descricao?: string;
   criticidade?: Criticidade;
   aceitarFinalizacao?: boolean | null;
@@ -22,10 +19,7 @@ export interface IProblema {
 export class Problema implements IProblema {
   constructor(
     public id?: number,
-    public dataZonedDateTime?: dayjs.Dayjs,
-    public dataLocalDate?: dayjs.Dayjs,
-    public dataInstant?: dayjs.Dayjs,
-    public dataDuration?: string,
+    public data?: dayjs.Dayjs,
     public descricao?: string,
     public criticidade?: Criticidade,
     public aceitarFinalizacao?: boolean | null,

@@ -18,7 +18,6 @@ export class OrigemAmostraUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     descricao: [null, [Validators.required]],
-    emUso: [null, [Validators.required]],
   });
 
   constructor(protected origemAmostraService: OrigemAmostraService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -66,7 +65,6 @@ export class OrigemAmostraUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: origemAmostra.id,
       descricao: origemAmostra.descricao,
-      emUso: origemAmostra.emUso,
     });
   }
 
@@ -75,7 +73,6 @@ export class OrigemAmostraUpdateComponent implements OnInit {
       ...new OrigemAmostra(),
       id: this.editForm.get(['id'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
-      emUso: this.editForm.get(['emUso'])!.value,
     };
   }
 }

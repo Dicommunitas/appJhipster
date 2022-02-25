@@ -25,9 +25,9 @@
       "responsavel": "Responsavel",
       "problema": "Problema",
       "help": {
-        "descricao": "Atributo descrição.\nDescreve o status, a situação atual que está sendo tratada.",
-        "prazo": "Atributo prazo.\nO prazo em que o status deve ser resolvido",
-        "resolvido": "Atributo resolvido.\nIndica se o status foi ou não resolvido."
+        "descricao": "Descreve o status, a situação atual que está sendo tratada.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.",
+        "prazo": "O prazo em que o status deve ser resolvido",
+        "resolvido": "Indica se o status foi ou não resolvido."
       }
     }
   }

@@ -3,20 +3,21 @@
   "fields": [
     {
       "fieldName": "descricao",
-      "fieldType": "String",
-      "javadoc": "Atributo descrição.\\nDescreve o status, a situação atual que está sendo tratada.",
+      "fieldType": "byte[]",
+      "javadoc": "Descreve o status, a situação atual que está sendo tratada.\\nUm status só pode ser alterado por quem for\\no atual responsável em resolve-lo.",
+      "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "prazo",
-      "fieldType": "ZonedDateTime",
-      "javadoc": "Atributo prazo.\\nO prazo em que o status deve ser resolvido",
+      "fieldType": "LocalDate",
+      "javadoc": "O prazo em que o status deve ser resolvido",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "resolvido",
       "fieldType": "Boolean",
-      "javadoc": "Atributo resolvido.\\nIndica se o status foi ou não resolvido."
+      "javadoc": "Indica se o status foi ou não resolvido."
     }
   ],
   "relationships": [
@@ -57,5 +58,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204161731"
+  "changelogDate": "20220225083934"
 }

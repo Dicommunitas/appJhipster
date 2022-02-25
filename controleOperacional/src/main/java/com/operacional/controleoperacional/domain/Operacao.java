@@ -1,7 +1,7 @@
 package com.operacional.controleoperacional.domain;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -23,29 +23,41 @@ public class Operacao implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.
+     * Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.\n\nDescreve de forma simples a operação.
      */
     @NotNull
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
+    /**
+     * O volume ou peso total da operação.
+     */
     @NotNull
-    @Column(name = "volume", nullable = false)
-    private Integer volume;
-
-    @Column(name = "inicio")
-    private Instant inicio;
-
-    @Column(name = "fim")
-    private Instant fim;
+    @Column(name = "volume_peso", nullable = false)
+    private Integer volumePeso;
 
     /**
-     * Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.
+     * O horário de início da operação.
+     */
+    @Column(name = "inicio")
+    private ZonedDateTime inicio;
+
+    /**
+     * O horário de término da operação.
+     */
+    @Column(name = "fim")
+    private ZonedDateTime fim;
+
+    /**
+     * Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.\n\nQuantas amostras devem ter nessa operação.
      */
     @NotNull
     @Column(name = "quantidade_amostras", nullable = false)
     private Integer quantidadeAmostras;
 
+    /**
+     * Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.
+     */
     @Column(name = "observacao")
     private String observacao;
 
@@ -84,42 +96,42 @@ public class Operacao implements Serializable {
         this.descricao = descricao;
     }
 
-    public Integer getVolume() {
-        return this.volume;
+    public Integer getVolumePeso() {
+        return this.volumePeso;
     }
 
-    public Operacao volume(Integer volume) {
-        this.setVolume(volume);
+    public Operacao volumePeso(Integer volumePeso) {
+        this.setVolumePeso(volumePeso);
         return this;
     }
 
-    public void setVolume(Integer volume) {
-        this.volume = volume;
+    public void setVolumePeso(Integer volumePeso) {
+        this.volumePeso = volumePeso;
     }
 
-    public Instant getInicio() {
+    public ZonedDateTime getInicio() {
         return this.inicio;
     }
 
-    public Operacao inicio(Instant inicio) {
+    public Operacao inicio(ZonedDateTime inicio) {
         this.setInicio(inicio);
         return this;
     }
 
-    public void setInicio(Instant inicio) {
+    public void setInicio(ZonedDateTime inicio) {
         this.inicio = inicio;
     }
 
-    public Instant getFim() {
+    public ZonedDateTime getFim() {
         return this.fim;
     }
 
-    public Operacao fim(Instant fim) {
+    public Operacao fim(ZonedDateTime fim) {
         this.setFim(fim);
         return this;
     }
 
-    public void setFim(Instant fim) {
+    public void setFim(ZonedDateTime fim) {
         this.fim = fim;
     }
 
@@ -187,7 +199,7 @@ public class Operacao implements Serializable {
         return "Operacao{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
-            ", volume=" + getVolume() +
+            ", volumePeso=" + getVolumePeso() +
             ", inicio='" + getInicio() + "'" +
             ", fim='" + getFim() + "'" +
             ", quantidadeAmostras=" + getQuantidadeAmostras() +

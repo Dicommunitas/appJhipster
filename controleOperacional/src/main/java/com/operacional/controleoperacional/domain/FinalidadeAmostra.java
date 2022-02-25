@@ -23,10 +23,10 @@ public class FinalidadeAmostra implements Serializable {
     private Long id;
 
     /**
-     * Atributo lacre.\nAmostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas.
+     * O número do lacre do recipiente da amostra.\nAmostras que tenham alguma finalidade com\nobrigatoriedade de lacre porém estejam sem lacre\nnão poderão ser impressas, mas podem ser criadas.
      */
     @Column(name = "lacre", unique = true)
-    private String lacre;
+    private Integer lacre;
 
     /**
      * Define qual a finalidade da amostra (Arquivo, Análise...)
@@ -58,16 +58,16 @@ public class FinalidadeAmostra implements Serializable {
         this.id = id;
     }
 
-    public String getLacre() {
+    public Integer getLacre() {
         return this.lacre;
     }
 
-    public FinalidadeAmostra lacre(String lacre) {
+    public FinalidadeAmostra lacre(Integer lacre) {
         this.setLacre(lacre);
         return this;
     }
 
-    public void setLacre(String lacre) {
+    public void setLacre(Integer lacre) {
         this.lacre = lacre;
     }
 
@@ -121,7 +121,7 @@ public class FinalidadeAmostra implements Serializable {
     public String toString() {
         return "FinalidadeAmostra{" +
             "id=" + getId() +
-            ", lacre='" + getLacre() + "'" +
+            ", lacre=" + getLacre() +
             "}";
     }
 }

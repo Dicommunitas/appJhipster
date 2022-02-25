@@ -22,7 +22,7 @@ public class TipoAmostra implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.
+     * Deve descrever de forma simples de qual tipo é a amostra.
      */
     @NotNull
     @Column(name = "descricao", nullable = false)

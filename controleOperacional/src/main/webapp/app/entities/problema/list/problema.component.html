@@ -33,18 +33,8 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="reset()">
           <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="dataZonedDateTime">
-            <span jhiTranslate="controleOperacionalApp.problema.dataZonedDateTime">Data Zoned Date Time</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="dataLocalDate">
-            <span jhiTranslate="controleOperacionalApp.problema.dataLocalDate">Data Local Date</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="dataInstant">
-            <span jhiTranslate="controleOperacionalApp.problema.dataInstant">Data Instant</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="dataDuration">
-            <span jhiTranslate="controleOperacionalApp.problema.dataDuration">Data Duration</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="data">
+            <span jhiTranslate="controleOperacionalApp.problema.data">Data</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="descricao">
             <span jhiTranslate="controleOperacionalApp.problema.descricao">Descricao</span> <fa-icon icon="sort"></fa-icon>
@@ -73,10 +63,7 @@
           <td>
             <a [routerLink]="['/problema', problema.id, 'view']">{{ problema.id }}</a>
           </td>
-          <td>{{ problema.dataZonedDateTime | formatMediumDatetime }}</td>
-          <td>{{ problema.dataLocalDate | formatMediumDate }}</td>
-          <td>{{ problema.dataInstant | formatMediumDatetime }}</td>
-          <td title="{{ problema.dataDuration }}">{{ problema.dataDuration | duration }}</td>
+          <td>{{ problema.data | formatMediumDate }}</td>
           <td>{{ problema.descricao }}</td>
           <td jhiTranslate="{{ 'controleOperacionalApp.Criticidade.' + problema.criticidade }}">{{ problema.criticidade }}</td>
           <td>{{ problema.aceitarFinalizacao }}</td>

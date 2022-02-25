@@ -20,7 +20,7 @@
       "id": "ID",
       "descricao": "Descricao",
       "help": {
-        "descricao": "Atributo descrição."
+        "descricao": "Deve descrever de forma simples de qual tipo é a amostra."
       }
     }
   }

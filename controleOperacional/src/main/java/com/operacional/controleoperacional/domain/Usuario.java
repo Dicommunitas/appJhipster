@@ -25,7 +25,7 @@ public class Usuario implements Serializable {
     private Long id;
 
     /**
-     * Atributo chave.\nA chave do usuário
+     * Chave do usuário, deve ter 4 caracteres.
      */
     @NotNull
     @Size(min = 4, max = 4)
@@ -33,15 +33,16 @@ public class Usuario implements Serializable {
     private String chave;
 
     /**
-     * Atributo nome.\nO nome do usuário
+     * Nome do usuário.
      */
     @NotNull
     @Column(name = "nome", nullable = false)
     private String nome;
 
     /**
-     * Atributo linksExternos.\nVerificar a viabilidade de usar iframe
+     * Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o usuário.
      */
+    @Lob
     @Column(name = "links_externos")
     private String linksExternos;
 

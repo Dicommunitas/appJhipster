@@ -2,7 +2,7 @@ package com.operacional.controleoperacional.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -26,17 +26,26 @@ public class Amostra implements Serializable {
     private Long id;
 
     /**
-     * Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo
+     * Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo\n\nData e hora que a amostra foi coletada.
      */
     @Column(name = "data_hora")
-    private Instant dataHora;
+    private ZonedDateTime dataHora;
 
+    /**
+     * Observações que forem necessárias para melhorar\na identificação da amostra.
+     */
     @Column(name = "observacao")
     private String observacao;
 
+    /**
+     * Identificador que \"ligue\" esse registro em outro sistema.
+     */
     @Column(name = "identificador_externo")
     private String identificadorExterno;
 
+    /**
+     * Identifica se a amostra está ou não no laboratório.
+     */
     @Column(name = "amostra_no_laboratorio")
     private Boolean amostraNoLaboratorio;
 
@@ -104,16 +113,16 @@ public class Amostra implements Serializable {
         this.id = id;
     }
 
-    public Instant getDataHora() {
+    public ZonedDateTime getDataHora() {
         return this.dataHora;
     }
 
-    public Amostra dataHora(Instant dataHora) {
+    public Amostra dataHora(ZonedDateTime dataHora) {
         this.setDataHora(dataHora);
         return this;
     }
 
-    public void setDataHora(Instant dataHora) {
+    public void setDataHora(ZonedDateTime dataHora) {
         this.dataHora = dataHora;
     }
 

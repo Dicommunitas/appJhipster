@@ -20,142 +20,29 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.problema.dataZonedDateTime"
-            for="field_dataZonedDateTime"
-            [ngbTooltip]="'controleOperacionalApp.problema.help.dataZonedDateTime' | translate"
-            >Data Zoned Date Time</label
-          >
-          <div class="d-flex">
-            <input
-              id="field_dataZonedDateTime"
-              data-cy="dataZonedDateTime"
-              type="datetime-local"
-              class="form-control"
-              name="dataZonedDateTime"
-              formControlName="dataZonedDateTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-          <div
-            *ngIf="
-              editForm.get('dataZonedDateTime')!.invalid &&
-              (editForm.get('dataZonedDateTime')!.dirty || editForm.get('dataZonedDateTime')!.touched)
-            "
-          >
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('dataZonedDateTime')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('dataZonedDateTime')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
-            >
-              This field should be a date and time.
-            </small>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.dataLocalDate" for="field_dataLocalDate"
-            >Data Local Date</label
+            jhiTranslate="controleOperacionalApp.problema.data"
+            for="field_data"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.data' | translate"
+            >Data</label
           >
           <div class="input-group">
             <input
-              id="field_dataLocalDate"
-              data-cy="dataLocalDate"
+              id="field_data"
+              data-cy="data"
               type="text"
               class="form-control"
-              name="dataLocalDate"
+              name="data"
               ngbDatepicker
-              #dataLocalDateDp="ngbDatepicker"
-              formControlName="dataLocalDate"
+              #dataDp="ngbDatepicker"
+              formControlName="data"
             />
             <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="dataLocalDateDp.toggle()">
-                <fa-icon icon="calendar-alt"></fa-icon>
-              </button>
+              <button type="button" class="btn btn-secondary" (click)="dataDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
             </span>
           </div>
-          <div
-            *ngIf="
-              editForm.get('dataLocalDate')!.invalid && (editForm.get('dataLocalDate')!.dirty || editForm.get('dataLocalDate')!.touched)
-            "
-          >
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('dataLocalDate')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
+          <div *ngIf="editForm.get('data')!.invalid && (editForm.get('data')!.dirty || editForm.get('data')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('data')?.errors?.required" jhiTranslate="entity.validation.required">
               This field is required.
-            </small>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.dataInstant" for="field_dataInstant"
-            >Data Instant</label
-          >
-          <div class="d-flex">
-            <input
-              id="field_dataInstant"
-              data-cy="dataInstant"
-              type="datetime-local"
-              class="form-control"
-              name="dataInstant"
-              formControlName="dataInstant"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-          <div *ngIf="editForm.get('dataInstant')!.invalid && (editForm.get('dataInstant')!.dirty || editForm.get('dataInstant')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('dataInstant')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('dataInstant')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
-            >
-              This field should be a date and time.
-            </small>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.dataDuration" for="field_dataDuration"
-            >Data Duration</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="dataDuration"
-            id="field_dataDuration"
-            data-cy="dataDuration"
-            formControlName="dataDuration"
-          />
-          <div
-            *ngIf="editForm.get('dataDuration')!.invalid && (editForm.get('dataDuration')!.dirty || editForm.get('dataDuration')!.touched)"
-          >
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('dataDuration')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('dataDuration')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
-              This field should be a number.
             </small>
           </div>
         </div>

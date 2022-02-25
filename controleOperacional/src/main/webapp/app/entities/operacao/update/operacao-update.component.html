@@ -38,20 +38,47 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.operacao.volume" for="field_volume">Volume</label>
-          <input type="number" class="form-control" name="volume" id="field_volume" data-cy="volume" formControlName="volume" />
-          <div *ngIf="editForm.get('volume')!.invalid && (editForm.get('volume')!.dirty || editForm.get('volume')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('volume')?.errors?.required" jhiTranslate="entity.validation.required">
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.operacao.volumePeso"
+            for="field_volumePeso"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.volumePeso' | translate"
+            >Volume Peso</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="volumePeso"
+            id="field_volumePeso"
+            data-cy="volumePeso"
+            formControlName="volumePeso"
+          />
+          <div *ngIf="editForm.get('volumePeso')!.invalid && (editForm.get('volumePeso')!.dirty || editForm.get('volumePeso')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('volumePeso')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
               This field is required.
             </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('volume')?.errors?.number" jhiTranslate="entity.validation.number">
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('volumePeso')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
               This field should be a number.
             </small>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.operacao.inicio" for="field_inicio">Inicio</label>
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.operacao.inicio"
+            for="field_inicio"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.inicio' | translate"
+            >Inicio</label
+          >
           <div class="d-flex">
             <input
               id="field_inicio"
@@ -66,7 +93,13 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.operacao.fim" for="field_fim">Fim</label>
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.operacao.fim"
+            for="field_fim"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.fim' | translate"
+            >Fim</label
+          >
           <div class="d-flex">
             <input
               id="field_fim"
@@ -120,7 +153,11 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.operacao.observacao" for="field_observacao"
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.operacao.observacao"
+            for="field_observacao"
+            [ngbTooltip]="'controleOperacionalApp.operacao.help.observacao' | translate"
             >Observacao</label
           >
           <input

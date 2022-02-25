@@ -16,7 +16,7 @@ describe('Status e2e test', () => {
   const statusPageUrlPattern = new RegExp('/status(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const statusSample = { descricao: 'channels', prazo: '2022-02-04T08:44:52.613Z' };
+  const statusSample = { descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=', prazo: '2022-02-25' };
 
   let status: any;
   //let usuario: any;
@@ -37,7 +37,7 @@ describe('Status e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/usuarios',
-      body: {"chave":"Prin","nome":"Plástico","linksExternos":"exploit reboot input"},
+      body: {"chave":"Prin","nome":"Plástico","linksExternos":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ="},
     }).then(({ body }) => {
       usuario = body;
     });
@@ -45,7 +45,7 @@ describe('Status e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/problemas',
-      body: {"dataZonedDateTime":"2022-02-04T00:23:18.029Z","dataLocalDate":"2022-02-04","dataInstant":"2022-02-04T01:27:53.943Z","dataDuration":38097,"descricao":"transmitter synthesizing Macio","criticidade":"BAIXA","aceitarFinalizacao":false,"foto":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci5wbmc=","fotoContentType":"unknown","impacto":"Travessa Avon Turismo"},
+      body: {"data":"2022-02-24","descricao":"Account transmitter","criticidade":"IMEDIATA","aceitarFinalizacao":true,"foto":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci5wbmc=","fotoContentType":"unknown","impacto":"Macio"},
     }).then(({ body }) => {
       problema = body;
     });
@@ -231,9 +231,12 @@ describe('Status e2e test', () => {
     });
 
     it.skip('should create an instance of Status', () => {
-      cy.get(`[data-cy="descricao"]`).type('card').should('have.value', 'card');
+      cy.get(`[data-cy="descricao"]`)
+        .type('../fake-data/blob/hipster.txt')
+        .invoke('val')
+        .should('match', new RegExp('../fake-data/blob/hipster.txt'));
 
-      cy.get(`[data-cy="prazo"]`).type('2022-02-03T17:23').should('have.value', '2022-02-03T17:23');
+      cy.get(`[data-cy="prazo"]`).type('2022-02-25').should('have.value', '2022-02-25');
 
       cy.get(`[data-cy="resolvido"]`).should('not.be.checked');
       cy.get(`[data-cy="resolvido"]`).click().should('be.checked');

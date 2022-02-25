@@ -26,8 +26,6 @@ public class RelatorioCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter linksExternos;
-
     private LongFilter tipoId;
 
     private LongFilter responsavelId;
@@ -38,7 +36,6 @@ public class RelatorioCriteria implements Serializable, Criteria {
 
     public RelatorioCriteria(RelatorioCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.linksExternos = other.linksExternos == null ? null : other.linksExternos.copy();
         this.tipoId = other.tipoId == null ? null : other.tipoId.copy();
         this.responsavelId = other.responsavelId == null ? null : other.responsavelId.copy();
         this.distinct = other.distinct;
@@ -62,21 +59,6 @@ public class RelatorioCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public StringFilter getLinksExternos() {
-        return linksExternos;
-    }
-
-    public StringFilter linksExternos() {
-        if (linksExternos == null) {
-            linksExternos = new StringFilter();
-        }
-        return linksExternos;
-    }
-
-    public void setLinksExternos(StringFilter linksExternos) {
-        this.linksExternos = linksExternos;
     }
 
     public LongFilter getTipoId() {
@@ -128,7 +110,6 @@ public class RelatorioCriteria implements Serializable, Criteria {
         final RelatorioCriteria that = (RelatorioCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(linksExternos, that.linksExternos) &&
             Objects.equals(tipoId, that.tipoId) &&
             Objects.equals(responsavelId, that.responsavelId) &&
             Objects.equals(distinct, that.distinct)
@@ -137,7 +118,7 @@ public class RelatorioCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, linksExternos, tipoId, responsavelId, distinct);
+        return Objects.hash(id, tipoId, responsavelId, distinct);
     }
 
     // prettier-ignore
@@ -145,7 +126,6 @@ public class RelatorioCriteria implements Serializable, Criteria {
     public String toString() {
         return "RelatorioCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (linksExternos != null ? "linksExternos=" + linksExternos + ", " : "") +
             (tipoId != null ? "tipoId=" + tipoId + ", " : "") +
             (responsavelId != null ? "responsavelId=" + responsavelId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

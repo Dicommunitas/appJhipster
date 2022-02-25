@@ -2,7 +2,7 @@ import { IAlertaProduto } from 'app/entities/alerta-produto/alerta-produto.model
 
 export interface IProduto {
   id?: number;
-  codigo?: string;
+  codigoBDEMQ?: string;
   nomeCurto?: string;
   nomeCompleto?: string;
   alertas?: IAlertaProduto[] | null;
@@ -11,7 +11,7 @@ export interface IProduto {
 export class Produto implements IProduto {
   constructor(
     public id?: number,
-    public codigo?: string,
+    public codigoBDEMQ?: string,
     public nomeCurto?: string,
     public nomeCompleto?: string,
     public alertas?: IAlertaProduto[] | null

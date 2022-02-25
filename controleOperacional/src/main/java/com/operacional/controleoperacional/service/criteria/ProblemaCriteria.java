@@ -6,15 +6,12 @@ import java.util.Objects;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
-import tech.jhipster.service.filter.DurationFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LocalDateFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
-import tech.jhipster.service.filter.ZonedDateTimeFilter;
 
 /**
  * Criteria class for the {@link com.operacional.controleoperacional.domain.Problema} entity. This class is used
@@ -48,13 +45,7 @@ public class ProblemaCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private ZonedDateTimeFilter dataZonedDateTime;
-
-    private LocalDateFilter dataLocalDate;
-
-    private InstantFilter dataInstant;
-
-    private DurationFilter dataDuration;
+    private LocalDateFilter data;
 
     private StringFilter descricao;
 
@@ -74,10 +65,7 @@ public class ProblemaCriteria implements Serializable, Criteria {
 
     public ProblemaCriteria(ProblemaCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.dataZonedDateTime = other.dataZonedDateTime == null ? null : other.dataZonedDateTime.copy();
-        this.dataLocalDate = other.dataLocalDate == null ? null : other.dataLocalDate.copy();
-        this.dataInstant = other.dataInstant == null ? null : other.dataInstant.copy();
-        this.dataDuration = other.dataDuration == null ? null : other.dataDuration.copy();
+        this.data = other.data == null ? null : other.data.copy();
         this.descricao = other.descricao == null ? null : other.descricao.copy();
         this.criticidade = other.criticidade == null ? null : other.criticidade.copy();
         this.aceitarFinalizacao = other.aceitarFinalizacao == null ? null : other.aceitarFinalizacao.copy();
@@ -107,64 +95,19 @@ public class ProblemaCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public ZonedDateTimeFilter getDataZonedDateTime() {
-        return dataZonedDateTime;
+    public LocalDateFilter getData() {
+        return data;
     }
 
-    public ZonedDateTimeFilter dataZonedDateTime() {
-        if (dataZonedDateTime == null) {
-            dataZonedDateTime = new ZonedDateTimeFilter();
+    public LocalDateFilter data() {
+        if (data == null) {
+            data = new LocalDateFilter();
         }
-        return dataZonedDateTime;
+        return data;
     }
 
-    public void setDataZonedDateTime(ZonedDateTimeFilter dataZonedDateTime) {
-        this.dataZonedDateTime = dataZonedDateTime;
-    }
-
-    public LocalDateFilter getDataLocalDate() {
-        return dataLocalDate;
-    }
-
-    public LocalDateFilter dataLocalDate() {
-        if (dataLocalDate == null) {
-            dataLocalDate = new LocalDateFilter();
-        }
-        return dataLocalDate;
-    }
-
-    public void setDataLocalDate(LocalDateFilter dataLocalDate) {
-        this.dataLocalDate = dataLocalDate;
-    }
-
-    public InstantFilter getDataInstant() {
-        return dataInstant;
-    }
-
-    public InstantFilter dataInstant() {
-        if (dataInstant == null) {
-            dataInstant = new InstantFilter();
-        }
-        return dataInstant;
-    }
-
-    public void setDataInstant(InstantFilter dataInstant) {
-        this.dataInstant = dataInstant;
-    }
-
-    public DurationFilter getDataDuration() {
-        return dataDuration;
-    }
-
-    public DurationFilter dataDuration() {
-        if (dataDuration == null) {
-            dataDuration = new DurationFilter();
-        }
-        return dataDuration;
-    }
-
-    public void setDataDuration(DurationFilter dataDuration) {
-        this.dataDuration = dataDuration;
+    public void setData(LocalDateFilter data) {
+        this.data = data;
     }
 
     public StringFilter getDescricao() {
@@ -276,10 +219,7 @@ public class ProblemaCriteria implements Serializable, Criteria {
         final ProblemaCriteria that = (ProblemaCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(dataZonedDateTime, that.dataZonedDateTime) &&
-            Objects.equals(dataLocalDate, that.dataLocalDate) &&
-            Objects.equals(dataInstant, that.dataInstant) &&
-            Objects.equals(dataDuration, that.dataDuration) &&
+            Objects.equals(data, that.data) &&
             Objects.equals(descricao, that.descricao) &&
             Objects.equals(criticidade, that.criticidade) &&
             Objects.equals(aceitarFinalizacao, that.aceitarFinalizacao) &&
@@ -292,20 +232,7 @@ public class ProblemaCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-            id,
-            dataZonedDateTime,
-            dataLocalDate,
-            dataInstant,
-            dataDuration,
-            descricao,
-            criticidade,
-            aceitarFinalizacao,
-            impacto,
-            statusId,
-            relatorId,
-            distinct
-        );
+        return Objects.hash(id, data, descricao, criticidade, aceitarFinalizacao, impacto, statusId, relatorId, distinct);
     }
 
     // prettier-ignore
@@ -313,10 +240,7 @@ public class ProblemaCriteria implements Serializable, Criteria {
     public String toString() {
         return "ProblemaCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (dataZonedDateTime != null ? "dataZonedDateTime=" + dataZonedDateTime + ", " : "") +
-            (dataLocalDate != null ? "dataLocalDate=" + dataLocalDate + ", " : "") +
-            (dataInstant != null ? "dataInstant=" + dataInstant + ", " : "") +
-            (dataDuration != null ? "dataDuration=" + dataDuration + ", " : "") +
+            (data != null ? "data=" + data + ", " : "") +
             (descricao != null ? "descricao=" + descricao + ", " : "") +
             (criticidade != null ? "criticidade=" + criticidade + ", " : "") +
             (aceitarFinalizacao != null ? "aceitarFinalizacao=" + aceitarFinalizacao + ", " : "") +

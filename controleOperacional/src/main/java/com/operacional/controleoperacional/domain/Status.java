@@ -2,7 +2,7 @@ package com.operacional.controleoperacional.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -24,21 +24,21 @@ public class Status implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.\nDescreve o status, a situação atual que está sendo tratada.
+     * Descreve o status, a situação atual que está sendo tratada.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.
      */
-    @NotNull
+    @Lob
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
     /**
-     * Atributo prazo.\nO prazo em que o status deve ser resolvido
+     * O prazo em que o status deve ser resolvido
      */
     @NotNull
     @Column(name = "prazo", nullable = false)
-    private ZonedDateTime prazo;
+    private LocalDate prazo;
 
     /**
-     * Atributo resolvido.\nIndica se o status foi ou não resolvido.
+     * Indica se o status foi ou não resolvido.
      */
     @Column(name = "resolvido")
     private Boolean resolvido;
@@ -92,16 +92,16 @@ public class Status implements Serializable {
         this.descricao = descricao;
     }
 
-    public ZonedDateTime getPrazo() {
+    public LocalDate getPrazo() {
         return this.prazo;
     }
 
-    public Status prazo(ZonedDateTime prazo) {
+    public Status prazo(LocalDate prazo) {
         this.setPrazo(prazo);
         return this;
     }
 
-    public void setPrazo(ZonedDateTime prazo) {
+    public void setPrazo(LocalDate prazo) {
         this.prazo = prazo;
     }
 

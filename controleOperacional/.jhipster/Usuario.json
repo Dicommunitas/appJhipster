@@ -4,7 +4,7 @@
     {
       "fieldName": "chave",
       "fieldType": "String",
-      "javadoc": "Atributo chave.\\nA chave do usuário",
+      "javadoc": "Chave do usuário, deve ter 4 caracteres.",
       "fieldValidateRules": ["required", "minlength", "maxlength", "unique"],
       "fieldValidateRulesMinlength": "4",
       "fieldValidateRulesMaxlength": "4"
@@ -12,13 +12,14 @@
     {
       "fieldName": "nome",
       "fieldType": "String",
-      "javadoc": "Atributo nome.\\nO nome do usuário",
+      "javadoc": "Nome do usuário.",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "linksExternos",
-      "fieldType": "String",
-      "javadoc": "Atributo linksExternos.\\nVerificar a viabilidade de usar iframe"
+      "fieldType": "byte[]",
+      "javadoc": "Atributo linksExternos.\\nVerificar a viabilidade de usar iframe\\n\\nLinks e lembretes de apoio para o usuário.",
+      "fieldTypeBlobContent": "text"
     }
   ],
   "relationships": [
@@ -29,6 +30,7 @@
       "relationshipValidateRules": "required",
       "javadoc": "Irá ligar usuário ao User",
       "relationshipName": "user",
+      "otherEntityField": "login",
       "ownerSide": true
     },
     {
@@ -49,5 +51,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204162231"
+  "changelogDate": "20220225084434"
 }

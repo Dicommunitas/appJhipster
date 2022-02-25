@@ -2,36 +2,21 @@
   "name": "Problema",
   "fields": [
     {
-      "fieldName": "dataZonedDateTime",
-      "fieldType": "ZonedDateTime",
-      "javadoc": "Atributo data.\\nA data em que o Problema foi criado",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "dataLocalDate",
+      "fieldName": "data",
       "fieldType": "LocalDate",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "dataInstant",
-      "fieldType": "Instant",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "dataDuration",
-      "fieldType": "Duration",
+      "javadoc": "A data em que o problema foi verificado",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Atributo descrição.\\nDescrivo do problema.",
+      "javadoc": "Descrição do problema.",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "criticidade",
       "fieldType": "Criticidade",
-      "javadoc": "Atributo criticidade.\\nGravidade do problema.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco",
+      "javadoc": "Gravidade do problema.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco",
       "fieldValues": "BAIXA,MEDIA,ALTA,IMEDIATA",
       "fieldTypeJavadoc": "Entidade Criticidade.\\n@author Diego.",
       "fieldValidateRules": ["required"]
@@ -39,7 +24,7 @@
     {
       "fieldName": "aceitarFinalizacao",
       "fieldType": "Boolean",
-      "javadoc": "Atributo aceitarFinalizacao.\\nImforma se o problema foi finalizado/sanado.\\nSomente quem criou o problema deve ter permisão\\npara aceitar sua finalização.\\nO problema só pode ser finalizado se ele tiver\\ntodos os seus status resolvidos (true)."
+      "javadoc": "Imforma se o problema foi finalizado/sanado.\\nSomente quem criou o problema tem permisão\\npara aceitar sua finalização.\\nO problema só pode ser finalizado se ele tiver\\ntodos os seus status resolvidos."
     },
     {
       "fieldName": "foto",
@@ -51,7 +36,7 @@
     {
       "fieldName": "impacto",
       "fieldType": "String",
-      "javadoc": "Atributo impacto.\\nImpácto do problema ao sistema como um todo.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco",
+      "javadoc": "Impácto do problema ao sistema como um todo.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -83,5 +68,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204161631"
+  "changelogDate": "20220225083834"
 }

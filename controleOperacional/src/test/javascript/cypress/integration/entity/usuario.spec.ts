@@ -16,7 +16,7 @@ describe('Usuario e2e test', () => {
   const usuarioPageUrlPattern = new RegExp('/usuario(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const usuarioSample = { chave: 'Refi', nome: 'Gâmbia Division' };
+  const usuarioSample = { chave: 'Acco', nome: 'Refinado parse moratorium' };
 
   let usuario: any;
   //let user: any;
@@ -218,7 +218,10 @@ describe('Usuario e2e test', () => {
         .type('Borracha Cambridgeshire Cambridgeshire')
         .should('have.value', 'Borracha Cambridgeshire Cambridgeshire');
 
-      cy.get(`[data-cy="linksExternos"]`).type('Account Avenida').should('have.value', 'Account Avenida');
+      cy.get(`[data-cy="linksExternos"]`)
+        .type('../fake-data/blob/hipster.txt')
+        .invoke('val')
+        .should('match', new RegExp('../fake-data/blob/hipster.txt'));
 
       cy.get(`[data-cy="user"]`).select(1);
 

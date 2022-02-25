@@ -2,22 +2,22 @@
   "name": "Produto",
   "fields": [
     {
-      "fieldName": "codigo",
+      "fieldName": "codigoBDEMQ",
       "fieldType": "String",
-      "javadoc": "Atributo codigo deve ter no\\nmáximo 3 aracteres",
+      "javadoc": "O código deve ter máximo 3 aracteres.\\nDeve ser igual ao do BDEMQ",
       "fieldValidateRules": ["required", "maxlength", "unique"],
       "fieldValidateRulesMaxlength": "3"
     },
     {
       "fieldName": "nomeCurto",
       "fieldType": "String",
-      "javadoc": "Atributo nomeCurto",
+      "javadoc": "Informa o nome curto do produto.\\nDeve ser igual ao do BDEMQ",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "nomeCompleto",
       "fieldType": "String",
-      "javadoc": "Atributo nomeCompleto",
+      "javadoc": "Informa o nome completo do produto.\\nDeve ser igual ao do BDEMQ",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -35,12 +35,12 @@
   "javadoc": "Entidade OrigemAmostra, irá descrever de onde\\na amostra foi retirada, linha 01, tanque 02...\\nO local onde a amostra foi coletada.\\n@author Diego.",
   "entityTableName": "produto",
   "dto": "mapstruct",
-  "pagination": "pagination",
+  "pagination": "infinite-scroll",
   "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204163031"
+  "changelogDate": "20220225085234"
 }

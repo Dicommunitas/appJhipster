@@ -21,7 +21,7 @@ describe('Produto Service', () => {
 
     elemDefault = {
       id: 0,
-      codigo: 'AAAAAAA',
+      codigoBDEMQ: 'AAAAAAA',
       nomeCurto: 'AAAAAAA',
       nomeCompleto: 'AAAAAAA',
     };
@@ -59,7 +59,7 @@ describe('Produto Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          codigo: 'BBBBBB',
+          codigoBDEMQ: 'BBBBBB',
           nomeCurto: 'BBBBBB',
           nomeCompleto: 'BBBBBB',
         },
@@ -99,7 +99,7 @@ describe('Produto Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          codigo: 'BBBBBB',
+          codigoBDEMQ: 'BBBBBB',
           nomeCurto: 'BBBBBB',
           nomeCompleto: 'BBBBBB',
         },

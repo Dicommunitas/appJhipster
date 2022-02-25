@@ -20,39 +20,6 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.lembrete.data"
-            for="field_data"
-            [ngbTooltip]="'controleOperacionalApp.lembrete.help.data' | translate"
-            >Data</label
-          >
-          <div class="d-flex">
-            <input
-              id="field_data"
-              data-cy="data"
-              type="datetime-local"
-              class="form-control"
-              name="data"
-              formControlName="data"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-          <div *ngIf="editForm.get('data')!.invalid && (editForm.get('data')!.dirty || editForm.get('data')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('data')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('data')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
-            >
-              This field should be a date and time.
-            </small>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label
-            class="form-control-label"
             jhiTranslate="controleOperacionalApp.lembrete.nome"
             for="field_nome"
             [ngbTooltip]="'controleOperacionalApp.lembrete.help.nome' | translate"
@@ -69,14 +36,18 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.lembrete.texto"
-            for="field_texto"
-            [ngbTooltip]="'controleOperacionalApp.lembrete.help.texto' | translate"
-            >Texto</label
+            jhiTranslate="controleOperacionalApp.lembrete.descricao"
+            for="field_descricao"
+            [ngbTooltip]="'controleOperacionalApp.lembrete.help.descricao' | translate"
+            >Descricao</label
           >
-          <textarea class="form-control" name="texto" id="field_texto" data-cy="texto" formControlName="texto"></textarea>
-          <div *ngIf="editForm.get('texto')!.invalid && (editForm.get('texto')!.dirty || editForm.get('texto')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('texto')?.errors?.required" jhiTranslate="entity.validation.required">
+          <textarea class="form-control" name="descricao" id="field_descricao" data-cy="descricao" formControlName="descricao"></textarea>
+          <div *ngIf="editForm.get('descricao')!.invalid && (editForm.get('descricao')!.dirty || editForm.get('descricao')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('descricao')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
               This field is required.
             </small>
           </div>
@@ -93,7 +64,7 @@
             name="tipoRelatorio"
             formControlName="tipoRelatorio"
           >
-            <option *ngIf="!editForm.get('tipoRelatorio')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="null"></option>
             <option
               [ngValue]="
                 tipoRelatorioOption.id === editForm.get('tipoRelatorio')!.value?.id
@@ -105,19 +76,6 @@
               {{ tipoRelatorioOption.nome }}
             </option>
           </select>
-        </div>
-        <div
-          *ngIf="
-            editForm.get(['tipoRelatorio'])!.invalid && (editForm.get(['tipoRelatorio'])!.dirty || editForm.get(['tipoRelatorio'])!.touched)
-          "
-        >
-          <small
-            class="form-text text-danger"
-            *ngIf="editForm.get(['tipoRelatorio'])?.errors?.required"
-            jhiTranslate="entity.validation.required"
-          >
-            This field is required.
-          </small>
         </div>
 
         <div class="form-group">

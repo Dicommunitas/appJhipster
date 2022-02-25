@@ -71,9 +71,8 @@ class LembreteGatlingTest extends Simulation {
             .post("/api/lembretes")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "data":"2020-01-01T00:00:00.000Z"
-                , "nome":"SAMPLE_TEXT"
-                , "texto":null
+                "nome":"SAMPLE_TEXT"
+                , "descricao":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_lembrete_url"))).exitHereIfFailed

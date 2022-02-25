@@ -22,7 +22,6 @@ describe('OrigemAmostra Service', () => {
     elemDefault = {
       id: 0,
       descricao: 'AAAAAAA',
-      emUso: false,
     };
   });
 
@@ -59,7 +58,6 @@ describe('OrigemAmostra Service', () => {
         {
           id: 1,
           descricao: 'BBBBBB',
-          emUso: true,
         },
         elemDefault
       );
@@ -74,12 +72,7 @@ describe('OrigemAmostra Service', () => {
     });
 
     it('should partial update a OrigemAmostra', () => {
-      const patchObject = Object.assign(
-        {
-          emUso: true,
-        },
-        new OrigemAmostra()
-      );
+      const patchObject = Object.assign({}, new OrigemAmostra());
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
@@ -97,7 +90,6 @@ describe('OrigemAmostra Service', () => {
         {
           id: 1,
           descricao: 'BBBBBB',
-          emUso: true,
         },
         elemDefault
       );
@@ -149,7 +141,7 @@ describe('OrigemAmostra Service', () => {
       });
 
       it('should add only unique OrigemAmostra to an array', () => {
-        const origemAmostraArray: IOrigemAmostra[] = [{ id: 123 }, { id: 456 }, { id: 59433 }];
+        const origemAmostraArray: IOrigemAmostra[] = [{ id: 123 }, { id: 456 }, { id: 58604 }];
         const origemAmostraCollection: IOrigemAmostra[] = [{ id: 123 }];
         expectedResult = service.addOrigemAmostraToCollectionIfMissing(origemAmostraCollection, ...origemAmostraArray);
         expect(expectedResult).toHaveLength(3);

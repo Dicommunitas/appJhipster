@@ -4,7 +4,7 @@
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Atributo descrição.\\nIrá informar a descrição da finalidade.\\nA principal informação da finalidade.\\nAnálise, arqivo...",
+      "javadoc": "Descreve a finalidade.\\nA principal informação da finalidade.\\nPara o que a amostra será usada.",
       "fieldValidateRules": ["required"]
     },
     {
@@ -25,5 +25,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220204162931"
+  "changelogDate": "20220225085134"
 }

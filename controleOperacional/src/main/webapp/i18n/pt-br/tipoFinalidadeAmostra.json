@@ -21,7 +21,7 @@
       "descricao": "Descricao",
       "obrigatorioLacre": "Obrigatorio Lacre",
       "help": {
-        "descricao": "Atributo descrição.\nIrá informar a descrição da finalidade.\nA principal informação da finalidade.\nAnálise, arqivo...",
+        "descricao": "Descreve a finalidade.\nA principal informação da finalidade.\nPara o que a amostra será usada.",
         "obrigatorioLacre": "Amostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas."
       }
     }

@@ -3,10 +3,7 @@ package com.operacional.controleoperacional.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.operacional.controleoperacional.domain.enumeration.Criticidade;
 import java.io.Serializable;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -30,33 +27,21 @@ public class Problema implements Serializable {
     private Long id;
 
     /**
-     * Atributo data.\nA data em que o Problema foi criado
+     * A data em que o problema foi verificado
      */
     @NotNull
-    @Column(name = "data_zoned_date_time", nullable = false)
-    private ZonedDateTime dataZonedDateTime;
-
-    @NotNull
-    @Column(name = "data_local_date", nullable = false)
-    private LocalDate dataLocalDate;
-
-    @NotNull
-    @Column(name = "data_instant", nullable = false)
-    private Instant dataInstant;
-
-    @NotNull
-    @Column(name = "data_duration", nullable = false)
-    private Duration dataDuration;
+    @Column(name = "data", nullable = false)
+    private LocalDate data;
 
     /**
-     * Atributo descrição.\nDescrivo do problema.
+     * Descrição do problema.
      */
     @NotNull
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
     /**
-     * Atributo criticidade.\nGravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
+     * Gravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
      */
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -64,7 +49,7 @@ public class Problema implements Serializable {
     private Criticidade criticidade;
 
     /**
-     * Atributo aceitarFinalizacao.\nImforma se o problema foi finalizado/sanado.\nSomente quem criou o problema deve ter permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos (true).
+     * Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos.
      */
     @Column(name = "aceitar_finalizacao")
     private Boolean aceitarFinalizacao;
@@ -77,7 +62,7 @@ public class Problema implements Serializable {
     private String fotoContentType;
 
     /**
-     * Atributo impacto.\nImpácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
+     * Impácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
      */
     @NotNull
     @Column(name = "impacto", nullable = false)
@@ -111,56 +96,17 @@ public class Problema implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDataZonedDateTime() {
-        return this.dataZonedDateTime;
+    public LocalDate getData() {
+        return this.data;
     }
 
-    public Problema dataZonedDateTime(ZonedDateTime dataZonedDateTime) {
-        this.setDataZonedDateTime(dataZonedDateTime);
+    public Problema data(LocalDate data) {
+        this.setData(data);
         return this;
     }
 
-    public void setDataZonedDateTime(ZonedDateTime dataZonedDateTime) {
-        this.dataZonedDateTime = dataZonedDateTime;
-    }
-
-    public LocalDate getDataLocalDate() {
-        return this.dataLocalDate;
-    }
-
-    public Problema dataLocalDate(LocalDate dataLocalDate) {
-        this.setDataLocalDate(dataLocalDate);
-        return this;
-    }
-
-    public void setDataLocalDate(LocalDate dataLocalDate) {
-        this.dataLocalDate = dataLocalDate;
-    }
-
-    public Instant getDataInstant() {
-        return this.dataInstant;
-    }
-
-    public Problema dataInstant(Instant dataInstant) {
-        this.setDataInstant(dataInstant);
-        return this;
-    }
-
-    public void setDataInstant(Instant dataInstant) {
-        this.dataInstant = dataInstant;
-    }
-
-    public Duration getDataDuration() {
-        return this.dataDuration;
-    }
-
-    public Problema dataDuration(Duration dataDuration) {
-        this.setDataDuration(dataDuration);
-        return this;
-    }
-
-    public void setDataDuration(Duration dataDuration) {
-        this.dataDuration = dataDuration;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public String getDescricao() {
@@ -309,10 +255,7 @@ public class Problema implements Serializable {
     public String toString() {
         return "Problema{" +
             "id=" + getId() +
-            ", dataZonedDateTime='" + getDataZonedDateTime() + "'" +
-            ", dataLocalDate='" + getDataLocalDate() + "'" +
-            ", dataInstant='" + getDataInstant() + "'" +
-            ", dataDuration='" + getDataDuration() + "'" +
+            ", data='" + getData() + "'" +
             ", descricao='" + getDescricao() + "'" +
             ", criticidade='" + getCriticidade() + "'" +
             ", aceitarFinalizacao='" + getAceitarFinalizacao() + "'" +

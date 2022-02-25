@@ -46,7 +46,7 @@ application {
     //withAdminUi true
     
     //Bootswatch themes for Bootstrap
-    clientTheme cosmo
+    clientTheme spacelab
     clientThemeVariant dark
     
     nativeLanguage 	pt-br
@@ -62,14 +62,15 @@ application {
     
   }
   entities *
-  paginate Amostra, Operacao, Problema, Relatorio with infinite-scroll
-  paginate Produto with pagination
+  paginate Produto, Amostra, Operacao, Problema, Relatorio with infinite-scroll
+  //paginate * with pagination
+  //paginate Produto with pagination
   //paginate FinalidadeAmostra with pager  
   // pager is only available in AngularJS
   
   service * with serviceImpl
   dto * with mapstruct
-  filter Amostra, Operacao, Problema, Relatorio
+  filter Amostra, Operacao, Problema, Relatorio, Produto
 }
 
 //============ Fim da criação do projeto =============================
@@ -122,22 +123,45 @@ application {
 entity Problema {
     
 	/**
-	* Atributo data.
-    * A data em que o Problema foi criado
+    * A data em que o problema foi verificado
 	*/
-    dataZonedDateTime ZonedDateTime required
-    dataLocalDate LocalDate required
-    dataInstant Instant required
-    dataDuration Duration required
+        
+    //cria um campo com o formato dd/mm/aaaa
+    //Ex.: no campo 19/02/2022
+    // no banco 2022-02-19
+    //LocalDate - Representa uma data.
+    data LocalDate required
+    
+    
+    //cria um campo com o formato dd/mm/aaaa hh:mm
+    //no banco de dados salva com 3 horas a mais
+    //Ex.: no campo 19/02/2022 12:00
+    // no banco 2022-02-19 15:00:00.000000
+    //ZoneDateTime - Representa uma data com hora e fuso horário.
+    //dataZonedDateTime ZonedDateTime required
+    
+    
+    //cria um campo com o formato dd/mm/aaaa hh:mm
+    //no banco de dados salva com 3 horas a mais
+    //Ex.: no campo 19/02/2022 12:00
+    // no banco 2022-02-19 15:00:00.000000
+    //Instant - Representa um momento (data e hora) no tempo em UTC.
+    //dataInstant Instant required
+    
+    
+    //cria um campo que irá recebr um valor em hora minutos e segundos
+    //Ex.: no campo PT1H29M30.132S
+    // no banco 5370132000000
+    //Duration - Representa uma quantidade de tempo em dias, 
+    //horas, minutos, segundos e nanosegundos.
+    //dataDuration Duration required
     
 	/**
-	* Atributo descrição.
-    * Descrivo do problema.
+	* Descrição do problema.
 	*/
     descricao String required
     
 	/**
-	* Atributo criticidade.
     * Gravidade do problema. 
     * Se o problema tiver criticidade IMEDIATA
     * o atributo impácto não pode estar em branco
@@ -145,19 +169,17 @@ entity Problema {
     criticidade Criticidade required
         
 	/**
-	* Atributo aceitarFinalizacao.
     * Imforma se o problema foi finalizado/sanado. 
-    * Somente quem criou o problema deve ter permisão 
+    * Somente quem criou o problema tem permisão 
     * para aceitar sua finalização.
     * O problema só pode ser finalizado se ele tiver 
-    * todos os seus status resolvidos (true).
+    * todos os seus status resolvidos.
 	*/
     aceitarFinalizacao Boolean
     
     foto ImageBlob maxbytes(500)
     
 	/**
-	* Atributo impacto.
     * Impácto do problema ao sistema como um todo. 
     * Se o problema tiver criticidade IMEDIATA
     * o atributo impácto não pode estar em branco
@@ -180,19 +202,18 @@ entity Problema {
  */
 entity Status {
 	/**
-	* Atributo descrição.
     * Descreve o status, a situação atual que está sendo tratada.
+    * Um status só pode ser alterado por quem for
+    * o atual responsável em resolve-lo.
 	*/
-    descricao String required
+    descricao TextBlob required
     
 	/**
-	* Atributo prazo.
     * O prazo em que o status deve ser resolvido
 	*/
-    prazo ZonedDateTime required
+    prazo LocalDate required
     
     /**
-	* Atributo resolvido.
     * Indica se o status foi ou não resolvido.
 	*/
     resolvido Boolean
@@ -215,6 +236,10 @@ enum Criticidade {
  * Irá descrever alertas para produtos (Benzeno, Inflamável...)
  */
 entity AlertaProduto {
+    /**
+    * Descreve um alerta para ser usado nos produtos,
+    * algo que deva ser tratado com cuidado.
+	*/
     descricao String required
 }
 
@@ -252,14 +277,18 @@ entity Relatorio {
     * Usar comparação de texto para visualizar as
     * alterações entre o últomo relatório criado e o último
     * relatório criado pelo usuário.
+    *
+    * Relato descritivo. As informações pertinentes para o relatório.
 	*/
     relato TextBlob required
            
 	/**
 	* Atributo linksExternos.
     * Verificar a viabilidade de usar iframe
+    *
+    * Links e lembretes de apoio para o relatório.
 	*/
-    linksExternos String
+    linksExternos TextBlob
     
     //criadoPor User,
     //criadoEm DateTime,
@@ -276,7 +305,7 @@ entity Relatorio {
  */
 entity TipoRelatorio {
 	/**
-	* Atributo descrição.
+	* Nome dado ao grupo de relatórios.
 	*/
     nome String required
 }
@@ -286,27 +315,21 @@ entity TipoRelatorio {
  * Entidade Lembrete.
  * @author Diego.
  * Os lembrestes devem ficar ao lada da tela de visualização e edição 
- * dos relatórios que o tever associado.
+ * dos relatórios, para os relatórios que o tiverem os tipos associados
+ * com o lembretes. (Lembretes associados aos Tipos de Relatórios
+ * na tela do relatórios )
  */
 entity Lembrete {
-    
-	/**
-	* Atributo data.
-    * A data em que o Lembrete foi criado
-	*/
-    data ZonedDateTime required
 	
 	/**
-	* Atributo nome.
-    * nome do lembrete
+	* Nome dado para o lembrete
 	*/
     nome String required
     
 	/**
-	* Atributo texto.
-    * Lembretes diversos
+	* Lembrete de apoio para relatório e/ou operação.
 	*/
-    texto TextBlob required
+    descricao TextBlob required
     
     //criadoPor User
     //atualizadoPor User
@@ -320,22 +343,22 @@ entity User {
 entity Usuario {
 
 	/**
-	* Atributo chave.
-    * A chave do usuário
+    * Chave do usuário, deve ter 4 caracteres.
 	*/
     chave String required minlength(4) maxlength(4) unique
 
 	/**
-	* Atributo nome.
-    * O nome do usuário
+    * Nome do usuário.
 	*/
     nome String required
            
 	/**
 	* Atributo linksExternos.
     * Verificar a viabilidade de usar iframe
+    *
+    * Links e lembretes de apoio para o usuário.
 	*/
-    linksExternos String
+    linksExternos TextBlob
     
 }
 
@@ -350,10 +373,25 @@ entity Amostra {
     * por padrão devem ser ordenadas pela data
     * ficando as mais novas por primeiro na 
     * vizualização e as sem data por útimo
+    * 
+    * Data e hora que a amostra foi coletada.
 	*/
-	dataHora Instant,
-    observacao String,
-	identificadorExterno String,
+	dataHora ZonedDateTime
+    
+	/**
+    * Observações que forem necessárias para melhorar 
+    * a identificação da amostra.
+	*/
+    observacao String
+    
+	/**
+    * Identificador que "ligue" esse registro em outro sistema.
+	*/
+	identificadorExterno String
+    
+	/**
+    * Identifica se a amostra está ou não no laboratório.
+	*/
     amostraNoLaboratorio Boolean
     //criadoPor User,
     //atualizadoPor User,
@@ -383,11 +421,25 @@ entity Operacao {
     * a conferência do plano de amostragem
     * durante a criação da operação/plano de 
     * amostragem.
+    *
+    * Descreve de forma simples a operação.
 	*/
     descricao String required
-	volume Integer required
-	inicio Instant
-	fim Instant
+    
+	/**
+    * O volume ou peso total da operação.
+	*/
+	volumePeso Integer required
+    
+	/**
+    * O horário de início da operação.
+	*/
+	inicio ZonedDateTime
+    
+	/**
+    * O horário de término da operação.
+	*/
+	fim ZonedDateTime
 	/**
 	* Atributo quantidadeAmostras mostra
     * quantas amostras devem fazer parte da operação. 
@@ -404,9 +456,15 @@ entity Operacao {
     * a lista do plano de amostragem como
     * modelo.
     * Outra alternativa seria usar o lembrete como guia.
+    *
+    * Quantas amostras devem ter nessa operação.
 	*/
 	quantidadeAmostras Integer required
-    
+        
+	/**
+    * Observações que forem necessárias para melhorar 
+    * a descrição dos acontecimentos relativos da operação.
+	*/
 	observacao String
     //criadoPor User,
     //atualizadoPor User,
@@ -421,9 +479,9 @@ entity Operacao {
  */
 entity TipoOperacao {
 	/**
-	* Atributo descrição.
+    * Descreve de forma simples um tipo de operação.
 	*/
-    descricao String required,
+    descricao String required
 }
 
 /**
@@ -435,22 +493,11 @@ entity TipoOperacao {
 entity OrigemAmostra {
 
 	/**
-	* Atributo descrição, é o nome do local,
-    * linha 01, tanque 02...
+    * Descreve de forma simples a origem de uma amostra.
+	* O local da coleta como, linha, tanque...
     * A principal informação descritiva da origem.
 	*/
-    descricao String required,
-    
-    
-	/**
-	* Atributo emUso, irá informar se esta
-    * OrigemAmostra ainda está em uso.
-    * Caso não esteja mais em uso não deverá
-    * ser permitido sua seleção e nem deve ser 
-    * mostrado no formulario de preenchimento
-    * da amostra.
-	*/
-    emUso Boolean required
+    descricao String required
 }
 
 /**
@@ -459,9 +506,9 @@ entity OrigemAmostra {
  */
 entity TipoAmostra {
 	/**
-	* Atributo descrição.
+	* Deve descrever de forma simples de qual tipo é a amostra.
 	*/
-    descricao String required,
+    descricao String required
 }
 
 /**
@@ -470,12 +517,12 @@ entity TipoAmostra {
  */
 entity FinalidadeAmostra {
 	/**
-	* Atributo lacre.
-	* Amostras que tenham alguma finalidade sem lacre
-    * com obrigatoriedade de lacre não poderão ser impressas,
-    * porém podem ser criadas.
+	* O número do lacre do recipiente da amostra.
+	* Amostras que tenham alguma finalidade com 
+    * obrigatoriedade de lacre porém estejam sem lacre
+    * não poderão ser impressas, mas podem ser criadas.
 	*/
-    lacre String unique,
+    lacre Integer unique
 }
 
 /**
@@ -486,10 +533,9 @@ entity FinalidadeAmostra {
  */
 entity TipoFinalidadeAmostra {
 	/**
-	* Atributo descrição.
-	* Irá informar a descrição da finalidade.
+	* Descreve a finalidade.
 	* A principal informação da finalidade.
-    * Análise, arqivo...
+    * Para o que a amostra será usada.
 	*/
     descricao String required,
     
@@ -510,16 +556,18 @@ entity TipoFinalidadeAmostra {
 entity Produto {
 
 	/**
-	* Atributo codigo deve ter no 
-    * máximo 3 aracteres
+	* O código deve ter máximo 3 aracteres.
+    * Deve ser igual ao do BDEMQ
 	*/
-    codigo String required maxlength(3) unique
+    codigoBDEMQ String required maxlength(3) unique
 	/**
-	* Atributo nomeCurto
+	* Informa o nome curto do produto.
+    * Deve ser igual ao do BDEMQ
 	*/
     nomeCurto String required
 	/**
-	* Atributo nomeCompleto
+	* Informa o nome completo do produto.
+    * Deve ser igual ao do BDEMQ
 	*/
     nomeCompleto String required
 
@@ -568,7 +616,7 @@ relationship ManyToOne {
 	* Define os lembretes que servirão como guia para
     * todos os relatórios desse tipo
 	*/
-    Lembrete{tipoRelatorio(nome) required} to TipoRelatorio
+    Lembrete{tipoRelatorio(nome)} to TipoRelatorio
     
 	/**
     * O lembrete deverá ser exibido sempre que 
@@ -655,7 +703,7 @@ relationship OneToOne {
 	/**
 	* Irá ligar usuário ao User
 	*/
-	Usuario{user required} to User
+	Usuario{user(login) required} to User
 
 }
 
@@ -716,4 +764,5 @@ relationship OneToOne {
 // DESCRIBE nome-da-tabela;
 // SELECT * FROM nome-da-tabela;
 // DROP DATABASE nome-do-banco;
+// DROP DATABASE controleOperacional;
 

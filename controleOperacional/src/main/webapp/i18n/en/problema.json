@@ -18,10 +18,7 @@
         "title": "Problema"
       },
       "id": "ID",
-      "dataZonedDateTime": "Data Zoned Date Time",
-      "dataLocalDate": "Data Local Date",
-      "dataInstant": "Data Instant",
-      "dataDuration": "Data Duration",
+      "data": "Data",
       "descricao": "Descricao",
       "criticidade": "Criticidade",
       "aceitarFinalizacao": "Aceitar Finalizacao",
@@ -30,11 +27,11 @@
       "status": "Status",
       "relator": "Relator",
       "help": {
-        "dataZonedDateTime": "Atributo data.\nA data em que o Problema foi criado",
-        "descricao": "Atributo descrição.\nDescrivo do problema.",
-        "criticidade": "Atributo criticidade.\nGravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
-        "aceitarFinalizacao": "Atributo aceitarFinalizacao.\nImforma se o problema foi finalizado/sanado.\nSomente quem criou o problema deve ter permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos (true).",
-        "impacto": "Atributo impacto.\nImpácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco"
+        "data": "A data em que o problema foi verificado",
+        "descricao": "Descrição do problema.",
+        "criticidade": "Gravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
+        "aceitarFinalizacao": "Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos.",
+        "impacto": "Impácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco"
       }
     }
   }

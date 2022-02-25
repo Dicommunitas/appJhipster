@@ -24,9 +24,9 @@
       "user": "User",
       "relAutorizados": "Rel Autorizados",
       "help": {
-        "chave": "Atributo chave.\nA chave do usuário",
-        "nome": "Atributo nome.\nO nome do usuário",
-        "linksExternos": "Atributo linksExternos.\nVerificar a viabilidade de usar iframe"
+        "chave": "Chave do usuário, deve ter 4 caracteres.",
+        "nome": "Nome do usuário.",
+        "linksExternos": "Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o usuário."
       }
     }
   }

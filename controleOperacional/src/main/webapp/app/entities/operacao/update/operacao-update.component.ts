@@ -25,7 +25,7 @@ export class OperacaoUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     descricao: [null, [Validators.required]],
-    volume: [null, [Validators.required]],
+    volumePeso: [null, [Validators.required]],
     inicio: [],
     fim: [],
     quantidadeAmostras: [null, [Validators.required]],
@@ -95,7 +95,7 @@ export class OperacaoUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: operacao.id,
       descricao: operacao.descricao,
-      volume: operacao.volume,
+      volumePeso: operacao.volumePeso,
       inicio: operacao.inicio ? operacao.inicio.format(DATE_TIME_FORMAT) : null,
       fim: operacao.fim ? operacao.fim.format(DATE_TIME_FORMAT) : null,
       quantidadeAmostras: operacao.quantidadeAmostras,
@@ -126,7 +126,7 @@ export class OperacaoUpdateComponent implements OnInit {
       ...new Operacao(),
       id: this.editForm.get(['id'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
-      volume: this.editForm.get(['volume'])!.value,
+      volumePeso: this.editForm.get(['volumePeso'])!.value,
       inicio: this.editForm.get(['inicio'])!.value ? dayjs(this.editForm.get(['inicio'])!.value, DATE_TIME_FORMAT) : undefined,
       fim: this.editForm.get(['fim'])!.value ? dayjs(this.editForm.get(['fim'])!.value, DATE_TIME_FORMAT) : undefined,
       quantidadeAmostras: this.editForm.get(['quantidadeAmostras'])!.value,

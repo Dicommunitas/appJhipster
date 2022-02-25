@@ -34,7 +34,6 @@
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.origemAmostra.descricao">Descricao</span></th>
-          <th scope="col"><span jhiTranslate="controleOperacionalApp.origemAmostra.emUso">Em Uso</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -44,7 +43,6 @@
             <a [routerLink]="['/origem-amostra', origemAmostra.id, 'view']">{{ origemAmostra.id }}</a>
           </td>
           <td>{{ origemAmostra.descricao }}</td>
-          <td>{{ origemAmostra.emUso }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button

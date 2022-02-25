@@ -71,10 +71,7 @@ class ProblemaGatlingTest extends Simulation {
             .post("/api/problemas")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "dataZonedDateTime":"2020-01-01T00:00:00.000Z"
-                , "dataLocalDate":"2020-01-01T00:00:00.000Z"
-                , "dataInstant":"2020-01-01T00:00:00.000Z"
-                , "dataDuration":null
+                "data":"2020-01-01T00:00:00.000Z"
                 , "descricao":"SAMPLE_TEXT"
                 , "criticidade":"BAIXA"
                 , "aceitarFinalizacao":null

@@ -4,7 +4,7 @@ import { ITipoOperacao } from 'app/entities/tipo-operacao/tipo-operacao.model';
 export interface IOperacao {
   id?: number;
   descricao?: string;
-  volume?: number;
+  volumePeso?: number;
   inicio?: dayjs.Dayjs | null;
   fim?: dayjs.Dayjs | null;
   quantidadeAmostras?: number;
@@ -16,7 +16,7 @@ export class Operacao implements IOperacao {
   constructor(
     public id?: number,
     public descricao?: string,
-    public volume?: number,
+    public volumePeso?: number,
     public inicio?: dayjs.Dayjs | null,
     public fim?: dayjs.Dayjs | null,
     public quantidadeAmostras?: number,

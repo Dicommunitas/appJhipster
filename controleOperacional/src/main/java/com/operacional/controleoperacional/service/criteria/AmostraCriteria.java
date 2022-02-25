@@ -7,10 +7,10 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.ZonedDateTimeFilter;
 
 /**
  * Criteria class for the {@link com.operacional.controleoperacional.domain.Amostra} entity. This class is used
@@ -27,7 +27,7 @@ public class AmostraCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private InstantFilter dataHora;
+    private ZonedDateTimeFilter dataHora;
 
     private StringFilter observacao;
 
@@ -89,18 +89,18 @@ public class AmostraCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public InstantFilter getDataHora() {
+    public ZonedDateTimeFilter getDataHora() {
         return dataHora;
     }
 
-    public InstantFilter dataHora() {
+    public ZonedDateTimeFilter dataHora() {
         if (dataHora == null) {
-            dataHora = new InstantFilter();
+            dataHora = new ZonedDateTimeFilter();
         }
         return dataHora;
     }
 
-    public void setDataHora(InstantFilter dataHora) {
+    public void setDataHora(ZonedDateTimeFilter dataHora) {
         this.dataHora = dataHora;
     }
 

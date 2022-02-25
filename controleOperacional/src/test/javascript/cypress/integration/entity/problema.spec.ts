@@ -16,15 +16,7 @@ describe('Problema e2e test', () => {
   const problemaPageUrlPattern = new RegExp('/problema(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const problemaSample = {
-    dataZonedDateTime: '2022-02-04T14:04:10.259Z',
-    dataLocalDate: '2022-02-04',
-    dataInstant: '2022-02-04T04:54:04.202Z',
-    dataDuration: 77637,
-    descricao: 'Re-engineered',
-    criticidade: 'IMEDIATA',
-    impacto: 'B2B users',
-  };
+  const problemaSample = { data: '2022-02-25', descricao: 'Marginal', criticidade: 'BAIXA', impacto: 'networks B2B users' };
 
   let problema: any;
   //let usuario: any;
@@ -44,7 +36,7 @@ describe('Problema e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/usuarios',
-      body: {"chave":"onli","nome":"Avenida","linksExternos":"Dollar"},
+      body: {"chave":"onli","nome":"Avenida","linksExternos":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ="},
     }).then(({ body }) => {
       usuario = body;
     });
@@ -220,15 +212,9 @@ describe('Problema e2e test', () => {
     });
 
     it.skip('should create an instance of Problema', () => {
-      cy.get(`[data-cy="dataZonedDateTime"]`).type('2022-02-04T15:44').should('have.value', '2022-02-04T15:44');
+      cy.get(`[data-cy="data"]`).type('2022-02-25').should('have.value', '2022-02-25');
 
-      cy.get(`[data-cy="dataLocalDate"]`).type('2022-02-03').should('have.value', '2022-02-03');
-
-      cy.get(`[data-cy="dataInstant"]`).type('2022-02-04T00:17').should('have.value', '2022-02-04T00:17');
-
-      cy.get(`[data-cy="dataDuration"]`).type('PT54M').should('have.value', 'PT54M');
-
-      cy.get(`[data-cy="descricao"]`).type('monitor Loan').should('have.value', 'monitor Loan');
+      cy.get(`[data-cy="descricao"]`).type('invoice monitor Loan').should('have.value', 'invoice monitor Loan');
 
       cy.get(`[data-cy="criticidade"]`).select('IMEDIATA');
 

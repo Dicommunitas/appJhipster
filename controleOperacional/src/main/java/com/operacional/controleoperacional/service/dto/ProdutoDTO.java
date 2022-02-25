@@ -19,25 +19,25 @@ public class ProdutoDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo codigo deve ter no\nmáximo 3 aracteres
+     * O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
     @Size(max = 3)
-    @ApiModelProperty(value = "Atributo codigo deve ter no\nmáximo 3 aracteres", required = true)
-    private String codigo;
+    @ApiModelProperty(value = "O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ", required = true)
+    private String codigoBDEMQ;
 
     /**
-     * Atributo nomeCurto
+     * Informa o nome curto do produto.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo nomeCurto", required = true)
+    @ApiModelProperty(value = "Informa o nome curto do produto.\nDeve ser igual ao do BDEMQ", required = true)
     private String nomeCurto;
 
     /**
-     * Atributo nomeCompleto
+     * Informa o nome completo do produto.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo nomeCompleto", required = true)
+    @ApiModelProperty(value = "Informa o nome completo do produto.\nDeve ser igual ao do BDEMQ", required = true)
     private String nomeCompleto;
 
     private Set<AlertaProdutoDTO> alertas = new HashSet<>();
@@ -50,12 +50,12 @@ public class ProdutoDTO implements Serializable {
         this.id = id;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getCodigoBDEMQ() {
+        return codigoBDEMQ;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCodigoBDEMQ(String codigoBDEMQ) {
+        this.codigoBDEMQ = codigoBDEMQ;
     }
 
     public String getNomeCurto() {
@@ -108,7 +108,7 @@ public class ProdutoDTO implements Serializable {
     public String toString() {
         return "ProdutoDTO{" +
             "id=" + getId() +
-            ", codigo='" + getCodigo() + "'" +
+            ", codigoBDEMQ='" + getCodigoBDEMQ() + "'" +
             ", nomeCurto='" + getNomeCurto() + "'" +
             ", nomeCompleto='" + getNomeCompleto() + "'" +
             ", alertas=" + getAlertas() +

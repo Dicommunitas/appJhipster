@@ -71,7 +71,7 @@ class ProdutoGatlingTest extends Simulation {
             .post("/api/produtos")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "codigo":"SAMPLE_TEXT"
+                "codigoBDEMQ":"SAMPLE_TEXT"
                 , "nomeCurto":"SAMPLE_TEXT"
                 , "nomeCompleto":"SAMPLE_TEXT"
                 }""")).asJson

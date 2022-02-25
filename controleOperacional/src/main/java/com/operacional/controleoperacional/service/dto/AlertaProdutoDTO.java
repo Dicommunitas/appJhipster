@@ -1,6 +1,7 @@
 package com.operacional.controleoperacional.service.dto;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.validation.constraints.*;
@@ -13,7 +14,11 @@ public class AlertaProdutoDTO implements Serializable {
 
     private Long id;
 
+    /**
+     * Descreve um alerta para ser usado nos produtos,\nalgo que deva ser tratado com cuidado.
+     */
     @NotNull
+    @ApiModelProperty(value = "Descreve um alerta para ser usado nos produtos,\nalgo que deva ser tratado com cuidado.", required = true)
     private String descricao;
 
     public Long getId() {

@@ -15,10 +15,10 @@ public class TipoOperacaoDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.
+     * Descreve de forma simples um tipo de operação.
      */
     @NotNull
-    @ApiModelProperty(value = "Atributo descrição.", required = true)
+    @ApiModelProperty(value = "Descreve de forma simples um tipo de operação.", required = true)
     private String descricao;
 
     public Long getId() {

@@ -3,7 +3,7 @@ package com.operacional.controleoperacional.service.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -18,32 +18,48 @@ public class OperacaoDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.
+     * Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.\n\nDescreve de forma simples a operação.
      */
     @NotNull
     @ApiModelProperty(
-        value = "Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.",
+        value = "Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.\n\nDescreve de forma simples a operação.",
         required = true
     )
     private String descricao;
 
+    /**
+     * O volume ou peso total da operação.
+     */
     @NotNull
-    private Integer volume;
-
-    private Instant inicio;
-
-    private Instant fim;
+    @ApiModelProperty(value = "O volume ou peso total da operação.", required = true)
+    private Integer volumePeso;
 
     /**
-     * Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.
+     * O horário de início da operação.
+     */
+    @ApiModelProperty(value = "O horário de início da operação.")
+    private ZonedDateTime inicio;
+
+    /**
+     * O horário de término da operação.
+     */
+    @ApiModelProperty(value = "O horário de término da operação.")
+    private ZonedDateTime fim;
+
+    /**
+     * Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.\n\nQuantas amostras devem ter nessa operação.
      */
     @NotNull
     @ApiModelProperty(
-        value = "Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.",
+        value = "Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.\n\nQuantas amostras devem ter nessa operação.",
         required = true
     )
     private Integer quantidadeAmostras;
 
+    /**
+     * Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.
+     */
+    @ApiModelProperty(value = "Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.")
     private String observacao;
 
     private TipoOperacaoDTO tipoOperacao;
@@ -64,27 +80,27 @@ public class OperacaoDTO implements Serializable {
         this.descricao = descricao;
     }
 
-    public Integer getVolume() {
-        return volume;
+    public Integer getVolumePeso() {
+        return volumePeso;
     }
 
-    public void setVolume(Integer volume) {
-        this.volume = volume;
+    public void setVolumePeso(Integer volumePeso) {
+        this.volumePeso = volumePeso;
     }
 
-    public Instant getInicio() {
+    public ZonedDateTime getInicio() {
         return inicio;
     }
 
-    public void setInicio(Instant inicio) {
+    public void setInicio(ZonedDateTime inicio) {
         this.inicio = inicio;
     }
 
-    public Instant getFim() {
+    public ZonedDateTime getFim() {
         return fim;
     }
 
-    public void setFim(Instant fim) {
+    public void setFim(ZonedDateTime fim) {
         this.fim = fim;
     }
 
@@ -139,7 +155,7 @@ public class OperacaoDTO implements Serializable {
         return "OperacaoDTO{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
-            ", volume=" + getVolume() +
+            ", volumePeso=" + getVolumePeso() +
             ", inicio='" + getInicio() + "'" +
             ", fim='" + getFim() + "'" +
             ", quantidadeAmostras=" + getQuantidadeAmostras() +
