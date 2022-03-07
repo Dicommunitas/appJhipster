@@ -1,2 +1,3 @@
-id;data;descricao;criticidade;aceitar_finalizacao;foto;foto_content_type;impacto;relator_id
-1;2022-02-24;Avon;BAIXA;true;../fake-data/blob/hipster.png;image/png;pixel;1
+id;data_verificacao;descricao;criticidade;impacto;data_finalizacao;foto;foto_content_type;relator_id
+1;2022-03-03;VGA-8098 pesada;BAIXA;Sem impacto para o sistema;;../fake-data/blob/hipster.jpeg;image/jpeg;1
+

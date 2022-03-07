@@ -39,7 +39,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/operacaos',
-      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-02-24T09:16:48.755Z","fim":"2022-02-24T22:12:11.791Z","quantidadeAmostras":73104,"observacao":"payment TCP"},
+      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-03-06T00:52:12.755Z","fim":"2022-03-06T13:47:35.791Z","quantidadeAmostras":73104,"observacao":"payment TCP"},
     }).then(({ body }) => {
       operacao = body;
     });
@@ -104,7 +104,7 @@ describe('Amostra e2e test', () => {
       body: [tipoAmostra],
     });
 
-    cy.intercept('GET', '/api/usuarios', {
+    cy.intercept('GET', '/api/users', {
       statusCode: 200,
       body: [],
     });
@@ -286,14 +286,13 @@ describe('Amostra e2e test', () => {
     });
 
     it.skip('should create an instance of Amostra', () => {
-      cy.get(`[data-cy="dataHora"]`).type('2022-02-24T20:43').should('have.value', '2022-02-24T20:43');
+      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-03-06T12:19').should('have.value', '2022-03-06T12:19');
 
       cy.get(`[data-cy="observacao"]`).type('Filipinas').should('have.value', 'Filipinas');
 
       cy.get(`[data-cy="identificadorExterno"]`).type('Focused').should('have.value', 'Focused');
 
-      cy.get(`[data-cy="amostraNoLaboratorio"]`).should('not.be.checked');
-      cy.get(`[data-cy="amostraNoLaboratorio"]`).click().should('be.checked');
+      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-03-06T14:18').should('have.value', '2022-03-06T14:18');
 
       cy.get(`[data-cy="operacao"]`).select(1);
       cy.get(`[data-cy="origemAmostra"]`).select(1);

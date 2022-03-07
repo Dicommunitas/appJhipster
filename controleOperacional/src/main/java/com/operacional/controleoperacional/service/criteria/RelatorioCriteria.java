@@ -7,6 +7,7 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
@@ -26,6 +27,8 @@ public class RelatorioCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
+    private InstantFilter dataHora;
+
     private LongFilter tipoId;
 
     private LongFilter responsavelId;
@@ -36,6 +39,7 @@ public class RelatorioCriteria implements Serializable, Criteria {
 
     public RelatorioCriteria(RelatorioCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.dataHora = other.dataHora == null ? null : other.dataHora.copy();
         this.tipoId = other.tipoId == null ? null : other.tipoId.copy();
         this.responsavelId = other.responsavelId == null ? null : other.responsavelId.copy();
         this.distinct = other.distinct;
@@ -59,6 +63,21 @@ public class RelatorioCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public InstantFilter getDataHora() {
+        return dataHora;
+    }
+
+    public InstantFilter dataHora() {
+        if (dataHora == null) {
+            dataHora = new InstantFilter();
+        }
+        return dataHora;
+    }
+
+    public void setDataHora(InstantFilter dataHora) {
+        this.dataHora = dataHora;
     }
 
     public LongFilter getTipoId() {
@@ -110,6 +129,7 @@ public class RelatorioCriteria implements Serializable, Criteria {
         final RelatorioCriteria that = (RelatorioCriteria) o;
         return (
             Objects.equals(id, that.id) &&
+            Objects.equals(dataHora, that.dataHora) &&
             Objects.equals(tipoId, that.tipoId) &&
             Objects.equals(responsavelId, that.responsavelId) &&
             Objects.equals(distinct, that.distinct)
@@ -118,7 +138,7 @@ public class RelatorioCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tipoId, responsavelId, distinct);
+        return Objects.hash(id, dataHora, tipoId, responsavelId, distinct);
     }
 
     // prettier-ignore
@@ -126,6 +146,7 @@ public class RelatorioCriteria implements Serializable, Criteria {
     public String toString() {
         return "RelatorioCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
+            (dataHora != null ? "dataHora=" + dataHora + ", " : "") +
             (tipoId != null ? "tipoId=" + tipoId + ", " : "") +
             (responsavelId != null ? "responsavelId=" + responsavelId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

@@ -23,7 +23,7 @@ public class FinalidadeAmostra implements Serializable {
     private Long id;
 
     /**
-     * O número do lacre do recipiente da amostra.\nAmostras que tenham alguma finalidade com\nobrigatoriedade de lacre porém estejam sem lacre\nnão poderão ser impressas, mas podem ser criadas.
+     * O número do lacre do recipiente da amostra.
      */
     @Column(name = "lacre", unique = true)
     private Integer lacre;

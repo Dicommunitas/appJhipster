@@ -1,6 +1,5 @@
 package com.operacional.controleoperacional.web.rest;
 
-import static com.operacional.controleoperacional.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -14,9 +13,7 @@ import com.operacional.controleoperacional.service.criteria.OperacaoCriteria;
 import com.operacional.controleoperacional.service.dto.OperacaoDTO;
 import com.operacional.controleoperacional.service.mapper.OperacaoMapper;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -45,13 +42,11 @@ class OperacaoResourceIT {
     private static final Integer UPDATED_VOLUME_PESO = 2;
     private static final Integer SMALLER_VOLUME_PESO = 1 - 1;
 
-    private static final ZonedDateTime DEFAULT_INICIO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_INICIO = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-    private static final ZonedDateTime SMALLER_INICIO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
+    private static final Instant DEFAULT_INICIO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final ZonedDateTime DEFAULT_FIM = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_FIM = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-    private static final ZonedDateTime SMALLER_FIM = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
+    private static final Instant DEFAULT_FIM = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FIM = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Integer DEFAULT_QUANTIDADE_AMOSTRAS = 1;
     private static final Integer UPDATED_QUANTIDADE_AMOSTRAS = 2;
@@ -248,8 +243,8 @@ class OperacaoResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(operacao.getId().intValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
             .andExpect(jsonPath("$.[*].volumePeso").value(hasItem(DEFAULT_VOLUME_PESO)))
-            .andExpect(jsonPath("$.[*].inicio").value(hasItem(sameInstant(DEFAULT_INICIO))))
-            .andExpect(jsonPath("$.[*].fim").value(hasItem(sameInstant(DEFAULT_FIM))))
+            .andExpect(jsonPath("$.[*].inicio").value(hasItem(DEFAULT_INICIO.toString())))
+            .andExpect(jsonPath("$.[*].fim").value(hasItem(DEFAULT_FIM.toString())))
             .andExpect(jsonPath("$.[*].quantidadeAmostras").value(hasItem(DEFAULT_QUANTIDADE_AMOSTRAS)))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)));
     }
@@ -268,8 +263,8 @@ class OperacaoResourceIT {
             .andExpect(jsonPath("$.id").value(operacao.getId().intValue()))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
             .andExpect(jsonPath("$.volumePeso").value(DEFAULT_VOLUME_PESO))
-            .andExpect(jsonPath("$.inicio").value(sameInstant(DEFAULT_INICIO)))
-            .andExpect(jsonPath("$.fim").value(sameInstant(DEFAULT_FIM)))
+            .andExpect(jsonPath("$.inicio").value(DEFAULT_INICIO.toString()))
+            .andExpect(jsonPath("$.fim").value(DEFAULT_FIM.toString()))
             .andExpect(jsonPath("$.quantidadeAmostras").value(DEFAULT_QUANTIDADE_AMOSTRAS))
             .andExpect(jsonPath("$.observacao").value(DEFAULT_OBSERVACAO));
     }
@@ -528,58 +523,6 @@ class OperacaoResourceIT {
 
     @Test
     @Transactional
-    void getAllOperacaosByInicioIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        operacaoRepository.saveAndFlush(operacao);
-
-        // Get all the operacaoList where inicio is greater than or equal to DEFAULT_INICIO
-        defaultOperacaoShouldBeFound("inicio.greaterThanOrEqual=" + DEFAULT_INICIO);
-
-        // Get all the operacaoList where inicio is greater than or equal to UPDATED_INICIO
-        defaultOperacaoShouldNotBeFound("inicio.greaterThanOrEqual=" + UPDATED_INICIO);
-    }
-
-    @Test
-    @Transactional
-    void getAllOperacaosByInicioIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        operacaoRepository.saveAndFlush(operacao);
-
-        // Get all the operacaoList where inicio is less than or equal to DEFAULT_INICIO
-        defaultOperacaoShouldBeFound("inicio.lessThanOrEqual=" + DEFAULT_INICIO);
-
-        // Get all the operacaoList where inicio is less than or equal to SMALLER_INICIO
-        defaultOperacaoShouldNotBeFound("inicio.lessThanOrEqual=" + SMALLER_INICIO);
-    }
-
-    @Test
-    @Transactional
-    void getAllOperacaosByInicioIsLessThanSomething() throws Exception {
-        // Initialize the database
-        operacaoRepository.saveAndFlush(operacao);
-
-        // Get all the operacaoList where inicio is less than DEFAULT_INICIO
-        defaultOperacaoShouldNotBeFound("inicio.lessThan=" + DEFAULT_INICIO);
-
-        // Get all the operacaoList where inicio is less than UPDATED_INICIO
-        defaultOperacaoShouldBeFound("inicio.lessThan=" + UPDATED_INICIO);
-    }
-
-    @Test
-    @Transactional
-    void getAllOperacaosByInicioIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        operacaoRepository.saveAndFlush(operacao);
-
-        // Get all the operacaoList where inicio is greater than DEFAULT_INICIO
-        defaultOperacaoShouldNotBeFound("inicio.greaterThan=" + DEFAULT_INICIO);
-
-        // Get all the operacaoList where inicio is greater than SMALLER_INICIO
-        defaultOperacaoShouldBeFound("inicio.greaterThan=" + SMALLER_INICIO);
-    }
-
-    @Test
-    @Transactional
     void getAllOperacaosByFimIsEqualToSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
@@ -628,58 +571,6 @@ class OperacaoResourceIT {
 
         // Get all the operacaoList where fim is null
         defaultOperacaoShouldNotBeFound("fim.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllOperacaosByFimIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        operacaoRepository.saveAndFlush(operacao);
-
-        // Get all the operacaoList where fim is greater than or equal to DEFAULT_FIM
-        defaultOperacaoShouldBeFound("fim.greaterThanOrEqual=" + DEFAULT_FIM);
-
-        // Get all the operacaoList where fim is greater than or equal to UPDATED_FIM
-        defaultOperacaoShouldNotBeFound("fim.greaterThanOrEqual=" + UPDATED_FIM);
-    }
-
-    @Test
-    @Transactional
-    void getAllOperacaosByFimIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        operacaoRepository.saveAndFlush(operacao);
-
-        // Get all the operacaoList where fim is less than or equal to DEFAULT_FIM
-        defaultOperacaoShouldBeFound("fim.lessThanOrEqual=" + DEFAULT_FIM);
-
-        // Get all the operacaoList where fim is less than or equal to SMALLER_FIM
-        defaultOperacaoShouldNotBeFound("fim.lessThanOrEqual=" + SMALLER_FIM);
-    }
-
-    @Test
-    @Transactional
-    void getAllOperacaosByFimIsLessThanSomething() throws Exception {
-        // Initialize the database
-        operacaoRepository.saveAndFlush(operacao);
-
-        // Get all the operacaoList where fim is less than DEFAULT_FIM
-        defaultOperacaoShouldNotBeFound("fim.lessThan=" + DEFAULT_FIM);
-
-        // Get all the operacaoList where fim is less than UPDATED_FIM
-        defaultOperacaoShouldBeFound("fim.lessThan=" + UPDATED_FIM);
-    }
-
-    @Test
-    @Transactional
-    void getAllOperacaosByFimIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        operacaoRepository.saveAndFlush(operacao);
-
-        // Get all the operacaoList where fim is greater than DEFAULT_FIM
-        defaultOperacaoShouldNotBeFound("fim.greaterThan=" + DEFAULT_FIM);
-
-        // Get all the operacaoList where fim is greater than SMALLER_FIM
-        defaultOperacaoShouldBeFound("fim.greaterThan=" + SMALLER_FIM);
     }
 
     @Test
@@ -901,8 +792,8 @@ class OperacaoResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(operacao.getId().intValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
             .andExpect(jsonPath("$.[*].volumePeso").value(hasItem(DEFAULT_VOLUME_PESO)))
-            .andExpect(jsonPath("$.[*].inicio").value(hasItem(sameInstant(DEFAULT_INICIO))))
-            .andExpect(jsonPath("$.[*].fim").value(hasItem(sameInstant(DEFAULT_FIM))))
+            .andExpect(jsonPath("$.[*].inicio").value(hasItem(DEFAULT_INICIO.toString())))
+            .andExpect(jsonPath("$.[*].fim").value(hasItem(DEFAULT_FIM.toString())))
             .andExpect(jsonPath("$.[*].quantidadeAmostras").value(hasItem(DEFAULT_QUANTIDADE_AMOSTRAS)))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)));
 

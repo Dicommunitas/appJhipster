@@ -10,8 +10,8 @@ import { StatusService } from '../service/status.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IProblema } from 'app/entities/problema/problema.model';
 import { ProblemaService } from 'app/entities/problema/service/problema.service';
 
@@ -22,14 +22,14 @@ import { ProblemaService } from 'app/entities/problema/service/problema.service'
 export class StatusUpdateComponent implements OnInit {
   isSaving = false;
 
-  usuariosSharedCollection: IUsuario[] = [];
+  usersSharedCollection: IUser[] = [];
   problemasSharedCollection: IProblema[] = [];
 
   editForm = this.fb.group({
     id: [],
     descricao: [null, [Validators.required]],
     prazo: [null, [Validators.required]],
-    resolvido: [],
+    dataResolucao: [],
     relator: [null, Validators.required],
     responsavel: [null, Validators.required],
     problema: [null, Validators.required],
@@ -39,7 +39,7 @@ export class StatusUpdateComponent implements OnInit {
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected statusService: StatusService,
-    protected usuarioService: UsuarioService,
+    protected userService: UserService,
     protected problemaService: ProblemaService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
@@ -84,7 +84,7 @@ export class StatusUpdateComponent implements OnInit {
     }
   }
 
-  trackUsuarioById(index: number, item: IUsuario): number {
+  trackUserById(index: number, item: IUser): number {
     return item.id!;
   }
 
@@ -116,14 +116,14 @@ export class StatusUpdateComponent implements OnInit {
       id: status.id,
       descricao: status.descricao,
       prazo: status.prazo,
-      resolvido: status.resolvido,
+      dataResolucao: status.dataResolucao,
       relator: status.relator,
       responsavel: status.responsavel,
       problema: status.problema,
     });
 
-    this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(
-      this.usuariosSharedCollection,
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(
+      this.usersSharedCollection,
       status.relator,
       status.responsavel
     );
@@ -131,19 +131,15 @@ export class StatusUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
-    this.usuarioService
+    this.userService
       .query()
-      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
       .pipe(
-        map((usuarios: IUsuario[]) =>
-          this.usuarioService.addUsuarioToCollectionIfMissing(
-            usuarios,
-            this.editForm.get('relator')!.value,
-            this.editForm.get('responsavel')!.value
-          )
+        map((users: IUser[]) =>
+          this.userService.addUserToCollectionIfMissing(users, this.editForm.get('relator')!.value, this.editForm.get('responsavel')!.value)
         )
       )
-      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
 
     this.problemaService
       .query()
@@ -162,7 +158,7 @@ export class StatusUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
       prazo: this.editForm.get(['prazo'])!.value,
-      resolvido: this.editForm.get(['resolvido'])!.value,
+      dataResolucao: this.editForm.get(['dataResolucao'])!.value,
       relator: this.editForm.get(['relator'])!.value,
       responsavel: this.editForm.get(['responsavel'])!.value,
       problema: this.editForm.get(['problema'])!.value,

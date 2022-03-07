@@ -18,10 +18,10 @@
         "title": "Amostra"
       },
       "id": "ID",
-      "dataHora": "Data Hora",
+      "dataHoraColeta": "Data Hora Coleta",
       "observacao": "Observacao",
       "identificadorExterno": "Identificador Externo",
-      "amostraNoLaboratorio": "Amostra No Laboratorio",
+      "recebimentoNoLaboratorio": "Recebimento No Laboratorio",
       "finalidades": "Finalidades",
       "operacao": "Operacao",
       "origemAmostra": "Origem Amostra",
@@ -30,10 +30,10 @@
       "amostradaPor": "Amostrada Por",
       "recebidaPor": "Recebida Por",
       "help": {
-        "dataHora": "Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo\n\nData e hora que a amostra foi coletada.",
+        "dataHoraColeta": "Data e hora que a amostra foi coletada.",
         "observacao": "Observações que forem necessárias para melhorar\na identificação da amostra.",
-        "identificadorExterno": "Identificador que &#34;ligue&#34; esse registro em outro sistema.",
-        "amostraNoLaboratorio": "Identifica se a amostra está ou não no laboratório."
+        "identificadorExterno": "Identificador que &#34;ligue/identifique&#34; essa\namostra em outro sistema.",
+        "recebimentoNoLaboratorio": "Identifica se a amostra está ou não no laboratório."
       }
     }
   }

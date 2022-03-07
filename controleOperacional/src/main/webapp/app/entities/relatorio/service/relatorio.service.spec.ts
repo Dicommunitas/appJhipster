@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import * as dayjs from 'dayjs';
 
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IRelatorio, Relatorio } from '../relatorio.model';
 
 import { RelatorioService } from './relatorio.service';
@@ -10,6 +12,7 @@ describe('Relatorio Service', () => {
   let httpMock: HttpTestingController;
   let elemDefault: IRelatorio;
   let expectedResult: IRelatorio | IRelatorio[] | boolean | null;
+  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,9 +21,11 @@ describe('Relatorio Service', () => {
     expectedResult = null;
     service = TestBed.inject(RelatorioService);
     httpMock = TestBed.inject(HttpTestingController);
+    currentDate = dayjs();
 
     elemDefault = {
       id: 0,
+      dataHora: currentDate,
       relato: 'AAAAAAA',
       linksExternos: 'AAAAAAA',
     };
@@ -28,7 +33,12 @@ describe('Relatorio Service', () => {
 
   describe('Service methods', () => {
     it('should find an element', () => {
-      const returnedFromService = Object.assign({}, elemDefault);
+      const returnedFromService = Object.assign(
+        {
+          dataHora: currentDate.format(DATE_TIME_FORMAT),
+        },
+        elemDefault
+      );
 
       service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -41,11 +51,17 @@ describe('Relatorio Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
+          dataHora: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign({}, returnedFromService);
+      const expected = Object.assign(
+        {
+          dataHora: currentDate,
+        },
+        returnedFromService
+      );
 
       service.create(new Relatorio()).subscribe(resp => (expectedResult = resp.body));
 
@@ -58,13 +74,19 @@ describe('Relatorio Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
+          dataHora: currentDate.format(DATE_TIME_FORMAT),
           relato: 'BBBBBB',
           linksExternos: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign({}, returnedFromService);
+      const expected = Object.assign(
+        {
+          dataHora: currentDate,
+        },
+        returnedFromService
+      );
 
       service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -78,7 +100,12 @@ describe('Relatorio Service', () => {
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
-      const expected = Object.assign({}, returnedFromService);
+      const expected = Object.assign(
+        {
+          dataHora: currentDate,
+        },
+        returnedFromService
+      );
 
       service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -91,13 +118,19 @@ describe('Relatorio Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
+          dataHora: currentDate.format(DATE_TIME_FORMAT),
           relato: 'BBBBBB',
           linksExternos: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign({}, returnedFromService);
+      const expected = Object.assign(
+        {
+          dataHora: currentDate,
+        },
+        returnedFromService
+      );
 
       service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -144,7 +177,7 @@ describe('Relatorio Service', () => {
       });
 
       it('should add only unique Relatorio to an array', () => {
-        const relatorioArray: IRelatorio[] = [{ id: 123 }, { id: 456 }, { id: 29081 }];
+        const relatorioArray: IRelatorio[] = [{ id: 123 }, { id: 456 }, { id: 34998 }];
         const relatorioCollection: IRelatorio[] = [{ id: 123 }];
         expectedResult = service.addRelatorioToCollectionIfMissing(relatorioCollection, ...relatorioArray);
         expect(expectedResult).toHaveLength(3);

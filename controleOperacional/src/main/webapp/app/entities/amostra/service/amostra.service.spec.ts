@@ -25,10 +25,10 @@ describe('Amostra Service', () => {
 
     elemDefault = {
       id: 0,
-      dataHora: currentDate,
+      dataHoraColeta: currentDate,
       observacao: 'AAAAAAA',
       identificadorExterno: 'AAAAAAA',
-      amostraNoLaboratorio: false,
+      recebimentoNoLaboratorio: currentDate,
     };
   });
 
@@ -36,7 +36,8 @@ describe('Amostra Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          dataHora: currentDate.format(DATE_TIME_FORMAT),
+          dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
+          recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -52,14 +53,16 @@ describe('Amostra Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          dataHora: currentDate.format(DATE_TIME_FORMAT),
+          dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
+          recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
       const expected = Object.assign(
         {
-          dataHora: currentDate,
+          dataHoraColeta: currentDate,
+          recebimentoNoLaboratorio: currentDate,
         },
         returnedFromService
       );
@@ -75,17 +78,18 @@ describe('Amostra Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          dataHora: currentDate.format(DATE_TIME_FORMAT),
+          dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
           observacao: 'BBBBBB',
           identificadorExterno: 'BBBBBB',
-          amostraNoLaboratorio: true,
+          recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
       const expected = Object.assign(
         {
-          dataHora: currentDate,
+          dataHoraColeta: currentDate,
+          recebimentoNoLaboratorio: currentDate,
         },
         returnedFromService
       );
@@ -100,7 +104,7 @@ describe('Amostra Service', () => {
     it('should partial update a Amostra', () => {
       const patchObject = Object.assign(
         {
-          dataHora: currentDate.format(DATE_TIME_FORMAT),
+          dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
           observacao: 'BBBBBB',
         },
         new Amostra()
@@ -110,7 +114,8 @@ describe('Amostra Service', () => {
 
       const expected = Object.assign(
         {
-          dataHora: currentDate,
+          dataHoraColeta: currentDate,
+          recebimentoNoLaboratorio: currentDate,
         },
         returnedFromService
       );
@@ -126,17 +131,18 @@ describe('Amostra Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          dataHora: currentDate.format(DATE_TIME_FORMAT),
+          dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
           observacao: 'BBBBBB',
           identificadorExterno: 'BBBBBB',
-          amostraNoLaboratorio: true,
+          recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
       const expected = Object.assign(
         {
-          dataHora: currentDate,
+          dataHoraColeta: currentDate,
+          recebimentoNoLaboratorio: currentDate,
         },
         returnedFromService
       );

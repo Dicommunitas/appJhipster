@@ -7,10 +7,10 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
-import tech.jhipster.service.filter.ZonedDateTimeFilter;
 
 /**
  * Criteria class for the {@link com.operacional.controleoperacional.domain.Operacao} entity. This class is used
@@ -31,9 +31,9 @@ public class OperacaoCriteria implements Serializable, Criteria {
 
     private IntegerFilter volumePeso;
 
-    private ZonedDateTimeFilter inicio;
+    private InstantFilter inicio;
 
-    private ZonedDateTimeFilter fim;
+    private InstantFilter fim;
 
     private IntegerFilter quantidadeAmostras;
 
@@ -107,33 +107,33 @@ public class OperacaoCriteria implements Serializable, Criteria {
         this.volumePeso = volumePeso;
     }
 
-    public ZonedDateTimeFilter getInicio() {
+    public InstantFilter getInicio() {
         return inicio;
     }
 
-    public ZonedDateTimeFilter inicio() {
+    public InstantFilter inicio() {
         if (inicio == null) {
-            inicio = new ZonedDateTimeFilter();
+            inicio = new InstantFilter();
         }
         return inicio;
     }
 
-    public void setInicio(ZonedDateTimeFilter inicio) {
+    public void setInicio(InstantFilter inicio) {
         this.inicio = inicio;
     }
 
-    public ZonedDateTimeFilter getFim() {
+    public InstantFilter getFim() {
         return fim;
     }
 
-    public ZonedDateTimeFilter fim() {
+    public InstantFilter fim() {
         if (fim == null) {
-            fim = new ZonedDateTimeFilter();
+            fim = new InstantFilter();
         }
         return fim;
     }
 
-    public void setFim(ZonedDateTimeFilter fim) {
+    public void setFim(InstantFilter fim) {
         this.fim = fim;
     }
 

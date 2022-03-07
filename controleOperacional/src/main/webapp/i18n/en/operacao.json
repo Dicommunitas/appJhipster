@@ -26,11 +26,11 @@
       "observacao": "Observacao",
       "tipoOperacao": "Tipo Operacao",
       "help": {
-        "descricao": "Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.\n\nDescreve de forma simples a operação.",
-        "volumePeso": "O volume ou peso total da operação.",
+        "descricao": "Descreve de forma simples a operação.",
+        "volumePeso": "O volume ou peso total da operação. Em metros cúbicos ou toneladas",
         "inicio": "O horário de início da operação.",
         "fim": "O horário de término da operação.",
-        "quantidadeAmostras": "Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.\n\nQuantas amostras devem ter nessa operação.",
+        "quantidadeAmostras": "Quantas amostras devem ter nessa operação.",
         "observacao": "Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação."
       }
     }

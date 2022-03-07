@@ -1,14 +1,14 @@
 import * as dayjs from 'dayjs';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
+import { IUser } from 'app/entities/user/user.model';
 import { IProblema } from 'app/entities/problema/problema.model';
 
 export interface IStatus {
   id?: number;
   descricao?: string;
   prazo?: dayjs.Dayjs;
-  resolvido?: boolean | null;
-  relator?: IUsuario;
-  responsavel?: IUsuario;
+  dataResolucao?: dayjs.Dayjs | null;
+  relator?: IUser;
+  responsavel?: IUser;
   problema?: IProblema;
 }
 
@@ -17,13 +17,11 @@ export class Status implements IStatus {
     public id?: number,
     public descricao?: string,
     public prazo?: dayjs.Dayjs,
-    public resolvido?: boolean | null,
-    public relator?: IUsuario,
-    public responsavel?: IUsuario,
+    public dataResolucao?: dayjs.Dayjs | null,
+    public relator?: IUser,
+    public responsavel?: IUser,
     public problema?: IProblema
-  ) {
-    this.resolvido = this.resolvido ?? false;
-  }
+  ) {}
 }
 
 export function getStatusIdentifier(status: IStatus): number | undefined {

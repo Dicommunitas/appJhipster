@@ -10,6 +10,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { TipoFinalidadeAmostraMapper.class, AmostraMapper.class })
 public interface FinalidadeAmostraMapper extends EntityMapper<FinalidadeAmostraDTO, FinalidadeAmostra> {
     @Mapping(target = "tipoFinalidadeAmostra", source = "tipoFinalidadeAmostra", qualifiedByName = "descricao")
-    @Mapping(target = "amostra", source = "amostra", qualifiedByName = "dataHora")
+    @Mapping(target = "amostra", source = "amostra", qualifiedByName = "dataHoraColeta")
     FinalidadeAmostraDTO toDto(FinalidadeAmostra s);
 }

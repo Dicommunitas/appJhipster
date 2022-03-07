@@ -17,8 +17,9 @@ import { IProduto } from 'app/entities/produto/produto.model';
 import { ProdutoService } from 'app/entities/produto/service/produto.service';
 import { ITipoAmostra } from 'app/entities/tipo-amostra/tipo-amostra.model';
 import { TipoAmostraService } from 'app/entities/tipo-amostra/service/tipo-amostra.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 import { AmostraUpdateComponent } from './amostra-update.component';
 
@@ -31,7 +32,7 @@ describe('Amostra Management Update Component', () => {
   let origemAmostraService: OrigemAmostraService;
   let produtoService: ProdutoService;
   let tipoAmostraService: TipoAmostraService;
-  let usuarioService: UsuarioService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,7 +50,7 @@ describe('Amostra Management Update Component', () => {
     origemAmostraService = TestBed.inject(OrigemAmostraService);
     produtoService = TestBed.inject(ProdutoService);
     tipoAmostraService = TestBed.inject(TipoAmostraService);
-    usuarioService = TestBed.inject(UsuarioService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
@@ -134,25 +135,25 @@ describe('Amostra Management Update Component', () => {
       expect(comp.tipoAmostrasSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Usuario query and add missing value', () => {
+    it('Should call User query and add missing value', () => {
       const amostra: IAmostra = { id: 456 };
-      const amostradaPor: IUsuario = { id: 97867 };
+      const amostradaPor: IUser = { id: 31101 };
       amostra.amostradaPor = amostradaPor;
-      const recebidaPor: IUsuario = { id: 96921 };
+      const recebidaPor: IUser = { id: 1393 };
       amostra.recebidaPor = recebidaPor;
 
-      const usuarioCollection: IUsuario[] = [{ id: 95807 }];
-      jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
-      const additionalUsuarios = [amostradaPor, recebidaPor];
-      const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
-      jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const userCollection: IUser[] = [{ id: 60877 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [amostradaPor, recebidaPor];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ amostra });
       comp.ngOnInit();
 
-      expect(usuarioService.query).toHaveBeenCalled();
-      expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(usuarioCollection, ...additionalUsuarios);
-      expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
@@ -165,9 +166,9 @@ describe('Amostra Management Update Component', () => {
       amostra.produto = produto;
       const tipoAmostra: ITipoAmostra = { id: 30560 };
       amostra.tipoAmostra = tipoAmostra;
-      const amostradaPor: IUsuario = { id: 92270 };
+      const amostradaPor: IUser = { id: 53678 };
       amostra.amostradaPor = amostradaPor;
-      const recebidaPor: IUsuario = { id: 92569 };
+      const recebidaPor: IUser = { id: 57651 };
       amostra.recebidaPor = recebidaPor;
 
       activatedRoute.data = of({ amostra });
@@ -178,8 +179,8 @@ describe('Amostra Management Update Component', () => {
       expect(comp.origemAmostrasSharedCollection).toContain(origemAmostra);
       expect(comp.produtosSharedCollection).toContain(produto);
       expect(comp.tipoAmostrasSharedCollection).toContain(tipoAmostra);
-      expect(comp.usuariosSharedCollection).toContain(amostradaPor);
-      expect(comp.usuariosSharedCollection).toContain(recebidaPor);
+      expect(comp.usersSharedCollection).toContain(amostradaPor);
+      expect(comp.usersSharedCollection).toContain(recebidaPor);
     });
   });
 
@@ -280,10 +281,10 @@ describe('Amostra Management Update Component', () => {
       });
     });
 
-    describe('trackUsuarioById', () => {
-      it('Should return tracked Usuario primary key', () => {
+    describe('trackUserById', () => {
+      it('Should return tracked User primary key', () => {
         const entity = { id: 123 };
-        const trackResult = comp.trackUsuarioById(0, entity);
+        const trackResult = comp.trackUserById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });

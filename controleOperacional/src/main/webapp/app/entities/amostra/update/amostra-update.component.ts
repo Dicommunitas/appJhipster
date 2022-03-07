@@ -18,8 +18,8 @@ import { IProduto } from 'app/entities/produto/produto.model';
 import { ProdutoService } from 'app/entities/produto/service/produto.service';
 import { ITipoAmostra } from 'app/entities/tipo-amostra/tipo-amostra.model';
 import { TipoAmostraService } from 'app/entities/tipo-amostra/service/tipo-amostra.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-amostra-update',
@@ -32,14 +32,14 @@ export class AmostraUpdateComponent implements OnInit {
   origemAmostrasSharedCollection: IOrigemAmostra[] = [];
   produtosSharedCollection: IProduto[] = [];
   tipoAmostrasSharedCollection: ITipoAmostra[] = [];
-  usuariosSharedCollection: IUsuario[] = [];
+  usersSharedCollection: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
-    dataHora: [],
+    dataHoraColeta: [],
     observacao: [],
     identificadorExterno: [],
-    amostraNoLaboratorio: [],
+    recebimentoNoLaboratorio: [],
     operacao: [null, Validators.required],
     origemAmostra: [null, Validators.required],
     produto: [null, Validators.required],
@@ -54,7 +54,7 @@ export class AmostraUpdateComponent implements OnInit {
     protected origemAmostraService: OrigemAmostraService,
     protected produtoService: ProdutoService,
     protected tipoAmostraService: TipoAmostraService,
-    protected usuarioService: UsuarioService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -63,7 +63,8 @@ export class AmostraUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ amostra }) => {
       if (amostra.id === undefined) {
         const today = dayjs().startOf('day');
-        amostra.dataHora = today;
+        amostra.dataHoraColeta = today;
+        amostra.recebimentoNoLaboratorio = today;
       }
 
       this.updateForm(amostra);
@@ -102,7 +103,7 @@ export class AmostraUpdateComponent implements OnInit {
     return item.id!;
   }
 
-  trackUsuarioById(index: number, item: IUsuario): number {
+  trackUserById(index: number, item: IUser): number {
     return item.id!;
   }
 
@@ -128,10 +129,10 @@ export class AmostraUpdateComponent implements OnInit {
   protected updateForm(amostra: IAmostra): void {
     this.editForm.patchValue({
       id: amostra.id,
-      dataHora: amostra.dataHora ? amostra.dataHora.format(DATE_TIME_FORMAT) : null,
+      dataHoraColeta: amostra.dataHoraColeta ? amostra.dataHoraColeta.format(DATE_TIME_FORMAT) : null,
       observacao: amostra.observacao,
       identificadorExterno: amostra.identificadorExterno,
-      amostraNoLaboratorio: amostra.amostraNoLaboratorio,
+      recebimentoNoLaboratorio: amostra.recebimentoNoLaboratorio ? amostra.recebimentoNoLaboratorio.format(DATE_TIME_FORMAT) : null,
       operacao: amostra.operacao,
       origemAmostra: amostra.origemAmostra,
       produto: amostra.produto,
@@ -153,8 +154,8 @@ export class AmostraUpdateComponent implements OnInit {
       this.tipoAmostrasSharedCollection,
       amostra.tipoAmostra
     );
-    this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(
-      this.usuariosSharedCollection,
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(
+      this.usersSharedCollection,
       amostra.amostradaPor,
       amostra.recebidaPor
     );
@@ -199,29 +200,33 @@ export class AmostraUpdateComponent implements OnInit {
       )
       .subscribe((tipoAmostras: ITipoAmostra[]) => (this.tipoAmostrasSharedCollection = tipoAmostras));
 
-    this.usuarioService
+    this.userService
       .query()
-      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
       .pipe(
-        map((usuarios: IUsuario[]) =>
-          this.usuarioService.addUsuarioToCollectionIfMissing(
-            usuarios,
+        map((users: IUser[]) =>
+          this.userService.addUserToCollectionIfMissing(
+            users,
             this.editForm.get('amostradaPor')!.value,
             this.editForm.get('recebidaPor')!.value
           )
         )
       )
-      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 
   protected createFromForm(): IAmostra {
     return {
       ...new Amostra(),
       id: this.editForm.get(['id'])!.value,
-      dataHora: this.editForm.get(['dataHora'])!.value ? dayjs(this.editForm.get(['dataHora'])!.value, DATE_TIME_FORMAT) : undefined,
+      dataHoraColeta: this.editForm.get(['dataHoraColeta'])!.value
+        ? dayjs(this.editForm.get(['dataHoraColeta'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       observacao: this.editForm.get(['observacao'])!.value,
       identificadorExterno: this.editForm.get(['identificadorExterno'])!.value,
-      amostraNoLaboratorio: this.editForm.get(['amostraNoLaboratorio'])!.value,
+      recebimentoNoLaboratorio: this.editForm.get(['recebimentoNoLaboratorio'])!.value
+        ? dayjs(this.editForm.get(['recebimentoNoLaboratorio'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       operacao: this.editForm.get(['operacao'])!.value,
       origemAmostra: this.editForm.get(['origemAmostra'])!.value,
       produto: this.editForm.get(['produto'])!.value,

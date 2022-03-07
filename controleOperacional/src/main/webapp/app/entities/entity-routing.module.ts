@@ -35,11 +35,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./lembrete/lembrete.module').then(m => m.LembreteModule),
       },
       {
-        path: 'usuario',
-        data: { pageTitle: 'controleOperacionalApp.usuario.home.title' },
-        loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule),
-      },
-      {
         path: 'amostra',
         data: { pageTitle: 'controleOperacionalApp.amostra.home.title' },
         loadChildren: () => import('./amostra/amostra.module').then(m => m.AmostraModule),

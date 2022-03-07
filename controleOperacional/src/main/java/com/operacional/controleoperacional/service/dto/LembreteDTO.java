@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.operacional.controleoperacional.domain.Lembrete} entity.
  */
 @ApiModel(
-    description = "Entidade Lembrete.\n@author Diego.\nOs lembrestes devem ficar ao lada da tela de visualização e edição\ndos relatórios, para os relatórios que o tiverem os tipos associados\ncom o lembretes. (Lembretes associados aos Tipos de Relatórios\nna tela do relatórios )"
+    description = "Entidade Lembrete.\n@author Diego.\nOs lembrestes devem aparecer nas telas de visualização e edição\ndos relatórios e das operações, para os quais estiverem associados.\nIsso deve ocorrer pelos tipos associados com os lembretes.\nLembretes podem ser associadados a um tipo de relatório e/ou\num tipo de operação."
 )
 public class LembreteDTO implements Serializable {
 

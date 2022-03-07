@@ -22,7 +22,7 @@
       "obrigatorioLacre": "Obrigatorio Lacre",
       "help": {
         "descricao": "Descreve a finalidade.\nA principal informação da finalidade.\nPara o que a amostra será usada.",
-        "obrigatorioLacre": "Amostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas."
+        "obrigatorioLacre": "Indica se esse tipo de finalidade deve\nter obrigatoriedade de uso de lacre."
       }
     }
   }

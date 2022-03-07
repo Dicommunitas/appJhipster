@@ -34,25 +34,21 @@
         </dd>
         <dt>
           <span
-            jhiTranslate="controleOperacionalApp.status.resolvido"
-            [ngbTooltip]="'controleOperacionalApp.status.help.resolvido' | translate"
-            >Resolvido</span
+            jhiTranslate="controleOperacionalApp.status.dataResolucao"
+            [ngbTooltip]="'controleOperacionalApp.status.help.dataResolucao' | translate"
+            >Data Resolucao</span
           >
         </dt>
         <dd>
-          <span>{{ status.resolvido }}</span>
+          <span>{{ status.dataResolucao | formatMediumDate }}</span>
         </dd>
         <dt><span jhiTranslate="controleOperacionalApp.status.relator">Relator</span></dt>
         <dd>
-          <div *ngIf="status.relator">
-            <a [routerLink]="['/usuario', status.relator?.id, 'view']">{{ status.relator?.nome }}</a>
-          </div>
+          <span>{{ status.relator?.login }}</span>
         </dd>
         <dt><span jhiTranslate="controleOperacionalApp.status.responsavel">Responsavel</span></dt>
         <dd>
-          <div *ngIf="status.responsavel">
-            <a [routerLink]="['/usuario', status.responsavel?.id, 'view']">{{ status.responsavel?.nome }}</a>
-          </div>
+          <span>{{ status.responsavel?.login }}</span>
         </dd>
         <dt><span jhiTranslate="controleOperacionalApp.status.problema">Problema</span></dt>
         <dd>

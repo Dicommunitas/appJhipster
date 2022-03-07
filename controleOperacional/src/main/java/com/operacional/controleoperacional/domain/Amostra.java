@@ -2,7 +2,7 @@ package com.operacional.controleoperacional.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -26,10 +26,10 @@ public class Amostra implements Serializable {
     private Long id;
 
     /**
-     * Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo\n\nData e hora que a amostra foi coletada.
+     * Data e hora que a amostra foi coletada.
      */
-    @Column(name = "data_hora")
-    private ZonedDateTime dataHora;
+    @Column(name = "data_hora_coleta")
+    private Instant dataHoraColeta;
 
     /**
      * Observações que forem necessárias para melhorar\na identificação da amostra.
@@ -38,7 +38,7 @@ public class Amostra implements Serializable {
     private String observacao;
 
     /**
-     * Identificador que \"ligue\" esse registro em outro sistema.
+     * Identificador que \"ligue/identifique\" essa\namostra em outro sistema.
      */
     @Column(name = "identificador_externo")
     private String identificadorExterno;
@@ -46,8 +46,8 @@ public class Amostra implements Serializable {
     /**
      * Identifica se a amostra está ou não no laboratório.
      */
-    @Column(name = "amostra_no_laboratorio")
-    private Boolean amostraNoLaboratorio;
+    @Column(name = "recebimento_no_laboratorio")
+    private Instant recebimentoNoLaboratorio;
 
     /**
      * Descreve quais serão as finalidades de uma amostra
@@ -88,15 +88,16 @@ public class Amostra implements Serializable {
     private TipoAmostra tipoAmostra;
 
     /**
-     * Verificar a aplicabilidade de criar previamente\namostras em bloco, exemplo, ao criar uma operação nova\ncopiar suas amostras com os campos \"amostrado por\"\ne \"recebidaPor\" em branco.\nQuem retirou a amostra, responsável pela amostragem.\nEnquanto estiver em branco a amostra pode ser alterada\ne excluída a qualquer momento e deverá ter outra\ncor de identificação na listagem.
+     * Quem retirou a amostra, responsável pela amostragem.
      */
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "relAutorizados" }, allowSetters = true)
-    private Usuario amostradaPor;
+    private User amostradaPor;
 
+    /**
+     * Quem recebeu a amostra no laboratório.
+     */
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "relAutorizados" }, allowSetters = true)
-    private Usuario recebidaPor;
+    private User recebidaPor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -113,17 +114,17 @@ public class Amostra implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDataHora() {
-        return this.dataHora;
+    public Instant getDataHoraColeta() {
+        return this.dataHoraColeta;
     }
 
-    public Amostra dataHora(ZonedDateTime dataHora) {
-        this.setDataHora(dataHora);
+    public Amostra dataHoraColeta(Instant dataHoraColeta) {
+        this.setDataHoraColeta(dataHoraColeta);
         return this;
     }
 
-    public void setDataHora(ZonedDateTime dataHora) {
-        this.dataHora = dataHora;
+    public void setDataHoraColeta(Instant dataHoraColeta) {
+        this.dataHoraColeta = dataHoraColeta;
     }
 
     public String getObservacao() {
@@ -152,17 +153,17 @@ public class Amostra implements Serializable {
         this.identificadorExterno = identificadorExterno;
     }
 
-    public Boolean getAmostraNoLaboratorio() {
-        return this.amostraNoLaboratorio;
+    public Instant getRecebimentoNoLaboratorio() {
+        return this.recebimentoNoLaboratorio;
     }
 
-    public Amostra amostraNoLaboratorio(Boolean amostraNoLaboratorio) {
-        this.setAmostraNoLaboratorio(amostraNoLaboratorio);
+    public Amostra recebimentoNoLaboratorio(Instant recebimentoNoLaboratorio) {
+        this.setRecebimentoNoLaboratorio(recebimentoNoLaboratorio);
         return this;
     }
 
-    public void setAmostraNoLaboratorio(Boolean amostraNoLaboratorio) {
-        this.amostraNoLaboratorio = amostraNoLaboratorio;
+    public void setRecebimentoNoLaboratorio(Instant recebimentoNoLaboratorio) {
+        this.recebimentoNoLaboratorio = recebimentoNoLaboratorio;
     }
 
     public Set<FinalidadeAmostra> getFinalidades() {
@@ -248,29 +249,29 @@ public class Amostra implements Serializable {
         return this;
     }
 
-    public Usuario getAmostradaPor() {
+    public User getAmostradaPor() {
         return this.amostradaPor;
     }
 
-    public void setAmostradaPor(Usuario usuario) {
-        this.amostradaPor = usuario;
+    public void setAmostradaPor(User user) {
+        this.amostradaPor = user;
     }
 
-    public Amostra amostradaPor(Usuario usuario) {
-        this.setAmostradaPor(usuario);
+    public Amostra amostradaPor(User user) {
+        this.setAmostradaPor(user);
         return this;
     }
 
-    public Usuario getRecebidaPor() {
+    public User getRecebidaPor() {
         return this.recebidaPor;
     }
 
-    public void setRecebidaPor(Usuario usuario) {
-        this.recebidaPor = usuario;
+    public void setRecebidaPor(User user) {
+        this.recebidaPor = user;
     }
 
-    public Amostra recebidaPor(Usuario usuario) {
-        this.setRecebidaPor(usuario);
+    public Amostra recebidaPor(User user) {
+        this.setRecebidaPor(user);
         return this;
     }
 
@@ -298,10 +299,10 @@ public class Amostra implements Serializable {
     public String toString() {
         return "Amostra{" +
             "id=" + getId() +
-            ", dataHora='" + getDataHora() + "'" +
+            ", dataHoraColeta='" + getDataHoraColeta() + "'" +
             ", observacao='" + getObservacao() + "'" +
             ", identificadorExterno='" + getIdentificadorExterno() + "'" +
-            ", amostraNoLaboratorio='" + getAmostraNoLaboratorio() + "'" +
+            ", recebimentoNoLaboratorio='" + getRecebimentoNoLaboratorio() + "'" +
             "}";
     }
 }

@@ -15,12 +15,14 @@
           <span>{{ problema.id }}</span>
         </dd>
         <dt>
-          <span jhiTranslate="controleOperacionalApp.problema.data" [ngbTooltip]="'controleOperacionalApp.problema.help.data' | translate"
-            >Data</span
+          <span
+            jhiTranslate="controleOperacionalApp.problema.dataVerificacao"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.dataVerificacao' | translate"
+            >Data Verificacao</span
           >
         </dt>
         <dd>
-          <span>{{ problema.data | formatMediumDate }}</span>
+          <span>{{ problema.dataVerificacao | formatMediumDate }}</span>
         </dd>
         <dt>
           <span
@@ -44,25 +46,6 @@
         </dd>
         <dt>
           <span
-            jhiTranslate="controleOperacionalApp.problema.aceitarFinalizacao"
-            [ngbTooltip]="'controleOperacionalApp.problema.help.aceitarFinalizacao' | translate"
-            >Aceitar Finalizacao</span
-          >
-        </dt>
-        <dd>
-          <span>{{ problema.aceitarFinalizacao }}</span>
-        </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.problema.foto">Foto</span></dt>
-        <dd>
-          <div *ngIf="problema.foto">
-            <a (click)="openFile(problema.foto, problema.fotoContentType)">
-              <img [src]="'data:' + problema.fotoContentType + ';base64,' + problema.foto" style="max-width: 100%" alt="problema image" />
-            </a>
-            {{ problema.fotoContentType }}, {{ byteSize(problema.foto) }}
-          </div>
-        </dd>
-        <dt>
-          <span
             jhiTranslate="controleOperacionalApp.problema.impacto"
             [ngbTooltip]="'controleOperacionalApp.problema.help.impacto' | translate"
             >Impacto</span
@@ -71,11 +54,32 @@
         <dd>
           <span>{{ problema.impacto }}</span>
         </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.problema.dataFinalizacao"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.dataFinalizacao' | translate"
+            >Data Finalizacao</span
+          >
+        </dt>
+        <dd>
+          <span>{{ problema.dataFinalizacao | formatMediumDate }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="controleOperacionalApp.problema.foto" [ngbTooltip]="'controleOperacionalApp.problema.help.foto' | translate"
+            >Foto</span
+          >
+        </dt>
+        <dd>
+          <div *ngIf="problema.foto">
+            <a (click)="openFile(problema.foto, problema.fotoContentType)">
+              <img [src]="'data:' + problema.fotoContentType + ';base64,' + problema.foto" style="max-width: 100%" alt="problema image" />
+            </a>
+            {{ problema.fotoContentType }}, {{ byteSize(problema.foto) }}
+          </div>
+        </dd>
         <dt><span jhiTranslate="controleOperacionalApp.problema.relator">Relator</span></dt>
         <dd>
-          <div *ngIf="problema.relator">
-            <a [routerLink]="['/usuario', problema.relator?.id, 'view']">{{ problema.relator?.nome }}</a>
-          </div>
+          <span>{{ problema.relator?.login }}</span>
         </dd>
       </dl>
 

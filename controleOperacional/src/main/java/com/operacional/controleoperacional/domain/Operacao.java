@@ -1,7 +1,7 @@
 package com.operacional.controleoperacional.domain;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -23,14 +23,14 @@ public class Operacao implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.\n\nDescreve de forma simples a operação.
+     * Descreve de forma simples a operação.
      */
     @NotNull
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
     /**
-     * O volume ou peso total da operação.
+     * O volume ou peso total da operação. Em metros cúbicos ou toneladas
      */
     @NotNull
     @Column(name = "volume_peso", nullable = false)
@@ -40,16 +40,16 @@ public class Operacao implements Serializable {
      * O horário de início da operação.
      */
     @Column(name = "inicio")
-    private ZonedDateTime inicio;
+    private Instant inicio;
 
     /**
      * O horário de término da operação.
      */
     @Column(name = "fim")
-    private ZonedDateTime fim;
+    private Instant fim;
 
     /**
-     * Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.\n\nQuantas amostras devem ter nessa operação.
+     * Quantas amostras devem ter nessa operação.
      */
     @NotNull
     @Column(name = "quantidade_amostras", nullable = false)
@@ -109,29 +109,29 @@ public class Operacao implements Serializable {
         this.volumePeso = volumePeso;
     }
 
-    public ZonedDateTime getInicio() {
+    public Instant getInicio() {
         return this.inicio;
     }
 
-    public Operacao inicio(ZonedDateTime inicio) {
+    public Operacao inicio(Instant inicio) {
         this.setInicio(inicio);
         return this;
     }
 
-    public void setInicio(ZonedDateTime inicio) {
+    public void setInicio(Instant inicio) {
         this.inicio = inicio;
     }
 
-    public ZonedDateTime getFim() {
+    public Instant getFim() {
         return this.fim;
     }
 
-    public Operacao fim(ZonedDateTime fim) {
+    public Operacao fim(Instant fim) {
         this.setFim(fim);
         return this;
     }
 
-    public void setFim(ZonedDateTime fim) {
+    public void setFim(Instant fim) {
         this.fim = fim;
     }
 

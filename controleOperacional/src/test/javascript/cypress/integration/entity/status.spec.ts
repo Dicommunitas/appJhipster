@@ -16,10 +16,10 @@ describe('Status e2e test', () => {
   const statusPageUrlPattern = new RegExp('/status(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const statusSample = { descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=', prazo: '2022-02-25' };
+  const statusSample = { descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=', prazo: '2022-03-06' };
 
   let status: any;
-  //let usuario: any;
+  //let user: any;
   //let problema: any;
 
   before(() => {
@@ -36,16 +36,16 @@ describe('Status e2e test', () => {
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
       method: 'POST',
-      url: '/api/usuarios',
-      body: {"chave":"Prin","nome":"Plástico","linksExternos":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ="},
+      url: '/api/users',
+      body: {"login":"withdrawal","firstName":"Vicente","lastName":"Melo"},
     }).then(({ body }) => {
-      usuario = body;
+      user = body;
     });
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/problemas',
-      body: {"data":"2022-02-24","descricao":"Account transmitter","criticidade":"IMEDIATA","aceitarFinalizacao":true,"foto":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci5wbmc=","fotoContentType":"unknown","impacto":"Macio"},
+      body: {"dataVerificacao":"2022-03-06","descricao":"Account transmitter","criticidade":"IMEDIATA","impacto":"Madeira Brand Architect","dataFinalizacao":"2022-03-06","foto":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci5wbmc=","fotoContentType":"unknown"},
     }).then(({ body }) => {
       problema = body;
     });
@@ -61,9 +61,9 @@ describe('Status e2e test', () => {
   /* Disabled due to incompatibility
   beforeEach(() => {
     // Simulate relationships api for better performance and reproducibility.
-    cy.intercept('GET', '/api/usuarios', {
+    cy.intercept('GET', '/api/users', {
       statusCode: 200,
-      body: [usuario],
+      body: [user],
     });
 
     cy.intercept('GET', '/api/problemas', {
@@ -87,12 +87,12 @@ describe('Status e2e test', () => {
 
   /* Disabled due to incompatibility
   afterEach(() => {
-    if (usuario) {
+    if (user) {
       cy.authenticatedRequest({
         method: 'DELETE',
-        url: `/api/usuarios/${usuario.id}`,
+        url: `/api/users/${user.id}`,
       }).then(() => {
-        usuario = undefined;
+        user = undefined;
       });
     }
     if (problema) {
@@ -149,8 +149,8 @@ describe('Status e2e test', () => {
   
           body: {
             ...statusSample,
-            relator: usuario,
-            responsavel: usuario,
+            relator: user,
+            responsavel: user,
             problema: problema,
           },
         }).then(({ body }) => {
@@ -236,10 +236,9 @@ describe('Status e2e test', () => {
         .invoke('val')
         .should('match', new RegExp('../fake-data/blob/hipster.txt'));
 
-      cy.get(`[data-cy="prazo"]`).type('2022-02-25').should('have.value', '2022-02-25');
+      cy.get(`[data-cy="prazo"]`).type('2022-03-06').should('have.value', '2022-03-06');
 
-      cy.get(`[data-cy="resolvido"]`).should('not.be.checked');
-      cy.get(`[data-cy="resolvido"]`).click().should('be.checked');
+      cy.get(`[data-cy="dataResolucao"]`).type('2022-03-06').should('have.value', '2022-03-06');
 
       cy.get(`[data-cy="relator"]`).select(1);
       cy.get(`[data-cy="responsavel"]`).select(1);

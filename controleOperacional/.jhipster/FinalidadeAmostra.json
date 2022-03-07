@@ -4,7 +4,7 @@
     {
       "fieldName": "lacre",
       "fieldType": "Integer",
-      "javadoc": "O número do lacre do recipiente da amostra.\\nAmostras que tenham alguma finalidade com\\nobrigatoriedade de lacre porém estejam sem lacre\\nnão poderão ser impressas, mas podem ser criadas.",
+      "javadoc": "O número do lacre do recipiente da amostra.",
       "fieldValidateRules": ["unique"]
     }
   ],
@@ -24,7 +24,7 @@
       "otherEntityRelationshipName": "finalidades",
       "relationshipValidateRules": "required",
       "relationshipName": "amostra",
-      "otherEntityField": "dataHora"
+      "otherEntityField": "dataHoraColeta"
     }
   ],
   "javadoc": "Entidade FinalidadeAmostra.\\n@author Diego.",
@@ -37,5 +37,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220225085034"
+  "changelogDate": "20220307002558"
 }

@@ -8,11 +8,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.operacional.controleoperacional.IntegrationTest;
 import com.operacional.controleoperacional.domain.Relatorio;
 import com.operacional.controleoperacional.domain.TipoRelatorio;
-import com.operacional.controleoperacional.domain.Usuario;
+import com.operacional.controleoperacional.domain.User;
 import com.operacional.controleoperacional.repository.RelatorioRepository;
 import com.operacional.controleoperacional.service.criteria.RelatorioCriteria;
 import com.operacional.controleoperacional.service.dto.RelatorioDTO;
 import com.operacional.controleoperacional.service.mapper.RelatorioMapper;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -34,6 +36,9 @@ import org.springframework.util.Base64Utils;
 @AutoConfigureMockMvc
 @WithMockUser
 class RelatorioResourceIT {
+
+    private static final Instant DEFAULT_DATA_HORA = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_HORA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_RELATO = "AAAAAAAAAA";
     private static final String UPDATED_RELATO = "BBBBBBBBBB";
@@ -68,17 +73,12 @@ class RelatorioResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Relatorio createEntity(EntityManager em) {
-        Relatorio relatorio = new Relatorio().relato(DEFAULT_RELATO).linksExternos(DEFAULT_LINKS_EXTERNOS);
+        Relatorio relatorio = new Relatorio().dataHora(DEFAULT_DATA_HORA).relato(DEFAULT_RELATO).linksExternos(DEFAULT_LINKS_EXTERNOS);
         // Add required entity
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            usuario = UsuarioResourceIT.createEntity(em);
-            em.persist(usuario);
-            em.flush();
-        } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
-        }
-        relatorio.setResponsavel(usuario);
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        relatorio.setResponsavel(user);
         return relatorio;
     }
 
@@ -89,17 +89,12 @@ class RelatorioResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Relatorio createUpdatedEntity(EntityManager em) {
-        Relatorio relatorio = new Relatorio().relato(UPDATED_RELATO).linksExternos(UPDATED_LINKS_EXTERNOS);
+        Relatorio relatorio = new Relatorio().dataHora(UPDATED_DATA_HORA).relato(UPDATED_RELATO).linksExternos(UPDATED_LINKS_EXTERNOS);
         // Add required entity
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            usuario = UsuarioResourceIT.createUpdatedEntity(em);
-            em.persist(usuario);
-            em.flush();
-        } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
-        }
-        relatorio.setResponsavel(usuario);
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        relatorio.setResponsavel(user);
         return relatorio;
     }
 
@@ -122,6 +117,7 @@ class RelatorioResourceIT {
         List<Relatorio> relatorioList = relatorioRepository.findAll();
         assertThat(relatorioList).hasSize(databaseSizeBeforeCreate + 1);
         Relatorio testRelatorio = relatorioList.get(relatorioList.size() - 1);
+        assertThat(testRelatorio.getDataHora()).isEqualTo(DEFAULT_DATA_HORA);
         assertThat(testRelatorio.getRelato()).isEqualTo(DEFAULT_RELATO);
         assertThat(testRelatorio.getLinksExternos()).isEqualTo(DEFAULT_LINKS_EXTERNOS);
     }
@@ -147,6 +143,24 @@ class RelatorioResourceIT {
 
     @Test
     @Transactional
+    void checkDataHoraIsRequired() throws Exception {
+        int databaseSizeBeforeTest = relatorioRepository.findAll().size();
+        // set the field null
+        relatorio.setDataHora(null);
+
+        // Create the Relatorio, which fails.
+        RelatorioDTO relatorioDTO = relatorioMapper.toDto(relatorio);
+
+        restRelatorioMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(relatorioDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Relatorio> relatorioList = relatorioRepository.findAll();
+        assertThat(relatorioList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllRelatorios() throws Exception {
         // Initialize the database
         relatorioRepository.saveAndFlush(relatorio);
@@ -157,6 +171,7 @@ class RelatorioResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(relatorio.getId().intValue())))
+            .andExpect(jsonPath("$.[*].dataHora").value(hasItem(DEFAULT_DATA_HORA.toString())))
             .andExpect(jsonPath("$.[*].relato").value(hasItem(DEFAULT_RELATO.toString())))
             .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS.toString())));
     }
@@ -173,6 +188,7 @@ class RelatorioResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(relatorio.getId().intValue()))
+            .andExpect(jsonPath("$.dataHora").value(DEFAULT_DATA_HORA.toString()))
             .andExpect(jsonPath("$.relato").value(DEFAULT_RELATO.toString()))
             .andExpect(jsonPath("$.linksExternos").value(DEFAULT_LINKS_EXTERNOS.toString()));
     }
@@ -193,6 +209,58 @@ class RelatorioResourceIT {
 
         defaultRelatorioShouldBeFound("id.lessThanOrEqual=" + id);
         defaultRelatorioShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllRelatoriosByDataHoraIsEqualToSomething() throws Exception {
+        // Initialize the database
+        relatorioRepository.saveAndFlush(relatorio);
+
+        // Get all the relatorioList where dataHora equals to DEFAULT_DATA_HORA
+        defaultRelatorioShouldBeFound("dataHora.equals=" + DEFAULT_DATA_HORA);
+
+        // Get all the relatorioList where dataHora equals to UPDATED_DATA_HORA
+        defaultRelatorioShouldNotBeFound("dataHora.equals=" + UPDATED_DATA_HORA);
+    }
+
+    @Test
+    @Transactional
+    void getAllRelatoriosByDataHoraIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        relatorioRepository.saveAndFlush(relatorio);
+
+        // Get all the relatorioList where dataHora not equals to DEFAULT_DATA_HORA
+        defaultRelatorioShouldNotBeFound("dataHora.notEquals=" + DEFAULT_DATA_HORA);
+
+        // Get all the relatorioList where dataHora not equals to UPDATED_DATA_HORA
+        defaultRelatorioShouldBeFound("dataHora.notEquals=" + UPDATED_DATA_HORA);
+    }
+
+    @Test
+    @Transactional
+    void getAllRelatoriosByDataHoraIsInShouldWork() throws Exception {
+        // Initialize the database
+        relatorioRepository.saveAndFlush(relatorio);
+
+        // Get all the relatorioList where dataHora in DEFAULT_DATA_HORA or UPDATED_DATA_HORA
+        defaultRelatorioShouldBeFound("dataHora.in=" + DEFAULT_DATA_HORA + "," + UPDATED_DATA_HORA);
+
+        // Get all the relatorioList where dataHora equals to UPDATED_DATA_HORA
+        defaultRelatorioShouldNotBeFound("dataHora.in=" + UPDATED_DATA_HORA);
+    }
+
+    @Test
+    @Transactional
+    void getAllRelatoriosByDataHoraIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        relatorioRepository.saveAndFlush(relatorio);
+
+        // Get all the relatorioList where dataHora is not null
+        defaultRelatorioShouldBeFound("dataHora.specified=true");
+
+        // Get all the relatorioList where dataHora is null
+        defaultRelatorioShouldNotBeFound("dataHora.specified=false");
     }
 
     @Test
@@ -226,13 +294,13 @@ class RelatorioResourceIT {
     void getAllRelatoriosByResponsavelIsEqualToSomething() throws Exception {
         // Initialize the database
         relatorioRepository.saveAndFlush(relatorio);
-        Usuario responsavel;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            responsavel = UsuarioResourceIT.createEntity(em);
+        User responsavel;
+        if (TestUtil.findAll(em, User.class).isEmpty()) {
+            responsavel = UserResourceIT.createEntity(em);
             em.persist(responsavel);
             em.flush();
         } else {
-            responsavel = TestUtil.findAll(em, Usuario.class).get(0);
+            responsavel = TestUtil.findAll(em, User.class).get(0);
         }
         em.persist(responsavel);
         em.flush();
@@ -256,6 +324,7 @@ class RelatorioResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(relatorio.getId().intValue())))
+            .andExpect(jsonPath("$.[*].dataHora").value(hasItem(DEFAULT_DATA_HORA.toString())))
             .andExpect(jsonPath("$.[*].relato").value(hasItem(DEFAULT_RELATO.toString())))
             .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS.toString())));
 
@@ -305,7 +374,7 @@ class RelatorioResourceIT {
         Relatorio updatedRelatorio = relatorioRepository.findById(relatorio.getId()).get();
         // Disconnect from session so that the updates on updatedRelatorio are not directly saved in db
         em.detach(updatedRelatorio);
-        updatedRelatorio.relato(UPDATED_RELATO).linksExternos(UPDATED_LINKS_EXTERNOS);
+        updatedRelatorio.dataHora(UPDATED_DATA_HORA).relato(UPDATED_RELATO).linksExternos(UPDATED_LINKS_EXTERNOS);
         RelatorioDTO relatorioDTO = relatorioMapper.toDto(updatedRelatorio);
 
         restRelatorioMockMvc
@@ -320,6 +389,7 @@ class RelatorioResourceIT {
         List<Relatorio> relatorioList = relatorioRepository.findAll();
         assertThat(relatorioList).hasSize(databaseSizeBeforeUpdate);
         Relatorio testRelatorio = relatorioList.get(relatorioList.size() - 1);
+        assertThat(testRelatorio.getDataHora()).isEqualTo(UPDATED_DATA_HORA);
         assertThat(testRelatorio.getRelato()).isEqualTo(UPDATED_RELATO);
         assertThat(testRelatorio.getLinksExternos()).isEqualTo(UPDATED_LINKS_EXTERNOS);
     }
@@ -401,7 +471,7 @@ class RelatorioResourceIT {
         Relatorio partialUpdatedRelatorio = new Relatorio();
         partialUpdatedRelatorio.setId(relatorio.getId());
 
-        partialUpdatedRelatorio.relato(UPDATED_RELATO).linksExternos(UPDATED_LINKS_EXTERNOS);
+        partialUpdatedRelatorio.dataHora(UPDATED_DATA_HORA).relato(UPDATED_RELATO);
 
         restRelatorioMockMvc
             .perform(
@@ -415,8 +485,9 @@ class RelatorioResourceIT {
         List<Relatorio> relatorioList = relatorioRepository.findAll();
         assertThat(relatorioList).hasSize(databaseSizeBeforeUpdate);
         Relatorio testRelatorio = relatorioList.get(relatorioList.size() - 1);
+        assertThat(testRelatorio.getDataHora()).isEqualTo(UPDATED_DATA_HORA);
         assertThat(testRelatorio.getRelato()).isEqualTo(UPDATED_RELATO);
-        assertThat(testRelatorio.getLinksExternos()).isEqualTo(UPDATED_LINKS_EXTERNOS);
+        assertThat(testRelatorio.getLinksExternos()).isEqualTo(DEFAULT_LINKS_EXTERNOS);
     }
 
     @Test
@@ -431,7 +502,7 @@ class RelatorioResourceIT {
         Relatorio partialUpdatedRelatorio = new Relatorio();
         partialUpdatedRelatorio.setId(relatorio.getId());
 
-        partialUpdatedRelatorio.relato(UPDATED_RELATO).linksExternos(UPDATED_LINKS_EXTERNOS);
+        partialUpdatedRelatorio.dataHora(UPDATED_DATA_HORA).relato(UPDATED_RELATO).linksExternos(UPDATED_LINKS_EXTERNOS);
 
         restRelatorioMockMvc
             .perform(
@@ -445,6 +516,7 @@ class RelatorioResourceIT {
         List<Relatorio> relatorioList = relatorioRepository.findAll();
         assertThat(relatorioList).hasSize(databaseSizeBeforeUpdate);
         Relatorio testRelatorio = relatorioList.get(relatorioList.size() - 1);
+        assertThat(testRelatorio.getDataHora()).isEqualTo(UPDATED_DATA_HORA);
         assertThat(testRelatorio.getRelato()).isEqualTo(UPDATED_RELATO);
         assertThat(testRelatorio.getLinksExternos()).isEqualTo(UPDATED_LINKS_EXTERNOS);
     }

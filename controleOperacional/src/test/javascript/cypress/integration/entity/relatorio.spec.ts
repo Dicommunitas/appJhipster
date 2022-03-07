@@ -16,10 +16,10 @@ describe('Relatorio e2e test', () => {
   const relatorioPageUrlPattern = new RegExp('/relatorio(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const relatorioSample = { relato: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
+  const relatorioSample = { dataHora: '2022-03-06T11:00:27.678Z', relato: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
 
   let relatorio: any;
-  //let usuario: any;
+  //let user: any;
 
   before(() => {
     cy.window().then(win => {
@@ -35,10 +35,10 @@ describe('Relatorio e2e test', () => {
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
       method: 'POST',
-      url: '/api/usuarios',
-      body: {"chave":"Visi","nome":"regional Roupas","linksExternos":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ="},
+      url: '/api/users',
+      body: {"login":"Chapéu","firstName":"Beatriz","lastName":"Moreira"},
     }).then(({ body }) => {
-      usuario = body;
+      user = body;
     });
   });
    */
@@ -57,9 +57,9 @@ describe('Relatorio e2e test', () => {
       body: [],
     });
 
-    cy.intercept('GET', '/api/usuarios', {
+    cy.intercept('GET', '/api/users', {
       statusCode: 200,
-      body: [usuario],
+      body: [user],
     });
 
   });
@@ -78,12 +78,12 @@ describe('Relatorio e2e test', () => {
 
   /* Disabled due to incompatibility
   afterEach(() => {
-    if (usuario) {
+    if (user) {
       cy.authenticatedRequest({
         method: 'DELETE',
-        url: `/api/usuarios/${usuario.id}`,
+        url: `/api/users/${user.id}`,
       }).then(() => {
-        usuario = undefined;
+        user = undefined;
       });
     }
   });
@@ -132,7 +132,7 @@ describe('Relatorio e2e test', () => {
   
           body: {
             ...relatorioSample,
-            responsavel: usuario,
+            responsavel: user,
           },
         }).then(({ body }) => {
           relatorio = body;
@@ -212,6 +212,8 @@ describe('Relatorio e2e test', () => {
     });
 
     it.skip('should create an instance of Relatorio', () => {
+      cy.get(`[data-cy="dataHora"]`).type('2022-03-06T12:56').should('have.value', '2022-03-06T12:56');
+
       cy.get(`[data-cy="relato"]`)
         .type('../fake-data/blob/hipster.txt')
         .invoke('val')

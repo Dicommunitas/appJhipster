@@ -1,6 +1,5 @@
 package com.operacional.controleoperacional.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,8 +40,7 @@ public class TipoRelatorio implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "usuarios_aut_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "user", "relAutorizados" }, allowSetters = true)
-    private Set<Usuario> usuariosAuts = new HashSet<>();
+    private Set<User> usuariosAuts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -72,28 +70,26 @@ public class TipoRelatorio implements Serializable {
         this.nome = nome;
     }
 
-    public Set<Usuario> getUsuariosAuts() {
+    public Set<User> getUsuariosAuts() {
         return this.usuariosAuts;
     }
 
-    public void setUsuariosAuts(Set<Usuario> usuarios) {
-        this.usuariosAuts = usuarios;
+    public void setUsuariosAuts(Set<User> users) {
+        this.usuariosAuts = users;
     }
 
-    public TipoRelatorio usuariosAuts(Set<Usuario> usuarios) {
-        this.setUsuariosAuts(usuarios);
+    public TipoRelatorio usuariosAuts(Set<User> users) {
+        this.setUsuariosAuts(users);
         return this;
     }
 
-    public TipoRelatorio addUsuariosAut(Usuario usuario) {
-        this.usuariosAuts.add(usuario);
-        usuario.getRelAutorizados().add(this);
+    public TipoRelatorio addUsuariosAut(User user) {
+        this.usuariosAuts.add(user);
         return this;
     }
 
-    public TipoRelatorio removeUsuariosAut(Usuario usuario) {
-        this.usuariosAuts.remove(usuario);
-        usuario.getRelAutorizados().remove(this);
+    public TipoRelatorio removeUsuariosAut(User user) {
+        this.usuariosAuts.remove(user);
         return this;
     }
 

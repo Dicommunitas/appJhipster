@@ -90,6 +90,9 @@ public class RelatorioQueryService extends QueryService<Relatorio> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Relatorio_.id));
             }
+            if (criteria.getDataHora() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataHora(), Relatorio_.dataHora));
+            }
             if (criteria.getTipoId() != null) {
                 specification =
                     specification.and(
@@ -101,7 +104,7 @@ public class RelatorioQueryService extends QueryService<Relatorio> {
                     specification.and(
                         buildSpecification(
                             criteria.getResponsavelId(),
-                            root -> root.join(Relatorio_.responsavel, JoinType.LEFT).get(Usuario_.id)
+                            root -> root.join(Relatorio_.responsavel, JoinType.LEFT).get(User_.id)
                         )
                     );
             }

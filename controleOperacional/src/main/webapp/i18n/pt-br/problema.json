@@ -18,20 +18,21 @@
         "title": "Problema"
       },
       "id": "ID",
-      "data": "Data",
+      "dataVerificacao": "Data Verificacao",
       "descricao": "Descricao",
       "criticidade": "Criticidade",
-      "aceitarFinalizacao": "Aceitar Finalizacao",
-      "foto": "Foto",
       "impacto": "Impacto",
+      "dataFinalizacao": "Data Finalizacao",
+      "foto": "Foto",
       "status": "Status",
       "relator": "Relator",
       "help": {
-        "data": "A data em que o problema foi verificado",
+        "dataVerificacao": "A data em que o problema foi verificado.",
         "descricao": "Descrição do problema.",
         "criticidade": "Gravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
-        "aceitarFinalizacao": "Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos.",
-        "impacto": "Impácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco"
+        "impacto": "O impácto do problema para o sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
+        "dataFinalizacao": "Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara informar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos.",
+        "foto": "Uma imagem que possa facilitar a identificação do problema."
       }
     }
   }

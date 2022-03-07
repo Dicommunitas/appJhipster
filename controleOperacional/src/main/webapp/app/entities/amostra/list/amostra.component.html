@@ -33,8 +33,8 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="reset()">
           <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="dataHora">
-            <span jhiTranslate="controleOperacionalApp.amostra.dataHora">Data Hora</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="dataHoraColeta">
+            <span jhiTranslate="controleOperacionalApp.amostra.dataHoraColeta">Data Hora Coleta</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="observacao">
             <span jhiTranslate="controleOperacionalApp.amostra.observacao">Observacao</span> <fa-icon icon="sort"></fa-icon>
@@ -43,8 +43,8 @@
             <span jhiTranslate="controleOperacionalApp.amostra.identificadorExterno">Identificador Externo</span>
             <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="amostraNoLaboratorio">
-            <span jhiTranslate="controleOperacionalApp.amostra.amostraNoLaboratorio">Amostra No Laboratorio</span>
+          <th scope="col" jhiSortBy="recebimentoNoLaboratorio">
+            <span jhiTranslate="controleOperacionalApp.amostra.recebimentoNoLaboratorio">Recebimento No Laboratorio</span>
             <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="operacao.descricao">
@@ -59,10 +59,10 @@
           <th scope="col" jhiSortBy="tipoAmostra.descricao">
             <span jhiTranslate="controleOperacionalApp.amostra.tipoAmostra">Tipo Amostra</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="amostradaPor.nome">
+          <th scope="col" jhiSortBy="amostradaPor.login">
             <span jhiTranslate="controleOperacionalApp.amostra.amostradaPor">Amostrada Por</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="recebidaPor.nome">
+          <th scope="col" jhiSortBy="recebidaPor.login">
             <span jhiTranslate="controleOperacionalApp.amostra.recebidaPor">Recebida Por</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col"></th>
@@ -73,10 +73,10 @@
           <td>
             <a [routerLink]="['/amostra', amostra.id, 'view']">{{ amostra.id }}</a>
           </td>
-          <td>{{ amostra.dataHora | formatMediumDatetime }}</td>
+          <td>{{ amostra.dataHoraColeta | formatMediumDatetime }}</td>
           <td>{{ amostra.observacao }}</td>
           <td>{{ amostra.identificadorExterno }}</td>
-          <td>{{ amostra.amostraNoLaboratorio }}</td>
+          <td>{{ amostra.recebimentoNoLaboratorio | formatMediumDatetime }}</td>
           <td>
             <div *ngIf="amostra.operacao">
               <a [routerLink]="['/operacao', amostra.operacao?.id, 'view']">{{ amostra.operacao?.descricao }}</a>
@@ -98,14 +98,10 @@
             </div>
           </td>
           <td>
-            <div *ngIf="amostra.amostradaPor">
-              <a [routerLink]="['/usuario', amostra.amostradaPor?.id, 'view']">{{ amostra.amostradaPor?.nome }}</a>
-            </div>
+            {{ amostra.amostradaPor?.login }}
           </td>
           <td>
-            <div *ngIf="amostra.recebidaPor">
-              <a [routerLink]="['/usuario', amostra.recebidaPor?.id, 'view']">{{ amostra.recebidaPor?.nome }}</a>
-            </div>
+            {{ amostra.recebidaPor?.login }}
           </td>
           <td class="text-right">
             <div class="btn-group">

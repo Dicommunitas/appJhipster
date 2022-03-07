@@ -17,11 +17,11 @@ public class OrigemAmostraDTO implements Serializable {
     private Long id;
 
     /**
-     * Descreve de forma simples a origem de uma amostra.\nO local da coleta como, linha, tanque...\nA principal informação descritiva da origem.
+     * Descreve de forma simples a origem de uma amostra.\nO local da coleta, linha, tanque...\nA principal informação descritiva da origem do\nproduto coletado.
      */
     @NotNull
     @ApiModelProperty(
-        value = "Descreve de forma simples a origem de uma amostra.\nO local da coleta como, linha, tanque...\nA principal informação descritiva da origem.",
+        value = "Descreve de forma simples a origem de uma amostra.\nO local da coleta, linha, tanque...\nA principal informação descritiva da origem do\nproduto coletado.",
         required = true
     )
     private String descricao;

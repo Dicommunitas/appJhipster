@@ -1,6 +1,7 @@
 package com.operacional.controleoperacional.repository;
 
 import com.operacional.controleoperacional.domain.Relatorio;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface RelatorioRepository extends JpaRepository<Relatorio, Long>, JpaSpecificationExecutor<Relatorio> {}
+public interface RelatorioRepository extends JpaRepository<Relatorio, Long>, JpaSpecificationExecutor<Relatorio> {
+    @Query("select relatorio from Relatorio relatorio where relatorio.responsavel.login = ?#{principal.username}")
+    List<Relatorio> findByResponsavelIsCurrentUser();
+}

@@ -9,8 +9,9 @@ import { of, Subject } from 'rxjs';
 
 import { ProblemaService } from '../service/problema.service';
 import { IProblema, Problema } from '../problema.model';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 import { ProblemaUpdateComponent } from './problema-update.component';
 
@@ -19,7 +20,7 @@ describe('Problema Management Update Component', () => {
   let fixture: ComponentFixture<ProblemaUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let problemaService: ProblemaService;
-  let usuarioService: UsuarioService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,41 +34,41 @@ describe('Problema Management Update Component', () => {
     fixture = TestBed.createComponent(ProblemaUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     problemaService = TestBed.inject(ProblemaService);
-    usuarioService = TestBed.inject(UsuarioService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Usuario query and add missing value', () => {
+    it('Should call User query and add missing value', () => {
       const problema: IProblema = { id: 456 };
-      const relator: IUsuario = { id: 65193 };
+      const relator: IUser = { id: 13959 };
       problema.relator = relator;
 
-      const usuarioCollection: IUsuario[] = [{ id: 70404 }];
-      jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
-      const additionalUsuarios = [relator];
-      const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
-      jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const userCollection: IUser[] = [{ id: 10406 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [relator];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ problema });
       comp.ngOnInit();
 
-      expect(usuarioService.query).toHaveBeenCalled();
-      expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(usuarioCollection, ...additionalUsuarios);
-      expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const problema: IProblema = { id: 456 };
-      const relator: IUsuario = { id: 2973 };
+      const relator: IUser = { id: 88399 };
       problema.relator = relator;
 
       activatedRoute.data = of({ problema });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(problema));
-      expect(comp.usuariosSharedCollection).toContain(relator);
+      expect(comp.usersSharedCollection).toContain(relator);
     });
   });
 
@@ -136,10 +137,10 @@ describe('Problema Management Update Component', () => {
   });
 
   describe('Tracking relationships identifiers', () => {
-    describe('trackUsuarioById', () => {
-      it('Should return tracked Usuario primary key', () => {
+    describe('trackUserById', () => {
+      it('Should return tracked User primary key', () => {
         const entity = { id: 123 };
-        const trackResult = comp.trackUsuarioById(0, entity);
+        const trackResult = comp.trackUserById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });

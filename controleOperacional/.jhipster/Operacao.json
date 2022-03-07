@@ -4,29 +4,29 @@
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Atributo descrição.\\nDeve existir algum tipo de indicação\\nque mostre a quantidade de amostras\\nsuficiente ou insuficiente para a operação.\\nDeve existir uma visualização em lista\\nde todas as amostras pertencentes a operação\\nna sua tela de visualização\\nDeve existir um recurso para facilitar\\na conferência do plano de amostragem\\ndurante a criação da operação/plano de\\namostragem.\\n\\nDescreve de forma simples a operação.",
+      "javadoc": "Descreve de forma simples a operação.",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "volumePeso",
       "fieldType": "Integer",
-      "javadoc": "O volume ou peso total da operação.",
+      "javadoc": "O volume ou peso total da operação. Em metros cúbicos ou toneladas",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "inicio",
-      "fieldType": "ZonedDateTime",
+      "fieldType": "Instant",
       "javadoc": "O horário de início da operação."
     },
     {
       "fieldName": "fim",
-      "fieldType": "ZonedDateTime",
+      "fieldType": "Instant",
       "javadoc": "O horário de término da operação."
     },
     {
       "fieldName": "quantidadeAmostras",
       "fieldType": "Integer",
-      "javadoc": "Atributo quantidadeAmostras mostra\\nquantas amostras devem fazer parte da operação.\\nFoco em cumprir o plano de amostragem.\\nUma possível solução seria um botão\\npara criar novas operações usando\\noperações passadas como modelo, outra\\nsolução mais elaborada seria existir\\nvários planos de amostragem já\\ncadastrados, esses planos teriam um nome\\ne uma lista de amostras, assim sempre\\nque uma operação selecionar este plano\\nnovas amostras seriam criadas, usando\\na lista do plano de amostragem como\\nmodelo.\\nOutra alternativa seria usar o lembrete como guia.\\n\\nQuantas amostras devem ter nessa operação.",
+      "javadoc": "Quantas amostras devem ter nessa operação.",
       "fieldValidateRules": ["required"]
     },
     {
@@ -56,5 +56,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220225084634"
+  "changelogDate": "20220307002158"
 }

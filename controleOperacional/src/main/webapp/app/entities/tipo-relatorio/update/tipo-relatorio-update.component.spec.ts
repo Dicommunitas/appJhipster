@@ -9,8 +9,9 @@ import { of, Subject } from 'rxjs';
 
 import { TipoRelatorioService } from '../service/tipo-relatorio.service';
 import { ITipoRelatorio, TipoRelatorio } from '../tipo-relatorio.model';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 import { TipoRelatorioUpdateComponent } from './tipo-relatorio-update.component';
 
@@ -19,7 +20,7 @@ describe('TipoRelatorio Management Update Component', () => {
   let fixture: ComponentFixture<TipoRelatorioUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let tipoRelatorioService: TipoRelatorioService;
-  let usuarioService: UsuarioService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,41 +34,41 @@ describe('TipoRelatorio Management Update Component', () => {
     fixture = TestBed.createComponent(TipoRelatorioUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     tipoRelatorioService = TestBed.inject(TipoRelatorioService);
-    usuarioService = TestBed.inject(UsuarioService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Usuario query and add missing value', () => {
+    it('Should call User query and add missing value', () => {
       const tipoRelatorio: ITipoRelatorio = { id: 456 };
-      const usuariosAuts: IUsuario[] = [{ id: 6801 }];
+      const usuariosAuts: IUser[] = [{ id: 66685 }];
       tipoRelatorio.usuariosAuts = usuariosAuts;
 
-      const usuarioCollection: IUsuario[] = [{ id: 2769 }];
-      jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
-      const additionalUsuarios = [...usuariosAuts];
-      const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
-      jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const userCollection: IUser[] = [{ id: 20681 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [...usuariosAuts];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ tipoRelatorio });
       comp.ngOnInit();
 
-      expect(usuarioService.query).toHaveBeenCalled();
-      expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(usuarioCollection, ...additionalUsuarios);
-      expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const tipoRelatorio: ITipoRelatorio = { id: 456 };
-      const usuariosAuts: IUsuario = { id: 62053 };
+      const usuariosAuts: IUser = { id: 15054 };
       tipoRelatorio.usuariosAuts = [usuariosAuts];
 
       activatedRoute.data = of({ tipoRelatorio });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(tipoRelatorio));
-      expect(comp.usuariosSharedCollection).toContain(usuariosAuts);
+      expect(comp.usersSharedCollection).toContain(usuariosAuts);
     });
   });
 
@@ -136,37 +137,37 @@ describe('TipoRelatorio Management Update Component', () => {
   });
 
   describe('Tracking relationships identifiers', () => {
-    describe('trackUsuarioById', () => {
-      it('Should return tracked Usuario primary key', () => {
+    describe('trackUserById', () => {
+      it('Should return tracked User primary key', () => {
         const entity = { id: 123 };
-        const trackResult = comp.trackUsuarioById(0, entity);
+        const trackResult = comp.trackUserById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });
   });
 
   describe('Getting selected relationships', () => {
-    describe('getSelectedUsuario', () => {
-      it('Should return option if no Usuario is selected', () => {
+    describe('getSelectedUser', () => {
+      it('Should return option if no User is selected', () => {
         const option = { id: 123 };
-        const result = comp.getSelectedUsuario(option);
+        const result = comp.getSelectedUser(option);
         expect(result === option).toEqual(true);
       });
 
-      it('Should return selected Usuario for according option', () => {
+      it('Should return selected User for according option', () => {
         const option = { id: 123 };
         const selected = { id: 123 };
         const selected2 = { id: 456 };
-        const result = comp.getSelectedUsuario(option, [selected2, selected]);
+        const result = comp.getSelectedUser(option, [selected2, selected]);
         expect(result === selected).toEqual(true);
         expect(result === selected2).toEqual(false);
         expect(result === option).toEqual(false);
       });
 
-      it('Should return option if this Usuario is not selected', () => {
+      it('Should return option if this User is not selected', () => {
         const option = { id: 123 };
         const selected = { id: 456 };
-        const result = comp.getSelectedUsuario(option, [selected]);
+        const result = comp.getSelectedUser(option, [selected]);
         expect(result === option).toEqual(true);
         expect(result === selected).toEqual(false);
       });

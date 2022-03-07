@@ -16,13 +16,13 @@
         </dd>
         <dt>
           <span
-            jhiTranslate="controleOperacionalApp.amostra.dataHora"
-            [ngbTooltip]="'controleOperacionalApp.amostra.help.dataHora' | translate"
-            >Data Hora</span
+            jhiTranslate="controleOperacionalApp.amostra.dataHoraColeta"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.dataHoraColeta' | translate"
+            >Data Hora Coleta</span
           >
         </dt>
         <dd>
-          <span>{{ amostra.dataHora | formatMediumDatetime }}</span>
+          <span>{{ amostra.dataHoraColeta | formatMediumDatetime }}</span>
         </dd>
         <dt>
           <span
@@ -46,13 +46,13 @@
         </dd>
         <dt>
           <span
-            jhiTranslate="controleOperacionalApp.amostra.amostraNoLaboratorio"
-            [ngbTooltip]="'controleOperacionalApp.amostra.help.amostraNoLaboratorio' | translate"
-            >Amostra No Laboratorio</span
+            jhiTranslate="controleOperacionalApp.amostra.recebimentoNoLaboratorio"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.recebimentoNoLaboratorio' | translate"
+            >Recebimento No Laboratorio</span
           >
         </dt>
         <dd>
-          <span>{{ amostra.amostraNoLaboratorio }}</span>
+          <span>{{ amostra.recebimentoNoLaboratorio | formatMediumDatetime }}</span>
         </dd>
         <dt><span jhiTranslate="controleOperacionalApp.amostra.operacao">Operacao</span></dt>
         <dd>
@@ -80,15 +80,11 @@
         </dd>
         <dt><span jhiTranslate="controleOperacionalApp.amostra.amostradaPor">Amostrada Por</span></dt>
         <dd>
-          <div *ngIf="amostra.amostradaPor">
-            <a [routerLink]="['/usuario', amostra.amostradaPor?.id, 'view']">{{ amostra.amostradaPor?.nome }}</a>
-          </div>
+          <span>{{ amostra.amostradaPor?.login }}</span>
         </dd>
         <dt><span jhiTranslate="controleOperacionalApp.amostra.recebidaPor">Recebida Por</span></dt>
         <dd>
-          <div *ngIf="amostra.recebidaPor">
-            <a [routerLink]="['/usuario', amostra.recebidaPor?.id, 'view']">{{ amostra.recebidaPor?.nome }}</a>
-          </div>
+          <span>{{ amostra.recebidaPor?.login }}</span>
         </dd>
       </dl>
 

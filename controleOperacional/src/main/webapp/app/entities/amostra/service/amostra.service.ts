@@ -75,13 +75,15 @@ export class AmostraService {
 
   protected convertDateFromClient(amostra: IAmostra): IAmostra {
     return Object.assign({}, amostra, {
-      dataHora: amostra.dataHora?.isValid() ? amostra.dataHora.toJSON() : undefined,
+      dataHoraColeta: amostra.dataHoraColeta?.isValid() ? amostra.dataHoraColeta.toJSON() : undefined,
+      recebimentoNoLaboratorio: amostra.recebimentoNoLaboratorio?.isValid() ? amostra.recebimentoNoLaboratorio.toJSON() : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.dataHora = res.body.dataHora ? dayjs(res.body.dataHora) : undefined;
+      res.body.dataHoraColeta = res.body.dataHoraColeta ? dayjs(res.body.dataHoraColeta) : undefined;
+      res.body.recebimentoNoLaboratorio = res.body.recebimentoNoLaboratorio ? dayjs(res.body.recebimentoNoLaboratorio) : undefined;
     }
     return res;
   }
@@ -89,7 +91,8 @@ export class AmostraService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((amostra: IAmostra) => {
-        amostra.dataHora = amostra.dataHora ? dayjs(amostra.dataHora) : undefined;
+        amostra.dataHoraColeta = amostra.dataHoraColeta ? dayjs(amostra.dataHoraColeta) : undefined;
+        amostra.recebimentoNoLaboratorio = amostra.recebimentoNoLaboratorio ? dayjs(amostra.recebimentoNoLaboratorio) : undefined;
       });
     }
     return res;

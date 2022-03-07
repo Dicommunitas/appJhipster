@@ -7,7 +7,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * Entidade TipoFinalidadeAmostra.\nIrá informar para qual finalidade a amostra\nserá utilizada, análise, arqivo...\n@author Diego.
+ * Entidade TipoFinalidadeAmostra.\nIrá informar para qual finalidade a amostra\nserá utilizada, análise, arquivo...\n@author Diego.
  */
 @Entity
 @Table(name = "tipo_finalidade_amostra")
@@ -29,7 +29,7 @@ public class TipoFinalidadeAmostra implements Serializable {
     private String descricao;
 
     /**
-     * Amostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas.
+     * Indica se esse tipo de finalidade deve\nter obrigatoriedade de uso de lacre.
      */
     @NotNull
     @Column(name = "obrigatorio_lacre", nullable = false)

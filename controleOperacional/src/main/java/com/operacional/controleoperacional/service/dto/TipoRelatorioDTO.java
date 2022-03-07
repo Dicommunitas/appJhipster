@@ -25,7 +25,7 @@ public class TipoRelatorioDTO implements Serializable {
     @ApiModelProperty(value = "Nome dado ao grupo de relatórios.", required = true)
     private String nome;
 
-    private Set<UsuarioDTO> usuariosAuts = new HashSet<>();
+    private Set<UserDTO> usuariosAuts = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -43,11 +43,11 @@ public class TipoRelatorioDTO implements Serializable {
         this.nome = nome;
     }
 
-    public Set<UsuarioDTO> getUsuariosAuts() {
+    public Set<UserDTO> getUsuariosAuts() {
         return usuariosAuts;
     }
 
-    public void setUsuariosAuts(Set<UsuarioDTO> usuariosAuts) {
+    public void setUsuariosAuts(Set<UserDTO> usuariosAuts) {
         this.usuariosAuts = usuariosAuts;
     }
 

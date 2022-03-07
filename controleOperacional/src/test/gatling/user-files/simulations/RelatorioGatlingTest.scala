@@ -71,7 +71,8 @@ class RelatorioGatlingTest extends Simulation {
             .post("/api/relatorios")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "relato":null
+                "dataHora":"2020-01-01T00:00:00.000Z"
+                , "relato":null
                 , "linksExternos":null
                 }""")).asJson
             .check(status.is(201))

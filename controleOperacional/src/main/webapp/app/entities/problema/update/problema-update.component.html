@@ -20,28 +20,39 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.problema.data"
-            for="field_data"
-            [ngbTooltip]="'controleOperacionalApp.problema.help.data' | translate"
-            >Data</label
+            jhiTranslate="controleOperacionalApp.problema.dataVerificacao"
+            for="field_dataVerificacao"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.dataVerificacao' | translate"
+            >Data Verificacao</label
           >
           <div class="input-group">
             <input
-              id="field_data"
-              data-cy="data"
+              id="field_dataVerificacao"
+              data-cy="dataVerificacao"
               type="text"
               class="form-control"
-              name="data"
+              name="dataVerificacao"
               ngbDatepicker
-              #dataDp="ngbDatepicker"
-              formControlName="data"
+              #dataVerificacaoDp="ngbDatepicker"
+              formControlName="dataVerificacao"
             />
             <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="dataDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+              <button type="button" class="btn btn-secondary" (click)="dataVerificacaoDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
             </span>
           </div>
-          <div *ngIf="editForm.get('data')!.invalid && (editForm.get('data')!.dirty || editForm.get('data')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('data')?.errors?.required" jhiTranslate="entity.validation.required">
+          <div
+            *ngIf="
+              editForm.get('dataVerificacao')!.invalid &&
+              (editForm.get('dataVerificacao')!.dirty || editForm.get('dataVerificacao')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dataVerificacao')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
               This field is required.
             </small>
           </div>
@@ -95,23 +106,58 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.problema.aceitarFinalizacao"
-            for="field_aceitarFinalizacao"
-            [ngbTooltip]="'controleOperacionalApp.problema.help.aceitarFinalizacao' | translate"
-            >Aceitar Finalizacao</label
+            jhiTranslate="controleOperacionalApp.problema.impacto"
+            for="field_impacto"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.impacto' | translate"
+            >Impacto</label
           >
-          <input
-            type="checkbox"
-            class="form-check"
-            name="aceitarFinalizacao"
-            id="field_aceitarFinalizacao"
-            data-cy="aceitarFinalizacao"
-            formControlName="aceitarFinalizacao"
-          />
+          <input type="text" class="form-control" name="impacto" id="field_impacto" data-cy="impacto" formControlName="impacto" />
+          <div *ngIf="editForm.get('impacto')!.invalid && (editForm.get('impacto')!.dirty || editForm.get('impacto')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('impacto')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.foto" for="field_foto">Foto</label>
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.problema.dataFinalizacao"
+            for="field_dataFinalizacao"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.dataFinalizacao' | translate"
+            >Data Finalizacao</label
+          >
+          <div class="input-group">
+            <input
+              id="field_dataFinalizacao"
+              data-cy="dataFinalizacao"
+              type="text"
+              class="form-control"
+              name="dataFinalizacao"
+              ngbDatepicker
+              #dataFinalizacaoDp="ngbDatepicker"
+              formControlName="dataFinalizacao"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="dataFinalizacaoDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="controleOperacionalApp.problema.foto"
+            for="field_foto"
+            [ngbTooltip]="'controleOperacionalApp.problema.help.foto' | translate"
+            >Foto</label
+          >
           <div>
             <img
               [src]="'data:' + editForm.get('fotoContentType')!.value + ';base64,' + editForm.get('foto')!.value"
@@ -144,34 +190,14 @@
         </div>
 
         <div class="form-group">
-          <label
-            class="form-control-label"
-            jhiTranslate="controleOperacionalApp.problema.impacto"
-            for="field_impacto"
-            [ngbTooltip]="'controleOperacionalApp.problema.help.impacto' | translate"
-            >Impacto</label
-          >
-          <input type="text" class="form-control" name="impacto" id="field_impacto" data-cy="impacto" formControlName="impacto" />
-          <div *ngIf="editForm.get('impacto')!.invalid && (editForm.get('impacto')!.dirty || editForm.get('impacto')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('impacto')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-          </div>
-        </div>
-
-        <div class="form-group">
           <label class="form-control-label" jhiTranslate="controleOperacionalApp.problema.relator" for="field_relator">Relator</label>
           <select class="form-control" id="field_relator" data-cy="relator" name="relator" formControlName="relator">
             <option *ngIf="!editForm.get('relator')!.value" [ngValue]="null" selected></option>
             <option
-              [ngValue]="usuarioOption.id === editForm.get('relator')!.value?.id ? editForm.get('relator')!.value : usuarioOption"
-              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+              [ngValue]="userOption.id === editForm.get('relator')!.value?.id ? editForm.get('relator')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ usuarioOption.nome }}
+              {{ userOption.login }}
             </option>
           </select>
         </div>

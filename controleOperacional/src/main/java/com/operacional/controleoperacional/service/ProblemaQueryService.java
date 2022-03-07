@@ -90,8 +90,8 @@ public class ProblemaQueryService extends QueryService<Problema> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Problema_.id));
             }
-            if (criteria.getData() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getData(), Problema_.data));
+            if (criteria.getDataVerificacao() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataVerificacao(), Problema_.dataVerificacao));
             }
             if (criteria.getDescricao() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescricao(), Problema_.descricao));
@@ -99,11 +99,11 @@ public class ProblemaQueryService extends QueryService<Problema> {
             if (criteria.getCriticidade() != null) {
                 specification = specification.and(buildSpecification(criteria.getCriticidade(), Problema_.criticidade));
             }
-            if (criteria.getAceitarFinalizacao() != null) {
-                specification = specification.and(buildSpecification(criteria.getAceitarFinalizacao(), Problema_.aceitarFinalizacao));
-            }
             if (criteria.getImpacto() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getImpacto(), Problema_.impacto));
+            }
+            if (criteria.getDataFinalizacao() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataFinalizacao(), Problema_.dataFinalizacao));
             }
             if (criteria.getStatusId() != null) {
                 specification =
@@ -114,7 +114,7 @@ public class ProblemaQueryService extends QueryService<Problema> {
             if (criteria.getRelatorId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getRelatorId(), root -> root.join(Problema_.relator, JoinType.LEFT).get(Usuario_.id))
+                        buildSpecification(criteria.getRelatorId(), root -> root.join(Problema_.relator, JoinType.LEFT).get(User_.id))
                     );
             }
         }

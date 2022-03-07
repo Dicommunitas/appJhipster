@@ -11,11 +11,11 @@
   "relationships": [
     {
       "relationshipType": "many-to-many",
-      "otherEntityName": "usuario",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "relAutorizados",
       "javadoc": "Descreve quais usuários podem alterar os relatórios\\ndesse tipo",
       "relationshipName": "usuariosAut",
-      "otherEntityField": "nome",
+      "otherEntityField": "login",
       "ownerSide": true
     }
   ],
@@ -29,5 +29,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220225084234"
+  "changelogDate": "20220307001858"
 }

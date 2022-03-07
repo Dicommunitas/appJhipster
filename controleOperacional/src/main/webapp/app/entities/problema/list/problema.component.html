@@ -33,8 +33,8 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="reset()">
           <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="data">
-            <span jhiTranslate="controleOperacionalApp.problema.data">Data</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="dataVerificacao">
+            <span jhiTranslate="controleOperacionalApp.problema.dataVerificacao">Data Verificacao</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="descricao">
             <span jhiTranslate="controleOperacionalApp.problema.descricao">Descricao</span> <fa-icon icon="sort"></fa-icon>
@@ -42,17 +42,16 @@
           <th scope="col" jhiSortBy="criticidade">
             <span jhiTranslate="controleOperacionalApp.problema.criticidade">Criticidade</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="aceitarFinalizacao">
-            <span jhiTranslate="controleOperacionalApp.problema.aceitarFinalizacao">Aceitar Finalizacao</span>
-            <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="impacto">
+            <span jhiTranslate="controleOperacionalApp.problema.impacto">Impacto</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="dataFinalizacao">
+            <span jhiTranslate="controleOperacionalApp.problema.dataFinalizacao">Data Finalizacao</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="foto">
             <span jhiTranslate="controleOperacionalApp.problema.foto">Foto</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="impacto">
-            <span jhiTranslate="controleOperacionalApp.problema.impacto">Impacto</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="relator.nome">
+          <th scope="col" jhiSortBy="relator.login">
             <span jhiTranslate="controleOperacionalApp.problema.relator">Relator</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col"></th>
@@ -63,21 +62,19 @@
           <td>
             <a [routerLink]="['/problema', problema.id, 'view']">{{ problema.id }}</a>
           </td>
-          <td>{{ problema.data | formatMediumDate }}</td>
+          <td>{{ problema.dataVerificacao | formatMediumDate }}</td>
           <td>{{ problema.descricao }}</td>
           <td jhiTranslate="{{ 'controleOperacionalApp.Criticidade.' + problema.criticidade }}">{{ problema.criticidade }}</td>
-          <td>{{ problema.aceitarFinalizacao }}</td>
+          <td>{{ problema.impacto }}</td>
+          <td>{{ problema.dataFinalizacao | formatMediumDate }}</td>
           <td>
             <a *ngIf="problema.foto" (click)="openFile(problema.foto, problema.fotoContentType)">
               <img [src]="'data:' + problema.fotoContentType + ';base64,' + problema.foto" style="max-height: 30px" alt="problema image" />
             </a>
             <span *ngIf="problema.foto">{{ problema.fotoContentType }}, {{ byteSize(problema.foto) }}</span>
           </td>
-          <td>{{ problema.impacto }}</td>
           <td>
-            <div *ngIf="problema.relator">
-              <a [routerLink]="['/usuario', problema.relator?.id, 'view']">{{ problema.relator?.nome }}</a>
-            </div>
+            {{ problema.relator?.login }}
           </td>
           <td class="text-right">
             <div class="btn-group">

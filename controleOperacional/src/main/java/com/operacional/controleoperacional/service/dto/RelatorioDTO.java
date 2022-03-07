@@ -3,6 +3,7 @@ package com.operacional.controleoperacional.service.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
@@ -18,28 +19,30 @@ public class RelatorioDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo relato.\nVerificar a viabilidade de usar um objeto\ne não um texto.\n\nUsar comparação de texto para visualizar as\nalterações entre o últomo relatório criado e o último\nrelatório criado pelo usuário.\n\nRelato descritivo. As informações pertinentes para o relatório.
+     * Data e hora que o relatório foi criado.
+     */
+    @NotNull
+    @ApiModelProperty(value = "Data e hora que o relatório foi criado.", required = true)
+    private Instant dataHora;
+
+    /**
+     * Relato descritivo. As informações pertinentes para o relatório.
      */
 
-    @ApiModelProperty(
-        value = "Atributo relato.\nVerificar a viabilidade de usar um objeto\ne não um texto.\n\nUsar comparação de texto para visualizar as\nalterações entre o últomo relatório criado e o último\nrelatório criado pelo usuário.\n\nRelato descritivo. As informações pertinentes para o relatório.",
-        required = true
-    )
+    @ApiModelProperty(value = "Relato descritivo. As informações pertinentes para o relatório.", required = true)
     @Lob
     private String relato;
 
     /**
-     * Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o relatório.
+     * Links e lembretes de apoio para o relatório.
      */
-    @ApiModelProperty(
-        value = "Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o relatório."
-    )
+    @ApiModelProperty(value = "Links e lembretes de apoio para o relatório.")
     @Lob
     private String linksExternos;
 
     private TipoRelatorioDTO tipo;
 
-    private UsuarioDTO responsavel;
+    private UserDTO responsavel;
 
     public Long getId() {
         return id;
@@ -47,6 +50,14 @@ public class RelatorioDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Instant getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(Instant dataHora) {
+        this.dataHora = dataHora;
     }
 
     public String getRelato() {
@@ -73,11 +84,11 @@ public class RelatorioDTO implements Serializable {
         this.tipo = tipo;
     }
 
-    public UsuarioDTO getResponsavel() {
+    public UserDTO getResponsavel() {
         return responsavel;
     }
 
-    public void setResponsavel(UsuarioDTO responsavel) {
+    public void setResponsavel(UserDTO responsavel) {
         this.responsavel = responsavel;
     }
 
@@ -107,6 +118,7 @@ public class RelatorioDTO implements Serializable {
     public String toString() {
         return "RelatorioDTO{" +
             "id=" + getId() +
+            ", dataHora='" + getDataHora() + "'" +
             ", relato='" + getRelato() + "'" +
             ", linksExternos='" + getLinksExternos() + "'" +
             ", tipo=" + getTipo() +

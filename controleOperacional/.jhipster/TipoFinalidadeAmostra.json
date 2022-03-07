@@ -10,12 +10,12 @@
     {
       "fieldName": "obrigatorioLacre",
       "fieldType": "Boolean",
-      "javadoc": "Amostras que tenham alguma finalidade sem lacre\\ncom obrigatoriedade de lacre não poderão ser impressas,\\nporém podem ser criadas.",
+      "javadoc": "Indica se esse tipo de finalidade deve\\nter obrigatoriedade de uso de lacre.",
       "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [],
-  "javadoc": "Entidade TipoFinalidadeAmostra.\\nIrá informar para qual finalidade a amostra\\nserá utilizada, análise, arqivo...\\n@author Diego.",
+  "javadoc": "Entidade TipoFinalidadeAmostra.\\nIrá informar para qual finalidade a amostra\\nserá utilizada, análise, arquivo...\\n@author Diego.",
   "entityTableName": "tipo_finalidade_amostra",
   "dto": "mapstruct",
   "pagination": "no",
@@ -25,5 +25,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220225085134"
+  "changelogDate": "20220307002658"
 }

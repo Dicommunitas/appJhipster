@@ -76,13 +76,15 @@ export class ProblemaService {
 
   protected convertDateFromClient(problema: IProblema): IProblema {
     return Object.assign({}, problema, {
-      data: problema.data?.isValid() ? problema.data.format(DATE_FORMAT) : undefined,
+      dataVerificacao: problema.dataVerificacao?.isValid() ? problema.dataVerificacao.format(DATE_FORMAT) : undefined,
+      dataFinalizacao: problema.dataFinalizacao?.isValid() ? problema.dataFinalizacao.format(DATE_FORMAT) : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.data = res.body.data ? dayjs(res.body.data) : undefined;
+      res.body.dataVerificacao = res.body.dataVerificacao ? dayjs(res.body.dataVerificacao) : undefined;
+      res.body.dataFinalizacao = res.body.dataFinalizacao ? dayjs(res.body.dataFinalizacao) : undefined;
     }
     return res;
   }
@@ -90,7 +92,8 @@ export class ProblemaService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((problema: IProblema) => {
-        problema.data = problema.data ? dayjs(problema.data) : undefined;
+        problema.dataVerificacao = problema.dataVerificacao ? dayjs(problema.dataVerificacao) : undefined;
+        problema.dataFinalizacao = problema.dataFinalizacao ? dayjs(problema.dataFinalizacao) : undefined;
       });
     }
     return res;

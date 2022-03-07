@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { IRelatorio, Relatorio } from '../relatorio.model';
 import { RelatorioService } from '../service/relatorio.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -12,8 +15,8 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { ITipoRelatorio } from 'app/entities/tipo-relatorio/tipo-relatorio.model';
 import { TipoRelatorioService } from 'app/entities/tipo-relatorio/service/tipo-relatorio.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-relatorio-update',
@@ -23,10 +26,11 @@ export class RelatorioUpdateComponent implements OnInit {
   isSaving = false;
 
   tipoRelatoriosSharedCollection: ITipoRelatorio[] = [];
-  usuariosSharedCollection: IUsuario[] = [];
+  usersSharedCollection: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
+    dataHora: [null, [Validators.required]],
     relato: [null, [Validators.required]],
     linksExternos: [],
     tipo: [],
@@ -38,13 +42,18 @@ export class RelatorioUpdateComponent implements OnInit {
     protected eventManager: EventManager,
     protected relatorioService: RelatorioService,
     protected tipoRelatorioService: TipoRelatorioService,
-    protected usuarioService: UsuarioService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ relatorio }) => {
+      if (relatorio.id === undefined) {
+        const today = dayjs().startOf('day');
+        relatorio.dataHora = today;
+      }
+
       this.updateForm(relatorio);
 
       this.loadRelationshipsOptions();
@@ -86,7 +95,7 @@ export class RelatorioUpdateComponent implements OnInit {
     return item.id!;
   }
 
-  trackUsuarioById(index: number, item: IUsuario): number {
+  trackUserById(index: number, item: IUser): number {
     return item.id!;
   }
 
@@ -112,6 +121,7 @@ export class RelatorioUpdateComponent implements OnInit {
   protected updateForm(relatorio: IRelatorio): void {
     this.editForm.patchValue({
       id: relatorio.id,
+      dataHora: relatorio.dataHora ? relatorio.dataHora.format(DATE_TIME_FORMAT) : null,
       relato: relatorio.relato,
       linksExternos: relatorio.linksExternos,
       tipo: relatorio.tipo,
@@ -122,10 +132,7 @@ export class RelatorioUpdateComponent implements OnInit {
       this.tipoRelatoriosSharedCollection,
       relatorio.tipo
     );
-    this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(
-      this.usuariosSharedCollection,
-      relatorio.responsavel
-    );
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(this.usersSharedCollection, relatorio.responsavel);
   }
 
   protected loadRelationshipsOptions(): void {
@@ -139,21 +146,18 @@ export class RelatorioUpdateComponent implements OnInit {
       )
       .subscribe((tipoRelatorios: ITipoRelatorio[]) => (this.tipoRelatoriosSharedCollection = tipoRelatorios));
 
-    this.usuarioService
+    this.userService
       .query()
-      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
-      .pipe(
-        map((usuarios: IUsuario[]) =>
-          this.usuarioService.addUsuarioToCollectionIfMissing(usuarios, this.editForm.get('responsavel')!.value)
-        )
-      )
-      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing(users, this.editForm.get('responsavel')!.value)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 
   protected createFromForm(): IRelatorio {
     return {
       ...new Relatorio(),
       id: this.editForm.get(['id'])!.value,
+      dataHora: this.editForm.get(['dataHora'])!.value ? dayjs(this.editForm.get(['dataHora'])!.value, DATE_TIME_FORMAT) : undefined,
       relato: this.editForm.get(['relato'])!.value,
       linksExternos: this.editForm.get(['linksExternos'])!.value,
       tipo: this.editForm.get(['tipo'])!.value,

@@ -10,8 +10,8 @@ import { ProblemaService } from '../service/problema.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { Criticidade } from 'app/entities/enumerations/criticidade.model';
 
 @Component({
@@ -22,17 +22,17 @@ export class ProblemaUpdateComponent implements OnInit {
   isSaving = false;
   criticidadeValues = Object.keys(Criticidade);
 
-  usuariosSharedCollection: IUsuario[] = [];
+  usersSharedCollection: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
-    data: [null, [Validators.required]],
+    dataVerificacao: [null, [Validators.required]],
     descricao: [null, [Validators.required]],
     criticidade: [null, [Validators.required]],
-    aceitarFinalizacao: [],
+    impacto: [null, [Validators.required]],
+    dataFinalizacao: [],
     foto: [null, []],
     fotoContentType: [],
-    impacto: [null, [Validators.required]],
     relator: [null, Validators.required],
   });
 
@@ -40,7 +40,7 @@ export class ProblemaUpdateComponent implements OnInit {
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected problemaService: ProblemaService,
-    protected usuarioService: UsuarioService,
+    protected userService: UserService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
@@ -95,7 +95,7 @@ export class ProblemaUpdateComponent implements OnInit {
     }
   }
 
-  trackUsuarioById(index: number, item: IUsuario): number {
+  trackUserById(index: number, item: IUser): number {
     return item.id!;
   }
 
@@ -121,40 +121,38 @@ export class ProblemaUpdateComponent implements OnInit {
   protected updateForm(problema: IProblema): void {
     this.editForm.patchValue({
       id: problema.id,
-      data: problema.data,
+      dataVerificacao: problema.dataVerificacao,
       descricao: problema.descricao,
       criticidade: problema.criticidade,
-      aceitarFinalizacao: problema.aceitarFinalizacao,
+      impacto: problema.impacto,
+      dataFinalizacao: problema.dataFinalizacao,
       foto: problema.foto,
       fotoContentType: problema.fotoContentType,
-      impacto: problema.impacto,
       relator: problema.relator,
     });
 
-    this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(this.usuariosSharedCollection, problema.relator);
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(this.usersSharedCollection, problema.relator);
   }
 
   protected loadRelationshipsOptions(): void {
-    this.usuarioService
+    this.userService
       .query()
-      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
-      .pipe(
-        map((usuarios: IUsuario[]) => this.usuarioService.addUsuarioToCollectionIfMissing(usuarios, this.editForm.get('relator')!.value))
-      )
-      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing(users, this.editForm.get('relator')!.value)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 
   protected createFromForm(): IProblema {
     return {
       ...new Problema(),
       id: this.editForm.get(['id'])!.value,
-      data: this.editForm.get(['data'])!.value,
+      dataVerificacao: this.editForm.get(['dataVerificacao'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
       criticidade: this.editForm.get(['criticidade'])!.value,
-      aceitarFinalizacao: this.editForm.get(['aceitarFinalizacao'])!.value,
+      impacto: this.editForm.get(['impacto'])!.value,
+      dataFinalizacao: this.editForm.get(['dataFinalizacao'])!.value,
       fotoContentType: this.editForm.get(['fotoContentType'])!.value,
       foto: this.editForm.get(['foto'])!.value,
-      impacto: this.editForm.get(['impacto'])!.value,
       relator: this.editForm.get(['relator'])!.value,
     };
   }

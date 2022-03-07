@@ -7,9 +7,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Problema} and its DTO {@link ProblemaDTO}.
  */
-@Mapper(componentModel = "spring", uses = { UsuarioMapper.class })
+@Mapper(componentModel = "spring", uses = { UserMapper.class })
 public interface ProblemaMapper extends EntityMapper<ProblemaDTO, Problema> {
-    @Mapping(target = "relator", source = "relator", qualifiedByName = "nome")
+    @Mapping(target = "relator", source = "relator", qualifiedByName = "login")
     ProblemaDTO toDto(Problema s);
 
     @Named("descricao")

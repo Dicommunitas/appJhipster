@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.operacional.controleoperacional.domain.TipoFinalidadeAmostra} entity.
  */
 @ApiModel(
-    description = "Entidade TipoFinalidadeAmostra.\nIrá informar para qual finalidade a amostra\nserá utilizada, análise, arqivo...\n@author Diego."
+    description = "Entidade TipoFinalidadeAmostra.\nIrá informar para qual finalidade a amostra\nserá utilizada, análise, arquivo...\n@author Diego."
 )
 public class TipoFinalidadeAmostraDTO implements Serializable {
 
@@ -27,13 +27,10 @@ public class TipoFinalidadeAmostraDTO implements Serializable {
     private String descricao;
 
     /**
-     * Amostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas.
+     * Indica se esse tipo de finalidade deve\nter obrigatoriedade de uso de lacre.
      */
     @NotNull
-    @ApiModelProperty(
-        value = "Amostras que tenham alguma finalidade sem lacre\ncom obrigatoriedade de lacre não poderão ser impressas,\nporém podem ser criadas.",
-        required = true
-    )
+    @ApiModelProperty(value = "Indica se esse tipo de finalidade deve\nter obrigatoriedade de uso de lacre.", required = true)
     private Boolean obrigatorioLacre;
 
     public Long getId() {

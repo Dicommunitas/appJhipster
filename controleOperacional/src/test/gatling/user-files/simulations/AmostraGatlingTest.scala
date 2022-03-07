@@ -71,10 +71,10 @@ class AmostraGatlingTest extends Simulation {
             .post("/api/amostras")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "dataHora":"2020-01-01T00:00:00.000Z"
+                "dataHoraColeta":"2020-01-01T00:00:00.000Z"
                 , "observacao":"SAMPLE_TEXT"
                 , "identificadorExterno":"SAMPLE_TEXT"
-                , "amostraNoLaboratorio":null
+                , "recebimentoNoLaboratorio":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_amostra_url"))).exitHereIfFailed

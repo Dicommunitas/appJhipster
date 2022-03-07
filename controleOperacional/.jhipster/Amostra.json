@@ -2,9 +2,9 @@
   "name": "Amostra",
   "fields": [
     {
-      "fieldName": "dataHora",
-      "fieldType": "ZonedDateTime",
-      "javadoc": "Atributo dataHora.\\nnão deve ser obrigatório e as amostras\\npor padrão devem ser ordenadas pela data\\nficando as mais novas por primeiro na\\nvizualização e as sem data por útimo\\n\\nData e hora que a amostra foi coletada."
+      "fieldName": "dataHoraColeta",
+      "fieldType": "Instant",
+      "javadoc": "Data e hora que a amostra foi coletada."
     },
     {
       "fieldName": "observacao",
@@ -14,11 +14,11 @@
     {
       "fieldName": "identificadorExterno",
       "fieldType": "String",
-      "javadoc": "Identificador que \"ligue\" esse registro em outro sistema."
+      "javadoc": "Identificador que \"ligue/identifique\" essa\\namostra em outro sistema."
     },
     {
-      "fieldName": "amostraNoLaboratorio",
-      "fieldType": "Boolean",
+      "fieldName": "recebimentoNoLaboratorio",
+      "fieldType": "Instant",
       "javadoc": "Identifica se a amostra está ou não no laboratório."
     }
   ],
@@ -69,18 +69,19 @@
     },
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "usuario",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "amostra",
-      "javadoc": "Verificar a aplicabilidade de criar previamente\\namostras em bloco, exemplo, ao criar uma operação nova\\ncopiar suas amostras com os campos \"amostrado por\"\\ne \"recebidaPor\" em branco.\\nQuem retirou a amostra, responsável pela amostragem.\\nEnquanto estiver em branco a amostra pode ser alterada\\ne excluída a qualquer momento e deverá ter outra\\ncor de identificação na listagem.",
+      "javadoc": "Quem retirou a amostra, responsável pela amostragem.",
       "relationshipName": "amostradaPor",
-      "otherEntityField": "nome"
+      "otherEntityField": "login"
     },
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "usuario",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "amostra",
+      "javadoc": "Quem recebeu a amostra no laboratório.",
       "relationshipName": "recebidaPor",
-      "otherEntityField": "nome"
+      "otherEntityField": "login"
     }
   ],
   "javadoc": "Entidade Amostra.\\n@author Diego.",
@@ -93,5 +94,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220225084534"
+  "changelogDate": "20220307002058"
 }

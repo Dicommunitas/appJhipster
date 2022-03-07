@@ -16,6 +16,16 @@
         </dd>
         <dt>
           <span
+            jhiTranslate="controleOperacionalApp.relatorio.dataHora"
+            [ngbTooltip]="'controleOperacionalApp.relatorio.help.dataHora' | translate"
+            >Data Hora</span
+          >
+        </dt>
+        <dd>
+          <span>{{ relatorio.dataHora | formatMediumDatetime }}</span>
+        </dd>
+        <dt>
+          <span
             jhiTranslate="controleOperacionalApp.relatorio.relato"
             [ngbTooltip]="'controleOperacionalApp.relatorio.help.relato' | translate"
             >Relato</span
@@ -42,9 +52,7 @@
         </dd>
         <dt><span jhiTranslate="controleOperacionalApp.relatorio.responsavel">Responsavel</span></dt>
         <dd>
-          <div *ngIf="relatorio.responsavel">
-            <a [routerLink]="['/usuario', relatorio.responsavel?.id, 'view']">{{ relatorio.responsavel?.nome }}</a>
-          </div>
+          <span>{{ relatorio.responsavel?.login }}</span>
         </dd>
       </dl>
 

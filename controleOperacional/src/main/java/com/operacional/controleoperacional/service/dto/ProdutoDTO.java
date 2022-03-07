@@ -11,9 +11,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.Produto} entity.
  */
-@ApiModel(
-    description = "Entidade OrigemAmostra, irá descrever de onde\na amostra foi retirada, linha 01, tanque 02...\nO local onde a amostra foi coletada.\n@author Diego."
-)
+@ApiModel(description = "Entidade Produto.\n@author Diego.")
 public class ProdutoDTO implements Serializable {
 
     private Long id;

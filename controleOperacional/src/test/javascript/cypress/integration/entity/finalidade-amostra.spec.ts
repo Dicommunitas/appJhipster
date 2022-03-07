@@ -45,7 +45,7 @@ describe('FinalidadeAmostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/amostras',
-      body: {"dataHora":"2022-02-25T05:34:08.305Z","observacao":"copying","identificadorExterno":"Prático FTP","amostraNoLaboratorio":true},
+      body: {"dataHoraColeta":"2022-03-06T21:09:32.305Z","observacao":"copying","identificadorExterno":"Prático FTP","recebimentoNoLaboratorio":"2022-03-06T09:30:11.785Z"},
     }).then(({ body }) => {
       amostra = body;
     });

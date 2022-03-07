@@ -192,9 +192,9 @@ describe('Operacao e2e test', () => {
 
       cy.get(`[data-cy="volumePeso"]`).type('14105').should('have.value', '14105');
 
-      cy.get(`[data-cy="inicio"]`).type('2022-02-24T22:58').should('have.value', '2022-02-24T22:58');
+      cy.get(`[data-cy="inicio"]`).type('2022-03-06T14:33').should('have.value', '2022-03-06T14:33');
 
-      cy.get(`[data-cy="fim"]`).type('2022-02-25T00:19').should('have.value', '2022-02-25T00:19');
+      cy.get(`[data-cy="fim"]`).type('2022-03-06T15:54').should('have.value', '2022-03-06T15:54');
 
       cy.get(`[data-cy="quantidadeAmostras"]`).type('60880').should('have.value', '60880');
 

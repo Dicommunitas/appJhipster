@@ -20,14 +20,14 @@
       "id": "ID",
       "descricao": "Descricao",
       "prazo": "Prazo",
-      "resolvido": "Resolvido",
+      "dataResolucao": "Data Resolucao",
       "relator": "Relator",
       "responsavel": "Responsavel",
       "problema": "Problema",
       "help": {
-        "descricao": "Descreve o status, a situação atual que está sendo tratada.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.",
-        "prazo": "O prazo em que o status deve ser resolvido",
-        "resolvido": "Indica se o status foi ou não resolvido."
+        "descricao": "Descreve o status, a situação que está sendo tratada\nque impede que o problema seja finalizado.",
+        "prazo": "O prazo em que o status deve ser resolvido.",
+        "dataResolucao": "Indica em que data o status foi resolvido."
       }
     }
   }

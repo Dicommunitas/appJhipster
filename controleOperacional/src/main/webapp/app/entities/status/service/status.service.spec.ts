@@ -27,7 +27,7 @@ describe('Status Service', () => {
       id: 0,
       descricao: 'AAAAAAA',
       prazo: currentDate,
-      resolvido: false,
+      dataResolucao: currentDate,
     };
   });
 
@@ -36,6 +36,7 @@ describe('Status Service', () => {
       const returnedFromService = Object.assign(
         {
           prazo: currentDate.format(DATE_FORMAT),
+          dataResolucao: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -52,6 +53,7 @@ describe('Status Service', () => {
         {
           id: 0,
           prazo: currentDate.format(DATE_FORMAT),
+          dataResolucao: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -59,6 +61,7 @@ describe('Status Service', () => {
       const expected = Object.assign(
         {
           prazo: currentDate,
+          dataResolucao: currentDate,
         },
         returnedFromService
       );
@@ -76,7 +79,7 @@ describe('Status Service', () => {
           id: 1,
           descricao: 'BBBBBB',
           prazo: currentDate.format(DATE_FORMAT),
-          resolvido: true,
+          dataResolucao: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -84,6 +87,7 @@ describe('Status Service', () => {
       const expected = Object.assign(
         {
           prazo: currentDate,
+          dataResolucao: currentDate,
         },
         returnedFromService
       );
@@ -100,7 +104,7 @@ describe('Status Service', () => {
         {
           descricao: 'BBBBBB',
           prazo: currentDate.format(DATE_FORMAT),
-          resolvido: true,
+          dataResolucao: currentDate.format(DATE_FORMAT),
         },
         new Status()
       );
@@ -110,6 +114,7 @@ describe('Status Service', () => {
       const expected = Object.assign(
         {
           prazo: currentDate,
+          dataResolucao: currentDate,
         },
         returnedFromService
       );
@@ -127,7 +132,7 @@ describe('Status Service', () => {
           id: 1,
           descricao: 'BBBBBB',
           prazo: currentDate.format(DATE_FORMAT),
-          resolvido: true,
+          dataResolucao: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -135,6 +140,7 @@ describe('Status Service', () => {
       const expected = Object.assign(
         {
           prazo: currentDate,
+          dataResolucao: currentDate,
         },
         returnedFromService
       );

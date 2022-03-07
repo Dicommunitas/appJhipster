@@ -13,18 +13,18 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.operacional.controleoperacional.domain.Problema} entity.
  */
 @ApiModel(
-    description = "Entidade Problema.\n@author Diego.\nUm problema pode ser qualquer anormalidade encontrada.\nUm problema pode ter vários status para sua finalização\ncada status devem ser tratado por uma área necessária ao\ntratamento do problema.\nOs problemas devem ter sua apresentação para\no usuário de forma diferenciada com relação\naos status resolvidos e não resolvidos, assim\ncomo problemas já finalizados e não finalizados."
+    description = "Entidade Problema.\n@author Diego.\nUm problema pode ser qualquer anormalidade encontrada.\nUm problema pode ter vários status para sua finalização\ncada status devem ser tratado por uma área necessária ao\ntratamento do problema.\nOs problemas devem ter sua apresentação para\no usuário de forma diferenciada com relação\naos status resolvidos e não resolvidos, assim\ncomo problemas já finalizados e não finalizados. Para\nfácil identificação."
 )
 public class ProblemaDTO implements Serializable {
 
     private Long id;
 
     /**
-     * A data em que o problema foi verificado
+     * A data em que o problema foi verificado.
      */
     @NotNull
-    @ApiModelProperty(value = "A data em que o problema foi verificado", required = true)
-    private LocalDate data;
+    @ApiModelProperty(value = "A data em que o problema foi verificado.", required = true)
+    private LocalDate dataVerificacao;
 
     /**
      * Descrição do problema.
@@ -44,29 +44,33 @@ public class ProblemaDTO implements Serializable {
     private Criticidade criticidade;
 
     /**
-     * Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos.
-     */
-    @ApiModelProperty(
-        value = "Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara aceitar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos."
-    )
-    private Boolean aceitarFinalizacao;
-
-    @Lob
-    private byte[] foto;
-
-    private String fotoContentType;
-
-    /**
-     * Impácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
+     * O impácto do problema para o sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco
      */
     @NotNull
     @ApiModelProperty(
-        value = "Impácto do problema ao sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
+        value = "O impácto do problema para o sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
         required = true
     )
     private String impacto;
 
-    private UsuarioDTO relator;
+    /**
+     * Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara informar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos.
+     */
+    @ApiModelProperty(
+        value = "Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara informar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos."
+    )
+    private LocalDate dataFinalizacao;
+
+    /**
+     * Uma imagem que possa facilitar a identificação do problema.
+     */
+
+    @ApiModelProperty(value = "Uma imagem que possa facilitar a identificação do problema.")
+    @Lob
+    private byte[] foto;
+
+    private String fotoContentType;
+    private UserDTO relator;
 
     public Long getId() {
         return id;
@@ -76,12 +80,12 @@ public class ProblemaDTO implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataVerificacao() {
+        return dataVerificacao;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataVerificacao(LocalDate dataVerificacao) {
+        this.dataVerificacao = dataVerificacao;
     }
 
     public String getDescricao() {
@@ -100,12 +104,20 @@ public class ProblemaDTO implements Serializable {
         this.criticidade = criticidade;
     }
 
-    public Boolean getAceitarFinalizacao() {
-        return aceitarFinalizacao;
+    public String getImpacto() {
+        return impacto;
     }
 
-    public void setAceitarFinalizacao(Boolean aceitarFinalizacao) {
-        this.aceitarFinalizacao = aceitarFinalizacao;
+    public void setImpacto(String impacto) {
+        this.impacto = impacto;
+    }
+
+    public LocalDate getDataFinalizacao() {
+        return dataFinalizacao;
+    }
+
+    public void setDataFinalizacao(LocalDate dataFinalizacao) {
+        this.dataFinalizacao = dataFinalizacao;
     }
 
     public byte[] getFoto() {
@@ -124,19 +136,11 @@ public class ProblemaDTO implements Serializable {
         this.fotoContentType = fotoContentType;
     }
 
-    public String getImpacto() {
-        return impacto;
-    }
-
-    public void setImpacto(String impacto) {
-        this.impacto = impacto;
-    }
-
-    public UsuarioDTO getRelator() {
+    public UserDTO getRelator() {
         return relator;
     }
 
-    public void setRelator(UsuarioDTO relator) {
+    public void setRelator(UserDTO relator) {
         this.relator = relator;
     }
 
@@ -166,12 +170,12 @@ public class ProblemaDTO implements Serializable {
     public String toString() {
         return "ProblemaDTO{" +
             "id=" + getId() +
-            ", data='" + getData() + "'" +
+            ", dataVerificacao='" + getDataVerificacao() + "'" +
             ", descricao='" + getDescricao() + "'" +
             ", criticidade='" + getCriticidade() + "'" +
-            ", aceitarFinalizacao='" + getAceitarFinalizacao() + "'" +
-            ", foto='" + getFoto() + "'" +
             ", impacto='" + getImpacto() + "'" +
+            ", dataFinalizacao='" + getDataFinalizacao() + "'" +
+            ", foto='" + getFoto() + "'" +
             ", relator=" + getRelator() +
             "}";
     }

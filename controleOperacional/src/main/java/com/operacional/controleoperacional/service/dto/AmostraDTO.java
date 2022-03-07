@@ -3,7 +3,7 @@ package com.operacional.controleoperacional.service.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -16,12 +16,10 @@ public class AmostraDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo\n\nData e hora que a amostra foi coletada.
+     * Data e hora que a amostra foi coletada.
      */
-    @ApiModelProperty(
-        value = "Atributo dataHora.\nnão deve ser obrigatório e as amostras\npor padrão devem ser ordenadas pela data\nficando as mais novas por primeiro na\nvizualização e as sem data por útimo\n\nData e hora que a amostra foi coletada."
-    )
-    private ZonedDateTime dataHora;
+    @ApiModelProperty(value = "Data e hora que a amostra foi coletada.")
+    private Instant dataHoraColeta;
 
     /**
      * Observações que forem necessárias para melhorar\na identificação da amostra.
@@ -30,16 +28,16 @@ public class AmostraDTO implements Serializable {
     private String observacao;
 
     /**
-     * Identificador que \"ligue\" esse registro em outro sistema.
+     * Identificador que \"ligue/identifique\" essa\namostra em outro sistema.
      */
-    @ApiModelProperty(value = "Identificador que \"ligue\" esse registro em outro sistema.")
+    @ApiModelProperty(value = "Identificador que \"ligue/identifique\" essa\namostra em outro sistema.")
     private String identificadorExterno;
 
     /**
      * Identifica se a amostra está ou não no laboratório.
      */
     @ApiModelProperty(value = "Identifica se a amostra está ou não no laboratório.")
-    private Boolean amostraNoLaboratorio;
+    private Instant recebimentoNoLaboratorio;
 
     private OperacaoDTO operacao;
 
@@ -49,9 +47,9 @@ public class AmostraDTO implements Serializable {
 
     private TipoAmostraDTO tipoAmostra;
 
-    private UsuarioDTO amostradaPor;
+    private UserDTO amostradaPor;
 
-    private UsuarioDTO recebidaPor;
+    private UserDTO recebidaPor;
 
     public Long getId() {
         return id;
@@ -61,12 +59,12 @@ public class AmostraDTO implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDataHora() {
-        return dataHora;
+    public Instant getDataHoraColeta() {
+        return dataHoraColeta;
     }
 
-    public void setDataHora(ZonedDateTime dataHora) {
-        this.dataHora = dataHora;
+    public void setDataHoraColeta(Instant dataHoraColeta) {
+        this.dataHoraColeta = dataHoraColeta;
     }
 
     public String getObservacao() {
@@ -85,12 +83,12 @@ public class AmostraDTO implements Serializable {
         this.identificadorExterno = identificadorExterno;
     }
 
-    public Boolean getAmostraNoLaboratorio() {
-        return amostraNoLaboratorio;
+    public Instant getRecebimentoNoLaboratorio() {
+        return recebimentoNoLaboratorio;
     }
 
-    public void setAmostraNoLaboratorio(Boolean amostraNoLaboratorio) {
-        this.amostraNoLaboratorio = amostraNoLaboratorio;
+    public void setRecebimentoNoLaboratorio(Instant recebimentoNoLaboratorio) {
+        this.recebimentoNoLaboratorio = recebimentoNoLaboratorio;
     }
 
     public OperacaoDTO getOperacao() {
@@ -125,19 +123,19 @@ public class AmostraDTO implements Serializable {
         this.tipoAmostra = tipoAmostra;
     }
 
-    public UsuarioDTO getAmostradaPor() {
+    public UserDTO getAmostradaPor() {
         return amostradaPor;
     }
 
-    public void setAmostradaPor(UsuarioDTO amostradaPor) {
+    public void setAmostradaPor(UserDTO amostradaPor) {
         this.amostradaPor = amostradaPor;
     }
 
-    public UsuarioDTO getRecebidaPor() {
+    public UserDTO getRecebidaPor() {
         return recebidaPor;
     }
 
-    public void setRecebidaPor(UsuarioDTO recebidaPor) {
+    public void setRecebidaPor(UserDTO recebidaPor) {
         this.recebidaPor = recebidaPor;
     }
 
@@ -167,10 +165,10 @@ public class AmostraDTO implements Serializable {
     public String toString() {
         return "AmostraDTO{" +
             "id=" + getId() +
-            ", dataHora='" + getDataHora() + "'" +
+            ", dataHoraColeta='" + getDataHoraColeta() + "'" +
             ", observacao='" + getObservacao() + "'" +
             ", identificadorExterno='" + getIdentificadorExterno() + "'" +
-            ", amostraNoLaboratorio='" + getAmostraNoLaboratorio() + "'" +
+            ", recebimentoNoLaboratorio='" + getRecebimentoNoLaboratorio() + "'" +
             ", operacao=" + getOperacao() +
             ", origemAmostra=" + getOrigemAmostra() +
             ", produto=" + getProduto() +

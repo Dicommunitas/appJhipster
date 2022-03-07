@@ -77,12 +77,14 @@ export class StatusService {
   protected convertDateFromClient(status: IStatus): IStatus {
     return Object.assign({}, status, {
       prazo: status.prazo?.isValid() ? status.prazo.format(DATE_FORMAT) : undefined,
+      dataResolucao: status.dataResolucao?.isValid() ? status.dataResolucao.format(DATE_FORMAT) : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.prazo = res.body.prazo ? dayjs(res.body.prazo) : undefined;
+      res.body.dataResolucao = res.body.dataResolucao ? dayjs(res.body.dataResolucao) : undefined;
     }
     return res;
   }
@@ -91,6 +93,7 @@ export class StatusService {
     if (res.body) {
       res.body.forEach((status: IStatus) => {
         status.prazo = status.prazo ? dayjs(status.prazo) : undefined;
+        status.dataResolucao = status.dataResolucao ? dayjs(status.dataResolucao) : undefined;
       });
     }
     return res;

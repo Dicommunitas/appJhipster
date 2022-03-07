@@ -20,6 +20,43 @@
         <div class="form-group">
           <label
             class="form-control-label"
+            jhiTranslate="controleOperacionalApp.relatorio.dataHora"
+            for="field_dataHora"
+            [ngbTooltip]="'controleOperacionalApp.relatorio.help.dataHora' | translate"
+            >Data Hora</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_dataHora"
+              data-cy="dataHora"
+              type="datetime-local"
+              class="form-control"
+              name="dataHora"
+              formControlName="dataHora"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('dataHora')!.invalid && (editForm.get('dataHora')!.dirty || editForm.get('dataHora')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dataHora')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('dataHora')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
             jhiTranslate="controleOperacionalApp.relatorio.relato"
             for="field_relato"
             [ngbTooltip]="'controleOperacionalApp.relatorio.help.relato' | translate"
@@ -70,10 +107,10 @@
           <select class="form-control" id="field_responsavel" data-cy="responsavel" name="responsavel" formControlName="responsavel">
             <option *ngIf="!editForm.get('responsavel')!.value" [ngValue]="null" selected></option>
             <option
-              [ngValue]="usuarioOption.id === editForm.get('responsavel')!.value?.id ? editForm.get('responsavel')!.value : usuarioOption"
-              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+              [ngValue]="userOption.id === editForm.get('responsavel')!.value?.id ? editForm.get('responsavel')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ usuarioOption.nome }}
+              {{ userOption.login }}
             </option>
           </select>
         </div>

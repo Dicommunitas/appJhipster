@@ -11,8 +11,9 @@ import { RelatorioService } from '../service/relatorio.service';
 import { IRelatorio, Relatorio } from '../relatorio.model';
 import { ITipoRelatorio } from 'app/entities/tipo-relatorio/tipo-relatorio.model';
 import { TipoRelatorioService } from 'app/entities/tipo-relatorio/service/tipo-relatorio.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 import { RelatorioUpdateComponent } from './relatorio-update.component';
 
@@ -22,7 +23,7 @@ describe('Relatorio Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let relatorioService: RelatorioService;
   let tipoRelatorioService: TipoRelatorioService;
-  let usuarioService: UsuarioService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,7 +38,7 @@ describe('Relatorio Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     relatorioService = TestBed.inject(RelatorioService);
     tipoRelatorioService = TestBed.inject(TipoRelatorioService);
-    usuarioService = TestBed.inject(UsuarioService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
@@ -65,30 +66,30 @@ describe('Relatorio Management Update Component', () => {
       expect(comp.tipoRelatoriosSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Usuario query and add missing value', () => {
+    it('Should call User query and add missing value', () => {
       const relatorio: IRelatorio = { id: 456 };
-      const responsavel: IUsuario = { id: 96149 };
+      const responsavel: IUser = { id: 946 };
       relatorio.responsavel = responsavel;
 
-      const usuarioCollection: IUsuario[] = [{ id: 81099 }];
-      jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
-      const additionalUsuarios = [responsavel];
-      const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
-      jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const userCollection: IUser[] = [{ id: 9236 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [responsavel];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ relatorio });
       comp.ngOnInit();
 
-      expect(usuarioService.query).toHaveBeenCalled();
-      expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(usuarioCollection, ...additionalUsuarios);
-      expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const relatorio: IRelatorio = { id: 456 };
       const tipo: ITipoRelatorio = { id: 41527 };
       relatorio.tipo = tipo;
-      const responsavel: IUsuario = { id: 85140 };
+      const responsavel: IUser = { id: 42258 };
       relatorio.responsavel = responsavel;
 
       activatedRoute.data = of({ relatorio });
@@ -96,7 +97,7 @@ describe('Relatorio Management Update Component', () => {
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(relatorio));
       expect(comp.tipoRelatoriosSharedCollection).toContain(tipo);
-      expect(comp.usuariosSharedCollection).toContain(responsavel);
+      expect(comp.usersSharedCollection).toContain(responsavel);
     });
   });
 
@@ -173,10 +174,10 @@ describe('Relatorio Management Update Component', () => {
       });
     });
 
-    describe('trackUsuarioById', () => {
-      it('Should return tracked Usuario primary key', () => {
+    describe('trackUserById', () => {
+      it('Should return tracked User primary key', () => {
         const entity = { id: 123 };
-        const trackResult = comp.trackUsuarioById(0, entity);
+        const trackResult = comp.trackUserById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });

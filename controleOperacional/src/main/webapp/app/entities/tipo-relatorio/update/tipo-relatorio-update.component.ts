@@ -7,8 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 
 import { ITipoRelatorio, TipoRelatorio } from '../tipo-relatorio.model';
 import { TipoRelatorioService } from '../service/tipo-relatorio.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-tipo-relatorio-update',
@@ -17,7 +17,7 @@ import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 export class TipoRelatorioUpdateComponent implements OnInit {
   isSaving = false;
 
-  usuariosSharedCollection: IUsuario[] = [];
+  usersSharedCollection: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -27,7 +27,7 @@ export class TipoRelatorioUpdateComponent implements OnInit {
 
   constructor(
     protected tipoRelatorioService: TipoRelatorioService,
-    protected usuarioService: UsuarioService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -54,11 +54,11 @@ export class TipoRelatorioUpdateComponent implements OnInit {
     }
   }
 
-  trackUsuarioById(index: number, item: IUsuario): number {
+  trackUserById(index: number, item: IUser): number {
     return item.id!;
   }
 
-  getSelectedUsuario(option: IUsuario, selectedVals?: IUsuario[]): IUsuario {
+  getSelectedUser(option: IUser, selectedVals?: IUser[]): IUser {
     if (selectedVals) {
       for (const selectedVal of selectedVals) {
         if (option.id === selectedVal.id) {
@@ -95,22 +95,20 @@ export class TipoRelatorioUpdateComponent implements OnInit {
       usuariosAuts: tipoRelatorio.usuariosAuts,
     });
 
-    this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(
-      this.usuariosSharedCollection,
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(
+      this.usersSharedCollection,
       ...(tipoRelatorio.usuariosAuts ?? [])
     );
   }
 
   protected loadRelationshipsOptions(): void {
-    this.usuarioService
+    this.userService
       .query()
-      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
       .pipe(
-        map((usuarios: IUsuario[]) =>
-          this.usuarioService.addUsuarioToCollectionIfMissing(usuarios, ...(this.editForm.get('usuariosAuts')!.value ?? []))
-        )
+        map((users: IUser[]) => this.userService.addUserToCollectionIfMissing(users, ...(this.editForm.get('usuariosAuts')!.value ?? [])))
       )
-      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 
   protected createFromForm(): ITipoRelatorio {

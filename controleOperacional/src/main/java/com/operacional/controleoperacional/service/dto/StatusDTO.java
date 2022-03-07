@@ -12,39 +12,39 @@ import javax.validation.constraints.*;
  * A DTO for the {@link com.operacional.controleoperacional.domain.Status} entity.
  */
 @ApiModel(
-    description = "Entidade Status.\n@author Diego.\nDescreve a situação do andamento para solução\nde um problema. Um problema pode ter vários\nstatus até sua finalização.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo."
+    description = "Entidade Status.\n@author Diego.\nDescreve a situação do andamento para solução\nde um problema. Um problema pode ter vários\nstatus até sua finalização.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.\nAo criar um novo Status usar como modelo o último\ncriado pelo usuário."
 )
 public class StatusDTO implements Serializable {
 
     private Long id;
 
     /**
-     * Descreve o status, a situação atual que está sendo tratada.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.
+     * Descreve o status, a situação que está sendo tratada\nque impede que o problema seja finalizado.
      */
 
     @ApiModelProperty(
-        value = "Descreve o status, a situação atual que está sendo tratada.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.",
+        value = "Descreve o status, a situação que está sendo tratada\nque impede que o problema seja finalizado.",
         required = true
     )
     @Lob
     private String descricao;
 
     /**
-     * O prazo em que o status deve ser resolvido
+     * O prazo em que o status deve ser resolvido.
      */
     @NotNull
-    @ApiModelProperty(value = "O prazo em que o status deve ser resolvido", required = true)
+    @ApiModelProperty(value = "O prazo em que o status deve ser resolvido.", required = true)
     private LocalDate prazo;
 
     /**
-     * Indica se o status foi ou não resolvido.
+     * Indica em que data o status foi resolvido.
      */
-    @ApiModelProperty(value = "Indica se o status foi ou não resolvido.")
-    private Boolean resolvido;
+    @ApiModelProperty(value = "Indica em que data o status foi resolvido.")
+    private LocalDate dataResolucao;
 
-    private UsuarioDTO relator;
+    private UserDTO relator;
 
-    private UsuarioDTO responsavel;
+    private UserDTO responsavel;
 
     private ProblemaDTO problema;
 
@@ -72,27 +72,27 @@ public class StatusDTO implements Serializable {
         this.prazo = prazo;
     }
 
-    public Boolean getResolvido() {
-        return resolvido;
+    public LocalDate getDataResolucao() {
+        return dataResolucao;
     }
 
-    public void setResolvido(Boolean resolvido) {
-        this.resolvido = resolvido;
+    public void setDataResolucao(LocalDate dataResolucao) {
+        this.dataResolucao = dataResolucao;
     }
 
-    public UsuarioDTO getRelator() {
+    public UserDTO getRelator() {
         return relator;
     }
 
-    public void setRelator(UsuarioDTO relator) {
+    public void setRelator(UserDTO relator) {
         this.relator = relator;
     }
 
-    public UsuarioDTO getResponsavel() {
+    public UserDTO getResponsavel() {
         return responsavel;
     }
 
-    public void setResponsavel(UsuarioDTO responsavel) {
+    public void setResponsavel(UserDTO responsavel) {
         this.responsavel = responsavel;
     }
 
@@ -132,7 +132,7 @@ public class StatusDTO implements Serializable {
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
             ", prazo='" + getPrazo() + "'" +
-            ", resolvido='" + getResolvido() + "'" +
+            ", dataResolucao='" + getDataResolucao() + "'" +
             ", relator=" + getRelator() +
             ", responsavel=" + getResponsavel() +
             ", problema=" + getProblema() +

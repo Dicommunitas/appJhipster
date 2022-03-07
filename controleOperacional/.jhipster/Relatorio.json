@@ -2,16 +2,22 @@
   "name": "Relatorio",
   "fields": [
     {
+      "fieldName": "dataHora",
+      "fieldType": "Instant",
+      "javadoc": "Data e hora que o relatório foi criado.",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "relato",
       "fieldType": "byte[]",
-      "javadoc": "Atributo relato.\\nVerificar a viabilidade de usar um objeto\\ne não um texto.\\n\\nUsar comparação de texto para visualizar as\\nalterações entre o últomo relatório criado e o último\\nrelatório criado pelo usuário.\\n\\nRelato descritivo. As informações pertinentes para o relatório.",
+      "javadoc": "Relato descritivo. As informações pertinentes para o relatório.",
       "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "linksExternos",
       "fieldType": "byte[]",
-      "javadoc": "Atributo linksExternos.\\nVerificar a viabilidade de usar iframe\\n\\nLinks e lembretes de apoio para o relatório.",
+      "javadoc": "Links e lembretes de apoio para o relatório.",
       "fieldTypeBlobContent": "text"
     }
   ],
@@ -26,11 +32,12 @@
     },
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "usuario",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "relatorio",
       "relationshipValidateRules": "required",
+      "javadoc": "Quem criou o relatório.",
       "relationshipName": "responsavel",
-      "otherEntityField": "nome"
+      "otherEntityField": "login"
     }
   ],
   "javadoc": "Entidade Relatorio.\\n@author Diego.\\nNa tela de visualização/edição de um relatório\\ndeve ser mostrado uma lista das operações com fim em branco\\nou início em até 12 horas antes da hora de criação do relatório,\\numa lista dos problemas com o campo aceitarFinalizacao em falso\\ne uma lista das amostras criadas em até 12 horas antes da\\ncriação do relatório.\\nTambém deve ser apresentado um \"satatus\" do\\nplano de amostragem.\\n\\nUm relatório só pode ser alterado/excluído por quem o criou\\ne se ele for o último relatório do seu tipo.\\n\\nNa tela de visualização/edição de um relatório\\ndeve ser mostrado as telas dos linksExternos\\nexemplo a tela do Paranaguá pilots.\\n\\nAo usar iframe verificar o funcionamento de links com\\ncaminhos relativos, para dentro do projeto com links internos,\\ne caminhos absolutos, para links externos.\\nhttps:",
@@ -43,5 +50,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220225084134"
+  "changelogDate": "20220307001758"
 }

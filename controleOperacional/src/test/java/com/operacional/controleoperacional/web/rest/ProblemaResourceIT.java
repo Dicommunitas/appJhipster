@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.operacional.controleoperacional.IntegrationTest;
 import com.operacional.controleoperacional.domain.Problema;
 import com.operacional.controleoperacional.domain.Status;
-import com.operacional.controleoperacional.domain.Usuario;
+import com.operacional.controleoperacional.domain.User;
 import com.operacional.controleoperacional.domain.enumeration.Criticidade;
 import com.operacional.controleoperacional.repository.ProblemaRepository;
 import com.operacional.controleoperacional.service.criteria.ProblemaCriteria;
@@ -38,9 +38,9 @@ import org.springframework.util.Base64Utils;
 @WithMockUser
 class ProblemaResourceIT {
 
-    private static final LocalDate DEFAULT_DATA = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATA = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_DATA = LocalDate.ofEpochDay(-1L);
+    private static final LocalDate DEFAULT_DATA_VERIFICACAO = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATA_VERIFICACAO = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_DATA_VERIFICACAO = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
@@ -48,16 +48,17 @@ class ProblemaResourceIT {
     private static final Criticidade DEFAULT_CRITICIDADE = Criticidade.BAIXA;
     private static final Criticidade UPDATED_CRITICIDADE = Criticidade.MEDIA;
 
-    private static final Boolean DEFAULT_ACEITAR_FINALIZACAO = false;
-    private static final Boolean UPDATED_ACEITAR_FINALIZACAO = true;
+    private static final String DEFAULT_IMPACTO = "AAAAAAAAAA";
+    private static final String UPDATED_IMPACTO = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_DATA_FINALIZACAO = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATA_FINALIZACAO = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_DATA_FINALIZACAO = LocalDate.ofEpochDay(-1L);
 
     private static final byte[] DEFAULT_FOTO = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_FOTO = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_FOTO_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_FOTO_CONTENT_TYPE = "image/png";
-
-    private static final String DEFAULT_IMPACTO = "AAAAAAAAAA";
-    private static final String UPDATED_IMPACTO = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/problemas";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -87,23 +88,18 @@ class ProblemaResourceIT {
      */
     public static Problema createEntity(EntityManager em) {
         Problema problema = new Problema()
-            .data(DEFAULT_DATA)
+            .dataVerificacao(DEFAULT_DATA_VERIFICACAO)
             .descricao(DEFAULT_DESCRICAO)
             .criticidade(DEFAULT_CRITICIDADE)
-            .aceitarFinalizacao(DEFAULT_ACEITAR_FINALIZACAO)
+            .impacto(DEFAULT_IMPACTO)
+            .dataFinalizacao(DEFAULT_DATA_FINALIZACAO)
             .foto(DEFAULT_FOTO)
-            .fotoContentType(DEFAULT_FOTO_CONTENT_TYPE)
-            .impacto(DEFAULT_IMPACTO);
+            .fotoContentType(DEFAULT_FOTO_CONTENT_TYPE);
         // Add required entity
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            usuario = UsuarioResourceIT.createEntity(em);
-            em.persist(usuario);
-            em.flush();
-        } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
-        }
-        problema.setRelator(usuario);
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        problema.setRelator(user);
         return problema;
     }
 
@@ -115,23 +111,18 @@ class ProblemaResourceIT {
      */
     public static Problema createUpdatedEntity(EntityManager em) {
         Problema problema = new Problema()
-            .data(UPDATED_DATA)
+            .dataVerificacao(UPDATED_DATA_VERIFICACAO)
             .descricao(UPDATED_DESCRICAO)
             .criticidade(UPDATED_CRITICIDADE)
-            .aceitarFinalizacao(UPDATED_ACEITAR_FINALIZACAO)
+            .impacto(UPDATED_IMPACTO)
+            .dataFinalizacao(UPDATED_DATA_FINALIZACAO)
             .foto(UPDATED_FOTO)
-            .fotoContentType(UPDATED_FOTO_CONTENT_TYPE)
-            .impacto(UPDATED_IMPACTO);
+            .fotoContentType(UPDATED_FOTO_CONTENT_TYPE);
         // Add required entity
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            usuario = UsuarioResourceIT.createUpdatedEntity(em);
-            em.persist(usuario);
-            em.flush();
-        } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
-        }
-        problema.setRelator(usuario);
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        problema.setRelator(user);
         return problema;
     }
 
@@ -154,13 +145,13 @@ class ProblemaResourceIT {
         List<Problema> problemaList = problemaRepository.findAll();
         assertThat(problemaList).hasSize(databaseSizeBeforeCreate + 1);
         Problema testProblema = problemaList.get(problemaList.size() - 1);
-        assertThat(testProblema.getData()).isEqualTo(DEFAULT_DATA);
+        assertThat(testProblema.getDataVerificacao()).isEqualTo(DEFAULT_DATA_VERIFICACAO);
         assertThat(testProblema.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testProblema.getCriticidade()).isEqualTo(DEFAULT_CRITICIDADE);
-        assertThat(testProblema.getAceitarFinalizacao()).isEqualTo(DEFAULT_ACEITAR_FINALIZACAO);
+        assertThat(testProblema.getImpacto()).isEqualTo(DEFAULT_IMPACTO);
+        assertThat(testProblema.getDataFinalizacao()).isEqualTo(DEFAULT_DATA_FINALIZACAO);
         assertThat(testProblema.getFoto()).isEqualTo(DEFAULT_FOTO);
         assertThat(testProblema.getFotoContentType()).isEqualTo(DEFAULT_FOTO_CONTENT_TYPE);
-        assertThat(testProblema.getImpacto()).isEqualTo(DEFAULT_IMPACTO);
     }
 
     @Test
@@ -184,10 +175,10 @@ class ProblemaResourceIT {
 
     @Test
     @Transactional
-    void checkDataIsRequired() throws Exception {
+    void checkDataVerificacaoIsRequired() throws Exception {
         int databaseSizeBeforeTest = problemaRepository.findAll().size();
         // set the field null
-        problema.setData(null);
+        problema.setDataVerificacao(null);
 
         // Create the Problema, which fails.
         ProblemaDTO problemaDTO = problemaMapper.toDto(problema);
@@ -266,13 +257,13 @@ class ProblemaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(problema.getId().intValue())))
-            .andExpect(jsonPath("$.[*].data").value(hasItem(DEFAULT_DATA.toString())))
+            .andExpect(jsonPath("$.[*].dataVerificacao").value(hasItem(DEFAULT_DATA_VERIFICACAO.toString())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
             .andExpect(jsonPath("$.[*].criticidade").value(hasItem(DEFAULT_CRITICIDADE.toString())))
-            .andExpect(jsonPath("$.[*].aceitarFinalizacao").value(hasItem(DEFAULT_ACEITAR_FINALIZACAO.booleanValue())))
+            .andExpect(jsonPath("$.[*].impacto").value(hasItem(DEFAULT_IMPACTO)))
+            .andExpect(jsonPath("$.[*].dataFinalizacao").value(hasItem(DEFAULT_DATA_FINALIZACAO.toString())))
             .andExpect(jsonPath("$.[*].fotoContentType").value(hasItem(DEFAULT_FOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].foto").value(hasItem(Base64Utils.encodeToString(DEFAULT_FOTO))))
-            .andExpect(jsonPath("$.[*].impacto").value(hasItem(DEFAULT_IMPACTO)));
+            .andExpect(jsonPath("$.[*].foto").value(hasItem(Base64Utils.encodeToString(DEFAULT_FOTO))));
     }
 
     @Test
@@ -287,13 +278,13 @@ class ProblemaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(problema.getId().intValue()))
-            .andExpect(jsonPath("$.data").value(DEFAULT_DATA.toString()))
+            .andExpect(jsonPath("$.dataVerificacao").value(DEFAULT_DATA_VERIFICACAO.toString()))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
             .andExpect(jsonPath("$.criticidade").value(DEFAULT_CRITICIDADE.toString()))
-            .andExpect(jsonPath("$.aceitarFinalizacao").value(DEFAULT_ACEITAR_FINALIZACAO.booleanValue()))
+            .andExpect(jsonPath("$.impacto").value(DEFAULT_IMPACTO))
+            .andExpect(jsonPath("$.dataFinalizacao").value(DEFAULT_DATA_FINALIZACAO.toString()))
             .andExpect(jsonPath("$.fotoContentType").value(DEFAULT_FOTO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.foto").value(Base64Utils.encodeToString(DEFAULT_FOTO)))
-            .andExpect(jsonPath("$.impacto").value(DEFAULT_IMPACTO));
+            .andExpect(jsonPath("$.foto").value(Base64Utils.encodeToString(DEFAULT_FOTO)));
     }
 
     @Test
@@ -316,106 +307,106 @@ class ProblemaResourceIT {
 
     @Test
     @Transactional
-    void getAllProblemasByDataIsEqualToSomething() throws Exception {
+    void getAllProblemasByDataVerificacaoIsEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where data equals to DEFAULT_DATA
-        defaultProblemaShouldBeFound("data.equals=" + DEFAULT_DATA);
+        // Get all the problemaList where dataVerificacao equals to DEFAULT_DATA_VERIFICACAO
+        defaultProblemaShouldBeFound("dataVerificacao.equals=" + DEFAULT_DATA_VERIFICACAO);
 
-        // Get all the problemaList where data equals to UPDATED_DATA
-        defaultProblemaShouldNotBeFound("data.equals=" + UPDATED_DATA);
+        // Get all the problemaList where dataVerificacao equals to UPDATED_DATA_VERIFICACAO
+        defaultProblemaShouldNotBeFound("dataVerificacao.equals=" + UPDATED_DATA_VERIFICACAO);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataIsNotEqualToSomething() throws Exception {
+    void getAllProblemasByDataVerificacaoIsNotEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where data not equals to DEFAULT_DATA
-        defaultProblemaShouldNotBeFound("data.notEquals=" + DEFAULT_DATA);
+        // Get all the problemaList where dataVerificacao not equals to DEFAULT_DATA_VERIFICACAO
+        defaultProblemaShouldNotBeFound("dataVerificacao.notEquals=" + DEFAULT_DATA_VERIFICACAO);
 
-        // Get all the problemaList where data not equals to UPDATED_DATA
-        defaultProblemaShouldBeFound("data.notEquals=" + UPDATED_DATA);
+        // Get all the problemaList where dataVerificacao not equals to UPDATED_DATA_VERIFICACAO
+        defaultProblemaShouldBeFound("dataVerificacao.notEquals=" + UPDATED_DATA_VERIFICACAO);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataIsInShouldWork() throws Exception {
+    void getAllProblemasByDataVerificacaoIsInShouldWork() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where data in DEFAULT_DATA or UPDATED_DATA
-        defaultProblemaShouldBeFound("data.in=" + DEFAULT_DATA + "," + UPDATED_DATA);
+        // Get all the problemaList where dataVerificacao in DEFAULT_DATA_VERIFICACAO or UPDATED_DATA_VERIFICACAO
+        defaultProblemaShouldBeFound("dataVerificacao.in=" + DEFAULT_DATA_VERIFICACAO + "," + UPDATED_DATA_VERIFICACAO);
 
-        // Get all the problemaList where data equals to UPDATED_DATA
-        defaultProblemaShouldNotBeFound("data.in=" + UPDATED_DATA);
+        // Get all the problemaList where dataVerificacao equals to UPDATED_DATA_VERIFICACAO
+        defaultProblemaShouldNotBeFound("dataVerificacao.in=" + UPDATED_DATA_VERIFICACAO);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataIsNullOrNotNull() throws Exception {
+    void getAllProblemasByDataVerificacaoIsNullOrNotNull() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where data is not null
-        defaultProblemaShouldBeFound("data.specified=true");
+        // Get all the problemaList where dataVerificacao is not null
+        defaultProblemaShouldBeFound("dataVerificacao.specified=true");
 
-        // Get all the problemaList where data is null
-        defaultProblemaShouldNotBeFound("data.specified=false");
+        // Get all the problemaList where dataVerificacao is null
+        defaultProblemaShouldNotBeFound("dataVerificacao.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllProblemasByDataVerificacaoIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where data is greater than or equal to DEFAULT_DATA
-        defaultProblemaShouldBeFound("data.greaterThanOrEqual=" + DEFAULT_DATA);
+        // Get all the problemaList where dataVerificacao is greater than or equal to DEFAULT_DATA_VERIFICACAO
+        defaultProblemaShouldBeFound("dataVerificacao.greaterThanOrEqual=" + DEFAULT_DATA_VERIFICACAO);
 
-        // Get all the problemaList where data is greater than or equal to UPDATED_DATA
-        defaultProblemaShouldNotBeFound("data.greaterThanOrEqual=" + UPDATED_DATA);
+        // Get all the problemaList where dataVerificacao is greater than or equal to UPDATED_DATA_VERIFICACAO
+        defaultProblemaShouldNotBeFound("dataVerificacao.greaterThanOrEqual=" + UPDATED_DATA_VERIFICACAO);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataIsLessThanOrEqualToSomething() throws Exception {
+    void getAllProblemasByDataVerificacaoIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where data is less than or equal to DEFAULT_DATA
-        defaultProblemaShouldBeFound("data.lessThanOrEqual=" + DEFAULT_DATA);
+        // Get all the problemaList where dataVerificacao is less than or equal to DEFAULT_DATA_VERIFICACAO
+        defaultProblemaShouldBeFound("dataVerificacao.lessThanOrEqual=" + DEFAULT_DATA_VERIFICACAO);
 
-        // Get all the problemaList where data is less than or equal to SMALLER_DATA
-        defaultProblemaShouldNotBeFound("data.lessThanOrEqual=" + SMALLER_DATA);
+        // Get all the problemaList where dataVerificacao is less than or equal to SMALLER_DATA_VERIFICACAO
+        defaultProblemaShouldNotBeFound("dataVerificacao.lessThanOrEqual=" + SMALLER_DATA_VERIFICACAO);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataIsLessThanSomething() throws Exception {
+    void getAllProblemasByDataVerificacaoIsLessThanSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where data is less than DEFAULT_DATA
-        defaultProblemaShouldNotBeFound("data.lessThan=" + DEFAULT_DATA);
+        // Get all the problemaList where dataVerificacao is less than DEFAULT_DATA_VERIFICACAO
+        defaultProblemaShouldNotBeFound("dataVerificacao.lessThan=" + DEFAULT_DATA_VERIFICACAO);
 
-        // Get all the problemaList where data is less than UPDATED_DATA
-        defaultProblemaShouldBeFound("data.lessThan=" + UPDATED_DATA);
+        // Get all the problemaList where dataVerificacao is less than UPDATED_DATA_VERIFICACAO
+        defaultProblemaShouldBeFound("dataVerificacao.lessThan=" + UPDATED_DATA_VERIFICACAO);
     }
 
     @Test
     @Transactional
-    void getAllProblemasByDataIsGreaterThanSomething() throws Exception {
+    void getAllProblemasByDataVerificacaoIsGreaterThanSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
 
-        // Get all the problemaList where data is greater than DEFAULT_DATA
-        defaultProblemaShouldNotBeFound("data.greaterThan=" + DEFAULT_DATA);
+        // Get all the problemaList where dataVerificacao is greater than DEFAULT_DATA_VERIFICACAO
+        defaultProblemaShouldNotBeFound("dataVerificacao.greaterThan=" + DEFAULT_DATA_VERIFICACAO);
 
-        // Get all the problemaList where data is greater than SMALLER_DATA
-        defaultProblemaShouldBeFound("data.greaterThan=" + SMALLER_DATA);
+        // Get all the problemaList where dataVerificacao is greater than SMALLER_DATA_VERIFICACAO
+        defaultProblemaShouldBeFound("dataVerificacao.greaterThan=" + SMALLER_DATA_VERIFICACAO);
     }
 
     @Test
@@ -550,58 +541,6 @@ class ProblemaResourceIT {
 
     @Test
     @Transactional
-    void getAllProblemasByAceitarFinalizacaoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where aceitarFinalizacao equals to DEFAULT_ACEITAR_FINALIZACAO
-        defaultProblemaShouldBeFound("aceitarFinalizacao.equals=" + DEFAULT_ACEITAR_FINALIZACAO);
-
-        // Get all the problemaList where aceitarFinalizacao equals to UPDATED_ACEITAR_FINALIZACAO
-        defaultProblemaShouldNotBeFound("aceitarFinalizacao.equals=" + UPDATED_ACEITAR_FINALIZACAO);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByAceitarFinalizacaoIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where aceitarFinalizacao not equals to DEFAULT_ACEITAR_FINALIZACAO
-        defaultProblemaShouldNotBeFound("aceitarFinalizacao.notEquals=" + DEFAULT_ACEITAR_FINALIZACAO);
-
-        // Get all the problemaList where aceitarFinalizacao not equals to UPDATED_ACEITAR_FINALIZACAO
-        defaultProblemaShouldBeFound("aceitarFinalizacao.notEquals=" + UPDATED_ACEITAR_FINALIZACAO);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByAceitarFinalizacaoIsInShouldWork() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where aceitarFinalizacao in DEFAULT_ACEITAR_FINALIZACAO or UPDATED_ACEITAR_FINALIZACAO
-        defaultProblemaShouldBeFound("aceitarFinalizacao.in=" + DEFAULT_ACEITAR_FINALIZACAO + "," + UPDATED_ACEITAR_FINALIZACAO);
-
-        // Get all the problemaList where aceitarFinalizacao equals to UPDATED_ACEITAR_FINALIZACAO
-        defaultProblemaShouldNotBeFound("aceitarFinalizacao.in=" + UPDATED_ACEITAR_FINALIZACAO);
-    }
-
-    @Test
-    @Transactional
-    void getAllProblemasByAceitarFinalizacaoIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        problemaRepository.saveAndFlush(problema);
-
-        // Get all the problemaList where aceitarFinalizacao is not null
-        defaultProblemaShouldBeFound("aceitarFinalizacao.specified=true");
-
-        // Get all the problemaList where aceitarFinalizacao is null
-        defaultProblemaShouldNotBeFound("aceitarFinalizacao.specified=false");
-    }
-
-    @Test
-    @Transactional
     void getAllProblemasByImpactoIsEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
@@ -680,6 +619,110 @@ class ProblemaResourceIT {
 
     @Test
     @Transactional
+    void getAllProblemasByDataFinalizacaoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        problemaRepository.saveAndFlush(problema);
+
+        // Get all the problemaList where dataFinalizacao equals to DEFAULT_DATA_FINALIZACAO
+        defaultProblemaShouldBeFound("dataFinalizacao.equals=" + DEFAULT_DATA_FINALIZACAO);
+
+        // Get all the problemaList where dataFinalizacao equals to UPDATED_DATA_FINALIZACAO
+        defaultProblemaShouldNotBeFound("dataFinalizacao.equals=" + UPDATED_DATA_FINALIZACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProblemasByDataFinalizacaoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        problemaRepository.saveAndFlush(problema);
+
+        // Get all the problemaList where dataFinalizacao not equals to DEFAULT_DATA_FINALIZACAO
+        defaultProblemaShouldNotBeFound("dataFinalizacao.notEquals=" + DEFAULT_DATA_FINALIZACAO);
+
+        // Get all the problemaList where dataFinalizacao not equals to UPDATED_DATA_FINALIZACAO
+        defaultProblemaShouldBeFound("dataFinalizacao.notEquals=" + UPDATED_DATA_FINALIZACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProblemasByDataFinalizacaoIsInShouldWork() throws Exception {
+        // Initialize the database
+        problemaRepository.saveAndFlush(problema);
+
+        // Get all the problemaList where dataFinalizacao in DEFAULT_DATA_FINALIZACAO or UPDATED_DATA_FINALIZACAO
+        defaultProblemaShouldBeFound("dataFinalizacao.in=" + DEFAULT_DATA_FINALIZACAO + "," + UPDATED_DATA_FINALIZACAO);
+
+        // Get all the problemaList where dataFinalizacao equals to UPDATED_DATA_FINALIZACAO
+        defaultProblemaShouldNotBeFound("dataFinalizacao.in=" + UPDATED_DATA_FINALIZACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProblemasByDataFinalizacaoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        problemaRepository.saveAndFlush(problema);
+
+        // Get all the problemaList where dataFinalizacao is not null
+        defaultProblemaShouldBeFound("dataFinalizacao.specified=true");
+
+        // Get all the problemaList where dataFinalizacao is null
+        defaultProblemaShouldNotBeFound("dataFinalizacao.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProblemasByDataFinalizacaoIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        problemaRepository.saveAndFlush(problema);
+
+        // Get all the problemaList where dataFinalizacao is greater than or equal to DEFAULT_DATA_FINALIZACAO
+        defaultProblemaShouldBeFound("dataFinalizacao.greaterThanOrEqual=" + DEFAULT_DATA_FINALIZACAO);
+
+        // Get all the problemaList where dataFinalizacao is greater than or equal to UPDATED_DATA_FINALIZACAO
+        defaultProblemaShouldNotBeFound("dataFinalizacao.greaterThanOrEqual=" + UPDATED_DATA_FINALIZACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProblemasByDataFinalizacaoIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        problemaRepository.saveAndFlush(problema);
+
+        // Get all the problemaList where dataFinalizacao is less than or equal to DEFAULT_DATA_FINALIZACAO
+        defaultProblemaShouldBeFound("dataFinalizacao.lessThanOrEqual=" + DEFAULT_DATA_FINALIZACAO);
+
+        // Get all the problemaList where dataFinalizacao is less than or equal to SMALLER_DATA_FINALIZACAO
+        defaultProblemaShouldNotBeFound("dataFinalizacao.lessThanOrEqual=" + SMALLER_DATA_FINALIZACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProblemasByDataFinalizacaoIsLessThanSomething() throws Exception {
+        // Initialize the database
+        problemaRepository.saveAndFlush(problema);
+
+        // Get all the problemaList where dataFinalizacao is less than DEFAULT_DATA_FINALIZACAO
+        defaultProblemaShouldNotBeFound("dataFinalizacao.lessThan=" + DEFAULT_DATA_FINALIZACAO);
+
+        // Get all the problemaList where dataFinalizacao is less than UPDATED_DATA_FINALIZACAO
+        defaultProblemaShouldBeFound("dataFinalizacao.lessThan=" + UPDATED_DATA_FINALIZACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllProblemasByDataFinalizacaoIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        problemaRepository.saveAndFlush(problema);
+
+        // Get all the problemaList where dataFinalizacao is greater than DEFAULT_DATA_FINALIZACAO
+        defaultProblemaShouldNotBeFound("dataFinalizacao.greaterThan=" + DEFAULT_DATA_FINALIZACAO);
+
+        // Get all the problemaList where dataFinalizacao is greater than SMALLER_DATA_FINALIZACAO
+        defaultProblemaShouldBeFound("dataFinalizacao.greaterThan=" + SMALLER_DATA_FINALIZACAO);
+    }
+
+    @Test
+    @Transactional
     void getAllProblemasByStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
@@ -709,13 +752,13 @@ class ProblemaResourceIT {
     void getAllProblemasByRelatorIsEqualToSomething() throws Exception {
         // Initialize the database
         problemaRepository.saveAndFlush(problema);
-        Usuario relator;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            relator = UsuarioResourceIT.createEntity(em);
+        User relator;
+        if (TestUtil.findAll(em, User.class).isEmpty()) {
+            relator = UserResourceIT.createEntity(em);
             em.persist(relator);
             em.flush();
         } else {
-            relator = TestUtil.findAll(em, Usuario.class).get(0);
+            relator = TestUtil.findAll(em, User.class).get(0);
         }
         em.persist(relator);
         em.flush();
@@ -739,13 +782,13 @@ class ProblemaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(problema.getId().intValue())))
-            .andExpect(jsonPath("$.[*].data").value(hasItem(DEFAULT_DATA.toString())))
+            .andExpect(jsonPath("$.[*].dataVerificacao").value(hasItem(DEFAULT_DATA_VERIFICACAO.toString())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
             .andExpect(jsonPath("$.[*].criticidade").value(hasItem(DEFAULT_CRITICIDADE.toString())))
-            .andExpect(jsonPath("$.[*].aceitarFinalizacao").value(hasItem(DEFAULT_ACEITAR_FINALIZACAO.booleanValue())))
+            .andExpect(jsonPath("$.[*].impacto").value(hasItem(DEFAULT_IMPACTO)))
+            .andExpect(jsonPath("$.[*].dataFinalizacao").value(hasItem(DEFAULT_DATA_FINALIZACAO.toString())))
             .andExpect(jsonPath("$.[*].fotoContentType").value(hasItem(DEFAULT_FOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].foto").value(hasItem(Base64Utils.encodeToString(DEFAULT_FOTO))))
-            .andExpect(jsonPath("$.[*].impacto").value(hasItem(DEFAULT_IMPACTO)));
+            .andExpect(jsonPath("$.[*].foto").value(hasItem(Base64Utils.encodeToString(DEFAULT_FOTO))));
 
         // Check, that the count call also returns 1
         restProblemaMockMvc
@@ -794,13 +837,13 @@ class ProblemaResourceIT {
         // Disconnect from session so that the updates on updatedProblema are not directly saved in db
         em.detach(updatedProblema);
         updatedProblema
-            .data(UPDATED_DATA)
+            .dataVerificacao(UPDATED_DATA_VERIFICACAO)
             .descricao(UPDATED_DESCRICAO)
             .criticidade(UPDATED_CRITICIDADE)
-            .aceitarFinalizacao(UPDATED_ACEITAR_FINALIZACAO)
+            .impacto(UPDATED_IMPACTO)
+            .dataFinalizacao(UPDATED_DATA_FINALIZACAO)
             .foto(UPDATED_FOTO)
-            .fotoContentType(UPDATED_FOTO_CONTENT_TYPE)
-            .impacto(UPDATED_IMPACTO);
+            .fotoContentType(UPDATED_FOTO_CONTENT_TYPE);
         ProblemaDTO problemaDTO = problemaMapper.toDto(updatedProblema);
 
         restProblemaMockMvc
@@ -815,13 +858,13 @@ class ProblemaResourceIT {
         List<Problema> problemaList = problemaRepository.findAll();
         assertThat(problemaList).hasSize(databaseSizeBeforeUpdate);
         Problema testProblema = problemaList.get(problemaList.size() - 1);
-        assertThat(testProblema.getData()).isEqualTo(UPDATED_DATA);
+        assertThat(testProblema.getDataVerificacao()).isEqualTo(UPDATED_DATA_VERIFICACAO);
         assertThat(testProblema.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testProblema.getCriticidade()).isEqualTo(UPDATED_CRITICIDADE);
-        assertThat(testProblema.getAceitarFinalizacao()).isEqualTo(UPDATED_ACEITAR_FINALIZACAO);
+        assertThat(testProblema.getImpacto()).isEqualTo(UPDATED_IMPACTO);
+        assertThat(testProblema.getDataFinalizacao()).isEqualTo(UPDATED_DATA_FINALIZACAO);
         assertThat(testProblema.getFoto()).isEqualTo(UPDATED_FOTO);
         assertThat(testProblema.getFotoContentType()).isEqualTo(UPDATED_FOTO_CONTENT_TYPE);
-        assertThat(testProblema.getImpacto()).isEqualTo(UPDATED_IMPACTO);
     }
 
     @Test
@@ -901,11 +944,7 @@ class ProblemaResourceIT {
         Problema partialUpdatedProblema = new Problema();
         partialUpdatedProblema.setId(problema.getId());
 
-        partialUpdatedProblema
-            .criticidade(UPDATED_CRITICIDADE)
-            .aceitarFinalizacao(UPDATED_ACEITAR_FINALIZACAO)
-            .foto(UPDATED_FOTO)
-            .fotoContentType(UPDATED_FOTO_CONTENT_TYPE);
+        partialUpdatedProblema.criticidade(UPDATED_CRITICIDADE).impacto(UPDATED_IMPACTO).dataFinalizacao(UPDATED_DATA_FINALIZACAO);
 
         restProblemaMockMvc
             .perform(
@@ -919,13 +958,13 @@ class ProblemaResourceIT {
         List<Problema> problemaList = problemaRepository.findAll();
         assertThat(problemaList).hasSize(databaseSizeBeforeUpdate);
         Problema testProblema = problemaList.get(problemaList.size() - 1);
-        assertThat(testProblema.getData()).isEqualTo(DEFAULT_DATA);
+        assertThat(testProblema.getDataVerificacao()).isEqualTo(DEFAULT_DATA_VERIFICACAO);
         assertThat(testProblema.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testProblema.getCriticidade()).isEqualTo(UPDATED_CRITICIDADE);
-        assertThat(testProblema.getAceitarFinalizacao()).isEqualTo(UPDATED_ACEITAR_FINALIZACAO);
-        assertThat(testProblema.getFoto()).isEqualTo(UPDATED_FOTO);
-        assertThat(testProblema.getFotoContentType()).isEqualTo(UPDATED_FOTO_CONTENT_TYPE);
-        assertThat(testProblema.getImpacto()).isEqualTo(DEFAULT_IMPACTO);
+        assertThat(testProblema.getImpacto()).isEqualTo(UPDATED_IMPACTO);
+        assertThat(testProblema.getDataFinalizacao()).isEqualTo(UPDATED_DATA_FINALIZACAO);
+        assertThat(testProblema.getFoto()).isEqualTo(DEFAULT_FOTO);
+        assertThat(testProblema.getFotoContentType()).isEqualTo(DEFAULT_FOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -941,13 +980,13 @@ class ProblemaResourceIT {
         partialUpdatedProblema.setId(problema.getId());
 
         partialUpdatedProblema
-            .data(UPDATED_DATA)
+            .dataVerificacao(UPDATED_DATA_VERIFICACAO)
             .descricao(UPDATED_DESCRICAO)
             .criticidade(UPDATED_CRITICIDADE)
-            .aceitarFinalizacao(UPDATED_ACEITAR_FINALIZACAO)
+            .impacto(UPDATED_IMPACTO)
+            .dataFinalizacao(UPDATED_DATA_FINALIZACAO)
             .foto(UPDATED_FOTO)
-            .fotoContentType(UPDATED_FOTO_CONTENT_TYPE)
-            .impacto(UPDATED_IMPACTO);
+            .fotoContentType(UPDATED_FOTO_CONTENT_TYPE);
 
         restProblemaMockMvc
             .perform(
@@ -961,13 +1000,13 @@ class ProblemaResourceIT {
         List<Problema> problemaList = problemaRepository.findAll();
         assertThat(problemaList).hasSize(databaseSizeBeforeUpdate);
         Problema testProblema = problemaList.get(problemaList.size() - 1);
-        assertThat(testProblema.getData()).isEqualTo(UPDATED_DATA);
+        assertThat(testProblema.getDataVerificacao()).isEqualTo(UPDATED_DATA_VERIFICACAO);
         assertThat(testProblema.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testProblema.getCriticidade()).isEqualTo(UPDATED_CRITICIDADE);
-        assertThat(testProblema.getAceitarFinalizacao()).isEqualTo(UPDATED_ACEITAR_FINALIZACAO);
+        assertThat(testProblema.getImpacto()).isEqualTo(UPDATED_IMPACTO);
+        assertThat(testProblema.getDataFinalizacao()).isEqualTo(UPDATED_DATA_FINALIZACAO);
         assertThat(testProblema.getFoto()).isEqualTo(UPDATED_FOTO);
         assertThat(testProblema.getFotoContentType()).isEqualTo(UPDATED_FOTO_CONTENT_TYPE);
-        assertThat(testProblema.getImpacto()).isEqualTo(UPDATED_IMPACTO);
     }
 
     @Test

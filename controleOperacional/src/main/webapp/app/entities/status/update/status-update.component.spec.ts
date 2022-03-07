@@ -9,8 +9,9 @@ import { of, Subject } from 'rxjs';
 
 import { StatusService } from '../service/status.service';
 import { IStatus, Status } from '../status.model';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IProblema } from 'app/entities/problema/problema.model';
 import { ProblemaService } from 'app/entities/problema/service/problema.service';
 
@@ -21,7 +22,7 @@ describe('Status Management Update Component', () => {
   let fixture: ComponentFixture<StatusUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let statusService: StatusService;
-  let usuarioService: UsuarioService;
+  let userService: UserService;
   let problemaService: ProblemaService;
 
   beforeEach(() => {
@@ -36,32 +37,32 @@ describe('Status Management Update Component', () => {
     fixture = TestBed.createComponent(StatusUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     statusService = TestBed.inject(StatusService);
-    usuarioService = TestBed.inject(UsuarioService);
+    userService = TestBed.inject(UserService);
     problemaService = TestBed.inject(ProblemaService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Usuario query and add missing value', () => {
+    it('Should call User query and add missing value', () => {
       const status: IStatus = { id: 456 };
-      const relator: IUsuario = { id: 32958 };
+      const relator: IUser = { id: 70313 };
       status.relator = relator;
-      const responsavel: IUsuario = { id: 38137 };
+      const responsavel: IUser = { id: 72760 };
       status.responsavel = responsavel;
 
-      const usuarioCollection: IUsuario[] = [{ id: 81756 }];
-      jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
-      const additionalUsuarios = [relator, responsavel];
-      const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
-      jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const userCollection: IUser[] = [{ id: 47916 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [relator, responsavel];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ status });
       comp.ngOnInit();
 
-      expect(usuarioService.query).toHaveBeenCalled();
-      expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(usuarioCollection, ...additionalUsuarios);
-      expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should call Problema query and add missing value', () => {
@@ -85,9 +86,9 @@ describe('Status Management Update Component', () => {
 
     it('Should update editForm', () => {
       const status: IStatus = { id: 456 };
-      const relator: IUsuario = { id: 65800 };
+      const relator: IUser = { id: 99168 };
       status.relator = relator;
-      const responsavel: IUsuario = { id: 56940 };
+      const responsavel: IUser = { id: 98478 };
       status.responsavel = responsavel;
       const problema: IProblema = { id: 69516 };
       status.problema = problema;
@@ -96,8 +97,8 @@ describe('Status Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(status));
-      expect(comp.usuariosSharedCollection).toContain(relator);
-      expect(comp.usuariosSharedCollection).toContain(responsavel);
+      expect(comp.usersSharedCollection).toContain(relator);
+      expect(comp.usersSharedCollection).toContain(responsavel);
       expect(comp.problemasSharedCollection).toContain(problema);
     });
   });
@@ -167,10 +168,10 @@ describe('Status Management Update Component', () => {
   });
 
   describe('Tracking relationships identifiers', () => {
-    describe('trackUsuarioById', () => {
-      it('Should return tracked Usuario primary key', () => {
+    describe('trackUserById', () => {
+      it('Should return tracked User primary key', () => {
         const entity = { id: 123 };
-        const trackResult = comp.trackUsuarioById(0, entity);
+        const trackResult = comp.trackUserById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });

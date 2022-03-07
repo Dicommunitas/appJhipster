@@ -26,13 +26,13 @@ describe('Problema Service', () => {
 
     elemDefault = {
       id: 0,
-      data: currentDate,
+      dataVerificacao: currentDate,
       descricao: 'AAAAAAA',
       criticidade: Criticidade.BAIXA,
-      aceitarFinalizacao: false,
+      impacto: 'AAAAAAA',
+      dataFinalizacao: currentDate,
       fotoContentType: 'image/png',
       foto: 'AAAAAAA',
-      impacto: 'AAAAAAA',
     };
   });
 
@@ -40,7 +40,8 @@ describe('Problema Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          data: currentDate.format(DATE_FORMAT),
+          dataVerificacao: currentDate.format(DATE_FORMAT),
+          dataFinalizacao: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -56,14 +57,16 @@ describe('Problema Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          data: currentDate.format(DATE_FORMAT),
+          dataVerificacao: currentDate.format(DATE_FORMAT),
+          dataFinalizacao: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
 
       const expected = Object.assign(
         {
-          data: currentDate,
+          dataVerificacao: currentDate,
+          dataFinalizacao: currentDate,
         },
         returnedFromService
       );
@@ -79,19 +82,20 @@ describe('Problema Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          data: currentDate.format(DATE_FORMAT),
+          dataVerificacao: currentDate.format(DATE_FORMAT),
           descricao: 'BBBBBB',
           criticidade: 'BBBBBB',
-          aceitarFinalizacao: true,
-          foto: 'BBBBBB',
           impacto: 'BBBBBB',
+          dataFinalizacao: currentDate.format(DATE_FORMAT),
+          foto: 'BBBBBB',
         },
         elemDefault
       );
 
       const expected = Object.assign(
         {
-          data: currentDate,
+          dataVerificacao: currentDate,
+          dataFinalizacao: currentDate,
         },
         returnedFromService
       );
@@ -106,10 +110,10 @@ describe('Problema Service', () => {
     it('should partial update a Problema', () => {
       const patchObject = Object.assign(
         {
-          data: currentDate.format(DATE_FORMAT),
+          dataVerificacao: currentDate.format(DATE_FORMAT),
           descricao: 'BBBBBB',
+          dataFinalizacao: currentDate.format(DATE_FORMAT),
           foto: 'BBBBBB',
-          impacto: 'BBBBBB',
         },
         new Problema()
       );
@@ -118,7 +122,8 @@ describe('Problema Service', () => {
 
       const expected = Object.assign(
         {
-          data: currentDate,
+          dataVerificacao: currentDate,
+          dataFinalizacao: currentDate,
         },
         returnedFromService
       );
@@ -134,19 +139,20 @@ describe('Problema Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          data: currentDate.format(DATE_FORMAT),
+          dataVerificacao: currentDate.format(DATE_FORMAT),
           descricao: 'BBBBBB',
           criticidade: 'BBBBBB',
-          aceitarFinalizacao: true,
-          foto: 'BBBBBB',
           impacto: 'BBBBBB',
+          dataFinalizacao: currentDate.format(DATE_FORMAT),
+          foto: 'BBBBBB',
         },
         elemDefault
       );
 
       const expected = Object.assign(
         {
-          data: currentDate,
+          dataVerificacao: currentDate,
+          dataFinalizacao: currentDate,
         },
         returnedFromService
       );

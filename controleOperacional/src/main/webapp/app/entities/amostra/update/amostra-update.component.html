@@ -20,19 +20,19 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.amostra.dataHora"
-            for="field_dataHora"
-            [ngbTooltip]="'controleOperacionalApp.amostra.help.dataHora' | translate"
-            >Data Hora</label
+            jhiTranslate="controleOperacionalApp.amostra.dataHoraColeta"
+            for="field_dataHoraColeta"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.dataHoraColeta' | translate"
+            >Data Hora Coleta</label
           >
           <div class="d-flex">
             <input
-              id="field_dataHora"
-              data-cy="dataHora"
+              id="field_dataHoraColeta"
+              data-cy="dataHoraColeta"
               type="datetime-local"
               class="form-control"
-              name="dataHora"
-              formControlName="dataHora"
+              name="dataHoraColeta"
+              formControlName="dataHoraColeta"
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
@@ -77,19 +77,22 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.amostra.amostraNoLaboratorio"
-            for="field_amostraNoLaboratorio"
-            [ngbTooltip]="'controleOperacionalApp.amostra.help.amostraNoLaboratorio' | translate"
-            >Amostra No Laboratorio</label
+            jhiTranslate="controleOperacionalApp.amostra.recebimentoNoLaboratorio"
+            for="field_recebimentoNoLaboratorio"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.recebimentoNoLaboratorio' | translate"
+            >Recebimento No Laboratorio</label
           >
-          <input
-            type="checkbox"
-            class="form-check"
-            name="amostraNoLaboratorio"
-            id="field_amostraNoLaboratorio"
-            data-cy="amostraNoLaboratorio"
-            formControlName="amostraNoLaboratorio"
-          />
+          <div class="d-flex">
+            <input
+              id="field_recebimentoNoLaboratorio"
+              data-cy="recebimentoNoLaboratorio"
+              type="datetime-local"
+              class="form-control"
+              name="recebimentoNoLaboratorio"
+              formControlName="recebimentoNoLaboratorio"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
         </div>
 
         <div class="form-group">
@@ -209,10 +212,10 @@
           <select class="form-control" id="field_amostradaPor" data-cy="amostradaPor" name="amostradaPor" formControlName="amostradaPor">
             <option [ngValue]="null"></option>
             <option
-              [ngValue]="usuarioOption.id === editForm.get('amostradaPor')!.value?.id ? editForm.get('amostradaPor')!.value : usuarioOption"
-              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+              [ngValue]="userOption.id === editForm.get('amostradaPor')!.value?.id ? editForm.get('amostradaPor')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ usuarioOption.nome }}
+              {{ userOption.login }}
             </option>
           </select>
         </div>
@@ -224,10 +227,10 @@
           <select class="form-control" id="field_recebidaPor" data-cy="recebidaPor" name="recebidaPor" formControlName="recebidaPor">
             <option [ngValue]="null"></option>
             <option
-              [ngValue]="usuarioOption.id === editForm.get('recebidaPor')!.value?.id ? editForm.get('recebidaPor')!.value : usuarioOption"
-              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+              [ngValue]="userOption.id === editForm.get('recebidaPor')!.value?.id ? editForm.get('recebidaPor')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ usuarioOption.nome }}
+              {{ userOption.login }}
             </option>
           </select>
         </div>

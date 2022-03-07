@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -23,14 +24,21 @@ public class Relatorio implements Serializable {
     private Long id;
 
     /**
-     * Atributo relato.\nVerificar a viabilidade de usar um objeto\ne não um texto.\n\nUsar comparação de texto para visualizar as\nalterações entre o últomo relatório criado e o último\nrelatório criado pelo usuário.\n\nRelato descritivo. As informações pertinentes para o relatório.
+     * Data e hora que o relatório foi criado.
+     */
+    @NotNull
+    @Column(name = "data_hora", nullable = false)
+    private Instant dataHora;
+
+    /**
+     * Relato descritivo. As informações pertinentes para o relatório.
      */
     @Lob
     @Column(name = "relato", nullable = false)
     private String relato;
 
     /**
-     * Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o relatório.
+     * Links e lembretes de apoio para o relatório.
      */
     @Lob
     @Column(name = "links_externos")
@@ -43,10 +51,12 @@ public class Relatorio implements Serializable {
     @JsonIgnoreProperties(value = { "usuariosAuts" }, allowSetters = true)
     private TipoRelatorio tipo;
 
+    /**
+     * Quem criou o relatório.
+     */
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "user", "relAutorizados" }, allowSetters = true)
-    private Usuario responsavel;
+    private User responsavel;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -61,6 +71,19 @@ public class Relatorio implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Instant getDataHora() {
+        return this.dataHora;
+    }
+
+    public Relatorio dataHora(Instant dataHora) {
+        this.setDataHora(dataHora);
+        return this;
+    }
+
+    public void setDataHora(Instant dataHora) {
+        this.dataHora = dataHora;
     }
 
     public String getRelato() {
@@ -102,16 +125,16 @@ public class Relatorio implements Serializable {
         return this;
     }
 
-    public Usuario getResponsavel() {
+    public User getResponsavel() {
         return this.responsavel;
     }
 
-    public void setResponsavel(Usuario usuario) {
-        this.responsavel = usuario;
+    public void setResponsavel(User user) {
+        this.responsavel = user;
     }
 
-    public Relatorio responsavel(Usuario usuario) {
-        this.setResponsavel(usuario);
+    public Relatorio responsavel(User user) {
+        this.setResponsavel(user);
         return this;
     }
 
@@ -139,6 +162,7 @@ public class Relatorio implements Serializable {
     public String toString() {
         return "Relatorio{" +
             "id=" + getId() +
+            ", dataHora='" + getDataHora() + "'" +
             ", relato='" + getRelato() + "'" +
             ", linksExternos='" + getLinksExternos() + "'" +
             "}";

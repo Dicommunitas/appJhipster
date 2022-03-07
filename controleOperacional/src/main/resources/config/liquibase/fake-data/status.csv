@@ -1,2 +1,3 @@
-id;descricao;prazo;resolvido;relator_id;responsavel_id;problema_id
-1;../fake-data/blob/hipster.txt;2022-02-24;true;1;1;1
+id;descricao;prazo;data_resolucao;relator_id;responsavel_id;problema_id
+1;../fake-data/blob/hipster.txt;2022-03-03;2022-03-03;1;1;1
+

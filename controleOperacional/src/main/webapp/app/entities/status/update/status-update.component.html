@@ -66,12 +66,28 @@
         <div class="form-group">
           <label
             class="form-control-label"
-            jhiTranslate="controleOperacionalApp.status.resolvido"
-            for="field_resolvido"
-            [ngbTooltip]="'controleOperacionalApp.status.help.resolvido' | translate"
-            >Resolvido</label
+            jhiTranslate="controleOperacionalApp.status.dataResolucao"
+            for="field_dataResolucao"
+            [ngbTooltip]="'controleOperacionalApp.status.help.dataResolucao' | translate"
+            >Data Resolucao</label
           >
-          <input type="checkbox" class="form-check" name="resolvido" id="field_resolvido" data-cy="resolvido" formControlName="resolvido" />
+          <div class="input-group">
+            <input
+              id="field_dataResolucao"
+              data-cy="dataResolucao"
+              type="text"
+              class="form-control"
+              name="dataResolucao"
+              ngbDatepicker
+              #dataResolucaoDp="ngbDatepicker"
+              formControlName="dataResolucao"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="dataResolucaoDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
         </div>
 
         <div class="form-group">
@@ -79,10 +95,10 @@
           <select class="form-control" id="field_relator" data-cy="relator" name="relator" formControlName="relator">
             <option *ngIf="!editForm.get('relator')!.value" [ngValue]="null" selected></option>
             <option
-              [ngValue]="usuarioOption.id === editForm.get('relator')!.value?.id ? editForm.get('relator')!.value : usuarioOption"
-              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+              [ngValue]="userOption.id === editForm.get('relator')!.value?.id ? editForm.get('relator')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ usuarioOption.nome }}
+              {{ userOption.login }}
             </option>
           </select>
         </div>
@@ -103,10 +119,10 @@
           <select class="form-control" id="field_responsavel" data-cy="responsavel" name="responsavel" formControlName="responsavel">
             <option *ngIf="!editForm.get('responsavel')!.value" [ngValue]="null" selected></option>
             <option
-              [ngValue]="usuarioOption.id === editForm.get('responsavel')!.value?.id ? editForm.get('responsavel')!.value : usuarioOption"
-              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+              [ngValue]="userOption.id === editForm.get('responsavel')!.value?.id ? editForm.get('responsavel')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ usuarioOption.nome }}
+              {{ userOption.login }}
             </option>
           </select>
         </div>

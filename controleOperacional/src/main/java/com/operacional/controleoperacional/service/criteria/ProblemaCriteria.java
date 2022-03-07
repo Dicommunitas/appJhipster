@@ -45,15 +45,15 @@ public class ProblemaCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LocalDateFilter data;
+    private LocalDateFilter dataVerificacao;
 
     private StringFilter descricao;
 
     private CriticidadeFilter criticidade;
 
-    private BooleanFilter aceitarFinalizacao;
-
     private StringFilter impacto;
+
+    private LocalDateFilter dataFinalizacao;
 
     private LongFilter statusId;
 
@@ -65,11 +65,11 @@ public class ProblemaCriteria implements Serializable, Criteria {
 
     public ProblemaCriteria(ProblemaCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.data = other.data == null ? null : other.data.copy();
+        this.dataVerificacao = other.dataVerificacao == null ? null : other.dataVerificacao.copy();
         this.descricao = other.descricao == null ? null : other.descricao.copy();
         this.criticidade = other.criticidade == null ? null : other.criticidade.copy();
-        this.aceitarFinalizacao = other.aceitarFinalizacao == null ? null : other.aceitarFinalizacao.copy();
         this.impacto = other.impacto == null ? null : other.impacto.copy();
+        this.dataFinalizacao = other.dataFinalizacao == null ? null : other.dataFinalizacao.copy();
         this.statusId = other.statusId == null ? null : other.statusId.copy();
         this.relatorId = other.relatorId == null ? null : other.relatorId.copy();
         this.distinct = other.distinct;
@@ -95,19 +95,19 @@ public class ProblemaCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public LocalDateFilter getData() {
-        return data;
+    public LocalDateFilter getDataVerificacao() {
+        return dataVerificacao;
     }
 
-    public LocalDateFilter data() {
-        if (data == null) {
-            data = new LocalDateFilter();
+    public LocalDateFilter dataVerificacao() {
+        if (dataVerificacao == null) {
+            dataVerificacao = new LocalDateFilter();
         }
-        return data;
+        return dataVerificacao;
     }
 
-    public void setData(LocalDateFilter data) {
-        this.data = data;
+    public void setDataVerificacao(LocalDateFilter dataVerificacao) {
+        this.dataVerificacao = dataVerificacao;
     }
 
     public StringFilter getDescricao() {
@@ -140,21 +140,6 @@ public class ProblemaCriteria implements Serializable, Criteria {
         this.criticidade = criticidade;
     }
 
-    public BooleanFilter getAceitarFinalizacao() {
-        return aceitarFinalizacao;
-    }
-
-    public BooleanFilter aceitarFinalizacao() {
-        if (aceitarFinalizacao == null) {
-            aceitarFinalizacao = new BooleanFilter();
-        }
-        return aceitarFinalizacao;
-    }
-
-    public void setAceitarFinalizacao(BooleanFilter aceitarFinalizacao) {
-        this.aceitarFinalizacao = aceitarFinalizacao;
-    }
-
     public StringFilter getImpacto() {
         return impacto;
     }
@@ -168,6 +153,21 @@ public class ProblemaCriteria implements Serializable, Criteria {
 
     public void setImpacto(StringFilter impacto) {
         this.impacto = impacto;
+    }
+
+    public LocalDateFilter getDataFinalizacao() {
+        return dataFinalizacao;
+    }
+
+    public LocalDateFilter dataFinalizacao() {
+        if (dataFinalizacao == null) {
+            dataFinalizacao = new LocalDateFilter();
+        }
+        return dataFinalizacao;
+    }
+
+    public void setDataFinalizacao(LocalDateFilter dataFinalizacao) {
+        this.dataFinalizacao = dataFinalizacao;
     }
 
     public LongFilter getStatusId() {
@@ -219,11 +219,11 @@ public class ProblemaCriteria implements Serializable, Criteria {
         final ProblemaCriteria that = (ProblemaCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(data, that.data) &&
+            Objects.equals(dataVerificacao, that.dataVerificacao) &&
             Objects.equals(descricao, that.descricao) &&
             Objects.equals(criticidade, that.criticidade) &&
-            Objects.equals(aceitarFinalizacao, that.aceitarFinalizacao) &&
             Objects.equals(impacto, that.impacto) &&
+            Objects.equals(dataFinalizacao, that.dataFinalizacao) &&
             Objects.equals(statusId, that.statusId) &&
             Objects.equals(relatorId, that.relatorId) &&
             Objects.equals(distinct, that.distinct)
@@ -232,7 +232,7 @@ public class ProblemaCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, data, descricao, criticidade, aceitarFinalizacao, impacto, statusId, relatorId, distinct);
+        return Objects.hash(id, dataVerificacao, descricao, criticidade, impacto, dataFinalizacao, statusId, relatorId, distinct);
     }
 
     // prettier-ignore
@@ -240,11 +240,11 @@ public class ProblemaCriteria implements Serializable, Criteria {
     public String toString() {
         return "ProblemaCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (data != null ? "data=" + data + ", " : "") +
+            (dataVerificacao != null ? "dataVerificacao=" + dataVerificacao + ", " : "") +
             (descricao != null ? "descricao=" + descricao + ", " : "") +
             (criticidade != null ? "criticidade=" + criticidade + ", " : "") +
-            (aceitarFinalizacao != null ? "aceitarFinalizacao=" + aceitarFinalizacao + ", " : "") +
             (impacto != null ? "impacto=" + impacto + ", " : "") +
+            (dataFinalizacao != null ? "dataFinalizacao=" + dataFinalizacao + ", " : "") +
             (statusId != null ? "statusId=" + statusId + ", " : "") +
             (relatorId != null ? "relatorId=" + relatorId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

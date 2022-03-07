@@ -1,6 +1,5 @@
 package com.operacional.controleoperacional.web.rest;
 
-import static com.operacional.controleoperacional.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -13,15 +12,13 @@ import com.operacional.controleoperacional.domain.Operacao;
 import com.operacional.controleoperacional.domain.OrigemAmostra;
 import com.operacional.controleoperacional.domain.Produto;
 import com.operacional.controleoperacional.domain.TipoAmostra;
-import com.operacional.controleoperacional.domain.Usuario;
+import com.operacional.controleoperacional.domain.User;
 import com.operacional.controleoperacional.repository.AmostraRepository;
 import com.operacional.controleoperacional.service.criteria.AmostraCriteria;
 import com.operacional.controleoperacional.service.dto.AmostraDTO;
 import com.operacional.controleoperacional.service.mapper.AmostraMapper;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -43,9 +40,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class AmostraResourceIT {
 
-    private static final ZonedDateTime DEFAULT_DATA_HORA = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_DATA_HORA = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-    private static final ZonedDateTime SMALLER_DATA_HORA = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
+    private static final Instant DEFAULT_DATA_HORA_COLETA = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_HORA_COLETA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_OBSERVACAO = "AAAAAAAAAA";
     private static final String UPDATED_OBSERVACAO = "BBBBBBBBBB";
@@ -53,8 +49,8 @@ class AmostraResourceIT {
     private static final String DEFAULT_IDENTIFICADOR_EXTERNO = "AAAAAAAAAA";
     private static final String UPDATED_IDENTIFICADOR_EXTERNO = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_AMOSTRA_NO_LABORATORIO = false;
-    private static final Boolean UPDATED_AMOSTRA_NO_LABORATORIO = true;
+    private static final Instant DEFAULT_RECEBIMENTO_NO_LABORATORIO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_RECEBIMENTO_NO_LABORATORIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/amostras";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -84,10 +80,10 @@ class AmostraResourceIT {
      */
     public static Amostra createEntity(EntityManager em) {
         Amostra amostra = new Amostra()
-            .dataHora(DEFAULT_DATA_HORA)
+            .dataHoraColeta(DEFAULT_DATA_HORA_COLETA)
             .observacao(DEFAULT_OBSERVACAO)
             .identificadorExterno(DEFAULT_IDENTIFICADOR_EXTERNO)
-            .amostraNoLaboratorio(DEFAULT_AMOSTRA_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(DEFAULT_RECEBIMENTO_NO_LABORATORIO);
         // Add required entity
         Operacao operacao;
         if (TestUtil.findAll(em, Operacao.class).isEmpty()) {
@@ -139,10 +135,10 @@ class AmostraResourceIT {
      */
     public static Amostra createUpdatedEntity(EntityManager em) {
         Amostra amostra = new Amostra()
-            .dataHora(UPDATED_DATA_HORA)
+            .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
-            .amostraNoLaboratorio(UPDATED_AMOSTRA_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO);
         // Add required entity
         Operacao operacao;
         if (TestUtil.findAll(em, Operacao.class).isEmpty()) {
@@ -205,10 +201,10 @@ class AmostraResourceIT {
         List<Amostra> amostraList = amostraRepository.findAll();
         assertThat(amostraList).hasSize(databaseSizeBeforeCreate + 1);
         Amostra testAmostra = amostraList.get(amostraList.size() - 1);
-        assertThat(testAmostra.getDataHora()).isEqualTo(DEFAULT_DATA_HORA);
+        assertThat(testAmostra.getDataHoraColeta()).isEqualTo(DEFAULT_DATA_HORA_COLETA);
         assertThat(testAmostra.getObservacao()).isEqualTo(DEFAULT_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(DEFAULT_IDENTIFICADOR_EXTERNO);
-        assertThat(testAmostra.getAmostraNoLaboratorio()).isEqualTo(DEFAULT_AMOSTRA_NO_LABORATORIO);
+        assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(DEFAULT_RECEBIMENTO_NO_LABORATORIO);
     }
 
     @Test
@@ -242,10 +238,10 @@ class AmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amostra.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dataHora").value(hasItem(sameInstant(DEFAULT_DATA_HORA))))
+            .andExpect(jsonPath("$.[*].dataHoraColeta").value(hasItem(DEFAULT_DATA_HORA_COLETA.toString())))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
             .andExpect(jsonPath("$.[*].identificadorExterno").value(hasItem(DEFAULT_IDENTIFICADOR_EXTERNO)))
-            .andExpect(jsonPath("$.[*].amostraNoLaboratorio").value(hasItem(DEFAULT_AMOSTRA_NO_LABORATORIO.booleanValue())));
+            .andExpect(jsonPath("$.[*].recebimentoNoLaboratorio").value(hasItem(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString())));
     }
 
     @Test
@@ -260,10 +256,10 @@ class AmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(amostra.getId().intValue()))
-            .andExpect(jsonPath("$.dataHora").value(sameInstant(DEFAULT_DATA_HORA)))
+            .andExpect(jsonPath("$.dataHoraColeta").value(DEFAULT_DATA_HORA_COLETA.toString()))
             .andExpect(jsonPath("$.observacao").value(DEFAULT_OBSERVACAO))
             .andExpect(jsonPath("$.identificadorExterno").value(DEFAULT_IDENTIFICADOR_EXTERNO))
-            .andExpect(jsonPath("$.amostraNoLaboratorio").value(DEFAULT_AMOSTRA_NO_LABORATORIO.booleanValue()));
+            .andExpect(jsonPath("$.recebimentoNoLaboratorio").value(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString()));
     }
 
     @Test
@@ -286,106 +282,54 @@ class AmostraResourceIT {
 
     @Test
     @Transactional
-    void getAllAmostrasByDataHoraIsEqualToSomething() throws Exception {
+    void getAllAmostrasByDataHoraColetaIsEqualToSomething() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
 
-        // Get all the amostraList where dataHora equals to DEFAULT_DATA_HORA
-        defaultAmostraShouldBeFound("dataHora.equals=" + DEFAULT_DATA_HORA);
+        // Get all the amostraList where dataHoraColeta equals to DEFAULT_DATA_HORA_COLETA
+        defaultAmostraShouldBeFound("dataHoraColeta.equals=" + DEFAULT_DATA_HORA_COLETA);
 
-        // Get all the amostraList where dataHora equals to UPDATED_DATA_HORA
-        defaultAmostraShouldNotBeFound("dataHora.equals=" + UPDATED_DATA_HORA);
+        // Get all the amostraList where dataHoraColeta equals to UPDATED_DATA_HORA_COLETA
+        defaultAmostraShouldNotBeFound("dataHoraColeta.equals=" + UPDATED_DATA_HORA_COLETA);
     }
 
     @Test
     @Transactional
-    void getAllAmostrasByDataHoraIsNotEqualToSomething() throws Exception {
+    void getAllAmostrasByDataHoraColetaIsNotEqualToSomething() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
 
-        // Get all the amostraList where dataHora not equals to DEFAULT_DATA_HORA
-        defaultAmostraShouldNotBeFound("dataHora.notEquals=" + DEFAULT_DATA_HORA);
+        // Get all the amostraList where dataHoraColeta not equals to DEFAULT_DATA_HORA_COLETA
+        defaultAmostraShouldNotBeFound("dataHoraColeta.notEquals=" + DEFAULT_DATA_HORA_COLETA);
 
-        // Get all the amostraList where dataHora not equals to UPDATED_DATA_HORA
-        defaultAmostraShouldBeFound("dataHora.notEquals=" + UPDATED_DATA_HORA);
+        // Get all the amostraList where dataHoraColeta not equals to UPDATED_DATA_HORA_COLETA
+        defaultAmostraShouldBeFound("dataHoraColeta.notEquals=" + UPDATED_DATA_HORA_COLETA);
     }
 
     @Test
     @Transactional
-    void getAllAmostrasByDataHoraIsInShouldWork() throws Exception {
+    void getAllAmostrasByDataHoraColetaIsInShouldWork() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
 
-        // Get all the amostraList where dataHora in DEFAULT_DATA_HORA or UPDATED_DATA_HORA
-        defaultAmostraShouldBeFound("dataHora.in=" + DEFAULT_DATA_HORA + "," + UPDATED_DATA_HORA);
+        // Get all the amostraList where dataHoraColeta in DEFAULT_DATA_HORA_COLETA or UPDATED_DATA_HORA_COLETA
+        defaultAmostraShouldBeFound("dataHoraColeta.in=" + DEFAULT_DATA_HORA_COLETA + "," + UPDATED_DATA_HORA_COLETA);
 
-        // Get all the amostraList where dataHora equals to UPDATED_DATA_HORA
-        defaultAmostraShouldNotBeFound("dataHora.in=" + UPDATED_DATA_HORA);
+        // Get all the amostraList where dataHoraColeta equals to UPDATED_DATA_HORA_COLETA
+        defaultAmostraShouldNotBeFound("dataHoraColeta.in=" + UPDATED_DATA_HORA_COLETA);
     }
 
     @Test
     @Transactional
-    void getAllAmostrasByDataHoraIsNullOrNotNull() throws Exception {
+    void getAllAmostrasByDataHoraColetaIsNullOrNotNull() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
 
-        // Get all the amostraList where dataHora is not null
-        defaultAmostraShouldBeFound("dataHora.specified=true");
+        // Get all the amostraList where dataHoraColeta is not null
+        defaultAmostraShouldBeFound("dataHoraColeta.specified=true");
 
-        // Get all the amostraList where dataHora is null
-        defaultAmostraShouldNotBeFound("dataHora.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllAmostrasByDataHoraIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        amostraRepository.saveAndFlush(amostra);
-
-        // Get all the amostraList where dataHora is greater than or equal to DEFAULT_DATA_HORA
-        defaultAmostraShouldBeFound("dataHora.greaterThanOrEqual=" + DEFAULT_DATA_HORA);
-
-        // Get all the amostraList where dataHora is greater than or equal to UPDATED_DATA_HORA
-        defaultAmostraShouldNotBeFound("dataHora.greaterThanOrEqual=" + UPDATED_DATA_HORA);
-    }
-
-    @Test
-    @Transactional
-    void getAllAmostrasByDataHoraIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        amostraRepository.saveAndFlush(amostra);
-
-        // Get all the amostraList where dataHora is less than or equal to DEFAULT_DATA_HORA
-        defaultAmostraShouldBeFound("dataHora.lessThanOrEqual=" + DEFAULT_DATA_HORA);
-
-        // Get all the amostraList where dataHora is less than or equal to SMALLER_DATA_HORA
-        defaultAmostraShouldNotBeFound("dataHora.lessThanOrEqual=" + SMALLER_DATA_HORA);
-    }
-
-    @Test
-    @Transactional
-    void getAllAmostrasByDataHoraIsLessThanSomething() throws Exception {
-        // Initialize the database
-        amostraRepository.saveAndFlush(amostra);
-
-        // Get all the amostraList where dataHora is less than DEFAULT_DATA_HORA
-        defaultAmostraShouldNotBeFound("dataHora.lessThan=" + DEFAULT_DATA_HORA);
-
-        // Get all the amostraList where dataHora is less than UPDATED_DATA_HORA
-        defaultAmostraShouldBeFound("dataHora.lessThan=" + UPDATED_DATA_HORA);
-    }
-
-    @Test
-    @Transactional
-    void getAllAmostrasByDataHoraIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        amostraRepository.saveAndFlush(amostra);
-
-        // Get all the amostraList where dataHora is greater than DEFAULT_DATA_HORA
-        defaultAmostraShouldNotBeFound("dataHora.greaterThan=" + DEFAULT_DATA_HORA);
-
-        // Get all the amostraList where dataHora is greater than SMALLER_DATA_HORA
-        defaultAmostraShouldBeFound("dataHora.greaterThan=" + SMALLER_DATA_HORA);
+        // Get all the amostraList where dataHoraColeta is null
+        defaultAmostraShouldNotBeFound("dataHoraColeta.specified=false");
     }
 
     @Test
@@ -546,54 +490,56 @@ class AmostraResourceIT {
 
     @Test
     @Transactional
-    void getAllAmostrasByAmostraNoLaboratorioIsEqualToSomething() throws Exception {
+    void getAllAmostrasByRecebimentoNoLaboratorioIsEqualToSomething() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
 
-        // Get all the amostraList where amostraNoLaboratorio equals to DEFAULT_AMOSTRA_NO_LABORATORIO
-        defaultAmostraShouldBeFound("amostraNoLaboratorio.equals=" + DEFAULT_AMOSTRA_NO_LABORATORIO);
+        // Get all the amostraList where recebimentoNoLaboratorio equals to DEFAULT_RECEBIMENTO_NO_LABORATORIO
+        defaultAmostraShouldBeFound("recebimentoNoLaboratorio.equals=" + DEFAULT_RECEBIMENTO_NO_LABORATORIO);
 
-        // Get all the amostraList where amostraNoLaboratorio equals to UPDATED_AMOSTRA_NO_LABORATORIO
-        defaultAmostraShouldNotBeFound("amostraNoLaboratorio.equals=" + UPDATED_AMOSTRA_NO_LABORATORIO);
+        // Get all the amostraList where recebimentoNoLaboratorio equals to UPDATED_RECEBIMENTO_NO_LABORATORIO
+        defaultAmostraShouldNotBeFound("recebimentoNoLaboratorio.equals=" + UPDATED_RECEBIMENTO_NO_LABORATORIO);
     }
 
     @Test
     @Transactional
-    void getAllAmostrasByAmostraNoLaboratorioIsNotEqualToSomething() throws Exception {
+    void getAllAmostrasByRecebimentoNoLaboratorioIsNotEqualToSomething() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
 
-        // Get all the amostraList where amostraNoLaboratorio not equals to DEFAULT_AMOSTRA_NO_LABORATORIO
-        defaultAmostraShouldNotBeFound("amostraNoLaboratorio.notEquals=" + DEFAULT_AMOSTRA_NO_LABORATORIO);
+        // Get all the amostraList where recebimentoNoLaboratorio not equals to DEFAULT_RECEBIMENTO_NO_LABORATORIO
+        defaultAmostraShouldNotBeFound("recebimentoNoLaboratorio.notEquals=" + DEFAULT_RECEBIMENTO_NO_LABORATORIO);
 
-        // Get all the amostraList where amostraNoLaboratorio not equals to UPDATED_AMOSTRA_NO_LABORATORIO
-        defaultAmostraShouldBeFound("amostraNoLaboratorio.notEquals=" + UPDATED_AMOSTRA_NO_LABORATORIO);
+        // Get all the amostraList where recebimentoNoLaboratorio not equals to UPDATED_RECEBIMENTO_NO_LABORATORIO
+        defaultAmostraShouldBeFound("recebimentoNoLaboratorio.notEquals=" + UPDATED_RECEBIMENTO_NO_LABORATORIO);
     }
 
     @Test
     @Transactional
-    void getAllAmostrasByAmostraNoLaboratorioIsInShouldWork() throws Exception {
+    void getAllAmostrasByRecebimentoNoLaboratorioIsInShouldWork() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
 
-        // Get all the amostraList where amostraNoLaboratorio in DEFAULT_AMOSTRA_NO_LABORATORIO or UPDATED_AMOSTRA_NO_LABORATORIO
-        defaultAmostraShouldBeFound("amostraNoLaboratorio.in=" + DEFAULT_AMOSTRA_NO_LABORATORIO + "," + UPDATED_AMOSTRA_NO_LABORATORIO);
+        // Get all the amostraList where recebimentoNoLaboratorio in DEFAULT_RECEBIMENTO_NO_LABORATORIO or UPDATED_RECEBIMENTO_NO_LABORATORIO
+        defaultAmostraShouldBeFound(
+            "recebimentoNoLaboratorio.in=" + DEFAULT_RECEBIMENTO_NO_LABORATORIO + "," + UPDATED_RECEBIMENTO_NO_LABORATORIO
+        );
 
-        // Get all the amostraList where amostraNoLaboratorio equals to UPDATED_AMOSTRA_NO_LABORATORIO
-        defaultAmostraShouldNotBeFound("amostraNoLaboratorio.in=" + UPDATED_AMOSTRA_NO_LABORATORIO);
+        // Get all the amostraList where recebimentoNoLaboratorio equals to UPDATED_RECEBIMENTO_NO_LABORATORIO
+        defaultAmostraShouldNotBeFound("recebimentoNoLaboratorio.in=" + UPDATED_RECEBIMENTO_NO_LABORATORIO);
     }
 
     @Test
     @Transactional
-    void getAllAmostrasByAmostraNoLaboratorioIsNullOrNotNull() throws Exception {
+    void getAllAmostrasByRecebimentoNoLaboratorioIsNullOrNotNull() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
 
-        // Get all the amostraList where amostraNoLaboratorio is not null
-        defaultAmostraShouldBeFound("amostraNoLaboratorio.specified=true");
+        // Get all the amostraList where recebimentoNoLaboratorio is not null
+        defaultAmostraShouldBeFound("recebimentoNoLaboratorio.specified=true");
 
-        // Get all the amostraList where amostraNoLaboratorio is null
-        defaultAmostraShouldNotBeFound("amostraNoLaboratorio.specified=false");
+        // Get all the amostraList where recebimentoNoLaboratorio is null
+        defaultAmostraShouldNotBeFound("recebimentoNoLaboratorio.specified=false");
     }
 
     @Test
@@ -731,13 +677,13 @@ class AmostraResourceIT {
     void getAllAmostrasByAmostradaPorIsEqualToSomething() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
-        Usuario amostradaPor;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            amostradaPor = UsuarioResourceIT.createEntity(em);
+        User amostradaPor;
+        if (TestUtil.findAll(em, User.class).isEmpty()) {
+            amostradaPor = UserResourceIT.createEntity(em);
             em.persist(amostradaPor);
             em.flush();
         } else {
-            amostradaPor = TestUtil.findAll(em, Usuario.class).get(0);
+            amostradaPor = TestUtil.findAll(em, User.class).get(0);
         }
         em.persist(amostradaPor);
         em.flush();
@@ -757,13 +703,13 @@ class AmostraResourceIT {
     void getAllAmostrasByRecebidaPorIsEqualToSomething() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
-        Usuario recebidaPor;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            recebidaPor = UsuarioResourceIT.createEntity(em);
+        User recebidaPor;
+        if (TestUtil.findAll(em, User.class).isEmpty()) {
+            recebidaPor = UserResourceIT.createEntity(em);
             em.persist(recebidaPor);
             em.flush();
         } else {
-            recebidaPor = TestUtil.findAll(em, Usuario.class).get(0);
+            recebidaPor = TestUtil.findAll(em, User.class).get(0);
         }
         em.persist(recebidaPor);
         em.flush();
@@ -787,10 +733,10 @@ class AmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amostra.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dataHora").value(hasItem(sameInstant(DEFAULT_DATA_HORA))))
+            .andExpect(jsonPath("$.[*].dataHoraColeta").value(hasItem(DEFAULT_DATA_HORA_COLETA.toString())))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
             .andExpect(jsonPath("$.[*].identificadorExterno").value(hasItem(DEFAULT_IDENTIFICADOR_EXTERNO)))
-            .andExpect(jsonPath("$.[*].amostraNoLaboratorio").value(hasItem(DEFAULT_AMOSTRA_NO_LABORATORIO.booleanValue())));
+            .andExpect(jsonPath("$.[*].recebimentoNoLaboratorio").value(hasItem(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString())));
 
         // Check, that the count call also returns 1
         restAmostraMockMvc
@@ -839,10 +785,10 @@ class AmostraResourceIT {
         // Disconnect from session so that the updates on updatedAmostra are not directly saved in db
         em.detach(updatedAmostra);
         updatedAmostra
-            .dataHora(UPDATED_DATA_HORA)
+            .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
-            .amostraNoLaboratorio(UPDATED_AMOSTRA_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO);
         AmostraDTO amostraDTO = amostraMapper.toDto(updatedAmostra);
 
         restAmostraMockMvc
@@ -857,10 +803,10 @@ class AmostraResourceIT {
         List<Amostra> amostraList = amostraRepository.findAll();
         assertThat(amostraList).hasSize(databaseSizeBeforeUpdate);
         Amostra testAmostra = amostraList.get(amostraList.size() - 1);
-        assertThat(testAmostra.getDataHora()).isEqualTo(UPDATED_DATA_HORA);
+        assertThat(testAmostra.getDataHoraColeta()).isEqualTo(UPDATED_DATA_HORA_COLETA);
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
-        assertThat(testAmostra.getAmostraNoLaboratorio()).isEqualTo(UPDATED_AMOSTRA_NO_LABORATORIO);
+        assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);
     }
 
     @Test
@@ -943,7 +889,7 @@ class AmostraResourceIT {
         partialUpdatedAmostra
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
-            .amostraNoLaboratorio(UPDATED_AMOSTRA_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO);
 
         restAmostraMockMvc
             .perform(
@@ -957,10 +903,10 @@ class AmostraResourceIT {
         List<Amostra> amostraList = amostraRepository.findAll();
         assertThat(amostraList).hasSize(databaseSizeBeforeUpdate);
         Amostra testAmostra = amostraList.get(amostraList.size() - 1);
-        assertThat(testAmostra.getDataHora()).isEqualTo(DEFAULT_DATA_HORA);
+        assertThat(testAmostra.getDataHoraColeta()).isEqualTo(DEFAULT_DATA_HORA_COLETA);
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
-        assertThat(testAmostra.getAmostraNoLaboratorio()).isEqualTo(UPDATED_AMOSTRA_NO_LABORATORIO);
+        assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);
     }
 
     @Test
@@ -976,10 +922,10 @@ class AmostraResourceIT {
         partialUpdatedAmostra.setId(amostra.getId());
 
         partialUpdatedAmostra
-            .dataHora(UPDATED_DATA_HORA)
+            .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
-            .amostraNoLaboratorio(UPDATED_AMOSTRA_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO);
 
         restAmostraMockMvc
             .perform(
@@ -993,10 +939,10 @@ class AmostraResourceIT {
         List<Amostra> amostraList = amostraRepository.findAll();
         assertThat(amostraList).hasSize(databaseSizeBeforeUpdate);
         Amostra testAmostra = amostraList.get(amostraList.size() - 1);
-        assertThat(testAmostra.getDataHora()).isEqualTo(UPDATED_DATA_HORA);
+        assertThat(testAmostra.getDataHoraColeta()).isEqualTo(UPDATED_DATA_HORA_COLETA);
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
-        assertThat(testAmostra.getAmostraNoLaboratorio()).isEqualTo(UPDATED_AMOSTRA_NO_LABORATORIO);
+        assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);
     }
 
     @Test

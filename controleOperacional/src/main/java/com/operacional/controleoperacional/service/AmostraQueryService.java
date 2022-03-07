@@ -90,8 +90,8 @@ public class AmostraQueryService extends QueryService<Amostra> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Amostra_.id));
             }
-            if (criteria.getDataHora() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataHora(), Amostra_.dataHora));
+            if (criteria.getDataHoraColeta() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataHoraColeta(), Amostra_.dataHoraColeta));
             }
             if (criteria.getObservacao() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getObservacao(), Amostra_.observacao));
@@ -100,8 +100,9 @@ public class AmostraQueryService extends QueryService<Amostra> {
                 specification =
                     specification.and(buildStringSpecification(criteria.getIdentificadorExterno(), Amostra_.identificadorExterno));
             }
-            if (criteria.getAmostraNoLaboratorio() != null) {
-                specification = specification.and(buildSpecification(criteria.getAmostraNoLaboratorio(), Amostra_.amostraNoLaboratorio));
+            if (criteria.getRecebimentoNoLaboratorio() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getRecebimentoNoLaboratorio(), Amostra_.recebimentoNoLaboratorio));
             }
             if (criteria.getFinalidadesId() != null) {
                 specification =
@@ -147,7 +148,7 @@ public class AmostraQueryService extends QueryService<Amostra> {
                     specification.and(
                         buildSpecification(
                             criteria.getAmostradaPorId(),
-                            root -> root.join(Amostra_.amostradaPor, JoinType.LEFT).get(Usuario_.id)
+                            root -> root.join(Amostra_.amostradaPor, JoinType.LEFT).get(User_.id)
                         )
                     );
             }
@@ -156,7 +157,7 @@ public class AmostraQueryService extends QueryService<Amostra> {
                     specification.and(
                         buildSpecification(
                             criteria.getRecebidaPorId(),
-                            root -> root.join(Amostra_.recebidaPor, JoinType.LEFT).get(Usuario_.id)
+                            root -> root.join(Amostra_.recebidaPor, JoinType.LEFT).get(User_.id)
                         )
                     );
             }

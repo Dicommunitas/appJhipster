@@ -46,8 +46,7 @@
           <td>{{ tipoRelatorio.nome }}</td>
           <td>
             <span *ngFor="let usuariosAut of tipoRelatorio.usuariosAuts; let last = last">
-              <a class="form-control-static" [routerLink]="['/usuario', usuariosAut.id, 'view']">{{ usuariosAut.nome }}</a
-              >{{ last ? '' : ', ' }}
+              {{ usuariosAut.login }}{{ last ? '' : ', ' }}
             </span>
           </td>
           <td class="text-right">

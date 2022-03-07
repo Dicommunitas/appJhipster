@@ -16,10 +16,10 @@ describe('Problema e2e test', () => {
   const problemaPageUrlPattern = new RegExp('/problema(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const problemaSample = { data: '2022-02-25', descricao: 'Marginal', criticidade: 'BAIXA', impacto: 'networks B2B users' };
+  const problemaSample = { dataVerificacao: '2022-03-06', descricao: 'B2B users', criticidade: 'IMEDIATA', impacto: 'Rodovia strategy' };
 
   let problema: any;
-  //let usuario: any;
+  //let user: any;
 
   before(() => {
     cy.window().then(win => {
@@ -35,10 +35,10 @@ describe('Problema e2e test', () => {
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
       method: 'POST',
-      url: '/api/usuarios',
-      body: {"chave":"onli","nome":"Avenida","linksExternos":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ="},
+      url: '/api/users',
+      body: {"login":"multi-byte ROI Future-proofed","firstName":"Víctor","lastName":"Melo"},
     }).then(({ body }) => {
-      usuario = body;
+      user = body;
     });
   });
    */
@@ -57,9 +57,9 @@ describe('Problema e2e test', () => {
       body: [],
     });
 
-    cy.intercept('GET', '/api/usuarios', {
+    cy.intercept('GET', '/api/users', {
       statusCode: 200,
-      body: [usuario],
+      body: [user],
     });
 
   });
@@ -78,12 +78,12 @@ describe('Problema e2e test', () => {
 
   /* Disabled due to incompatibility
   afterEach(() => {
-    if (usuario) {
+    if (user) {
       cy.authenticatedRequest({
         method: 'DELETE',
-        url: `/api/usuarios/${usuario.id}`,
+        url: `/api/users/${user.id}`,
       }).then(() => {
-        usuario = undefined;
+        user = undefined;
       });
     }
   });
@@ -132,7 +132,7 @@ describe('Problema e2e test', () => {
   
           body: {
             ...problemaSample,
-            relator: usuario,
+            relator: user,
           },
         }).then(({ body }) => {
           problema = body;
@@ -212,18 +212,17 @@ describe('Problema e2e test', () => {
     });
 
     it.skip('should create an instance of Problema', () => {
-      cy.get(`[data-cy="data"]`).type('2022-02-25').should('have.value', '2022-02-25');
+      cy.get(`[data-cy="dataVerificacao"]`).type('2022-03-06').should('have.value', '2022-03-06');
 
       cy.get(`[data-cy="descricao"]`).type('invoice monitor Loan').should('have.value', 'invoice monitor Loan');
 
       cy.get(`[data-cy="criticidade"]`).select('IMEDIATA');
 
-      cy.get(`[data-cy="aceitarFinalizacao"]`).should('not.be.checked');
-      cy.get(`[data-cy="aceitarFinalizacao"]`).click().should('be.checked');
+      cy.get(`[data-cy="impacto"]`).type('Fantástico Prático Bicicleta').should('have.value', 'Fantástico Prático Bicicleta');
+
+      cy.get(`[data-cy="dataFinalizacao"]`).type('2022-03-06').should('have.value', '2022-03-06');
 
       cy.setFieldImageAsBytesOfEntity('foto', 'integration-test.png', 'image/png');
-
-      cy.get(`[data-cy="impacto"]`).type('scale').should('have.value', 'scale');
 
       cy.get(`[data-cy="relator"]`).select(1);
 

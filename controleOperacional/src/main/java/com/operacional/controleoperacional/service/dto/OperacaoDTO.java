@@ -3,7 +3,7 @@ package com.operacional.controleoperacional.service.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -18,42 +18,36 @@ public class OperacaoDTO implements Serializable {
     private Long id;
 
     /**
-     * Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.\n\nDescreve de forma simples a operação.
+     * Descreve de forma simples a operação.
      */
     @NotNull
-    @ApiModelProperty(
-        value = "Atributo descrição.\nDeve existir algum tipo de indicação\nque mostre a quantidade de amostras\nsuficiente ou insuficiente para a operação.\nDeve existir uma visualização em lista\nde todas as amostras pertencentes a operação\nna sua tela de visualização\nDeve existir um recurso para facilitar\na conferência do plano de amostragem\ndurante a criação da operação/plano de\namostragem.\n\nDescreve de forma simples a operação.",
-        required = true
-    )
+    @ApiModelProperty(value = "Descreve de forma simples a operação.", required = true)
     private String descricao;
 
     /**
-     * O volume ou peso total da operação.
+     * O volume ou peso total da operação. Em metros cúbicos ou toneladas
      */
     @NotNull
-    @ApiModelProperty(value = "O volume ou peso total da operação.", required = true)
+    @ApiModelProperty(value = "O volume ou peso total da operação. Em metros cúbicos ou toneladas", required = true)
     private Integer volumePeso;
 
     /**
      * O horário de início da operação.
      */
     @ApiModelProperty(value = "O horário de início da operação.")
-    private ZonedDateTime inicio;
+    private Instant inicio;
 
     /**
      * O horário de término da operação.
      */
     @ApiModelProperty(value = "O horário de término da operação.")
-    private ZonedDateTime fim;
+    private Instant fim;
 
     /**
-     * Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.\n\nQuantas amostras devem ter nessa operação.
+     * Quantas amostras devem ter nessa operação.
      */
     @NotNull
-    @ApiModelProperty(
-        value = "Atributo quantidadeAmostras mostra\nquantas amostras devem fazer parte da operação.\nFoco em cumprir o plano de amostragem.\nUma possível solução seria um botão\npara criar novas operações usando\noperações passadas como modelo, outra\nsolução mais elaborada seria existir\nvários planos de amostragem já\ncadastrados, esses planos teriam um nome\ne uma lista de amostras, assim sempre\nque uma operação selecionar este plano\nnovas amostras seriam criadas, usando\na lista do plano de amostragem como\nmodelo.\nOutra alternativa seria usar o lembrete como guia.\n\nQuantas amostras devem ter nessa operação.",
-        required = true
-    )
+    @ApiModelProperty(value = "Quantas amostras devem ter nessa operação.", required = true)
     private Integer quantidadeAmostras;
 
     /**
@@ -88,19 +82,19 @@ public class OperacaoDTO implements Serializable {
         this.volumePeso = volumePeso;
     }
 
-    public ZonedDateTime getInicio() {
+    public Instant getInicio() {
         return inicio;
     }
 
-    public void setInicio(ZonedDateTime inicio) {
+    public void setInicio(Instant inicio) {
         this.inicio = inicio;
     }
 
-    public ZonedDateTime getFim() {
+    public Instant getFim() {
         return fim;
     }
 
-    public void setFim(ZonedDateTime fim) {
+    public void setFim(Instant fim) {
         this.fim = fim;
     }
 

@@ -44,10 +44,10 @@
             formControlName="usuariosAuts"
           >
             <option
-              [ngValue]="getSelectedUsuario(usuarioOption, editForm.get('usuariosAuts')!.value)"
-              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+              [ngValue]="getSelectedUser(userOption, editForm.get('usuariosAuts')!.value)"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ usuarioOption.nome }}
+              {{ userOption.login }}
             </option>
           </select>
         </div>

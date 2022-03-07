@@ -9,7 +9,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * Entidade Status.\n@author Diego.\nDescreve a situação do andamento para solução\nde um problema. Um problema pode ter vários\nstatus até sua finalização.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.
+ * Entidade Status.\n@author Diego.\nDescreve a situação do andamento para solução\nde um problema. Um problema pode ter vários\nstatus até sua finalização.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.\nAo criar um novo Status usar como modelo o último\ncriado pelo usuário.
  */
 @Entity
 @Table(name = "status")
@@ -24,40 +24,38 @@ public class Status implements Serializable {
     private Long id;
 
     /**
-     * Descreve o status, a situação atual que está sendo tratada.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.
+     * Descreve o status, a situação que está sendo tratada\nque impede que o problema seja finalizado.
      */
     @Lob
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
     /**
-     * O prazo em que o status deve ser resolvido
+     * O prazo em que o status deve ser resolvido.
      */
     @NotNull
     @Column(name = "prazo", nullable = false)
     private LocalDate prazo;
 
     /**
-     * Indica se o status foi ou não resolvido.
+     * Indica em que data o status foi resolvido.
      */
-    @Column(name = "resolvido")
-    private Boolean resolvido;
+    @Column(name = "data_resolucao")
+    private LocalDate dataResolucao;
 
     /**
-     * Quem foi o relator do status,\no último usuário que atualizou
+     * Quem é o relator do status,\no último usuário que atualizou.
      */
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "user", "relAutorizados" }, allowSetters = true)
-    private Usuario relator;
+    private User relator;
 
     /**
      * Atributo responsável.\ndescreve qual será o usuário que deve dar\na tratativa para resolver o status
      */
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "user", "relAutorizados" }, allowSetters = true)
-    private Usuario responsavel;
+    private User responsavel;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -105,42 +103,42 @@ public class Status implements Serializable {
         this.prazo = prazo;
     }
 
-    public Boolean getResolvido() {
-        return this.resolvido;
+    public LocalDate getDataResolucao() {
+        return this.dataResolucao;
     }
 
-    public Status resolvido(Boolean resolvido) {
-        this.setResolvido(resolvido);
+    public Status dataResolucao(LocalDate dataResolucao) {
+        this.setDataResolucao(dataResolucao);
         return this;
     }
 
-    public void setResolvido(Boolean resolvido) {
-        this.resolvido = resolvido;
+    public void setDataResolucao(LocalDate dataResolucao) {
+        this.dataResolucao = dataResolucao;
     }
 
-    public Usuario getRelator() {
+    public User getRelator() {
         return this.relator;
     }
 
-    public void setRelator(Usuario usuario) {
-        this.relator = usuario;
+    public void setRelator(User user) {
+        this.relator = user;
     }
 
-    public Status relator(Usuario usuario) {
-        this.setRelator(usuario);
+    public Status relator(User user) {
+        this.setRelator(user);
         return this;
     }
 
-    public Usuario getResponsavel() {
+    public User getResponsavel() {
         return this.responsavel;
     }
 
-    public void setResponsavel(Usuario usuario) {
-        this.responsavel = usuario;
+    public void setResponsavel(User user) {
+        this.responsavel = user;
     }
 
-    public Status responsavel(Usuario usuario) {
-        this.setResponsavel(usuario);
+    public Status responsavel(User user) {
+        this.setResponsavel(user);
         return this;
     }
 
@@ -183,7 +181,7 @@ public class Status implements Serializable {
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
             ", prazo='" + getPrazo() + "'" +
-            ", resolvido='" + getResolvido() + "'" +
+            ", dataResolucao='" + getDataResolucao() + "'" +
             "}";
     }
 }

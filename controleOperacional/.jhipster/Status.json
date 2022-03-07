@@ -4,40 +4,40 @@
     {
       "fieldName": "descricao",
       "fieldType": "byte[]",
-      "javadoc": "Descreve o status, a situação atual que está sendo tratada.\\nUm status só pode ser alterado por quem for\\no atual responsável em resolve-lo.",
+      "javadoc": "Descreve o status, a situação que está sendo tratada\\nque impede que o problema seja finalizado.",
       "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "prazo",
       "fieldType": "LocalDate",
-      "javadoc": "O prazo em que o status deve ser resolvido",
+      "javadoc": "O prazo em que o status deve ser resolvido.",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "resolvido",
-      "fieldType": "Boolean",
-      "javadoc": "Indica se o status foi ou não resolvido."
+      "fieldName": "dataResolucao",
+      "fieldType": "LocalDate",
+      "javadoc": "Indica em que data o status foi resolvido."
     }
   ],
   "relationships": [
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "usuario",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "status",
       "relationshipValidateRules": "required",
-      "javadoc": "Quem foi o relator do status,\\no último usuário que atualizou",
+      "javadoc": "Quem é o relator do status,\\no último usuário que atualizou.",
       "relationshipName": "relator",
-      "otherEntityField": "nome"
+      "otherEntityField": "login"
     },
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "usuario",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "status",
       "relationshipValidateRules": "required",
       "javadoc": "Atributo responsável.\\ndescreve qual será o usuário que deve dar\\na tratativa para resolver o status",
       "relationshipName": "responsavel",
-      "otherEntityField": "nome"
+      "otherEntityField": "login"
     },
     {
       "relationshipType": "many-to-one",
@@ -48,7 +48,7 @@
       "otherEntityField": "descricao"
     }
   ],
-  "javadoc": "Entidade Status.\\n@author Diego.\\nDescreve a situação do andamento para solução\\nde um problema. Um problema pode ter vários\\nstatus até sua finalização.\\nUm status só pode ser alterado por quem for\\no atual responsável em resolve-lo.",
+  "javadoc": "Entidade Status.\\n@author Diego.\\nDescreve a situação do andamento para solução\\nde um problema. Um problema pode ter vários\\nstatus até sua finalização.\\nUm status só pode ser alterado por quem for\\no atual responsável em resolve-lo.\\nAo criar um novo Status usar como modelo o último\\ncriado pelo usuário.",
   "entityTableName": "status",
   "dto": "mapstruct",
   "pagination": "no",
@@ -58,5 +58,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["controleOperacional"],
-  "changelogDate": "20220225083934"
+  "changelogDate": "20220307001558"
 }

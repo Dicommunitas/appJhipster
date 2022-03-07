@@ -7,10 +7,10 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
-import tech.jhipster.service.filter.ZonedDateTimeFilter;
 
 /**
  * Criteria class for the {@link com.operacional.controleoperacional.domain.Amostra} entity. This class is used
@@ -27,13 +27,13 @@ public class AmostraCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private ZonedDateTimeFilter dataHora;
+    private InstantFilter dataHoraColeta;
 
     private StringFilter observacao;
 
     private StringFilter identificadorExterno;
 
-    private BooleanFilter amostraNoLaboratorio;
+    private InstantFilter recebimentoNoLaboratorio;
 
     private LongFilter finalidadesId;
 
@@ -55,10 +55,10 @@ public class AmostraCriteria implements Serializable, Criteria {
 
     public AmostraCriteria(AmostraCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.dataHora = other.dataHora == null ? null : other.dataHora.copy();
+        this.dataHoraColeta = other.dataHoraColeta == null ? null : other.dataHoraColeta.copy();
         this.observacao = other.observacao == null ? null : other.observacao.copy();
         this.identificadorExterno = other.identificadorExterno == null ? null : other.identificadorExterno.copy();
-        this.amostraNoLaboratorio = other.amostraNoLaboratorio == null ? null : other.amostraNoLaboratorio.copy();
+        this.recebimentoNoLaboratorio = other.recebimentoNoLaboratorio == null ? null : other.recebimentoNoLaboratorio.copy();
         this.finalidadesId = other.finalidadesId == null ? null : other.finalidadesId.copy();
         this.operacaoId = other.operacaoId == null ? null : other.operacaoId.copy();
         this.origemAmostraId = other.origemAmostraId == null ? null : other.origemAmostraId.copy();
@@ -89,19 +89,19 @@ public class AmostraCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public ZonedDateTimeFilter getDataHora() {
-        return dataHora;
+    public InstantFilter getDataHoraColeta() {
+        return dataHoraColeta;
     }
 
-    public ZonedDateTimeFilter dataHora() {
-        if (dataHora == null) {
-            dataHora = new ZonedDateTimeFilter();
+    public InstantFilter dataHoraColeta() {
+        if (dataHoraColeta == null) {
+            dataHoraColeta = new InstantFilter();
         }
-        return dataHora;
+        return dataHoraColeta;
     }
 
-    public void setDataHora(ZonedDateTimeFilter dataHora) {
-        this.dataHora = dataHora;
+    public void setDataHoraColeta(InstantFilter dataHoraColeta) {
+        this.dataHoraColeta = dataHoraColeta;
     }
 
     public StringFilter getObservacao() {
@@ -134,19 +134,19 @@ public class AmostraCriteria implements Serializable, Criteria {
         this.identificadorExterno = identificadorExterno;
     }
 
-    public BooleanFilter getAmostraNoLaboratorio() {
-        return amostraNoLaboratorio;
+    public InstantFilter getRecebimentoNoLaboratorio() {
+        return recebimentoNoLaboratorio;
     }
 
-    public BooleanFilter amostraNoLaboratorio() {
-        if (amostraNoLaboratorio == null) {
-            amostraNoLaboratorio = new BooleanFilter();
+    public InstantFilter recebimentoNoLaboratorio() {
+        if (recebimentoNoLaboratorio == null) {
+            recebimentoNoLaboratorio = new InstantFilter();
         }
-        return amostraNoLaboratorio;
+        return recebimentoNoLaboratorio;
     }
 
-    public void setAmostraNoLaboratorio(BooleanFilter amostraNoLaboratorio) {
-        this.amostraNoLaboratorio = amostraNoLaboratorio;
+    public void setRecebimentoNoLaboratorio(InstantFilter recebimentoNoLaboratorio) {
+        this.recebimentoNoLaboratorio = recebimentoNoLaboratorio;
     }
 
     public LongFilter getFinalidadesId() {
@@ -273,10 +273,10 @@ public class AmostraCriteria implements Serializable, Criteria {
         final AmostraCriteria that = (AmostraCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(dataHora, that.dataHora) &&
+            Objects.equals(dataHoraColeta, that.dataHoraColeta) &&
             Objects.equals(observacao, that.observacao) &&
             Objects.equals(identificadorExterno, that.identificadorExterno) &&
-            Objects.equals(amostraNoLaboratorio, that.amostraNoLaboratorio) &&
+            Objects.equals(recebimentoNoLaboratorio, that.recebimentoNoLaboratorio) &&
             Objects.equals(finalidadesId, that.finalidadesId) &&
             Objects.equals(operacaoId, that.operacaoId) &&
             Objects.equals(origemAmostraId, that.origemAmostraId) &&
@@ -292,10 +292,10 @@ public class AmostraCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
-            dataHora,
+            dataHoraColeta,
             observacao,
             identificadorExterno,
-            amostraNoLaboratorio,
+            recebimentoNoLaboratorio,
             finalidadesId,
             operacaoId,
             origemAmostraId,
@@ -312,10 +312,10 @@ public class AmostraCriteria implements Serializable, Criteria {
     public String toString() {
         return "AmostraCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (dataHora != null ? "dataHora=" + dataHora + ", " : "") +
+            (dataHoraColeta != null ? "dataHoraColeta=" + dataHoraColeta + ", " : "") +
             (observacao != null ? "observacao=" + observacao + ", " : "") +
             (identificadorExterno != null ? "identificadorExterno=" + identificadorExterno + ", " : "") +
-            (amostraNoLaboratorio != null ? "amostraNoLaboratorio=" + amostraNoLaboratorio + ", " : "") +
+            (recebimentoNoLaboratorio != null ? "recebimentoNoLaboratorio=" + recebimentoNoLaboratorio + ", " : "") +
             (finalidadesId != null ? "finalidadesId=" + finalidadesId + ", " : "") +
             (operacaoId != null ? "operacaoId=" + operacaoId + ", " : "") +
             (origemAmostraId != null ? "origemAmostraId=" + origemAmostraId + ", " : "") +

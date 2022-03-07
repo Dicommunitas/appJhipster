@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.operacional.controleoperacional.IntegrationTest;
 import com.operacional.controleoperacional.domain.Problema;
 import com.operacional.controleoperacional.domain.Status;
-import com.operacional.controleoperacional.domain.Usuario;
+import com.operacional.controleoperacional.domain.User;
 import com.operacional.controleoperacional.repository.StatusRepository;
 import com.operacional.controleoperacional.service.dto.StatusDTO;
 import com.operacional.controleoperacional.service.mapper.StatusMapper;
@@ -42,8 +42,8 @@ class StatusResourceIT {
     private static final LocalDate DEFAULT_PRAZO = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_PRAZO = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Boolean DEFAULT_RESOLVIDO = false;
-    private static final Boolean UPDATED_RESOLVIDO = true;
+    private static final LocalDate DEFAULT_DATA_RESOLUCAO = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATA_RESOLUCAO = LocalDate.now(ZoneId.systemDefault());
 
     private static final String ENTITY_API_URL = "/api/statuses";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -72,19 +72,14 @@ class StatusResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Status createEntity(EntityManager em) {
-        Status status = new Status().descricao(DEFAULT_DESCRICAO).prazo(DEFAULT_PRAZO).resolvido(DEFAULT_RESOLVIDO);
+        Status status = new Status().descricao(DEFAULT_DESCRICAO).prazo(DEFAULT_PRAZO).dataResolucao(DEFAULT_DATA_RESOLUCAO);
         // Add required entity
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            usuario = UsuarioResourceIT.createEntity(em);
-            em.persist(usuario);
-            em.flush();
-        } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
-        }
-        status.setRelator(usuario);
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        status.setRelator(user);
         // Add required entity
-        status.setResponsavel(usuario);
+        status.setResponsavel(user);
         // Add required entity
         Problema problema;
         if (TestUtil.findAll(em, Problema.class).isEmpty()) {
@@ -105,19 +100,14 @@ class StatusResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Status createUpdatedEntity(EntityManager em) {
-        Status status = new Status().descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).resolvido(UPDATED_RESOLVIDO);
+        Status status = new Status().descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).dataResolucao(UPDATED_DATA_RESOLUCAO);
         // Add required entity
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            usuario = UsuarioResourceIT.createUpdatedEntity(em);
-            em.persist(usuario);
-            em.flush();
-        } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
-        }
-        status.setRelator(usuario);
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        status.setRelator(user);
         // Add required entity
-        status.setResponsavel(usuario);
+        status.setResponsavel(user);
         // Add required entity
         Problema problema;
         if (TestUtil.findAll(em, Problema.class).isEmpty()) {
@@ -152,7 +142,7 @@ class StatusResourceIT {
         Status testStatus = statusList.get(statusList.size() - 1);
         assertThat(testStatus.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(DEFAULT_PRAZO);
-        assertThat(testStatus.getResolvido()).isEqualTo(DEFAULT_RESOLVIDO);
+        assertThat(testStatus.getDataResolucao()).isEqualTo(DEFAULT_DATA_RESOLUCAO);
     }
 
     @Test
@@ -206,7 +196,7 @@ class StatusResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(status.getId().intValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].prazo").value(hasItem(DEFAULT_PRAZO.toString())))
-            .andExpect(jsonPath("$.[*].resolvido").value(hasItem(DEFAULT_RESOLVIDO.booleanValue())));
+            .andExpect(jsonPath("$.[*].dataResolucao").value(hasItem(DEFAULT_DATA_RESOLUCAO.toString())));
     }
 
     @Test
@@ -223,7 +213,7 @@ class StatusResourceIT {
             .andExpect(jsonPath("$.id").value(status.getId().intValue()))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
             .andExpect(jsonPath("$.prazo").value(DEFAULT_PRAZO.toString()))
-            .andExpect(jsonPath("$.resolvido").value(DEFAULT_RESOLVIDO.booleanValue()));
+            .andExpect(jsonPath("$.dataResolucao").value(DEFAULT_DATA_RESOLUCAO.toString()));
     }
 
     @Test
@@ -245,7 +235,7 @@ class StatusResourceIT {
         Status updatedStatus = statusRepository.findById(status.getId()).get();
         // Disconnect from session so that the updates on updatedStatus are not directly saved in db
         em.detach(updatedStatus);
-        updatedStatus.descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).resolvido(UPDATED_RESOLVIDO);
+        updatedStatus.descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).dataResolucao(UPDATED_DATA_RESOLUCAO);
         StatusDTO statusDTO = statusMapper.toDto(updatedStatus);
 
         restStatusMockMvc
@@ -262,7 +252,7 @@ class StatusResourceIT {
         Status testStatus = statusList.get(statusList.size() - 1);
         assertThat(testStatus.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(UPDATED_PRAZO);
-        assertThat(testStatus.getResolvido()).isEqualTo(UPDATED_RESOLVIDO);
+        assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
     }
 
     @Test
@@ -342,7 +332,7 @@ class StatusResourceIT {
         Status partialUpdatedStatus = new Status();
         partialUpdatedStatus.setId(status.getId());
 
-        partialUpdatedStatus.resolvido(UPDATED_RESOLVIDO);
+        partialUpdatedStatus.dataResolucao(UPDATED_DATA_RESOLUCAO);
 
         restStatusMockMvc
             .perform(
@@ -358,7 +348,7 @@ class StatusResourceIT {
         Status testStatus = statusList.get(statusList.size() - 1);
         assertThat(testStatus.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(DEFAULT_PRAZO);
-        assertThat(testStatus.getResolvido()).isEqualTo(UPDATED_RESOLVIDO);
+        assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
     }
 
     @Test
@@ -373,7 +363,7 @@ class StatusResourceIT {
         Status partialUpdatedStatus = new Status();
         partialUpdatedStatus.setId(status.getId());
 
-        partialUpdatedStatus.descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).resolvido(UPDATED_RESOLVIDO);
+        partialUpdatedStatus.descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).dataResolucao(UPDATED_DATA_RESOLUCAO);
 
         restStatusMockMvc
             .perform(
@@ -389,7 +379,7 @@ class StatusResourceIT {
         Status testStatus = statusList.get(statusList.size() - 1);
         assertThat(testStatus.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(UPDATED_PRAZO);
-        assertThat(testStatus.getResolvido()).isEqualTo(UPDATED_RESOLVIDO);
+        assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
     }
 
     @Test

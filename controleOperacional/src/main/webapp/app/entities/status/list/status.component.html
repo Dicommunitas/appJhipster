@@ -35,7 +35,7 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.descricao">Descricao</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.prazo">Prazo</span></th>
-          <th scope="col"><span jhiTranslate="controleOperacionalApp.status.resolvido">Resolvido</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.status.dataResolucao">Data Resolucao</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.relator">Relator</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.responsavel">Responsavel</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.problema">Problema</span></th>
@@ -49,16 +49,12 @@
           </td>
           <td>{{ status.descricao }}</td>
           <td>{{ status.prazo | formatMediumDate }}</td>
-          <td>{{ status.resolvido }}</td>
+          <td>{{ status.dataResolucao | formatMediumDate }}</td>
           <td>
-            <div *ngIf="status.relator">
-              <a [routerLink]="['/usuario', status.relator?.id, 'view']">{{ status.relator?.nome }}</a>
-            </div>
+            {{ status.relator?.login }}
           </td>
           <td>
-            <div *ngIf="status.responsavel">
-              <a [routerLink]="['/usuario', status.responsavel?.id, 'view']">{{ status.responsavel?.nome }}</a>
-            </div>
+            {{ status.responsavel?.login }}
           </td>
           <td>
             <div *ngIf="status.problema">

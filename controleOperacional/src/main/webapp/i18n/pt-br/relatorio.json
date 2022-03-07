@@ -18,13 +18,15 @@
         "title": "Relatorio"
       },
       "id": "ID",
+      "dataHora": "Data Hora",
       "relato": "Relato",
       "linksExternos": "Links Externos",
       "tipo": "Tipo",
       "responsavel": "Responsavel",
       "help": {
-        "relato": "Atributo relato.\nVerificar a viabilidade de usar um objeto\ne não um texto.\n\nUsar comparação de texto para visualizar as\nalterações entre o últomo relatório criado e o último\nrelatório criado pelo usuário.\n\nRelato descritivo. As informações pertinentes para o relatório.",
-        "linksExternos": "Atributo linksExternos.\nVerificar a viabilidade de usar iframe\n\nLinks e lembretes de apoio para o relatório."
+        "dataHora": "Data e hora que o relatório foi criado.",
+        "relato": "Relato descritivo. As informações pertinentes para o relatório.",
+        "linksExternos": "Links e lembretes de apoio para o relatório."
       }
     }
   }

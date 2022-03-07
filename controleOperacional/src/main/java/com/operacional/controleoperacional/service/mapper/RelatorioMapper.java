@@ -7,9 +7,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Relatorio} and its DTO {@link RelatorioDTO}.
  */
-@Mapper(componentModel = "spring", uses = { TipoRelatorioMapper.class, UsuarioMapper.class })
+@Mapper(componentModel = "spring", uses = { TipoRelatorioMapper.class, UserMapper.class })
 public interface RelatorioMapper extends EntityMapper<RelatorioDTO, Relatorio> {
     @Mapping(target = "tipo", source = "tipo", qualifiedByName = "nome")
-    @Mapping(target = "responsavel", source = "responsavel", qualifiedByName = "nome")
+    @Mapping(target = "responsavel", source = "responsavel", qualifiedByName = "login")
     RelatorioDTO toDto(Relatorio s);
 }
