@@ -38,6 +38,15 @@ public class AmostraDTO implements Serializable {
     @Schema(description = "Identifica se a amostra está ou não no laboratório.")
     private Instant recebimentoNoLaboratorio;
 
+    @NotNull
+    private String createdBy;
+
+    private Instant createdDate;
+
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
+
     private OperacaoDTO operacao;
 
     private OrigemAmostraDTO origemAmostra;
@@ -88,6 +97,38 @@ public class AmostraDTO implements Serializable {
 
     public void setRecebimentoNoLaboratorio(Instant recebimentoNoLaboratorio) {
         this.recebimentoNoLaboratorio = recebimentoNoLaboratorio;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public OperacaoDTO getOperacao() {
@@ -168,6 +209,10 @@ public class AmostraDTO implements Serializable {
             ", observacao='" + getObservacao() + "'" +
             ", identificadorExterno='" + getIdentificadorExterno() + "'" +
             ", recebimentoNoLaboratorio='" + getRecebimentoNoLaboratorio() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", operacao=" + getOperacao() +
             ", origemAmostra=" + getOrigemAmostra() +
             ", produto=" + getProduto() +

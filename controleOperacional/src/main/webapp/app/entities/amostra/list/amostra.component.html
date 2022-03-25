@@ -47,6 +47,18 @@
             <span jhiTranslate="controleOperacionalApp.amostra.recebimentoNoLaboratorio">Recebimento No Laboratorio</span>
             <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="createdBy">
+            <span jhiTranslate="controleOperacionalApp.amostra.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="createdDate">
+            <span jhiTranslate="controleOperacionalApp.amostra.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <span jhiTranslate="controleOperacionalApp.amostra.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedDate">
+            <span jhiTranslate="controleOperacionalApp.amostra.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="operacao.descricao">
             <span jhiTranslate="controleOperacionalApp.amostra.operacao">Operacao</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -77,6 +89,10 @@
           <td>{{ amostra.observacao }}</td>
           <td>{{ amostra.identificadorExterno }}</td>
           <td>{{ amostra.recebimentoNoLaboratorio | formatMediumDatetime }}</td>
+          <td>{{ amostra.createdBy }}</td>
+          <td>{{ amostra.createdDate | formatMediumDatetime }}</td>
+          <td>{{ amostra.lastModifiedBy }}</td>
+          <td>{{ amostra.lastModifiedDate | formatMediumDatetime }}</td>
           <td>
             <div *ngIf="amostra.operacao">
               <a [routerLink]="['/operacao', amostra.operacao?.id, 'view']">{{ amostra.operacao?.descricao }}</a>

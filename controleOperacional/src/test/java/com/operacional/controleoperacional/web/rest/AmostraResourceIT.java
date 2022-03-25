@@ -52,6 +52,18 @@ class AmostraResourceIT {
     private static final Instant DEFAULT_RECEBIMENTO_NO_LABORATORIO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_RECEBIMENTO_NO_LABORATORIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_LAST_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_LAST_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final String ENTITY_API_URL = "/api/amostras";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -83,7 +95,12 @@ class AmostraResourceIT {
             .dataHoraColeta(DEFAULT_DATA_HORA_COLETA)
             .observacao(DEFAULT_OBSERVACAO)
             .identificadorExterno(DEFAULT_IDENTIFICADOR_EXTERNO)
-            .recebimentoNoLaboratorio(DEFAULT_RECEBIMENTO_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(DEFAULT_RECEBIMENTO_NO_LABORATORIO)
+            //.createdBy(DEFAULT_CREATED_BY)
+            //.createdDate(DEFAULT_CREATED_DATE)
+            //.lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
+            //.lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
+            ;
         // Add required entity
         Operacao operacao;
         if (TestUtil.findAll(em, Operacao.class).isEmpty()) {
@@ -138,7 +155,12 @@ class AmostraResourceIT {
             .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
-            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
+            //.createdBy(UPDATED_CREATED_BY)
+            //.createdDate(UPDATED_CREATED_DATE)
+            //.lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            //.lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            ;
         // Add required entity
         Operacao operacao;
         if (TestUtil.findAll(em, Operacao.class).isEmpty()) {
@@ -205,6 +227,10 @@ class AmostraResourceIT {
         assertThat(testAmostra.getObservacao()).isEqualTo(DEFAULT_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(DEFAULT_IDENTIFICADOR_EXTERNO);
         assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(DEFAULT_RECEBIMENTO_NO_LABORATORIO);
+        assertThat(testAmostra.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testAmostra.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testAmostra.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testAmostra.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -228,6 +254,24 @@ class AmostraResourceIT {
 
     @Test
     @Transactional
+    void checkCreatedByIsRequired() throws Exception {
+        int databaseSizeBeforeTest = amostraRepository.findAll().size();
+        // set the field null
+        amostra.setCreatedBy(null);
+
+        // Create the Amostra, which fails.
+        AmostraDTO amostraDTO = amostraMapper.toDto(amostra);
+
+        restAmostraMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(amostraDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Amostra> amostraList = amostraRepository.findAll();
+        assertThat(amostraList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllAmostras() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
@@ -241,7 +285,11 @@ class AmostraResourceIT {
             .andExpect(jsonPath("$.[*].dataHoraColeta").value(hasItem(DEFAULT_DATA_HORA_COLETA.toString())))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
             .andExpect(jsonPath("$.[*].identificadorExterno").value(hasItem(DEFAULT_IDENTIFICADOR_EXTERNO)))
-            .andExpect(jsonPath("$.[*].recebimentoNoLaboratorio").value(hasItem(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString())));
+            .andExpect(jsonPath("$.[*].recebimentoNoLaboratorio").value(hasItem(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
     }
 
     @Test
@@ -259,7 +307,11 @@ class AmostraResourceIT {
             .andExpect(jsonPath("$.dataHoraColeta").value(DEFAULT_DATA_HORA_COLETA.toString()))
             .andExpect(jsonPath("$.observacao").value(DEFAULT_OBSERVACAO))
             .andExpect(jsonPath("$.identificadorExterno").value(DEFAULT_IDENTIFICADOR_EXTERNO))
-            .andExpect(jsonPath("$.recebimentoNoLaboratorio").value(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString()));
+            .andExpect(jsonPath("$.recebimentoNoLaboratorio").value(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
+            .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()));
     }
 
     @Test
@@ -544,6 +596,266 @@ class AmostraResourceIT {
 
     @Test
     @Transactional
+    void getAllAmostrasByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdBy equals to DEFAULT_CREATED_BY
+        defaultAmostraShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the amostraList where createdBy equals to UPDATED_CREATED_BY
+        defaultAmostraShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedByIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdBy not equals to DEFAULT_CREATED_BY
+        defaultAmostraShouldNotBeFound("createdBy.notEquals=" + DEFAULT_CREATED_BY);
+
+        // Get all the amostraList where createdBy not equals to UPDATED_CREATED_BY
+        defaultAmostraShouldBeFound("createdBy.notEquals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultAmostraShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the amostraList where createdBy equals to UPDATED_CREATED_BY
+        defaultAmostraShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdBy is not null
+        defaultAmostraShouldBeFound("createdBy.specified=true");
+
+        // Get all the amostraList where createdBy is null
+        defaultAmostraShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedByContainsSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdBy contains DEFAULT_CREATED_BY
+        defaultAmostraShouldBeFound("createdBy.contains=" + DEFAULT_CREATED_BY);
+
+        // Get all the amostraList where createdBy contains UPDATED_CREATED_BY
+        defaultAmostraShouldNotBeFound("createdBy.contains=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdBy does not contain DEFAULT_CREATED_BY
+        defaultAmostraShouldNotBeFound("createdBy.doesNotContain=" + DEFAULT_CREATED_BY);
+
+        // Get all the amostraList where createdBy does not contain UPDATED_CREATED_BY
+        defaultAmostraShouldBeFound("createdBy.doesNotContain=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdDate equals to DEFAULT_CREATED_DATE
+        defaultAmostraShouldBeFound("createdDate.equals=" + DEFAULT_CREATED_DATE);
+
+        // Get all the amostraList where createdDate equals to UPDATED_CREATED_DATE
+        defaultAmostraShouldNotBeFound("createdDate.equals=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdDate not equals to DEFAULT_CREATED_DATE
+        defaultAmostraShouldNotBeFound("createdDate.notEquals=" + DEFAULT_CREATED_DATE);
+
+        // Get all the amostraList where createdDate not equals to UPDATED_CREATED_DATE
+        defaultAmostraShouldBeFound("createdDate.notEquals=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdDate in DEFAULT_CREATED_DATE or UPDATED_CREATED_DATE
+        defaultAmostraShouldBeFound("createdDate.in=" + DEFAULT_CREATED_DATE + "," + UPDATED_CREATED_DATE);
+
+        // Get all the amostraList where createdDate equals to UPDATED_CREATED_DATE
+        defaultAmostraShouldNotBeFound("createdDate.in=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByCreatedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where createdDate is not null
+        defaultAmostraShouldBeFound("createdDate.specified=true");
+
+        // Get all the amostraList where createdDate is null
+        defaultAmostraShouldNotBeFound("createdDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedBy equals to DEFAULT_LAST_MODIFIED_BY
+        defaultAmostraShouldBeFound("lastModifiedBy.equals=" + DEFAULT_LAST_MODIFIED_BY);
+
+        // Get all the amostraList where lastModifiedBy equals to UPDATED_LAST_MODIFIED_BY
+        defaultAmostraShouldNotBeFound("lastModifiedBy.equals=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedByIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedBy not equals to DEFAULT_LAST_MODIFIED_BY
+        defaultAmostraShouldNotBeFound("lastModifiedBy.notEquals=" + DEFAULT_LAST_MODIFIED_BY);
+
+        // Get all the amostraList where lastModifiedBy not equals to UPDATED_LAST_MODIFIED_BY
+        defaultAmostraShouldBeFound("lastModifiedBy.notEquals=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedBy in DEFAULT_LAST_MODIFIED_BY or UPDATED_LAST_MODIFIED_BY
+        defaultAmostraShouldBeFound("lastModifiedBy.in=" + DEFAULT_LAST_MODIFIED_BY + "," + UPDATED_LAST_MODIFIED_BY);
+
+        // Get all the amostraList where lastModifiedBy equals to UPDATED_LAST_MODIFIED_BY
+        defaultAmostraShouldNotBeFound("lastModifiedBy.in=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedBy is not null
+        defaultAmostraShouldBeFound("lastModifiedBy.specified=true");
+
+        // Get all the amostraList where lastModifiedBy is null
+        defaultAmostraShouldNotBeFound("lastModifiedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedByContainsSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedBy contains DEFAULT_LAST_MODIFIED_BY
+        defaultAmostraShouldBeFound("lastModifiedBy.contains=" + DEFAULT_LAST_MODIFIED_BY);
+
+        // Get all the amostraList where lastModifiedBy contains UPDATED_LAST_MODIFIED_BY
+        defaultAmostraShouldNotBeFound("lastModifiedBy.contains=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedBy does not contain DEFAULT_LAST_MODIFIED_BY
+        defaultAmostraShouldNotBeFound("lastModifiedBy.doesNotContain=" + DEFAULT_LAST_MODIFIED_BY);
+
+        // Get all the amostraList where lastModifiedBy does not contain UPDATED_LAST_MODIFIED_BY
+        defaultAmostraShouldBeFound("lastModifiedBy.doesNotContain=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedDate equals to DEFAULT_LAST_MODIFIED_DATE
+        defaultAmostraShouldBeFound("lastModifiedDate.equals=" + DEFAULT_LAST_MODIFIED_DATE);
+
+        // Get all the amostraList where lastModifiedDate equals to UPDATED_LAST_MODIFIED_DATE
+        defaultAmostraShouldNotBeFound("lastModifiedDate.equals=" + UPDATED_LAST_MODIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedDate not equals to DEFAULT_LAST_MODIFIED_DATE
+        defaultAmostraShouldNotBeFound("lastModifiedDate.notEquals=" + DEFAULT_LAST_MODIFIED_DATE);
+
+        // Get all the amostraList where lastModifiedDate not equals to UPDATED_LAST_MODIFIED_DATE
+        defaultAmostraShouldBeFound("lastModifiedDate.notEquals=" + UPDATED_LAST_MODIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedDate in DEFAULT_LAST_MODIFIED_DATE or UPDATED_LAST_MODIFIED_DATE
+        defaultAmostraShouldBeFound("lastModifiedDate.in=" + DEFAULT_LAST_MODIFIED_DATE + "," + UPDATED_LAST_MODIFIED_DATE);
+
+        // Get all the amostraList where lastModifiedDate equals to UPDATED_LAST_MODIFIED_DATE
+        defaultAmostraShouldNotBeFound("lastModifiedDate.in=" + UPDATED_LAST_MODIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByLastModifiedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where lastModifiedDate is not null
+        defaultAmostraShouldBeFound("lastModifiedDate.specified=true");
+
+        // Get all the amostraList where lastModifiedDate is null
+        defaultAmostraShouldNotBeFound("lastModifiedDate.specified=false");
+    }
+
+    @Test
+    @Transactional
     void getAllAmostrasByFinalidadesIsEqualToSomething() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
@@ -736,7 +1048,11 @@ class AmostraResourceIT {
             .andExpect(jsonPath("$.[*].dataHoraColeta").value(hasItem(DEFAULT_DATA_HORA_COLETA.toString())))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
             .andExpect(jsonPath("$.[*].identificadorExterno").value(hasItem(DEFAULT_IDENTIFICADOR_EXTERNO)))
-            .andExpect(jsonPath("$.[*].recebimentoNoLaboratorio").value(hasItem(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString())));
+            .andExpect(jsonPath("$.[*].recebimentoNoLaboratorio").value(hasItem(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
 
         // Check, that the count call also returns 1
         restAmostraMockMvc
@@ -788,7 +1104,12 @@ class AmostraResourceIT {
             .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
-            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
+            //.createdBy(UPDATED_CREATED_BY)
+            //.createdDate(UPDATED_CREATED_DATE)
+            //.lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            //.lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            ;
         AmostraDTO amostraDTO = amostraMapper.toDto(updatedAmostra);
 
         restAmostraMockMvc
@@ -807,6 +1128,10 @@ class AmostraResourceIT {
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
         assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);
+        assertThat(testAmostra.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testAmostra.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testAmostra.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testAmostra.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -889,7 +1214,10 @@ class AmostraResourceIT {
         partialUpdatedAmostra
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
-            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
+            //.createdBy(UPDATED_CREATED_BY)
+            //.lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
+            ;
 
         restAmostraMockMvc
             .perform(
@@ -907,6 +1235,10 @@ class AmostraResourceIT {
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
         assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);
+        assertThat(testAmostra.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testAmostra.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testAmostra.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testAmostra.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -925,7 +1257,12 @@ class AmostraResourceIT {
             .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
-            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO);
+            .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
+            //.createdBy(UPDATED_CREATED_BY)
+            //.createdDate(UPDATED_CREATED_DATE)
+            //.lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            //.lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            ;
 
         restAmostraMockMvc
             .perform(
@@ -943,6 +1280,10 @@ class AmostraResourceIT {
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
         assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);
+        assertThat(testAmostra.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testAmostra.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testAmostra.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testAmostra.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test

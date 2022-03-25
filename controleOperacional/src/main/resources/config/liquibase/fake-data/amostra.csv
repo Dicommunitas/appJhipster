@@ -1,3 +1,3 @@
-id;data_hora_coleta;observacao;identificador_externo;recebimento_no_laboratorio;operacao_id;origem_amostra_id;produto_id;tipo_amostra_id
-1;2022-03-03T05:19:13;Saint web-readiness;Concreto;2022-03-03T19:09:27;1;1;1;1
+id;data_hora_coleta;observacao;identificador_externo;recebimento_no_laboratorio;operacao_id;origem_amostra_id;produto_id;tipo_amostra_id;last_modified_date;created_date;created_by;last_modified_by
+1;2022-03-03T05:19:13;Saint web-readiness;Concreto;2022-03-03T19:09:27;1;1;1;1;;;system;system
 

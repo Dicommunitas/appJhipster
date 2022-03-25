@@ -54,6 +54,22 @@
         <dd>
           <span>{{ amostra.recebimentoNoLaboratorio | formatMediumDatetime }}</span>
         </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.createdBy">Created By</span></dt>
+        <dd>
+          <span>{{ amostra.createdBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.createdDate">Created Date</span></dt>
+        <dd>
+          <span>{{ amostra.createdDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ amostra.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.amostra.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+          <span>{{ amostra.lastModifiedDate | formatMediumDatetime }}</span>
+        </dd>
         <dt><span jhiTranslate="controleOperacionalApp.amostra.operacao">Operacao</span></dt>
         <dd>
           <div *ngIf="amostra.operacao">

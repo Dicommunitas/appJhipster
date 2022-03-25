@@ -16,7 +16,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "amostra")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Amostra implements Serializable {
+public class Amostra extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +49,7 @@ public class Amostra implements Serializable {
     @Column(name = "recebimento_no_laboratorio")
     private Instant recebimentoNoLaboratorio;
 
+    
     /**
      * Descreve quais serão as finalidades de uma amostra
      */
@@ -165,7 +166,7 @@ public class Amostra implements Serializable {
     public void setRecebimentoNoLaboratorio(Instant recebimentoNoLaboratorio) {
         this.recebimentoNoLaboratorio = recebimentoNoLaboratorio;
     }
-
+   
     public Set<FinalidadeAmostra> getFinalidades() {
         return this.finalidades;
     }
@@ -303,6 +304,10 @@ public class Amostra implements Serializable {
             ", observacao='" + getObservacao() + "'" +
             ", identificadorExterno='" + getIdentificadorExterno() + "'" +
             ", recebimentoNoLaboratorio='" + getRecebimentoNoLaboratorio() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

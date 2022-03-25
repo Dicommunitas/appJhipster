@@ -29,6 +29,10 @@ describe('Amostra Service', () => {
       observacao: 'AAAAAAA',
       identificadorExterno: 'AAAAAAA',
       recebimentoNoLaboratorio: currentDate,
+      createdBy: 'AAAAAAA',
+      createdDate: currentDate,
+      lastModifiedBy: 'AAAAAAA',
+      lastModifiedDate: currentDate,
     };
   });
 
@@ -38,6 +42,8 @@ describe('Amostra Service', () => {
         {
           dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
           recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -55,6 +61,8 @@ describe('Amostra Service', () => {
           id: 0,
           dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
           recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -63,6 +71,8 @@ describe('Amostra Service', () => {
         {
           dataHoraColeta: currentDate,
           recebimentoNoLaboratorio: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -82,6 +92,10 @@ describe('Amostra Service', () => {
           observacao: 'BBBBBB',
           identificadorExterno: 'BBBBBB',
           recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
+          createdBy: 'BBBBBB',
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -90,6 +104,8 @@ describe('Amostra Service', () => {
         {
           dataHoraColeta: currentDate,
           recebimentoNoLaboratorio: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -106,6 +122,9 @@ describe('Amostra Service', () => {
         {
           dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
           observacao: 'BBBBBB',
+          createdBy: 'BBBBBB',
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         new Amostra()
       );
@@ -116,6 +135,8 @@ describe('Amostra Service', () => {
         {
           dataHoraColeta: currentDate,
           recebimentoNoLaboratorio: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -135,6 +156,10 @@ describe('Amostra Service', () => {
           observacao: 'BBBBBB',
           identificadorExterno: 'BBBBBB',
           recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
+          createdBy: 'BBBBBB',
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -143,6 +168,8 @@ describe('Amostra Service', () => {
         {
           dataHoraColeta: currentDate,
           recebimentoNoLaboratorio: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -192,7 +219,7 @@ describe('Amostra Service', () => {
       });
 
       it('should add only unique Amostra to an array', () => {
-        const amostraArray: IAmostra[] = [{ id: 123 }, { id: 456 }, { id: 55185 }];
+        const amostraArray: IAmostra[] = [{ id: 123 }, { id: 456 }, { id: 3937 }];
         const amostraCollection: IAmostra[] = [{ id: 123 }];
         expectedResult = service.addAmostraToCollectionIfMissing(amostraCollection, ...amostraArray);
         expect(expectedResult).toHaveLength(3);

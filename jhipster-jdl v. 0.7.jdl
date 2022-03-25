@@ -390,10 +390,17 @@ entity Amostra {
 	*/
     recebimentoNoLaboratorio Instant
     
+    
+    createdBy String required
+    createdDate Instant 
+    lastModifiedBy String
+    lastModifiedDate Instant
     //criadoPor User,
-    //atualizadoPor User,
     //criadoEm DateTime,
+    //atualizadoPor User,
     //atualizadoEm DateTime
+    
+
 }
 
 /**

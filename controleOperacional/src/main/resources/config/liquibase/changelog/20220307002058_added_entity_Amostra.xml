@@ -26,6 +26,18 @@
             <column name="recebimento_no_laboratorio" type="${datetimeType}" remarks="Identifica se a amostra está ou não no laboratório.">
                 <constraints nullable="true" />
             </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_modified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_modified_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
             <column name="operacao_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -48,6 +60,8 @@
         </createTable>
         <dropDefaultValue tableName="amostra" columnName="data_hora_coleta" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="amostra" columnName="recebimento_no_laboratorio" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="amostra" columnName="created_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="amostra" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -71,6 +85,10 @@
             <column name="observacao" type="string"/>
             <column name="identificador_externo" type="string"/>
             <column name="recebimento_no_laboratorio" type="date"/>
+            <column name="created_by" type="string"/>
+            <column name="created_date" type="date"/>
+            <column name="last_modified_by" type="string"/>
+            <column name="last_modified_date" type="date"/>
             <column name="operacao_id" type="numeric"/>
             <column name="origem_amostra_id" type="numeric"/>
             <column name="produto_id" type="numeric"/>

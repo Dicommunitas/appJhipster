@@ -104,6 +104,18 @@ public class AmostraQueryService extends QueryService<Amostra> {
                 specification =
                     specification.and(buildRangeSpecification(criteria.getRecebimentoNoLaboratorio(), Amostra_.recebimentoNoLaboratorio));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Amostra_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Amostra_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Amostra_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Amostra_.lastModifiedDate));
+            }
             if (criteria.getFinalidadesId() != null) {
                 specification =
                     specification.and(

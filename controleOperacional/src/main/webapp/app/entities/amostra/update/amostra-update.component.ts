@@ -40,6 +40,10 @@ export class AmostraUpdateComponent implements OnInit {
     observacao: [],
     identificadorExterno: [],
     recebimentoNoLaboratorio: [],
+    createdBy: [null, [Validators.required]],
+    createdDate: [],
+    lastModifiedBy: [],
+    lastModifiedDate: [],
     operacao: [null, Validators.required],
     origemAmostra: [null, Validators.required],
     produto: [null, Validators.required],
@@ -65,6 +69,8 @@ export class AmostraUpdateComponent implements OnInit {
         const today = dayjs().startOf('day');
         amostra.dataHoraColeta = today;
         amostra.recebimentoNoLaboratorio = today;
+        amostra.createdDate = today;
+        amostra.lastModifiedDate = today;
       }
 
       this.updateForm(amostra);
@@ -133,6 +139,10 @@ export class AmostraUpdateComponent implements OnInit {
       observacao: amostra.observacao,
       identificadorExterno: amostra.identificadorExterno,
       recebimentoNoLaboratorio: amostra.recebimentoNoLaboratorio ? amostra.recebimentoNoLaboratorio.format(DATE_TIME_FORMAT) : null,
+      createdBy: amostra.createdBy,
+      createdDate: amostra.createdDate ? amostra.createdDate.format(DATE_TIME_FORMAT) : null,
+      lastModifiedBy: amostra.lastModifiedBy,
+      lastModifiedDate: amostra.lastModifiedDate ? amostra.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       operacao: amostra.operacao,
       origemAmostra: amostra.origemAmostra,
       produto: amostra.produto,
@@ -226,6 +236,14 @@ export class AmostraUpdateComponent implements OnInit {
       identificadorExterno: this.editForm.get(['identificadorExterno'])!.value,
       recebimentoNoLaboratorio: this.editForm.get(['recebimentoNoLaboratorio'])!.value
         ? dayjs(this.editForm.get(['recebimentoNoLaboratorio'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      createdBy: this.editForm.get(['createdBy'])!.value,
+      createdDate: this.editForm.get(['createdDate'])!.value
+        ? dayjs(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
+        ? dayjs(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
       operacao: this.editForm.get(['operacao'])!.value,
       origemAmostra: this.editForm.get(['origemAmostra'])!.value,

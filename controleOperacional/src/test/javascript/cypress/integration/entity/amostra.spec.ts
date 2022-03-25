@@ -16,7 +16,7 @@ describe('Amostra e2e test', () => {
   const amostraPageUrlPattern = new RegExp('/amostra(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const amostraSample = {};
+  const amostraSample = { createdBy: 'Fiji' };
 
   let amostra: any;
   //let operacao: any;
@@ -290,6 +290,14 @@ describe('Amostra e2e test', () => {
       cy.get(`[data-cy="identificadorExterno"]`).type('Focused').should('have.value', 'Focused');
 
       cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-03-06T14:18').should('have.value', '2022-03-06T14:18');
+
+      cy.get(`[data-cy="createdBy"]`).type('Associate').should('have.value', 'Associate');
+
+      cy.get(`[data-cy="createdDate"]`).type('2022-03-06T21:14').should('have.value', '2022-03-06T21:14');
+
+      cy.get(`[data-cy="lastModifiedBy"]`).type('integrate schemas').should('have.value', 'integrate schemas');
+
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-03-06T11:57').should('have.value', '2022-03-06T11:57');
 
       cy.get(`[data-cy="operacao"]`).select(1);
       cy.get(`[data-cy="origemAmostra"]`).select(1);

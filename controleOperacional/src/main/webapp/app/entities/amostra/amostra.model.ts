@@ -12,6 +12,10 @@ export interface IAmostra {
   observacao?: string | null;
   identificadorExterno?: string | null;
   recebimentoNoLaboratorio?: dayjs.Dayjs | null;
+  createdBy?: string;
+  createdDate?: dayjs.Dayjs | null;
+  lastModifiedBy?: string | null;
+  lastModifiedDate?: dayjs.Dayjs | null;
   finalidades?: IFinalidadeAmostra[] | null;
   operacao?: IOperacao;
   origemAmostra?: IOrigemAmostra;
@@ -28,6 +32,10 @@ export class Amostra implements IAmostra {
     public observacao?: string | null,
     public identificadorExterno?: string | null,
     public recebimentoNoLaboratorio?: dayjs.Dayjs | null,
+    public createdBy?: string,
+    public createdDate?: dayjs.Dayjs | null,
+    public lastModifiedBy?: string | null,
+    public lastModifiedDate?: dayjs.Dayjs | null,
     public finalidades?: IFinalidadeAmostra[] | null,
     public operacao?: IOperacao,
     public origemAmostra?: IOrigemAmostra,

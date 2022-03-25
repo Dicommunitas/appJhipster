@@ -75,6 +75,10 @@ class AmostraGatlingTest extends Simulation {
                 , "observacao":"SAMPLE_TEXT"
                 , "identificadorExterno":"SAMPLE_TEXT"
                 , "recebimentoNoLaboratorio":"2020-01-01T00:00:00.000Z"
+                , "createdBy":"SAMPLE_TEXT"
+                , "createdDate":"2020-01-01T00:00:00.000Z"
+                , "lastModifiedBy":"SAMPLE_TEXT"
+                , "lastModifiedDate":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_amostra_url"))).exitHereIfFailed
