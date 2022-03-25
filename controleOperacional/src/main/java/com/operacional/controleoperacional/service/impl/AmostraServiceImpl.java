@@ -61,11 +61,15 @@ public class AmostraServiceImpl implements AmostraService {
         return amostraRepository.findAll(pageable).map(amostraMapper::toDto);
     }
 
+    public Page<AmostraDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return amostraRepository.findAllWithEagerRelationships(pageable).map(amostraMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<AmostraDTO> findOne(Long id) {
         log.debug("Request to get Amostra : {}", id);
-        return amostraRepository.findById(id).map(amostraMapper::toDto);
+        return amostraRepository.findOneWithEagerRelationships(id).map(amostraMapper::toDto);
     }
 
     @Override

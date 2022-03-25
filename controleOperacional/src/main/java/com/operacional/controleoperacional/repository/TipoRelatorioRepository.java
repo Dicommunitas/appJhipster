@@ -13,16 +13,16 @@ import org.springframework.stereotype.Repository;
  * Spring Data SQL repository for the TipoRelatorio entity.
  */
 @Repository
-public interface TipoRelatorioRepository extends JpaRepository<TipoRelatorio, Long> {
-    @Query(
-        value = "select distinct tipoRelatorio from TipoRelatorio tipoRelatorio left join fetch tipoRelatorio.usuariosAuts",
-        countQuery = "select count(distinct tipoRelatorio) from TipoRelatorio tipoRelatorio"
-    )
-    Page<TipoRelatorio> findAllWithEagerRelationships(Pageable pageable);
+public interface TipoRelatorioRepository extends TipoRelatorioRepositoryWithBagRelationships, JpaRepository<TipoRelatorio, Long> {
+    default Optional<TipoRelatorio> findOneWithEagerRelationships(Long id) {
+        return this.fetchBagRelationships(this.findById(id));
+    }
 
-    @Query("select distinct tipoRelatorio from TipoRelatorio tipoRelatorio left join fetch tipoRelatorio.usuariosAuts")
-    List<TipoRelatorio> findAllWithEagerRelationships();
+    default List<TipoRelatorio> findAllWithEagerRelationships() {
+        return this.fetchBagRelationships(this.findAll());
+    }
 
-    @Query("select tipoRelatorio from TipoRelatorio tipoRelatorio left join fetch tipoRelatorio.usuariosAuts where tipoRelatorio.id =:id")
-    Optional<TipoRelatorio> findOneWithEagerRelationships(@Param("id") Long id);
+    default Page<TipoRelatorio> findAllWithEagerRelationships(Pageable pageable) {
+        return this.fetchBagRelationships(this.findAll(pageable));
+    }
 }

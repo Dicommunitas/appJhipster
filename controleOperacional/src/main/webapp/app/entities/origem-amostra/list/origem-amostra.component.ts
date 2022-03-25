@@ -19,15 +19,15 @@ export class OrigemAmostraComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.origemAmostraService.query().subscribe(
-      (res: HttpResponse<IOrigemAmostra[]>) => {
+    this.origemAmostraService.query().subscribe({
+      next: (res: HttpResponse<IOrigemAmostra[]>) => {
         this.isLoading = false;
         this.origemAmostras = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

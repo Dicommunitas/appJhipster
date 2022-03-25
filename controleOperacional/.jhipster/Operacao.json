@@ -1,17 +1,21 @@
 {
-  "name": "Operacao",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307002158",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "operacao",
   "fields": [
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Descreve de forma simples a operação.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "Descreve de forma simples a operação."
     },
     {
       "fieldName": "volumePeso",
       "fieldType": "Integer",
-      "javadoc": "O volume ou peso total da operação. Em metros cúbicos ou toneladas",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "O volume ou peso total da operação. Em metros cúbicos ou toneladas"
     },
     {
       "fieldName": "inicio",
@@ -26,8 +30,8 @@
     {
       "fieldName": "quantidadeAmostras",
       "fieldType": "Integer",
-      "javadoc": "Quantas amostras devem ter nessa operação.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "Quantas amostras devem ter nessa operação."
     },
     {
       "fieldName": "observacao",
@@ -35,26 +39,22 @@
       "javadoc": "Observações que forem necessárias para melhorar\\na descrição dos acontecimentos relativos da operação."
     }
   ],
+  "fluentMethods": true,
+  "javadoc": "Entidade Operação.\\n@author Diego.\\nAo criar uma Operação deve existir\\numa opção de usar operações passadas\\ncomo modelo para sua criação, inclusive\\ncopiando o plano de amostragem",
+  "jpaMetamodelFiltering": true,
+  "name": "Operacao",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-one",
+      "javadoc": "Define de que tipo é a operação\\n(Barcaça - Carga, Caminhão - Descarga...)",
+      "otherEntityField": "descricao",
       "otherEntityName": "tipoOperacao",
       "otherEntityRelationshipName": "operacao",
-      "relationshipValidateRules": "required",
-      "javadoc": "Define de que tipo é a operação\\n(Barcaça - Carga, Caminhão - Descarga...)",
       "relationshipName": "tipoOperacao",
-      "otherEntityField": "descricao"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     }
   ],
-  "javadoc": "Entidade Operação.\\n@author Diego.\\nAo criar uma Operação deve existir\\numa opção de usar operações passadas\\ncomo modelo para sua criação, inclusive\\ncopiando o plano de amostragem",
-  "entityTableName": "operacao",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307002158"
+  "service": "serviceImpl"
 }

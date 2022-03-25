@@ -14,19 +14,14 @@ import {
 describe('TipoRelatorio e2e test', () => {
   const tipoRelatorioPageUrl = '/tipo-relatorio';
   const tipoRelatorioPageUrlPattern = new RegExp('/tipo-relatorio(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const tipoRelatorioSample = { nome: 'flexibility Aço' };
 
   let tipoRelatorio: any;
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('');
+  beforeEach(() => {
     cy.login(username, password);
-    cy.get(entityItemSelector).should('exist');
   });
 
   beforeEach(() => {
@@ -68,11 +63,11 @@ describe('TipoRelatorio e2e test', () => {
       });
 
       it('should load create TipoRelatorio page', () => {
-        cy.get(entityCreateButtonSelector).click({ force: true });
+        cy.get(entityCreateButtonSelector).click();
         cy.url().should('match', new RegExp('/tipo-relatorio/new$'));
         cy.getEntityCreateUpdateHeading('TipoRelatorio');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -110,7 +105,7 @@ describe('TipoRelatorio e2e test', () => {
       it('detail button click should load details TipoRelatorio page', () => {
         cy.get(entityDetailsButtonSelector).first().click();
         cy.getEntityDetailsHeading('tipoRelatorio');
-        cy.get(entityDetailsBackButtonSelector).click({ force: true });
+        cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -121,7 +116,7 @@ describe('TipoRelatorio e2e test', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('TipoRelatorio');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -131,7 +126,7 @@ describe('TipoRelatorio e2e test', () => {
       it('last delete button click should delete instance of TipoRelatorio', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('tipoRelatorio').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(204);
         });
@@ -148,7 +143,7 @@ describe('TipoRelatorio e2e test', () => {
   describe('new TipoRelatorio page', () => {
     beforeEach(() => {
       cy.visit(`${tipoRelatorioPageUrl}`);
-      cy.get(entityCreateButtonSelector).click({ force: true });
+      cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('TipoRelatorio');
     });
 

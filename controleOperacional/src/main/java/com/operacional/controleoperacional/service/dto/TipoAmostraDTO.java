@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.validation.constraints.*;
@@ -9,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.TipoAmostra} entity.
  */
-@ApiModel(description = "Entidade TipoAmostra.\n@author Diego.")
+@Schema(description = "Entidade TipoAmostra.\n@author Diego.")
 public class TipoAmostraDTO implements Serializable {
 
     private Long id;
@@ -18,7 +17,7 @@ public class TipoAmostraDTO implements Serializable {
      * Deve descrever de forma simples de qual tipo é a amostra.
      */
     @NotNull
-    @ApiModelProperty(value = "Deve descrever de forma simples de qual tipo é a amostra.", required = true)
+    @Schema(description = "Deve descrever de forma simples de qual tipo é a amostra.", required = true)
     private String descricao;
 
     public Long getId() {

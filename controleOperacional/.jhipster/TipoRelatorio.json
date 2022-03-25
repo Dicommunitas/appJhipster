@@ -1,33 +1,33 @@
 {
-  "name": "TipoRelatorio",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307001858",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "tipo_relatorio",
   "fields": [
     {
       "fieldName": "nome",
       "fieldType": "String",
-      "javadoc": "Nome dado ao grupo de relatórios.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "Nome dado ao grupo de relatórios."
     }
   ],
+  "fluentMethods": true,
+  "javadoc": "Entidade TipoRelatorio.\\n@author Diego.\\nO TipoRelatorio irá descrever de que tipo é\\no relatório, relatório de sutur, relatório píer, cco...\\nDeve existir uma tela com um botão para listar todos\\nos relatórios agrupados por seus tipos.",
+  "jpaMetamodelFiltering": false,
+  "name": "TipoRelatorio",
+  "pagination": "no",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-many",
+      "javadoc": "Descreve quais usuários podem alterar os relatórios\\ndesse tipo",
+      "otherEntityField": "login",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "relAutorizados",
-      "javadoc": "Descreve quais usuários podem alterar os relatórios\\ndesse tipo",
+      "ownerSide": true,
       "relationshipName": "usuariosAut",
-      "otherEntityField": "login",
-      "ownerSide": true
+      "relationshipType": "many-to-many"
     }
   ],
-  "javadoc": "Entidade TipoRelatorio.\\n@author Diego.\\nO TipoRelatorio irá descrever de que tipo é\\no relatório, relatório de sutur, relatório píer, cco...\\nDeve existir uma tela com um botão para listar todos\\nos relatórios agrupados por seus tipos.",
-  "entityTableName": "tipo_relatorio",
-  "dto": "mapstruct",
-  "pagination": "no",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307001858"
+  "service": "serviceImpl"
 }

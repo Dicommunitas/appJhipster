@@ -19,15 +19,15 @@ export class TipoFinalidadeAmostraComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.tipoFinalidadeAmostraService.query().subscribe(
-      (res: HttpResponse<ITipoFinalidadeAmostra[]>) => {
+    this.tipoFinalidadeAmostraService.query().subscribe({
+      next: (res: HttpResponse<ITipoFinalidadeAmostra[]>) => {
         this.isLoading = false;
         this.tipoFinalidadeAmostras = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

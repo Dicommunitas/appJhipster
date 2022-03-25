@@ -14,8 +14,8 @@ import {
 describe('Amostra e2e test', () => {
   const amostraPageUrl = '/amostra';
   const amostraPageUrlPattern = new RegExp('/amostra(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const amostraSample = {};
 
   let amostra: any;
@@ -24,13 +24,8 @@ describe('Amostra e2e test', () => {
   //let produto: any;
   //let tipoAmostra: any;
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('');
+  beforeEach(() => {
     cy.login(username, password);
-    cy.get(entityItemSelector).should('exist');
   });
 
   /* Disabled due to incompatibility
@@ -182,11 +177,11 @@ describe('Amostra e2e test', () => {
       });
 
       it('should load create Amostra page', () => {
-        cy.get(entityCreateButtonSelector).click({ force: true });
+        cy.get(entityCreateButtonSelector).click();
         cy.url().should('match', new RegExp('/amostra/new$'));
         cy.getEntityCreateUpdateHeading('Amostra');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -200,7 +195,6 @@ describe('Amostra e2e test', () => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/amostras',
-  
           body: {
             ...amostraSample,
             operacao: operacao,
@@ -219,6 +213,9 @@ describe('Amostra e2e test', () => {
             },
             {
               statusCode: 200,
+              headers: {
+                link: '<http://localhost/api/amostras?page=0&size=20>; rel="last",<http://localhost/api/amostras?page=0&size=20>; rel="first"',
+              },
               body: [amostra],
             }
           ).as('entitiesRequestInternal');
@@ -243,7 +240,7 @@ describe('Amostra e2e test', () => {
       it('detail button click should load details Amostra page', () => {
         cy.get(entityDetailsButtonSelector).first().click();
         cy.getEntityDetailsHeading('amostra');
-        cy.get(entityDetailsBackButtonSelector).click({ force: true });
+        cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -254,7 +251,7 @@ describe('Amostra e2e test', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('Amostra');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -264,7 +261,7 @@ describe('Amostra e2e test', () => {
       it.skip('last delete button click should delete instance of Amostra', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('amostra').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(204);
         });
@@ -281,7 +278,7 @@ describe('Amostra e2e test', () => {
   describe('new Amostra page', () => {
     beforeEach(() => {
       cy.visit(`${amostraPageUrl}`);
-      cy.get(entityCreateButtonSelector).click({ force: true });
+      cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('Amostra');
     });
 

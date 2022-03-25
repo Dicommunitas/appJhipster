@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { IStatus } from 'app/entities/status/status.model';
 import { IUser } from 'app/entities/user/user.model';
 import { Criticidade } from 'app/entities/enumerations/criticidade.model';

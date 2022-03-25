@@ -42,15 +42,15 @@ export class ProdutoComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe(
-        (res: HttpResponse<IProduto[]>) => {
+      .subscribe({
+        next: (res: HttpResponse<IProduto[]>) => {
           this.isLoading = false;
           this.paginateProdutos(res.body, res.headers);
         },
-        () => {
+        error: () => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
 
   reset(): void {

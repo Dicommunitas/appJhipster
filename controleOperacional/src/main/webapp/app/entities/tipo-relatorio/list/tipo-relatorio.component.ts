@@ -19,15 +19,15 @@ export class TipoRelatorioComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.tipoRelatorioService.query().subscribe(
-      (res: HttpResponse<ITipoRelatorio[]>) => {
+    this.tipoRelatorioService.query().subscribe({
+      next: (res: HttpResponse<ITipoRelatorio[]>) => {
         this.isLoading = false;
         this.tipoRelatorios = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

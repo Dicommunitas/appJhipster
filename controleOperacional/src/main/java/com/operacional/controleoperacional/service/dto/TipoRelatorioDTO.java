@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,7 +10,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.TipoRelatorio} entity.
  */
-@ApiModel(
+@Schema(
     description = "Entidade TipoRelatorio.\n@author Diego.\nO TipoRelatorio irá descrever de que tipo é\no relatório, relatório de sutur, relatório píer, cco...\nDeve existir uma tela com um botão para listar todos\nos relatórios agrupados por seus tipos."
 )
 public class TipoRelatorioDTO implements Serializable {
@@ -22,7 +21,7 @@ public class TipoRelatorioDTO implements Serializable {
      * Nome dado ao grupo de relatórios.
      */
     @NotNull
-    @ApiModelProperty(value = "Nome dado ao grupo de relatórios.", required = true)
+    @Schema(description = "Nome dado ao grupo de relatórios.", required = true)
     private String nome;
 
     private Set<UserDTO> usuariosAuts = new HashSet<>();

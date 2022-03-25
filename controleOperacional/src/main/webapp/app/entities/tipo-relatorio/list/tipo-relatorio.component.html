@@ -3,7 +3,7 @@
     <span jhiTranslate="controleOperacionalApp.tipoRelatorio.home.title">Tipo Relatorios</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="controleOperacionalApp.tipoRelatorio.home.refreshListLabel">Refresh List</span>
       </button>
@@ -49,7 +49,7 @@
               {{ usuariosAut.login }}{{ last ? '' : ', ' }}
             </span>
           </td>
-          <td class="text-right">
+          <td class="text-end">
             <div class="btn-group">
               <button
                 type="submit"

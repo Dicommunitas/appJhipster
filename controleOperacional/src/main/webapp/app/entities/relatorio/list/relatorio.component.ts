@@ -48,15 +48,15 @@ export class RelatorioComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe(
-        (res: HttpResponse<IRelatorio[]>) => {
+      .subscribe({
+        next: (res: HttpResponse<IRelatorio[]>) => {
           this.isLoading = false;
           this.paginateRelatorios(res.body, res.headers);
         },
-        () => {
+        error: () => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
 
   reset(): void {

@@ -3,7 +3,7 @@
     <span jhiTranslate="controleOperacionalApp.origemAmostra.home.title">Origem Amostras</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="controleOperacionalApp.origemAmostra.home.refreshListLabel">Refresh List</span>
       </button>
@@ -43,7 +43,7 @@
             <a [routerLink]="['/origem-amostra', origemAmostra.id, 'view']">{{ origemAmostra.id }}</a>
           </td>
           <td>{{ origemAmostra.descricao }}</td>
-          <td class="text-right">
+          <td class="text-end">
             <div class="btn-group">
               <button
                 type="submit"

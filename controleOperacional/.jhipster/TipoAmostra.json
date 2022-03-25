@@ -1,23 +1,23 @@
 {
-  "name": "TipoAmostra",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307002458",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "tipo_amostra",
   "fields": [
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Deve descrever de forma simples de qual tipo é a amostra.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "Deve descrever de forma simples de qual tipo é a amostra."
     }
   ],
-  "relationships": [],
-  "javadoc": "Entidade TipoAmostra.\\n@author Diego.",
-  "entityTableName": "tipo_amostra",
-  "dto": "mapstruct",
-  "pagination": "no",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
   "fluentMethods": true,
+  "javadoc": "Entidade TipoAmostra.\\n@author Diego.",
+  "jpaMetamodelFiltering": false,
+  "name": "TipoAmostra",
+  "pagination": "no",
   "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307002458"
+  "relationships": [],
+  "service": "serviceImpl"
 }

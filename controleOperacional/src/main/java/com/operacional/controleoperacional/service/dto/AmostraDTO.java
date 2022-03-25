@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -10,7 +9,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.Amostra} entity.
  */
-@ApiModel(description = "Entidade Amostra.\n@author Diego.")
+@Schema(description = "Entidade Amostra.\n@author Diego.")
 public class AmostraDTO implements Serializable {
 
     private Long id;
@@ -18,25 +17,25 @@ public class AmostraDTO implements Serializable {
     /**
      * Data e hora que a amostra foi coletada.
      */
-    @ApiModelProperty(value = "Data e hora que a amostra foi coletada.")
+    @Schema(description = "Data e hora que a amostra foi coletada.")
     private Instant dataHoraColeta;
 
     /**
      * Observações que forem necessárias para melhorar\na identificação da amostra.
      */
-    @ApiModelProperty(value = "Observações que forem necessárias para melhorar\na identificação da amostra.")
+    @Schema(description = "Observações que forem necessárias para melhorar\na identificação da amostra.")
     private String observacao;
 
     /**
      * Identificador que \"ligue/identifique\" essa\namostra em outro sistema.
      */
-    @ApiModelProperty(value = "Identificador que \"ligue/identifique\" essa\namostra em outro sistema.")
+    @Schema(description = "Identificador que \"ligue/identifique\" essa\namostra em outro sistema.")
     private String identificadorExterno;
 
     /**
      * Identifica se a amostra está ou não no laboratório.
      */
-    @ApiModelProperty(value = "Identifica se a amostra está ou não no laboratório.")
+    @Schema(description = "Identifica se a amostra está ou não no laboratório.")
     private Instant recebimentoNoLaboratorio;
 
     private OperacaoDTO operacao;

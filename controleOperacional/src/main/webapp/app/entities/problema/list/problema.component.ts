@@ -48,15 +48,15 @@ export class ProblemaComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe(
-        (res: HttpResponse<IProblema[]>) => {
+      .subscribe({
+        next: (res: HttpResponse<IProblema[]>) => {
           this.isLoading = false;
           this.paginateProblemas(res.body, res.headers);
         },
-        () => {
+        error: () => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
 
   reset(): void {

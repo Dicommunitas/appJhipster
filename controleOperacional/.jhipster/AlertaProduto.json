@@ -1,32 +1,32 @@
 {
-  "name": "AlertaProduto",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307001658",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "alerta_produto",
   "fields": [
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Descreve um alerta para ser usado nos produtos,\\nalgo que deva ser tratado com cuidado.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "Descreve um alerta para ser usado nos produtos,\\nalgo que deva ser tratado com cuidado."
     }
   ],
+  "fluentMethods": true,
+  "javadoc": "Entidade AlertasProduto.\\n@author Diego.\\nIrá descrever alertas para produtos (Benzeno, Inflamável...)",
+  "jpaMetamodelFiltering": false,
+  "name": "AlertaProduto",
+  "pagination": "no",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-many",
+      "otherEntityField": "codigo",
       "otherEntityName": "produto",
       "otherEntityRelationshipName": "alertas",
+      "ownerSide": false,
       "relationshipName": "produtos",
-      "otherEntityField": "codigo",
-      "ownerSide": false
+      "relationshipType": "many-to-many"
     }
   ],
-  "javadoc": "Entidade AlertasProduto.\\n@author Diego.\\nIrá descrever alertas para produtos (Benzeno, Inflamável...)",
-  "entityTableName": "alerta_produto",
-  "dto": "mapstruct",
-  "pagination": "no",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307001658"
+  "service": "serviceImpl"
 }

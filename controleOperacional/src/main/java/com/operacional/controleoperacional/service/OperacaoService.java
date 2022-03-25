@@ -34,6 +34,14 @@ public interface OperacaoService {
     Page<OperacaoDTO> findAll(Pageable pageable);
 
     /**
+     * Get all the operacaos with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<OperacaoDTO> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" operacao.
      *
      * @param id the id of the entity.

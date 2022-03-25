@@ -13,16 +13,17 @@ import org.springframework.stereotype.Repository;
  * Spring Data SQL repository for the Produto entity.
  */
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long>, JpaSpecificationExecutor<Produto> {
-    @Query(
-        value = "select distinct produto from Produto produto left join fetch produto.alertas",
-        countQuery = "select count(distinct produto) from Produto produto"
-    )
-    Page<Produto> findAllWithEagerRelationships(Pageable pageable);
+public interface ProdutoRepository
+    extends ProdutoRepositoryWithBagRelationships, JpaRepository<Produto, Long>, JpaSpecificationExecutor<Produto> {
+    default Optional<Produto> findOneWithEagerRelationships(Long id) {
+        return this.fetchBagRelationships(this.findById(id));
+    }
 
-    @Query("select distinct produto from Produto produto left join fetch produto.alertas")
-    List<Produto> findAllWithEagerRelationships();
+    default List<Produto> findAllWithEagerRelationships() {
+        return this.fetchBagRelationships(this.findAll());
+    }
 
-    @Query("select produto from Produto produto left join fetch produto.alertas where produto.id =:id")
-    Optional<Produto> findOneWithEagerRelationships(@Param("id") Long id);
+    default Page<Produto> findAllWithEagerRelationships(Pageable pageable) {
+        return this.fetchBagRelationships(this.findAll(pageable));
+    }
 }

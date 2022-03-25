@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Lob;
@@ -10,7 +9,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.Lembrete} entity.
  */
-@ApiModel(
+@Schema(
     description = "Entidade Lembrete.\n@author Diego.\nOs lembrestes devem aparecer nas telas de visualização e edição\ndos relatórios e das operações, para os quais estiverem associados.\nIsso deve ocorrer pelos tipos associados com os lembretes.\nLembretes podem ser associadados a um tipo de relatório e/ou\num tipo de operação."
 )
 public class LembreteDTO implements Serializable {
@@ -21,14 +20,14 @@ public class LembreteDTO implements Serializable {
      * Nome dado para o lembrete
      */
     @NotNull
-    @ApiModelProperty(value = "Nome dado para o lembrete", required = true)
+    @Schema(description = "Nome dado para o lembrete", required = true)
     private String nome;
 
     /**
      * Lembrete de apoio para relatório e/ou operação.
      */
 
-    @ApiModelProperty(value = "Lembrete de apoio para relatório e/ou operação.", required = true)
+    @Schema(description = "Lembrete de apoio para relatório e/ou operação.", required = true)
     @Lob
     private String descricao;
 

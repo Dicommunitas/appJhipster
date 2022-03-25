@@ -1,23 +1,23 @@
 {
-  "name": "TipoOperacao",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307002258",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "tipo_operacao",
   "fields": [
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Descreve de forma simples um tipo de operação.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "Descreve de forma simples um tipo de operação."
     }
   ],
-  "relationships": [],
-  "javadoc": "Entidade TipoOperacao.\\n@author Diego.",
-  "entityTableName": "tipo_operacao",
-  "dto": "mapstruct",
-  "pagination": "no",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
   "fluentMethods": true,
+  "javadoc": "Entidade TipoOperacao.\\n@author Diego.",
+  "jpaMetamodelFiltering": false,
+  "name": "TipoOperacao",
+  "pagination": "no",
   "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307002258"
+  "relationships": [],
+  "service": "serviceImpl"
 }

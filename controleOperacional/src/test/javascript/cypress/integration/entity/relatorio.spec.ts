@@ -14,20 +14,15 @@ import {
 describe('Relatorio e2e test', () => {
   const relatorioPageUrl = '/relatorio';
   const relatorioPageUrlPattern = new RegExp('/relatorio(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const relatorioSample = { dataHora: '2022-03-06T11:00:27.678Z', relato: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
 
   let relatorio: any;
   //let user: any;
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('');
+  beforeEach(() => {
     cy.login(username, password);
-    cy.get(entityItemSelector).should('exist');
   });
 
   /* Disabled due to incompatibility
@@ -111,11 +106,11 @@ describe('Relatorio e2e test', () => {
       });
 
       it('should load create Relatorio page', () => {
-        cy.get(entityCreateButtonSelector).click({ force: true });
+        cy.get(entityCreateButtonSelector).click();
         cy.url().should('match', new RegExp('/relatorio/new$'));
         cy.getEntityCreateUpdateHeading('Relatorio');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -129,7 +124,6 @@ describe('Relatorio e2e test', () => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/relatorios',
-  
           body: {
             ...relatorioSample,
             responsavel: user,
@@ -145,6 +139,9 @@ describe('Relatorio e2e test', () => {
             },
             {
               statusCode: 200,
+              headers: {
+                link: '<http://localhost/api/relatorios?page=0&size=20>; rel="last",<http://localhost/api/relatorios?page=0&size=20>; rel="first"',
+              },
               body: [relatorio],
             }
           ).as('entitiesRequestInternal');
@@ -169,7 +166,7 @@ describe('Relatorio e2e test', () => {
       it('detail button click should load details Relatorio page', () => {
         cy.get(entityDetailsButtonSelector).first().click();
         cy.getEntityDetailsHeading('relatorio');
-        cy.get(entityDetailsBackButtonSelector).click({ force: true });
+        cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -180,7 +177,7 @@ describe('Relatorio e2e test', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('Relatorio');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -190,7 +187,7 @@ describe('Relatorio e2e test', () => {
       it.skip('last delete button click should delete instance of Relatorio', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('relatorio').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(204);
         });
@@ -207,7 +204,7 @@ describe('Relatorio e2e test', () => {
   describe('new Relatorio page', () => {
     beforeEach(() => {
       cy.visit(`${relatorioPageUrl}`);
-      cy.get(entityCreateButtonSelector).click({ force: true });
+      cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('Relatorio');
     });
 

@@ -19,15 +19,15 @@ export class AlertaProdutoComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.alertaProdutoService.query().subscribe(
-      (res: HttpResponse<IAlertaProduto[]>) => {
+    this.alertaProdutoService.query().subscribe({
+      next: (res: HttpResponse<IAlertaProduto[]>) => {
         this.isLoading = false;
         this.alertaProdutos = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

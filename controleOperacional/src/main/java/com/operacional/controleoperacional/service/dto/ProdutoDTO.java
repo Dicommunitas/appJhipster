@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,7 +10,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.Produto} entity.
  */
-@ApiModel(description = "Entidade Produto.\n@author Diego.")
+@Schema(description = "Entidade Produto.\n@author Diego.")
 public class ProdutoDTO implements Serializable {
 
     private Long id;
@@ -21,21 +20,21 @@ public class ProdutoDTO implements Serializable {
      */
     @NotNull
     @Size(max = 3)
-    @ApiModelProperty(value = "O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ", required = true)
+    @Schema(description = "O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ", required = true)
     private String codigoBDEMQ;
 
     /**
      * Informa o nome curto do produto.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
-    @ApiModelProperty(value = "Informa o nome curto do produto.\nDeve ser igual ao do BDEMQ", required = true)
+    @Schema(description = "Informa o nome curto do produto.\nDeve ser igual ao do BDEMQ", required = true)
     private String nomeCurto;
 
     /**
      * Informa o nome completo do produto.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
-    @ApiModelProperty(value = "Informa o nome completo do produto.\nDeve ser igual ao do BDEMQ", required = true)
+    @Schema(description = "Informa o nome completo do produto.\nDeve ser igual ao do BDEMQ", required = true)
     private String nomeCompleto;
 
     private Set<AlertaProdutoDTO> alertas = new HashSet<>();

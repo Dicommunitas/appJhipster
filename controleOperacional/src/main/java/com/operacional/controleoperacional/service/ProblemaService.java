@@ -34,6 +34,14 @@ public interface ProblemaService {
     Page<ProblemaDTO> findAll(Pageable pageable);
 
     /**
+     * Get all the problemas with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<ProblemaDTO> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" problema.
      *
      * @param id the id of the entity.

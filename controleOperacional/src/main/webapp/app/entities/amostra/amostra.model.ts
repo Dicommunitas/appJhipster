@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { IFinalidadeAmostra } from 'app/entities/finalidade-amostra/finalidade-amostra.model';
 import { IOperacao } from 'app/entities/operacao/operacao.model';
 import { IOrigemAmostra } from 'app/entities/origem-amostra/origem-amostra.model';

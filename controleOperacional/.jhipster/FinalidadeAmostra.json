@@ -1,41 +1,41 @@
 {
-  "name": "FinalidadeAmostra",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307002558",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "finalidade_amostra",
   "fields": [
     {
       "fieldName": "lacre",
       "fieldType": "Integer",
-      "javadoc": "O número do lacre do recipiente da amostra.",
-      "fieldValidateRules": ["unique"]
+      "fieldValidateRules": ["unique"],
+      "javadoc": "O número do lacre do recipiente da amostra."
     }
   ],
+  "fluentMethods": true,
+  "javadoc": "Entidade FinalidadeAmostra.\\n@author Diego.",
+  "jpaMetamodelFiltering": false,
+  "name": "FinalidadeAmostra",
+  "pagination": "no",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-one",
+      "javadoc": "Define qual a finalidade da amostra (Arquivo, Análise...)",
+      "otherEntityField": "descricao",
       "otherEntityName": "tipoFinalidadeAmostra",
       "otherEntityRelationshipName": "finalidadeAmostra",
-      "relationshipValidateRules": "required",
-      "javadoc": "Define qual a finalidade da amostra (Arquivo, Análise...)",
       "relationshipName": "tipoFinalidadeAmostra",
-      "otherEntityField": "descricao"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
-      "relationshipType": "many-to-one",
+      "otherEntityField": "dataHoraColeta",
       "otherEntityName": "amostra",
       "otherEntityRelationshipName": "finalidades",
-      "relationshipValidateRules": "required",
       "relationshipName": "amostra",
-      "otherEntityField": "dataHoraColeta"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     }
   ],
-  "javadoc": "Entidade FinalidadeAmostra.\\n@author Diego.",
-  "entityTableName": "finalidade_amostra",
-  "dto": "mapstruct",
-  "pagination": "no",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307002558"
+  "service": "serviceImpl"
 }
