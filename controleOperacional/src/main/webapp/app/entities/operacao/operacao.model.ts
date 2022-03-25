@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { ITipoOperacao } from 'app/entities/tipo-operacao/tipo-operacao.model';
 
 export interface IOperacao {

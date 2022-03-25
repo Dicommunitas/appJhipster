@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -10,7 +9,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.Operacao} entity.
  */
-@ApiModel(
+@Schema(
     description = "Entidade Operação.\n@author Diego.\nAo criar uma Operação deve existir\numa opção de usar operações passadas\ncomo modelo para sua criação, inclusive\ncopiando o plano de amostragem"
 )
 public class OperacaoDTO implements Serializable {
@@ -21,39 +20,39 @@ public class OperacaoDTO implements Serializable {
      * Descreve de forma simples a operação.
      */
     @NotNull
-    @ApiModelProperty(value = "Descreve de forma simples a operação.", required = true)
+    @Schema(description = "Descreve de forma simples a operação.", required = true)
     private String descricao;
 
     /**
      * O volume ou peso total da operação. Em metros cúbicos ou toneladas
      */
     @NotNull
-    @ApiModelProperty(value = "O volume ou peso total da operação. Em metros cúbicos ou toneladas", required = true)
+    @Schema(description = "O volume ou peso total da operação. Em metros cúbicos ou toneladas", required = true)
     private Integer volumePeso;
 
     /**
      * O horário de início da operação.
      */
-    @ApiModelProperty(value = "O horário de início da operação.")
+    @Schema(description = "O horário de início da operação.")
     private Instant inicio;
 
     /**
      * O horário de término da operação.
      */
-    @ApiModelProperty(value = "O horário de término da operação.")
+    @Schema(description = "O horário de término da operação.")
     private Instant fim;
 
     /**
      * Quantas amostras devem ter nessa operação.
      */
     @NotNull
-    @ApiModelProperty(value = "Quantas amostras devem ter nessa operação.", required = true)
+    @Schema(description = "Quantas amostras devem ter nessa operação.", required = true)
     private Integer quantidadeAmostras;
 
     /**
      * Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.
      */
-    @ApiModelProperty(value = "Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.")
+    @Schema(description = "Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.")
     private String observacao;
 
     private TipoOperacaoDTO tipoOperacao;

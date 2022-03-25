@@ -139,10 +139,11 @@ public class FinalidadeAmostraResource {
     /**
      * {@code GET  /finalidade-amostras} : get all the finalidadeAmostras.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of finalidadeAmostras in body.
      */
     @GetMapping("/finalidade-amostras")
-    public List<FinalidadeAmostraDTO> getAllFinalidadeAmostras() {
+    public List<FinalidadeAmostraDTO> getAllFinalidadeAmostras(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all FinalidadeAmostras");
         return finalidadeAmostraService.findAll();
     }

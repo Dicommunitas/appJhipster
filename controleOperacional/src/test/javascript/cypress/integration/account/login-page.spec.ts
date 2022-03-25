@@ -7,14 +7,10 @@ import {
 } from '../../support/commands';
 
 describe('login modal', () => {
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.clearCookies();
+  beforeEach(() => {
     cy.visit('');
     cy.clickOnLoginItem();
   });
@@ -33,7 +29,6 @@ describe('login modal', () => {
     cy.wait('@authenticate').then(({ response }) => expect(response.statusCode).to.equal(400));
     // login page should stay open when login fails
     cy.get(titleLoginSelector).should('be.visible');
-    cy.get(passwordLoginSelector).clear();
   });
 
   it('requires password', () => {
@@ -41,7 +36,6 @@ describe('login modal', () => {
     cy.get(submitLoginSelector).click();
     cy.wait('@authenticate').then(({ response }) => expect(response.statusCode).to.equal(400));
     cy.get(errorLoginSelector).should('be.visible');
-    cy.get(usernameLoginSelector).clear();
   });
 
   it('errors when password is incorrect', () => {
@@ -50,8 +44,6 @@ describe('login modal', () => {
     cy.get(submitLoginSelector).click();
     cy.wait('@authenticate').then(({ response }) => expect(response.statusCode).to.equal(401));
     cy.get(errorLoginSelector).should('be.visible');
-    cy.get(usernameLoginSelector).clear();
-    cy.get(passwordLoginSelector).clear();
   });
 
   it('go to login page when successfully logs in', () => {

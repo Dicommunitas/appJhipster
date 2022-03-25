@@ -14,21 +14,16 @@ import {
 describe('FinalidadeAmostra e2e test', () => {
   const finalidadeAmostraPageUrl = '/finalidade-amostra';
   const finalidadeAmostraPageUrlPattern = new RegExp('/finalidade-amostra(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const finalidadeAmostraSample = {};
 
   let finalidadeAmostra: any;
   //let tipoFinalidadeAmostra: any;
   //let amostra: any;
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('');
+  beforeEach(() => {
     cy.login(username, password);
-    cy.get(entityItemSelector).should('exist');
   });
 
   /* Disabled due to incompatibility
@@ -128,11 +123,11 @@ describe('FinalidadeAmostra e2e test', () => {
       });
 
       it('should load create FinalidadeAmostra page', () => {
-        cy.get(entityCreateButtonSelector).click({ force: true });
+        cy.get(entityCreateButtonSelector).click();
         cy.url().should('match', new RegExp('/finalidade-amostra/new$'));
         cy.getEntityCreateUpdateHeading('FinalidadeAmostra');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -146,7 +141,6 @@ describe('FinalidadeAmostra e2e test', () => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/finalidade-amostras',
-  
           body: {
             ...finalidadeAmostraSample,
             tipoFinalidadeAmostra: tipoFinalidadeAmostra,
@@ -187,7 +181,7 @@ describe('FinalidadeAmostra e2e test', () => {
       it('detail button click should load details FinalidadeAmostra page', () => {
         cy.get(entityDetailsButtonSelector).first().click();
         cy.getEntityDetailsHeading('finalidadeAmostra');
-        cy.get(entityDetailsBackButtonSelector).click({ force: true });
+        cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -198,7 +192,7 @@ describe('FinalidadeAmostra e2e test', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('FinalidadeAmostra');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -208,7 +202,7 @@ describe('FinalidadeAmostra e2e test', () => {
       it.skip('last delete button click should delete instance of FinalidadeAmostra', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('finalidadeAmostra').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(204);
         });
@@ -225,7 +219,7 @@ describe('FinalidadeAmostra e2e test', () => {
   describe('new FinalidadeAmostra page', () => {
     beforeEach(() => {
       cy.visit(`${finalidadeAmostraPageUrl}`);
-      cy.get(entityCreateButtonSelector).click({ force: true });
+      cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('FinalidadeAmostra');
     });
 

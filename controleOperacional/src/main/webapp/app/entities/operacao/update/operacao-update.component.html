@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2
@@ -12,14 +12,14 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
-          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.operacao.descricao"
             for="field_descricao"
             [ngbTooltip]="'controleOperacionalApp.operacao.help.descricao' | translate"
@@ -37,9 +37,9 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.operacao.volumePeso"
             for="field_volumePeso"
             [ngbTooltip]="'controleOperacionalApp.operacao.help.volumePeso' | translate"
@@ -71,9 +71,9 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.operacao.inicio"
             for="field_inicio"
             [ngbTooltip]="'controleOperacionalApp.operacao.help.inicio' | translate"
@@ -92,9 +92,9 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.operacao.fim"
             for="field_fim"
             [ngbTooltip]="'controleOperacionalApp.operacao.help.fim' | translate"
@@ -113,9 +113,9 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.operacao.quantidadeAmostras"
             for="field_quantidadeAmostras"
             [ngbTooltip]="'controleOperacionalApp.operacao.help.quantidadeAmostras' | translate"
@@ -152,9 +152,9 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.operacao.observacao"
             for="field_observacao"
             [ngbTooltip]="'controleOperacionalApp.operacao.help.observacao' | translate"
@@ -170,8 +170,8 @@
           />
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.operacao.tipoOperacao" for="field_tipoOperacao"
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.operacao.tipoOperacao" for="field_tipoOperacao"
             >Tipo Operacao</label
           >
           <select class="form-control" id="field_tipoOperacao" data-cy="tipoOperacao" name="tipoOperacao" formControlName="tipoOperacao">

@@ -14,19 +14,14 @@ import {
 describe('Produto e2e test', () => {
   const produtoPageUrl = '/produto';
   const produtoPageUrlPattern = new RegExp('/produto(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const produtoSample = { codigoBDEMQ: 'unl', nomeCurto: 'Account Libéria', nomeCompleto: 'pixel navigate Luvas' };
 
   let produto: any;
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('');
+  beforeEach(() => {
     cy.login(username, password);
-    cy.get(entityItemSelector).should('exist');
   });
 
   beforeEach(() => {
@@ -68,11 +63,11 @@ describe('Produto e2e test', () => {
       });
 
       it('should load create Produto page', () => {
-        cy.get(entityCreateButtonSelector).click({ force: true });
+        cy.get(entityCreateButtonSelector).click();
         cy.url().should('match', new RegExp('/produto/new$'));
         cy.getEntityCreateUpdateHeading('Produto');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -97,6 +92,9 @@ describe('Produto e2e test', () => {
             },
             {
               statusCode: 200,
+              headers: {
+                link: '<http://localhost/api/produtos?page=0&size=20>; rel="last",<http://localhost/api/produtos?page=0&size=20>; rel="first"',
+              },
               body: [produto],
             }
           ).as('entitiesRequestInternal');
@@ -110,7 +108,7 @@ describe('Produto e2e test', () => {
       it('detail button click should load details Produto page', () => {
         cy.get(entityDetailsButtonSelector).first().click();
         cy.getEntityDetailsHeading('produto');
-        cy.get(entityDetailsBackButtonSelector).click({ force: true });
+        cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -121,7 +119,7 @@ describe('Produto e2e test', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('Produto');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -131,7 +129,7 @@ describe('Produto e2e test', () => {
       it('last delete button click should delete instance of Produto', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('produto').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(204);
         });
@@ -148,7 +146,7 @@ describe('Produto e2e test', () => {
   describe('new Produto page', () => {
     beforeEach(() => {
       cy.visit(`${produtoPageUrl}`);
-      cy.get(entityCreateButtonSelector).click({ force: true });
+      cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('Produto');
     });
 

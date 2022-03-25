@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.validation.constraints.*;
@@ -9,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.AlertaProduto} entity.
  */
-@ApiModel(description = "Entidade AlertasProduto.\n@author Diego.\nIrá descrever alertas para produtos (Benzeno, Inflamável...)")
+@Schema(description = "Entidade AlertasProduto.\n@author Diego.\nIrá descrever alertas para produtos (Benzeno, Inflamável...)")
 public class AlertaProdutoDTO implements Serializable {
 
     private Long id;
@@ -18,7 +17,7 @@ public class AlertaProdutoDTO implements Serializable {
      * Descreve um alerta para ser usado nos produtos,\nalgo que deva ser tratado com cuidado.
      */
     @NotNull
-    @ApiModelProperty(value = "Descreve um alerta para ser usado nos produtos,\nalgo que deva ser tratado com cuidado.", required = true)
+    @Schema(description = "Descreve um alerta para ser usado nos produtos,\nalgo que deva ser tratado com cuidado.", required = true)
     private String descricao;
 
     public Long getId() {

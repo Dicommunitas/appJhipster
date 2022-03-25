@@ -61,11 +61,15 @@ public class RelatorioServiceImpl implements RelatorioService {
         return relatorioRepository.findAll(pageable).map(relatorioMapper::toDto);
     }
 
+    public Page<RelatorioDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return relatorioRepository.findAllWithEagerRelationships(pageable).map(relatorioMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<RelatorioDTO> findOne(Long id) {
         log.debug("Request to get Relatorio : {}", id);
-        return relatorioRepository.findById(id).map(relatorioMapper::toDto);
+        return relatorioRepository.findOneWithEagerRelationships(id).map(relatorioMapper::toDto);
     }
 
     @Override

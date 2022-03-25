@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2
@@ -12,14 +12,14 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
-          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.amostra.dataHoraColeta"
             for="field_dataHoraColeta"
             [ngbTooltip]="'controleOperacionalApp.amostra.help.dataHoraColeta' | translate"
@@ -38,9 +38,9 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.amostra.observacao"
             for="field_observacao"
             [ngbTooltip]="'controleOperacionalApp.amostra.help.observacao' | translate"
@@ -56,9 +56,9 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.amostra.identificadorExterno"
             for="field_identificadorExterno"
             [ngbTooltip]="'controleOperacionalApp.amostra.help.identificadorExterno' | translate"
@@ -74,9 +74,9 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.amostra.recebimentoNoLaboratorio"
             for="field_recebimentoNoLaboratorio"
             [ngbTooltip]="'controleOperacionalApp.amostra.help.recebimentoNoLaboratorio' | translate"
@@ -95,8 +95,8 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.amostra.operacao" for="field_operacao">Operacao</label>
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.operacao" for="field_operacao">Operacao</label>
           <select class="form-control" id="field_operacao" data-cy="operacao" name="operacao" formControlName="operacao">
             <option *ngIf="!editForm.get('operacao')!.value" [ngValue]="null" selected></option>
             <option
@@ -117,8 +117,8 @@
           </small>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.amostra.origemAmostra" for="field_origemAmostra"
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.origemAmostra" for="field_origemAmostra"
             >Origem Amostra</label
           >
           <select
@@ -155,8 +155,8 @@
           </small>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.amostra.produto" for="field_produto">Produto</label>
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.produto" for="field_produto">Produto</label>
           <select class="form-control" id="field_produto" data-cy="produto" name="produto" formControlName="produto">
             <option *ngIf="!editForm.get('produto')!.value" [ngValue]="null" selected></option>
             <option
@@ -177,10 +177,8 @@
           </small>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.amostra.tipoAmostra" for="field_tipoAmostra"
-            >Tipo Amostra</label
-          >
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.tipoAmostra" for="field_tipoAmostra">Tipo Amostra</label>
           <select class="form-control" id="field_tipoAmostra" data-cy="tipoAmostra" name="tipoAmostra" formControlName="tipoAmostra">
             <option *ngIf="!editForm.get('tipoAmostra')!.value" [ngValue]="null" selected></option>
             <option
@@ -205,8 +203,8 @@
           </small>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.amostra.amostradaPor" for="field_amostradaPor"
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.amostradaPor" for="field_amostradaPor"
             >Amostrada Por</label
           >
           <select class="form-control" id="field_amostradaPor" data-cy="amostradaPor" name="amostradaPor" formControlName="amostradaPor">
@@ -220,10 +218,8 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.amostra.recebidaPor" for="field_recebidaPor"
-            >Recebida Por</label
-          >
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.recebidaPor" for="field_recebidaPor">Recebida Por</label>
           <select class="form-control" id="field_recebidaPor" data-cy="recebidaPor" name="recebidaPor" formControlName="recebidaPor">
             <option [ngValue]="null"></option>
             <option

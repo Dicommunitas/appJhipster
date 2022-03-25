@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { ITipoRelatorio } from 'app/entities/tipo-relatorio/tipo-relatorio.model';
 import { IUser } from 'app/entities/user/user.model';
 

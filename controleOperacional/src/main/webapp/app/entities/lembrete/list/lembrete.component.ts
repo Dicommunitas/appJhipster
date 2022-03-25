@@ -20,15 +20,15 @@ export class LembreteComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.lembreteService.query().subscribe(
-      (res: HttpResponse<ILembrete[]>) => {
+    this.lembreteService.query().subscribe({
+      next: (res: HttpResponse<ILembrete[]>) => {
         this.isLoading = false;
         this.lembretes = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -11,7 +10,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.Status} entity.
  */
-@ApiModel(
+@Schema(
     description = "Entidade Status.\n@author Diego.\nDescreve a situação do andamento para solução\nde um problema. Um problema pode ter vários\nstatus até sua finalização.\nUm status só pode ser alterado por quem for\no atual responsável em resolve-lo.\nAo criar um novo Status usar como modelo o último\ncriado pelo usuário."
 )
 public class StatusDTO implements Serializable {
@@ -22,8 +21,8 @@ public class StatusDTO implements Serializable {
      * Descreve o status, a situação que está sendo tratada\nque impede que o problema seja finalizado.
      */
 
-    @ApiModelProperty(
-        value = "Descreve o status, a situação que está sendo tratada\nque impede que o problema seja finalizado.",
+    @Schema(
+        description = "Descreve o status, a situação que está sendo tratada\nque impede que o problema seja finalizado.",
         required = true
     )
     @Lob
@@ -33,13 +32,13 @@ public class StatusDTO implements Serializable {
      * O prazo em que o status deve ser resolvido.
      */
     @NotNull
-    @ApiModelProperty(value = "O prazo em que o status deve ser resolvido.", required = true)
+    @Schema(description = "O prazo em que o status deve ser resolvido.", required = true)
     private LocalDate prazo;
 
     /**
      * Indica em que data o status foi resolvido.
      */
-    @ApiModelProperty(value = "Indica em que data o status foi resolvido.")
+    @Schema(description = "Indica em que data o status foi resolvido.")
     private LocalDate dataResolucao;
 
     private UserDTO relator;

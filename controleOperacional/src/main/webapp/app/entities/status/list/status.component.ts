@@ -20,15 +20,15 @@ export class StatusComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.statusService.query().subscribe(
-      (res: HttpResponse<IStatus[]>) => {
+    this.statusService.query().subscribe({
+      next: (res: HttpResponse<IStatus[]>) => {
         this.isLoading = false;
         this.statuses = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

@@ -1,7 +1,6 @@
 package com.operacional.controleoperacional.service.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.validation.constraints.*;
@@ -9,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link com.operacional.controleoperacional.domain.TipoFinalidadeAmostra} entity.
  */
-@ApiModel(
+@Schema(
     description = "Entidade TipoFinalidadeAmostra.\nIrá informar para qual finalidade a amostra\nserá utilizada, análise, arquivo...\n@author Diego."
 )
 public class TipoFinalidadeAmostraDTO implements Serializable {
@@ -20,8 +19,8 @@ public class TipoFinalidadeAmostraDTO implements Serializable {
      * Descreve a finalidade.\nA principal informação da finalidade.\nPara o que a amostra será usada.
      */
     @NotNull
-    @ApiModelProperty(
-        value = "Descreve a finalidade.\nA principal informação da finalidade.\nPara o que a amostra será usada.",
+    @Schema(
+        description = "Descreve a finalidade.\nA principal informação da finalidade.\nPara o que a amostra será usada.",
         required = true
     )
     private String descricao;
@@ -30,7 +29,7 @@ public class TipoFinalidadeAmostraDTO implements Serializable {
      * Indica se esse tipo de finalidade deve\nter obrigatoriedade de uso de lacre.
      */
     @NotNull
-    @ApiModelProperty(value = "Indica se esse tipo de finalidade deve\nter obrigatoriedade de uso de lacre.", required = true)
+    @Schema(description = "Indica se esse tipo de finalidade deve\nter obrigatoriedade de uso de lacre.", required = true)
     private Boolean obrigatorioLacre;
 
     public Long getId() {

@@ -14,21 +14,16 @@ import {
 describe('Status e2e test', () => {
   const statusPageUrl = '/status';
   const statusPageUrlPattern = new RegExp('/status(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const statusSample = { descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=', prazo: '2022-03-06' };
 
   let status: any;
   //let user: any;
   //let problema: any;
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('');
+  beforeEach(() => {
     cy.login(username, password);
-    cy.get(entityItemSelector).should('exist');
   });
 
   /* Disabled due to incompatibility
@@ -128,11 +123,11 @@ describe('Status e2e test', () => {
       });
 
       it('should load create Status page', () => {
-        cy.get(entityCreateButtonSelector).click({ force: true });
+        cy.get(entityCreateButtonSelector).click();
         cy.url().should('match', new RegExp('/status/new$'));
         cy.getEntityCreateUpdateHeading('Status');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -146,7 +141,6 @@ describe('Status e2e test', () => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/statuses',
-  
           body: {
             ...statusSample,
             relator: user,
@@ -188,7 +182,7 @@ describe('Status e2e test', () => {
       it('detail button click should load details Status page', () => {
         cy.get(entityDetailsButtonSelector).first().click();
         cy.getEntityDetailsHeading('status');
-        cy.get(entityDetailsBackButtonSelector).click({ force: true });
+        cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -199,7 +193,7 @@ describe('Status e2e test', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('Status');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -209,7 +203,7 @@ describe('Status e2e test', () => {
       it.skip('last delete button click should delete instance of Status', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('status').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(204);
         });
@@ -226,7 +220,7 @@ describe('Status e2e test', () => {
   describe('new Status page', () => {
     beforeEach(() => {
       cy.visit(`${statusPageUrl}`);
-      cy.get(entityCreateButtonSelector).click({ force: true });
+      cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('Status');
     });
 

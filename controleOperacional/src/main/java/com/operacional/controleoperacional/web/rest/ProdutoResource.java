@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -151,7 +150,10 @@ public class ProdutoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of produtos in body.
      */
     @GetMapping("/produtos")
-    public ResponseEntity<List<ProdutoDTO>> getAllProdutos(ProdutoCriteria criteria, Pageable pageable) {
+    public ResponseEntity<List<ProdutoDTO>> getAllProdutos(
+        ProdutoCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
         log.debug("REST request to get Produtos by criteria: {}", criteria);
         Page<ProdutoDTO> page = produtoQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

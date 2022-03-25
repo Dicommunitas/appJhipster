@@ -12,6 +12,8 @@
   "viewportHeight": 720,
   "retries": 2,
   "env": {
+    "authenticationUrl": "/api/authenticate",
     "jwtStorageName": "jhi-authenticationToken"
-  }
+  },
+  "experimentalSessionSupport": true
 }

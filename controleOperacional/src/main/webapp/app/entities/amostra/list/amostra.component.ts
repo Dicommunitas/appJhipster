@@ -42,15 +42,15 @@ export class AmostraComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe(
-        (res: HttpResponse<IAmostra[]>) => {
+      .subscribe({
+        next: (res: HttpResponse<IAmostra[]>) => {
           this.isLoading = false;
           this.paginateAmostras(res.body, res.headers);
         },
-        () => {
+        error: () => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
 
   reset(): void {

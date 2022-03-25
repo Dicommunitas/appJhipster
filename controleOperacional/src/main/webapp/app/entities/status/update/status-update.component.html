@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-status-heading" data-cy="StatusCreateUpdateHeading" jhiTranslate="controleOperacionalApp.status.home.createOrEditLabel">
@@ -8,14 +8,14 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
-          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.status.descricao"
             for="field_descricao"
             [ngbTooltip]="'controleOperacionalApp.status.help.descricao' | translate"
@@ -33,9 +33,9 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.status.prazo"
             for="field_prazo"
             [ngbTooltip]="'controleOperacionalApp.status.help.prazo' | translate"
@@ -52,9 +52,7 @@
               #prazoDp="ngbDatepicker"
               formControlName="prazo"
             />
-            <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="prazoDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
-            </span>
+            <button type="button" class="btn btn-secondary" (click)="prazoDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
           </div>
           <div *ngIf="editForm.get('prazo')!.invalid && (editForm.get('prazo')!.dirty || editForm.get('prazo')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('prazo')?.errors?.required" jhiTranslate="entity.validation.required">
@@ -63,9 +61,9 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="row mb-3">
           <label
-            class="form-control-label"
+            class="form-label"
             jhiTranslate="controleOperacionalApp.status.dataResolucao"
             for="field_dataResolucao"
             [ngbTooltip]="'controleOperacionalApp.status.help.dataResolucao' | translate"
@@ -82,16 +80,14 @@
               #dataResolucaoDp="ngbDatepicker"
               formControlName="dataResolucao"
             />
-            <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="dataResolucaoDp.toggle()">
-                <fa-icon icon="calendar-alt"></fa-icon>
-              </button>
-            </span>
+            <button type="button" class="btn btn-secondary" (click)="dataResolucaoDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.status.relator" for="field_relator">Relator</label>
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.relator" for="field_relator">Relator</label>
           <select class="form-control" id="field_relator" data-cy="relator" name="relator" formControlName="relator">
             <option *ngIf="!editForm.get('relator')!.value" [ngValue]="null" selected></option>
             <option
@@ -112,10 +108,8 @@
           </small>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.status.responsavel" for="field_responsavel"
-            >Responsavel</label
-          >
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.responsavel" for="field_responsavel">Responsavel</label>
           <select class="form-control" id="field_responsavel" data-cy="responsavel" name="responsavel" formControlName="responsavel">
             <option *ngIf="!editForm.get('responsavel')!.value" [ngValue]="null" selected></option>
             <option
@@ -138,8 +132,8 @@
           </small>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleOperacionalApp.status.problema" for="field_problema">Problema</label>
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.problema" for="field_problema">Problema</label>
           <select class="form-control" id="field_problema" data-cy="problema" name="problema" formControlName="problema">
             <option *ngIf="!editForm.get('problema')!.value" [ngValue]="null" selected></option>
             <option

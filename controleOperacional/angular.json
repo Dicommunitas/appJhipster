@@ -108,6 +108,11 @@
   },
   "defaultProject": "controle-operacional",
   "cli": {
+    "cache": {
+      "enabled": true,
+      "path": "./target/angular/",
+      "environment": "all"
+    },
     "packageManager": "npm"
   }
 }

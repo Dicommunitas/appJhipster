@@ -1,5 +1,9 @@
 {
-  "name": "Amostra",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307002058",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "amostra",
   "fields": [
     {
       "fieldName": "dataHoraColeta",
@@ -22,77 +26,73 @@
       "javadoc": "Identifica se a amostra está ou não no laboratório."
     }
   ],
+  "fluentMethods": true,
+  "javadoc": "Entidade Amostra.\\n@author Diego.",
+  "jpaMetamodelFiltering": true,
+  "name": "Amostra",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-many",
+      "javadoc": "Descreve quais serão as finalidades de uma amostra",
+      "otherEntityField": "lacre",
       "otherEntityName": "finalidadeAmostra",
       "otherEntityRelationshipName": "amostra",
-      "javadoc": "Descreve quais serão as finalidades de uma amostra",
       "relationshipName": "finalidades",
-      "otherEntityField": "lacre"
+      "relationshipType": "one-to-many"
     },
     {
-      "relationshipType": "many-to-one",
+      "javadoc": "Define a qual operação pertence a amostra",
+      "otherEntityField": "descricao",
       "otherEntityName": "operacao",
       "otherEntityRelationshipName": "amostra",
-      "relationshipValidateRules": "required",
-      "javadoc": "Define a qual operação pertence a amostra",
       "relationshipName": "operacao",
-      "otherEntityField": "descricao"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
-      "relationshipType": "many-to-one",
+      "javadoc": "Define qual é a origem da amostra",
+      "otherEntityField": "descricao",
       "otherEntityName": "origemAmostra",
       "otherEntityRelationshipName": "amostra",
-      "relationshipValidateRules": "required",
-      "javadoc": "Define qual é a origem da amostra",
       "relationshipName": "origemAmostra",
-      "otherEntityField": "descricao"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
-      "relationshipType": "many-to-one",
+      "javadoc": "Define qual o produto da amostra",
+      "otherEntityField": "nomeCurto",
       "otherEntityName": "produto",
       "otherEntityRelationshipName": "amostra",
-      "relationshipValidateRules": "required",
-      "javadoc": "Define qual o produto da amostra",
       "relationshipName": "produto",
-      "otherEntityField": "nomeCurto"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
-      "relationshipType": "many-to-one",
+      "javadoc": "Define qual o tipo da amostra (Composta, Corrida...)",
+      "otherEntityField": "descricao",
       "otherEntityName": "tipoAmostra",
       "otherEntityRelationshipName": "amostra",
-      "relationshipValidateRules": "required",
-      "javadoc": "Define qual o tipo da amostra (Composta, Corrida...)",
       "relationshipName": "tipoAmostra",
-      "otherEntityField": "descricao"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "user",
-      "otherEntityRelationshipName": "amostra",
       "javadoc": "Quem retirou a amostra, responsável pela amostragem.",
-      "relationshipName": "amostradaPor",
-      "otherEntityField": "login"
-    },
-    {
-      "relationshipType": "many-to-one",
+      "otherEntityField": "login",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "amostra",
+      "relationshipName": "amostradaPor",
+      "relationshipType": "many-to-one"
+    },
+    {
       "javadoc": "Quem recebeu a amostra no laboratório.",
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "amostra",
       "relationshipName": "recebidaPor",
-      "otherEntityField": "login"
+      "relationshipType": "many-to-one"
     }
   ],
-  "javadoc": "Entidade Amostra.\\n@author Diego.",
-  "entityTableName": "amostra",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307002058"
+  "service": "serviceImpl"
 }

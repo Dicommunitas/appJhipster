@@ -19,15 +19,15 @@ export class TipoOperacaoComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.tipoOperacaoService.query().subscribe(
-      (res: HttpResponse<ITipoOperacao[]>) => {
+    this.tipoOperacaoService.query().subscribe({
+      next: (res: HttpResponse<ITipoOperacao[]>) => {
         this.isLoading = false;
         this.tipoOperacaos = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

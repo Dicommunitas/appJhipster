@@ -1,18 +1,22 @@
 {
-  "name": "Status",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307001558",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "status",
   "fields": [
     {
       "fieldName": "descricao",
       "fieldType": "byte[]",
-      "javadoc": "Descreve o status, a situação que está sendo tratada\\nque impede que o problema seja finalizado.",
       "fieldTypeBlobContent": "text",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "Descreve o status, a situação que está sendo tratada\\nque impede que o problema seja finalizado."
     },
     {
       "fieldName": "prazo",
       "fieldType": "LocalDate",
-      "javadoc": "O prazo em que o status deve ser resolvido.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "O prazo em que o status deve ser resolvido."
     },
     {
       "fieldName": "dataResolucao",
@@ -20,43 +24,39 @@
       "javadoc": "Indica em que data o status foi resolvido."
     }
   ],
+  "fluentMethods": true,
+  "javadoc": "Entidade Status.\\n@author Diego.\\nDescreve a situação do andamento para solução\\nde um problema. Um problema pode ter vários\\nstatus até sua finalização.\\nUm status só pode ser alterado por quem for\\no atual responsável em resolve-lo.\\nAo criar um novo Status usar como modelo o último\\ncriado pelo usuário.",
+  "jpaMetamodelFiltering": false,
+  "name": "Status",
+  "pagination": "no",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "user",
-      "otherEntityRelationshipName": "status",
-      "relationshipValidateRules": "required",
       "javadoc": "Quem é o relator do status,\\no último usuário que atualizou.",
-      "relationshipName": "relator",
-      "otherEntityField": "login"
-    },
-    {
-      "relationshipType": "many-to-one",
+      "otherEntityField": "login",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "status",
-      "relationshipValidateRules": "required",
-      "javadoc": "Atributo responsável.\\ndescreve qual será o usuário que deve dar\\na tratativa para resolver o status",
-      "relationshipName": "responsavel",
-      "otherEntityField": "login"
+      "relationshipName": "relator",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
+      "javadoc": "Atributo responsável.\\ndescreve qual será o usuário que deve dar\\na tratativa para resolver o status",
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "status",
+      "relationshipName": "responsavel",
       "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "descricao",
       "otherEntityName": "problema",
       "otherEntityRelationshipName": "status",
-      "relationshipValidateRules": "required",
       "relationshipName": "problema",
-      "otherEntityField": "descricao"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     }
   ],
-  "javadoc": "Entidade Status.\\n@author Diego.\\nDescreve a situação do andamento para solução\\nde um problema. Um problema pode ter vários\\nstatus até sua finalização.\\nUm status só pode ser alterado por quem for\\no atual responsável em resolve-lo.\\nAo criar um novo Status usar como modelo o último\\ncriado pelo usuário.",
-  "entityTableName": "status",
-  "dto": "mapstruct",
-  "pagination": "no",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307001558"
+  "service": "serviceImpl"
 }

@@ -61,11 +61,15 @@ public class ProblemaServiceImpl implements ProblemaService {
         return problemaRepository.findAll(pageable).map(problemaMapper::toDto);
     }
 
+    public Page<ProblemaDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return problemaRepository.findAllWithEagerRelationships(pageable).map(problemaMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<ProblemaDTO> findOne(Long id) {
         log.debug("Request to get Problema : {}", id);
-        return problemaRepository.findById(id).map(problemaMapper::toDto);
+        return problemaRepository.findOneWithEagerRelationships(id).map(problemaMapper::toDto);
     }
 
     @Override

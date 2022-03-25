@@ -42,15 +42,15 @@ export class OperacaoComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe(
-        (res: HttpResponse<IOperacao[]>) => {
+      .subscribe({
+        next: (res: HttpResponse<IOperacao[]>) => {
           this.isLoading = false;
           this.paginateOperacaos(res.body, res.headers);
         },
-        () => {
+        error: () => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
 
   reset(): void {

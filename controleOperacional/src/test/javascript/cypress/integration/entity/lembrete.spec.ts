@@ -14,19 +14,14 @@ import {
 describe('Lembrete e2e test', () => {
   const lembretePageUrl = '/lembrete';
   const lembretePageUrlPattern = new RegExp('/lembrete(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const lembreteSample = { nome: 'concept Rústico', descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
 
   let lembrete: any;
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('');
+  beforeEach(() => {
     cy.login(username, password);
-    cy.get(entityItemSelector).should('exist');
   });
 
   beforeEach(() => {
@@ -68,11 +63,11 @@ describe('Lembrete e2e test', () => {
       });
 
       it('should load create Lembrete page', () => {
-        cy.get(entityCreateButtonSelector).click({ force: true });
+        cy.get(entityCreateButtonSelector).click();
         cy.url().should('match', new RegExp('/lembrete/new$'));
         cy.getEntityCreateUpdateHeading('Lembrete');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -110,7 +105,7 @@ describe('Lembrete e2e test', () => {
       it('detail button click should load details Lembrete page', () => {
         cy.get(entityDetailsButtonSelector).first().click();
         cy.getEntityDetailsHeading('lembrete');
-        cy.get(entityDetailsBackButtonSelector).click({ force: true });
+        cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -121,7 +116,7 @@ describe('Lembrete e2e test', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('Lembrete');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -131,7 +126,7 @@ describe('Lembrete e2e test', () => {
       it('last delete button click should delete instance of Lembrete', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('lembrete').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(204);
         });
@@ -148,7 +143,7 @@ describe('Lembrete e2e test', () => {
   describe('new Lembrete page', () => {
     beforeEach(() => {
       cy.visit(`${lembretePageUrl}`);
-      cy.get(entityCreateButtonSelector).click({ force: true });
+      cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('Lembrete');
     });
 

@@ -14,20 +14,15 @@ import {
 describe('Operacao e2e test', () => {
   const operacaoPageUrl = '/operacao';
   const operacaoPageUrlPattern = new RegExp('/operacao(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const username = Cypress.env('E2E_USERNAME') ?? 'user';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const operacaoSample = { descricao: 'set', volumePeso: 722, quantidadeAmostras: 62873 };
 
   let operacao: any;
   let tipoOperacao: any;
 
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('');
+  beforeEach(() => {
     cy.login(username, password);
-    cy.get(entityItemSelector).should('exist');
   });
 
   beforeEach(() => {
@@ -99,11 +94,11 @@ describe('Operacao e2e test', () => {
       });
 
       it('should load create Operacao page', () => {
-        cy.get(entityCreateButtonSelector).click({ force: true });
+        cy.get(entityCreateButtonSelector).click();
         cy.url().should('match', new RegExp('/operacao/new$'));
         cy.getEntityCreateUpdateHeading('Operacao');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -116,7 +111,6 @@ describe('Operacao e2e test', () => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/operacaos',
-
           body: {
             ...operacaoSample,
             tipoOperacao: tipoOperacao,
@@ -132,6 +126,9 @@ describe('Operacao e2e test', () => {
             },
             {
               statusCode: 200,
+              headers: {
+                link: '<http://localhost/api/operacaos?page=0&size=20>; rel="last",<http://localhost/api/operacaos?page=0&size=20>; rel="first"',
+              },
               body: [operacao],
             }
           ).as('entitiesRequestInternal');
@@ -145,7 +142,7 @@ describe('Operacao e2e test', () => {
       it('detail button click should load details Operacao page', () => {
         cy.get(entityDetailsButtonSelector).first().click();
         cy.getEntityDetailsHeading('operacao');
-        cy.get(entityDetailsBackButtonSelector).click({ force: true });
+        cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -156,7 +153,7 @@ describe('Operacao e2e test', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('Operacao');
         cy.get(entityCreateSaveButtonSelector).should('exist');
-        cy.get(entityCreateCancelButtonSelector).click({ force: true });
+        cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(200);
         });
@@ -166,7 +163,7 @@ describe('Operacao e2e test', () => {
       it('last delete button click should delete instance of Operacao', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('operacao').should('exist');
-        cy.get(entityConfirmDeleteButtonSelector).click({ force: true });
+        cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
           expect(response!.statusCode).to.equal(204);
         });
@@ -183,7 +180,7 @@ describe('Operacao e2e test', () => {
   describe('new Operacao page', () => {
     beforeEach(() => {
       cy.visit(`${operacaoPageUrl}`);
-      cy.get(entityCreateButtonSelector).click({ force: true });
+      cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('Operacao');
     });
 

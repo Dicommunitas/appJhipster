@@ -19,15 +19,15 @@ export class FinalidadeAmostraComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.finalidadeAmostraService.query().subscribe(
-      (res: HttpResponse<IFinalidadeAmostra[]>) => {
+    this.finalidadeAmostraService.query().subscribe({
+      next: (res: HttpResponse<IFinalidadeAmostra[]>) => {
         this.isLoading = false;
         this.finalidadeAmostras = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

@@ -1,31 +1,35 @@
 {
-  "name": "Problema",
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307001458",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "problema",
   "fields": [
     {
       "fieldName": "dataVerificacao",
       "fieldType": "LocalDate",
-      "javadoc": "A data em que o problema foi verificado.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "A data em que o problema foi verificado."
     },
     {
       "fieldName": "descricao",
       "fieldType": "String",
-      "javadoc": "Descrição do problema.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "Descrição do problema."
     },
     {
       "fieldName": "criticidade",
       "fieldType": "Criticidade",
-      "javadoc": "Gravidade do problema.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco",
-      "fieldValues": "BAIXA,MEDIA,ALTA,IMEDIATA",
       "fieldTypeJavadoc": "Entidade Criticidade.\\n@author Diego.",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "fieldValues": "BAIXA,MEDIA,ALTA,IMEDIATA",
+      "javadoc": "Gravidade do problema.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco"
     },
     {
       "fieldName": "impacto",
       "fieldType": "String",
-      "javadoc": "O impácto do problema para o sistema como um todo.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "javadoc": "O impácto do problema para o sistema como um todo.\\nSe o problema tiver criticidade IMEDIATA\\no atributo impácto não pode estar em branco"
     },
     {
       "fieldName": "dataFinalizacao",
@@ -35,40 +39,36 @@
     {
       "fieldName": "foto",
       "fieldType": "byte[]",
-      "javadoc": "Uma imagem que possa facilitar a identificação do problema.",
       "fieldTypeBlobContent": "image",
       "fieldValidateRules": ["maxbytes"],
-      "fieldValidateRulesMaxbytes": "500"
+      "fieldValidateRulesMaxbytes": "500",
+      "javadoc": "Uma imagem que possa facilitar a identificação do problema."
     }
   ],
+  "fluentMethods": true,
+  "javadoc": "Entidade Problema.\\n@author Diego.\\nUm problema pode ser qualquer anormalidade encontrada.\\nUm problema pode ter vários status para sua finalização\\ncada status devem ser tratado por uma área necessária ao\\ntratamento do problema.\\nOs problemas devem ter sua apresentação para\\no usuário de forma diferenciada com relação\\naos status resolvidos e não resolvidos, assim\\ncomo problemas já finalizados e não finalizados. Para\\nfácil identificação.",
+  "jpaMetamodelFiltering": true,
+  "name": "Problema",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-many",
+      "javadoc": "Todo problema deverá ter pelo menos\\num Status, que será um relato da situação\\ninicial do problema.",
+      "otherEntityField": "descricao",
       "otherEntityName": "status",
       "otherEntityRelationshipName": "problema",
-      "javadoc": "Todo problema deverá ter pelo menos\\num Status, que será um relato da situação\\ninicial do problema.",
       "relationshipName": "status",
-      "otherEntityField": "descricao"
+      "relationshipType": "one-to-many"
     },
     {
-      "relationshipType": "many-to-one",
+      "javadoc": "Quem é o relator do problema.",
+      "otherEntityField": "login",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "problema",
-      "relationshipValidateRules": "required",
-      "javadoc": "Quem é o relator do problema.",
       "relationshipName": "relator",
-      "otherEntityField": "login"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     }
   ],
-  "javadoc": "Entidade Problema.\\n@author Diego.\\nUm problema pode ser qualquer anormalidade encontrada.\\nUm problema pode ter vários status para sua finalização\\ncada status devem ser tratado por uma área necessária ao\\ntratamento do problema.\\nOs problemas devem ter sua apresentação para\\no usuário de forma diferenciada com relação\\naos status resolvidos e não resolvidos, assim\\ncomo problemas já finalizados e não finalizados. Para\\nfácil identificação.",
-  "entityTableName": "problema",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["controleOperacional"],
-  "changelogDate": "20220307001458"
+  "service": "serviceImpl"
 }

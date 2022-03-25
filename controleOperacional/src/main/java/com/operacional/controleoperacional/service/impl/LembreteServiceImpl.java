@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,14 +61,22 @@ public class LembreteServiceImpl implements LembreteService {
     @Transactional(readOnly = true)
     public List<LembreteDTO> findAll() {
         log.debug("Request to get all Lembretes");
-        return lembreteRepository.findAll().stream().map(lembreteMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+        return lembreteRepository
+            .findAllWithEagerRelationships()
+            .stream()
+            .map(lembreteMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    public Page<LembreteDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return lembreteRepository.findAllWithEagerRelationships(pageable).map(lembreteMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<LembreteDTO> findOne(Long id) {
         log.debug("Request to get Lembrete : {}", id);
-        return lembreteRepository.findById(id).map(lembreteMapper::toDto);
+        return lembreteRepository.findOneWithEagerRelationships(id).map(lembreteMapper::toDto);
     }
 
     @Override

@@ -34,6 +34,14 @@ public interface RelatorioService {
     Page<RelatorioDTO> findAll(Pageable pageable);
 
     /**
+     * Get all the relatorios with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<RelatorioDTO> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" relatorio.
      *
      * @param id the id of the entity.

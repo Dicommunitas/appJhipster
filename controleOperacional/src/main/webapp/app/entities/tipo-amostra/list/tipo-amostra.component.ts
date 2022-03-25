@@ -19,15 +19,15 @@ export class TipoAmostraComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.tipoAmostraService.query().subscribe(
-      (res: HttpResponse<ITipoAmostra[]>) => {
+    this.tipoAmostraService.query().subscribe({
+      next: (res: HttpResponse<ITipoAmostra[]>) => {
         this.isLoading = false;
         this.tipoAmostras = res.body ?? [];
       },
-      () => {
+      error: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   ngOnInit(): void {

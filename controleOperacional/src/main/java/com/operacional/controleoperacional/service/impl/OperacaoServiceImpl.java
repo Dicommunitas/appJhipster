@@ -61,11 +61,15 @@ public class OperacaoServiceImpl implements OperacaoService {
         return operacaoRepository.findAll(pageable).map(operacaoMapper::toDto);
     }
 
+    public Page<OperacaoDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return operacaoRepository.findAllWithEagerRelationships(pageable).map(operacaoMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<OperacaoDTO> findOne(Long id) {
         log.debug("Request to get Operacao : {}", id);
-        return operacaoRepository.findById(id).map(operacaoMapper::toDto);
+        return operacaoRepository.findOneWithEagerRelationships(id).map(operacaoMapper::toDto);
     }
 
     @Override

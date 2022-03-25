@@ -135,10 +135,11 @@ public class LembreteResource {
     /**
      * {@code GET  /lembretes} : get all the lembretes.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of lembretes in body.
      */
     @GetMapping("/lembretes")
-    public List<LembreteDTO> getAllLembretes() {
+    public List<LembreteDTO> getAllLembretes(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Lembretes");
         return lembreteService.findAll();
     }
