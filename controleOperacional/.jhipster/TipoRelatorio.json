@@ -1,0 +1,33 @@
+{
+  "name": "TipoRelatorio",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "javadoc": "Nome dado ao grupo de relatórios.",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "relAutorizados",
+      "javadoc": "Descreve quais usuários podem alterar os relatórios\\ndesse tipo",
+      "relationshipName": "usuariosAut",
+      "otherEntityField": "login",
+      "ownerSide": true
+    }
+  ],
+  "javadoc": "Entidade TipoRelatorio.\\n@author Diego.\\nO TipoRelatorio irá descrever de que tipo é\\no relatório, relatório de sutur, relatório píer, cco...\\nDeve existir uma tela com um botão para listar todos\\nos relatórios agrupados por seus tipos.",
+  "entityTableName": "tipo_relatorio",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307001858"
+}

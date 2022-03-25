@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="tipoRelatorio">
+      <h2 data-cy="tipoRelatorioDetailsHeading">
+        <span jhiTranslate="controleOperacionalApp.tipoRelatorio.detail.title">Tipo Relatorio</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ tipoRelatorio.id }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.tipoRelatorio.nome"
+            [ngbTooltip]="'controleOperacionalApp.tipoRelatorio.help.nome' | translate"
+            >Nome</span
+          >
+        </dt>
+        <dd>
+          <span>{{ tipoRelatorio.nome }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.tipoRelatorio.usuariosAut">Usuarios Aut</span></dt>
+        <dd>
+          <span *ngFor="let usuariosAut of tipoRelatorio.usuariosAuts; let last = last">
+            {{ usuariosAut.login }}{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/tipo-relatorio', tipoRelatorio.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

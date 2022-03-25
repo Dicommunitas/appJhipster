@@ -1,0 +1,46 @@
+{
+  "name": "Produto",
+  "fields": [
+    {
+      "fieldName": "codigoBDEMQ",
+      "fieldType": "String",
+      "javadoc": "O código deve ter máximo 3 aracteres.\\nDeve ser igual ao do BDEMQ",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "3"
+    },
+    {
+      "fieldName": "nomeCurto",
+      "fieldType": "String",
+      "javadoc": "Informa o nome curto do produto.\\nDeve ser igual ao do BDEMQ",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nomeCompleto",
+      "fieldType": "String",
+      "javadoc": "Informa o nome completo do produto.\\nDeve ser igual ao do BDEMQ",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "alertaProduto",
+      "otherEntityRelationshipName": "produtos",
+      "javadoc": "Irá informar uma\\nlista de alertas pré definidos.",
+      "relationshipName": "alertas",
+      "otherEntityField": "descricao",
+      "ownerSide": true
+    }
+  ],
+  "javadoc": "Entidade Produto.\\n@author Diego.",
+  "entityTableName": "produto",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307002758"
+}

@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="produto">
+      <h2 data-cy="produtoDetailsHeading"><span jhiTranslate="controleOperacionalApp.produto.detail.title">Produto</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ produto.id }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.produto.codigoBDEMQ"
+            [ngbTooltip]="'controleOperacionalApp.produto.help.codigoBDEMQ' | translate"
+            >Codigo BDEMQ</span
+          >
+        </dt>
+        <dd>
+          <span>{{ produto.codigoBDEMQ }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.produto.nomeCurto"
+            [ngbTooltip]="'controleOperacionalApp.produto.help.nomeCurto' | translate"
+            >Nome Curto</span
+          >
+        </dt>
+        <dd>
+          <span>{{ produto.nomeCurto }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.produto.nomeCompleto"
+            [ngbTooltip]="'controleOperacionalApp.produto.help.nomeCompleto' | translate"
+            >Nome Completo</span
+          >
+        </dt>
+        <dd>
+          <span>{{ produto.nomeCompleto }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.produto.alertas">Alertas</span></dt>
+        <dd>
+          <span *ngFor="let alertas of produto.alertas; let last = last">
+            <a [routerLink]="['/alerta-produto', alertas?.id, 'view']">{{ alertas.descricao }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/produto', produto.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div>
+  <h2 id="page-heading" data-cy="FinalidadeAmostraHeading">
+    <span jhiTranslate="controleOperacionalApp.finalidadeAmostra.home.title">Finalidade Amostras</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="controleOperacionalApp.finalidadeAmostra.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-finalidade-amostra"
+        [routerLink]="['/finalidade-amostra/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="controleOperacionalApp.finalidadeAmostra.home.createLabel"> Create a new Finalidade Amostra </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="finalidadeAmostras?.length === 0">
+    <span jhiTranslate="controleOperacionalApp.finalidadeAmostra.home.notFound">No finalidadeAmostras found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="finalidadeAmostras && finalidadeAmostras.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.finalidadeAmostra.lacre">Lacre</span></th>
+          <th scope="col">
+            <span jhiTranslate="controleOperacionalApp.finalidadeAmostra.tipoFinalidadeAmostra">Tipo Finalidade Amostra</span>
+          </th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.finalidadeAmostra.amostra">Amostra</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let finalidadeAmostra of finalidadeAmostras; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/finalidade-amostra', finalidadeAmostra.id, 'view']">{{ finalidadeAmostra.id }}</a>
+          </td>
+          <td>{{ finalidadeAmostra.lacre }}</td>
+          <td>
+            <div *ngIf="finalidadeAmostra.tipoFinalidadeAmostra">
+              <a [routerLink]="['/tipo-finalidade-amostra', finalidadeAmostra.tipoFinalidadeAmostra?.id, 'view']">{{
+                finalidadeAmostra.tipoFinalidadeAmostra?.descricao
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="finalidadeAmostra.amostra">
+              <a [routerLink]="['/amostra', finalidadeAmostra.amostra?.id, 'view']">{{ finalidadeAmostra.amostra?.dataHoraColeta }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/finalidade-amostra', finalidadeAmostra.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/finalidade-amostra', finalidadeAmostra.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(finalidadeAmostra)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<div>
+  <h2 id="page-heading" data-cy="LembreteHeading">
+    <span jhiTranslate="controleOperacionalApp.lembrete.home.title">Lembretes</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="controleOperacionalApp.lembrete.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-lembrete"
+        [routerLink]="['/lembrete/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="controleOperacionalApp.lembrete.home.createLabel"> Create a new Lembrete </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="lembretes?.length === 0">
+    <span jhiTranslate="controleOperacionalApp.lembrete.home.notFound">No lembretes found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="lembretes && lembretes.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.nome">Nome</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.descricao">Descricao</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.tipoRelatorio">Tipo Relatorio</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.tipoOperacao">Tipo Operacao</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lembrete of lembretes; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/lembrete', lembrete.id, 'view']">{{ lembrete.id }}</a>
+          </td>
+          <td>{{ lembrete.nome }}</td>
+          <td>{{ lembrete.descricao }}</td>
+          <td>
+            <div *ngIf="lembrete.tipoRelatorio">
+              <a [routerLink]="['/tipo-relatorio', lembrete.tipoRelatorio?.id, 'view']">{{ lembrete.tipoRelatorio?.nome }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="lembrete.tipoOperacao">
+              <a [routerLink]="['/tipo-operacao', lembrete.tipoOperacao?.id, 'view']">{{ lembrete.tipoOperacao?.descricao }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/lembrete', lembrete.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/lembrete', lembrete.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(lembrete)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

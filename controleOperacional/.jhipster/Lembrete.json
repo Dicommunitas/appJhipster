@@ -1,0 +1,47 @@
+{
+  "name": "Lembrete",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "javadoc": "Nome dado para o lembrete",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "descricao",
+      "fieldType": "byte[]",
+      "javadoc": "Lembrete de apoio para relatório e/ou operação.",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "tipoRelatorio",
+      "otherEntityRelationshipName": "lembrete",
+      "javadoc": "Define os lembretes que servirão como guia para\\ntodos os relatórios desse tipo",
+      "relationshipName": "tipoRelatorio",
+      "otherEntityField": "nome"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "tipoOperacao",
+      "otherEntityRelationshipName": "lembrete",
+      "javadoc": "O lembrete deverá ser exibido sempre que\\numa operação selecionar o mesmo tipoOperacao\\ndo lembrete.",
+      "relationshipName": "tipoOperacao",
+      "otherEntityField": "descricao"
+    }
+  ],
+  "javadoc": "Entidade Lembrete.\\n@author Diego.\\nOs lembrestes devem aparecer nas telas de visualização e edição\\ndos relatórios e das operações, para os quais estiverem associados.\\nIsso deve ocorrer pelos tipos associados com os lembretes.\\nLembretes podem ser associadados a um tipo de relatório e/ou\\num tipo de operação.",
+  "entityTableName": "lembrete",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307001958"
+}

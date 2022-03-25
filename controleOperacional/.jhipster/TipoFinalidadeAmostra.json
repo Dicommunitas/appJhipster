@@ -1,0 +1,29 @@
+{
+  "name": "TipoFinalidadeAmostra",
+  "fields": [
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "javadoc": "Descreve a finalidade.\\nA principal informação da finalidade.\\nPara o que a amostra será usada.",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "obrigatorioLacre",
+      "fieldType": "Boolean",
+      "javadoc": "Indica se esse tipo de finalidade deve\\nter obrigatoriedade de uso de lacre.",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [],
+  "javadoc": "Entidade TipoFinalidadeAmostra.\\nIrá informar para qual finalidade a amostra\\nserá utilizada, análise, arquivo...\\n@author Diego.",
+  "entityTableName": "tipo_finalidade_amostra",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307002658"
+}

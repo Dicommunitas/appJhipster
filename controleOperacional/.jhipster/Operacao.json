@@ -1,0 +1,60 @@
+{
+  "name": "Operacao",
+  "fields": [
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "javadoc": "Descreve de forma simples a operação.",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "volumePeso",
+      "fieldType": "Integer",
+      "javadoc": "O volume ou peso total da operação. Em metros cúbicos ou toneladas",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "inicio",
+      "fieldType": "Instant",
+      "javadoc": "O horário de início da operação."
+    },
+    {
+      "fieldName": "fim",
+      "fieldType": "Instant",
+      "javadoc": "O horário de término da operação."
+    },
+    {
+      "fieldName": "quantidadeAmostras",
+      "fieldType": "Integer",
+      "javadoc": "Quantas amostras devem ter nessa operação.",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "observacao",
+      "fieldType": "String",
+      "javadoc": "Observações que forem necessárias para melhorar\\na descrição dos acontecimentos relativos da operação."
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "tipoOperacao",
+      "otherEntityRelationshipName": "operacao",
+      "relationshipValidateRules": "required",
+      "javadoc": "Define de que tipo é a operação\\n(Barcaça - Carga, Caminhão - Descarga...)",
+      "relationshipName": "tipoOperacao",
+      "otherEntityField": "descricao"
+    }
+  ],
+  "javadoc": "Entidade Operação.\\n@author Diego.\\nAo criar uma Operação deve existir\\numa opção de usar operações passadas\\ncomo modelo para sua criação, inclusive\\ncopiando o plano de amostragem",
+  "entityTableName": "operacao",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307002158"
+}

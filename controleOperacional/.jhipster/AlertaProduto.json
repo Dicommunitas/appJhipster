@@ -1,0 +1,32 @@
+{
+  "name": "AlertaProduto",
+  "fields": [
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "javadoc": "Descreve um alerta para ser usado nos produtos,\\nalgo que deva ser tratado com cuidado.",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "produto",
+      "otherEntityRelationshipName": "alertas",
+      "relationshipName": "produtos",
+      "otherEntityField": "codigo",
+      "ownerSide": false
+    }
+  ],
+  "javadoc": "Entidade AlertasProduto.\\n@author Diego.\\nIrá descrever alertas para produtos (Benzeno, Inflamável...)",
+  "entityTableName": "alerta_produto",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220307001658"
+}
