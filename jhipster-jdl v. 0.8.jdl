@@ -187,12 +187,10 @@ entity Problema {
             
 	/**
     * Uma imagem que possa facilitar a identificação do problema.
+    * A imagem não pode ter mai que 40KB.
 	*/
-    foto ImageBlob maxbytes(500)
+    foto ImageBlob maxbytes(40000)
     
-    //criadoPor User,
-    //criadoEm DateTime,
-    //atualizadoEm DateTime
 }
 
 /**
@@ -223,7 +221,19 @@ entity Status {
 	*/
     dataResolucao LocalDate
     
+    
+    
+    // Campos de "audit" (createdBy, createdDate,
+    // lastModifiedBy, lastModifiedDate) utilizando
+    // erança da classe "AbstractAuditingEntity"
+    // da mesma forma que a classe "User" gerada pelo sistema
+    //createdBy String maxlength(50)
+    createdDate Instant 
+    lastModifiedBy String maxlength(50)
+    lastModifiedDate Instant
+    //criadoPor User,
     //criadoEm DateTime,
+    //atualizadoPor User,
     //atualizadoEm DateTime
 }
 
@@ -301,9 +311,6 @@ entity Relatorio {
 	*/
     linksExternos TextBlob
     
-    //criadoPor User,
-    //criadoEm DateTime,
-    //atualizadoEm DateTime
 }
 
 /**
@@ -343,9 +350,19 @@ entity Lembrete {
 	*/
     descricao TextBlob required
     
-    //criadoPor User
-    //atualizadoPor User
-    //criadoEm DateTime
+
+    
+    // Campos de "audit" (createdBy, createdDate,
+    // lastModifiedBy, lastModifiedDate) utilizando
+    // erança da classe "AbstractAuditingEntity"
+    // da mesma forma que a classe "User" gerada pelo sistema
+    createdBy String maxlength(50)
+    createdDate Instant 
+    lastModifiedBy String maxlength(50)
+    lastModifiedDate Instant
+    //criadoPor User,
+    //criadoEm DateTime,
+    //atualizadoPor User,
     //atualizadoEm DateTime
 }
 
@@ -390,10 +407,13 @@ entity Amostra {
 	*/
     recebimentoNoLaboratorio Instant
     
-    
-    createdBy String required
+    // Campos de "audit" (createdBy, createdDate,
+    // lastModifiedBy, lastModifiedDate) utilizando
+    // erança da classe "AbstractAuditingEntity"
+    // da mesma forma que a classe "User" gerada pelo sistema
+    createdBy String maxlength(50)
     createdDate Instant 
-    lastModifiedBy String
+    lastModifiedBy String maxlength(50)
     lastModifiedDate Instant
     //criadoPor User,
     //criadoEm DateTime,
@@ -465,16 +485,26 @@ entity Operacao {
 	/**
     * Quantas amostras devem ter nessa operação.
 	*/
-	quantidadeAmostras Integer required
+	quantidadeAmostras Integer 
         
 	/**
     * Observações que forem necessárias para melhorar 
     * a descrição dos acontecimentos relativos da operação.
 	*/
 	observacao String
+    
+    
+    // Campos de "audit" (createdBy, createdDate,
+    // lastModifiedBy, lastModifiedDate) utilizando
+    // erança da classe "AbstractAuditingEntity"
+    // da mesma forma que a classe "User" gerada pelo sistema
+    createdBy String maxlength(50)
+    createdDate Instant 
+    lastModifiedBy String maxlength(50)
+    lastModifiedDate Instant
     //criadoPor User,
-    //atualizadoPor User,
     //criadoEm DateTime,
+    //atualizadoPor User,
     //atualizadoEm DateTime
 }
 
@@ -608,7 +638,7 @@ relationship ManyToOne {
 	/**
 	* Define qual o produto da amostra
 	*/
-	Amostra{produto(nomeCurto) required} to Produto
+	Operacao{produto(nomeCurto) required} to Produto
         
 	/**
 	* Define qual o tipo da amostra (Composta, Corrida...)
