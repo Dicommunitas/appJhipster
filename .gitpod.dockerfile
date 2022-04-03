@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full
+#FROM gitpod/workspace-full
 
 
 # Install custom tools, runtime, etc.
@@ -10,4 +10,9 @@ FROM gitpod/workspace-full
     
 # Apply user-specific settings
 # ENV...
-RUN sudo apt update
+ports:
+  - port: 3000
+    onOpen: open-preview
+tasks:
+  - before: if [[ -z "$experiment" ]]; then cd playground/1st-proof-of-concept; else cd playground/$experiment; fi
+    command: nvm install 13.3.0 && npm install && npm start
