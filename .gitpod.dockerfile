@@ -9,4 +9,5 @@
 # RUN docker run --name=jhipster-docker -d jhipster/jhipster:latest 
     
 # Apply user-specific settings
-
+# ENV...
+RUN
