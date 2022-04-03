@@ -1,2 +1,2 @@
 FROM gitpod/workspace-mysql
-FROM jhipster/jhipster
+#FROM jhipster/jhipster
