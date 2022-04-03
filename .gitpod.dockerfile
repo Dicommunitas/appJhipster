@@ -10,4 +10,4 @@
     
 # Apply user-specific settings
 # ENV...
-RUN
+RUN sudo apt update
