@@ -12,7 +12,7 @@
 # ENV...
 
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-version: '3.8'
+#version: '3.8'
 services:
   controleoperacional-mysql:
     image: mysql:8.0.28
