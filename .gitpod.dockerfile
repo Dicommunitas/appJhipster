@@ -1,4 +1,4 @@
-#FROM gitpod/workspace-full
+FROM gitpod/workspace-full
 
 # Install custom tools, runtime, etc.
 #RUN sudo apt update && sudo apt upgrade -y 
