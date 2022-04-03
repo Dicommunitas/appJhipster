@@ -1,10 +1,7 @@
 #FROM gitpod/workspace-full
 
-RUN echo "----------------------------------"
 RUN service --status-all
 RUN sleep 3
-RUN echo "----------------------------------"
-
 
 # Install custom tools, runtime, etc.
 #RUN sudo apt update && sudo apt upgrade -y 
