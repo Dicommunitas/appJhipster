@@ -24,7 +24,7 @@ RUN mkdir -p ~/pg/data
 RUN mkdir -p ~/pg/scripts 
 RUN mkdir -p ~/pg/logs 
 RUN mkdir -p ~/pg/sockets 
-RUN initdb -D pg/data/
+RUN initdb -d pg/data/
 RUN echo '#!/bin/bash\npg_ctl -D ~/pg/data/ -l ~/pg/logs/log -o "-k ~/pg/sockets" start' > ~/pg/scripts/pg_start.sh
 RUN echo '#!/bin/bash\npg_ctl -D ~/pg/data/ -l ~/pg/logs/log -o "-k ~/pg/sockets" stop' > ~/pg/scripts/pg_stop.sh
 RUN chmod +x ~/pg/scripts/*
