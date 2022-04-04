@@ -3,8 +3,8 @@
 
 
 # Install custom tools, runtime, etc.
-USER root
-RUN apt update && sudo apt upgrade -y 
+#USER root
+RUN apt update && apt upgrade -y 
 RUN service --status-all 
 #USER gitpod
 # RUN sudo docker-up
@@ -45,4 +45,4 @@ RUN service --status-all
 #ENV ROCKET_PORT=8000
 
 # Give back control
-USER root
+#USER root
