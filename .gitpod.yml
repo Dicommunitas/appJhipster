@@ -1,22 +1,2 @@
-#image:
-#  file: .gitpod.dockerfile
-image: gitpod/workspace-mysql
-ports:
-- port: 3306
-  onOpen: ignore
-- port: 8005
-  onOpen: ignore
-- port: 8009
-  onOpen: ignore
-- port: 8080
-- port: 8081
-  onOpen: ignore
-- port: 8443
-tasks:
-- command: |
-      # NB MySQL on GitPod.io is currently quite slow.
-      # similar to .travis.yml, but using authentication_string= instead of password= due to mysql major version difference
-      mysql -e "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('mysql') WHERE user='root';\nFLUSH PRIVILEGES;\n"
-      ./gradlew createDB -PdbName=fineract_tenants
-      ./gradlew createDB -PdbName=fineract_default
-      ./gradlew build -x test
+image:
+  file: .gitpod.dockerfile
