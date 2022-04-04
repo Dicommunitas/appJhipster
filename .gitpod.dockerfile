@@ -4,7 +4,7 @@
 
 # Install custom tools, runtime, etc.
 #USER root
-RUN apt update && apt upgrade -y 
+RUN sudo apt update && apt upgrade -y 
 RUN service --status-all 
 #USER gitpod
 # RUN sudo docker-up
