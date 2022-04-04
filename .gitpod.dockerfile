@@ -2,6 +2,15 @@
 #FROM gitpod/workspace-full:latest
 FROM jhipster/jhipster:latest 
 
+#Current default time zone: 'America/Sao_Paulo'
+#sudo apt update
+#lrwxrwxrwx 1 root root 37 Apr  4 04:21 /etc/localtime -> /usr/share/zoneinfo/America/Sao_Paulo
+#sudo apt upgrade
+#sudo apt install mysql-server
+#sudo /etc/init.d/mysql stop
+#sudo mysqld --skip-grant-tables - skip-networking &
+
+
 
 # Install custom tools, runtime, etc.
 #USER root
