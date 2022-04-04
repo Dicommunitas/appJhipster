@@ -1,11 +1,12 @@
 #FROM gitpod/workspace-full
 #FROM gitpod/workspace-full:latest
+FROM jhipster/jhipster:latest 
 
 
 # Install custom tools, runtime, etc.
 #USER root
-RUN sudo apt update && apt upgrade -y 
-RUN service --status-all 
+#RUN sudo apt update && apt upgrade -y 
+#RUN service --status-all 
 #USER gitpod
 # RUN sudo docker-up
 #RUN docker run --name=mysql-docker -d mysql/mysql-server:latest  
