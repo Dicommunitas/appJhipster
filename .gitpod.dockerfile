@@ -55,4 +55,4 @@ FROM gitpod/workspace-full:latest
 #ENV ROCKET_PORT=8000
 
 # Give back control
-#USER root
+USER root
