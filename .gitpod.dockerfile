@@ -1,4 +1,5 @@
 #FROM gitpod/workspace-full
+FROM gitpod/workspace-full:latest
 
 
 # Install custom tools, runtime, etc.
