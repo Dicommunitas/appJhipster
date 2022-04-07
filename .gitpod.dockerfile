@@ -1,5 +1,5 @@
 #FROM gitpod/workspace-full
-#FROM gitpod/workspace-full:latest
+FROM gitpod/workspace-full:latest
 #FROM jhipster/jhipster:latest 
 
 #Current default time zone: 'America/Sao_Paulo'
