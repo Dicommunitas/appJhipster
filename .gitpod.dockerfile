@@ -1,6 +1,6 @@
 #FROM gitpod/workspace-full
-#FROM gitpod/workspace-full:latest
-FROM jhipster/jhipster:latest 
+FROM gitpod/workspace-full:latest
+#FROM jhipster/jhipster:latest 
 
 #Current default time zone: 'America/Sao_Paulo'
 #sudo apt update
@@ -13,8 +13,9 @@ FROM jhipster/jhipster:latest
 
 
 # Install custom tools, runtime, etc.
-#USER root
-#RUN sudo apt update && apt upgrade -y 
+USER root
+RUN sudo apt update && apt upgrade -y 
+RUN sudo apt install mysql-server -y
 #RUN service --status-all 
 #USER gitpod
 # RUN sudo docker-up
