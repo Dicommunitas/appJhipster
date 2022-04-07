@@ -811,6 +811,9 @@ relationship ManyToMany {
 // SHOW tables;
 // DESCRIBE nome-da-tabela;
 // SELECT * FROM nome-da-tabela;
+// SELECT * FROM user\G
+// SELECT * FROM user WHERE User="gitpod"\G
+// ALTER USER 'gitpod'@'127.0.0.1' IDENTIFIED BY '';\nFLUSH PRIVILEGES;
 // DROP DATABASE nome-do-banco;
 // DROP DATABASE controleOperacional;
 
