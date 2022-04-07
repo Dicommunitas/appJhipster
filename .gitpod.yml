@@ -5,9 +5,9 @@ tasks:
 - command:  nvm install v16.14.2 && sleep 2 && nvm use v16.14.2 && sleep 2 && npm -v && npm install -g npm@8.6.0 && npm -v && sleep 2 && npm install -g generator-jhipster
 
 # exposed ports
-#ports:
-#- port: 8080
-#  onOpen: open-preview
+ports:
+- port: 8080
+  onOpen: open-preview
 
 vscode:
   extensions:

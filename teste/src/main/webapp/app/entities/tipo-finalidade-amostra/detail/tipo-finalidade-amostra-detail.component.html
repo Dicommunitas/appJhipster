@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="tipoFinalidadeAmostra">
+      <h2 data-cy="tipoFinalidadeAmostraDetailsHeading">
+        <span jhiTranslate="controleOperacionalApp.tipoFinalidadeAmostra.detail.title">Tipo Finalidade Amostra</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ tipoFinalidadeAmostra.id }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.tipoFinalidadeAmostra.descricao"
+            [ngbTooltip]="'controleOperacionalApp.tipoFinalidadeAmostra.help.descricao' | translate"
+            >Descricao</span
+          >
+        </dt>
+        <dd>
+          <span>{{ tipoFinalidadeAmostra.descricao }}</span>
+        </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.tipoFinalidadeAmostra.obrigatorioLacre"
+            [ngbTooltip]="'controleOperacionalApp.tipoFinalidadeAmostra.help.obrigatorioLacre' | translate"
+            >Obrigatorio Lacre</span
+          >
+        </dt>
+        <dd>
+          <span>{{ tipoFinalidadeAmostra.obrigatorioLacre }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/tipo-finalidade-amostra', tipoFinalidadeAmostra.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

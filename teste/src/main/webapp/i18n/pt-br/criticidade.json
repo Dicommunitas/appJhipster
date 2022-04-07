@@ -1,0 +1,11 @@
+{
+  "controleOperacionalApp": {
+    "Criticidade": {
+      "null": "",
+      "BAIXA": "BAIXA",
+      "MEDIA": "MEDIA",
+      "ALTA": "ALTA",
+      "IMEDIATA": "IMEDIATA"
+    }
+  }
+}

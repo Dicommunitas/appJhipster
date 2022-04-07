@@ -1,0 +1,828 @@
+//================ Criando o projeto =================================
+application {
+  config {
+    applicationType monolith
+    baseName controleOperacional
+    serverPort 8080
+    packageName com.operacional.controleoperacional
+    
+    //Mecanismo para balanceamento 
+    //de carga de servidores
+    serviceDiscoveryType eureka
+    
+    authenticationType jwt
+    // **** não consegui fazer funcionar oauth2 *****
+    //authenticationType oauth2
+    prodDatabaseType mysql
+    devDatabaseType mysql
+    
+    //Mecanismo de cache para 
+    //o banco de dados
+    cacheProvider hazelcast
+    enableHibernateCache true
+    
+    buildTool maven
+    
+    //Mecanismo para facilitar buscas
+    //no banco de dados (não funciona com Hibernate)
+    // **** não consegui fazer funcionar *****
+    //searchEngine elasticsearch
+    //enableHibernateCache false
+    
+    
+    // Para trabalhar com mensageria em tempo real
+    //messageBroker kafka
+    
+    //Swagger Codegen is an open source project 
+    //which allows generation of API client 
+    //libraries (SDK generation), server stubs, 
+    //and documentation automatically from an 
+    //OpenAPI Specification.
+    enableSwaggerCodegen true
+    
+    clientFramework angularX
+    
+    //Do you want to generate the admin UI?
+    //withAdminUi true
+    
+    //Bootswatch themes for Bootstrap
+    clientTheme spacelab
+    clientThemeVariant dark
+    
+    nativeLanguage 	pt-br
+    languages 	[pt-br, en]
+
+	// gatling - teste de performance (teste de carga)
+	// cucumber - teste BDD (Behavior-Driven Development
+    // - Desenvolvimento Orientado por Comportamento) 
+	// protractor - teste de aplicação AngularJS end-to-end
+	// cypress - teste de aplicação JavaScript End to End
+    testFrameworks [ cypress, gatling, cucumber]
+    //cypressCoverage true
+    
+  }
+  entities *
+  paginate Produto, Amostra, Operacao, Problema, Relatorio with infinite-scroll
+  //paginate * with pagination
+  //paginate Produto with pagination
+  //paginate FinalidadeAmostra with pager  
+  // pager is only available in AngularJS
+  
+  service * with serviceImpl
+  dto * with mapstruct
+  filter Amostra, Operacao, Problema, Relatorio, Produto
+}
+
+//============ Fim da criação do projeto =============================
+
+//====== Exemplo de criação de um projeto com microservice ===========
+
+//application {
+//  config {
+//    applicationType microservice
+//    baseName controleAmostraMicroservice
+//    serverPort 8081
+//    packageName com.operacional.controleamostramicroservice
+//    
+//    serviceDiscoveryType eureka  
+//    authenticationType jwt
+//    prodDatabaseType mysql
+//    devDatabaseType mysql
+//    buildTool maven
+//    enableSwaggerCodegen true
+//    nativeLanguage 	pt-br
+//    languages 	[pt-br, en]
+//    testFrameworks [ gatling, cucumber]
+//  }
+//  entities A, B
+  
+  // Verificar opção de busca
+  //search A with elasticsearch
+  
+  // Criação da classe de validação para 
+  // as regras de negócios
+  // service A with serviceImpl
+//}
+
+//==== Fim do exemplo de criação de um projeto com microservice =======
+
+//============== Criando as entidades =================================
+
+/**
+ * Entidade Problema.
+ * @author Diego.
+ * Um problema pode ser qualquer anormalidade encontrada.
+ * Um problema pode ter vários status para sua finalização
+ * cada status devem ser tratado por uma área necessária ao
+ * tratamento do problema.
+ * Os problemas devem ter sua apresentação para 
+ * o usuário de forma diferenciada com relação
+ * aos status resolvidos e não resolvidos, assim
+ * como problemas já finalizados e não finalizados. Para
+ * fácil identificação.
+ */
+entity Problema {
+    
+	/**
+    * A data em que o problema foi verificado.
+	*/
+        
+    //cria um campo com o formato dd/mm/aaaa
+    //Ex.: no campo 19/02/2022
+    // no banco 2022-02-19
+    //LocalDate - Representa uma data.
+    dataVerificacao LocalDate required
+    
+    
+    //cria um campo com o formato dd/mm/aaaa hh:mm
+    //no banco de dados salva com 3 horas a mais
+    //Ex.: no campo 19/02/2022 12:00
+    // no banco 2022-02-19 15:00:00.000000
+    //ZoneDateTime - Representa uma data com hora e fuso horário.
+    //dataZonedDateTime ZonedDateTime required
+    
+    
+    //cria um campo com o formato dd/mm/aaaa hh:mm
+    //no banco de dados salva com 3 horas a mais
+    //Ex.: no campo 19/02/2022 12:00
+    // no banco 2022-02-19 15:00:00.000000
+    //Instant - Representa um momento (data e hora) no tempo em UTC.
+    //dataInstant Instant required
+    
+    
+    //cria um campo que irá recebr um valor em hora minutos e segundos
+    //Ex.: no campo PT1H29M30.132S
+    // no banco 5370132000000
+    //Duration - Representa uma quantidade de tempo em dias, 
+    //horas, minutos, segundos e nanosegundos.
+    //dataDuration Duration required
+    
+	/**
+	* Descrição do problema.
+	*/
+    descricao String required
+    
+	/**
+    * Gravidade do problema. 
+    * Se o problema tiver criticidade IMEDIATA
+    * o atributo impácto não pode estar em branco
+	*/
+    criticidade Criticidade required
+    
+	/**
+    * O impácto do problema para o sistema como um todo. 
+    * Se o problema tiver criticidade IMEDIATA
+    * o atributo impácto não pode estar em branco
+	*/
+    impacto String required
+        
+	/**
+    * Imforma se o problema foi finalizado/sanado. 
+    * Somente quem criou o problema tem permisão 
+    * para informar sua finalização.
+    * O problema só pode ser finalizado se ele tiver 
+    * todos os seus status resolvidos.
+	*/
+    dataFinalizacao LocalDate
+            
+	/**
+    * Uma imagem que possa facilitar a identificação do problema.
+    * A imagem não pode ter mai que 40KB.
+	*/
+    foto ImageBlob maxbytes(40000)
+    
+}
+
+/**
+ * Entidade Status.
+ * @author Diego.
+ * Descreve a situação do andamento para solução
+ * de um problema. Um problema pode ter vários 
+ * status até sua finalização.
+ * Um status só pode ser alterado por quem for
+ * o atual responsável em resolve-lo.
+ * Ao criar um novo Status usar como modelo o último 
+ * criado pelo usuário.
+ */
+entity Status {
+	/**
+    * Descreve o status, a situação que está sendo tratada
+    * que impede que o problema seja finalizado.
+	*/
+    descricao TextBlob required
+    
+	/**
+    * O prazo em que o status deve ser resolvido.
+	*/
+    prazo LocalDate required
+    
+    /**
+    * Indica em que data o status foi resolvido.
+	*/
+    dataResolucao LocalDate
+    
+    
+    
+    // Campos de "audit" (createdBy, createdDate,
+    // lastModifiedBy, lastModifiedDate) utilizando
+    // erança da classe "AbstractAuditingEntity"
+    // da mesma forma que a classe "User" gerada pelo sistema
+    //createdBy String maxlength(50)
+    createdDate Instant 
+    lastModifiedBy String maxlength(50)
+    lastModifiedDate Instant
+    //criadoPor User,
+    //criadoEm DateTime,
+    //atualizadoPor User,
+    //atualizadoEm DateTime
+}
+
+/**
+ * Entidade Criticidade.
+ * @author Diego.
+ */
+enum Criticidade {
+    BAIXA, MEDIA, ALTA, IMEDIATA
+}
+
+/**
+ * Entidade AlertasProduto.
+ * @author Diego.
+ * Irá descrever alertas para produtos (Benzeno, Inflamável...)
+ */
+entity AlertaProduto {
+
+    /**
+    * Descreve um alerta para ser usado nos produtos,
+    * algo que deva ser tratado com cuidado.
+	*/
+    descricao String required
+}
+
+/**
+ * Entidade Relatorio.
+ * @author Diego.
+ * Na tela de visualização/edição de um relatório
+ * deve ser mostrado uma lista das operações com fim em branco
+ * ou início em até 12 horas antes da hora de criação do relatório,
+ * uma lista dos problemas com o campo aceitarFinalizacao em falso 
+ * e uma lista das amostras criadas em até 12 horas antes da
+ * criação do relatório.
+ * Também deve ser apresentado um "satatus" do
+ * plano de amostragem.
+ *
+ * Um relatório só pode ser alterado/excluído por quem o criou
+ * e se ele for o último relatório do seu tipo.
+ *
+ * Na tela de visualização/edição de um relatório
+ * deve ser mostrado as telas dos linksExternos
+ * exemplo a tela do Paranaguá pilots. 
+ *
+ * Ao usar iframe verificar o funcionamento de links com 
+ * caminhos relativos, para dentro do projeto com links internos,
+ * e caminhos absolutos, para links externos.
+ * https://pt.stackoverflow.com/questions/2315/diferen%C3%A7a-entre-urls-absolutos-e-relativos-nos-conte%C3%BAdos-da-p%C3%A1gina
+ */
+entity Relatorio {
+
+    /**
+    * Data e hora que o relatório foi criado.
+	*/
+	dataHora Instant required
+    
+	
+	// Atributo relato.
+    // Verificar a viabilidade de usar um objeto
+    // e não um texto.
+    //
+    // Usar comparação de texto para visualizar as
+    // alterações entre o últomo relatório criado e o último
+    // relatório criado pelo usuário.
+    /**
+    * Relato descritivo. As informações pertinentes para o relatório.
+	*/
+    relato TextBlob required
+           
+	
+	// Atributo linksExternos.
+    // Verificar a viabilidade de usar iframe
+    /**
+    * Links e lembretes de apoio para o relatório.
+	*/
+    linksExternos TextBlob
+    
+}
+
+/**
+ * Entidade TipoRelatorio.
+ * @author Diego.
+ * O TipoRelatorio irá descrever de que tipo é
+ * o relatório, relatório de sutur, relatório píer, cco...
+ * Deve existir uma tela com um botão para listar todos
+ * os relatórios agrupados por seus tipos.
+ */
+entity TipoRelatorio {
+	/**
+	* Nome dado ao grupo de relatórios.
+	*/
+    nome String required
+}
+
+
+/**
+ * Entidade Lembrete.
+ * @author Diego.
+ * Os lembrestes devem aparecer nas telas de visualização e edição 
+ * dos relatórios e das operações, para os quais estiverem associados.
+ * Isso deve ocorrer pelos tipos associados com os lembretes.
+ * Lembretes podem ser associadados a um tipo de relatório e/ou 
+ * um tipo de operação.
+ */
+entity Lembrete {
+	
+	/**
+	* Nome dado para o lembrete
+	*/
+    nome String required
+    
+	/**
+	* Lembrete de apoio para relatório e/ou operação.
+	*/
+    descricao TextBlob required
+    
+
+    
+    // Campos de "audit" (createdBy, createdDate,
+    // lastModifiedBy, lastModifiedDate) utilizando
+    // erança da classe "AbstractAuditingEntity"
+    // da mesma forma que a classe "User" gerada pelo sistema
+    createdBy String maxlength(50)
+    createdDate Instant 
+    lastModifiedBy String maxlength(50)
+    lastModifiedDate Instant
+    //criadoPor User,
+    //criadoEm DateTime,
+    //atualizadoPor User,
+    //atualizadoEm DateTime
+}
+
+entity User {
+}
+
+    
+// Verificar a aplicabilidade de criar previamente 
+// amostras em bloco, exemplo, ao criar uma operação nova (usando
+// uma anterior como base) copiar suas amostras com os campos
+// "amostrado por", "recebidaPor" e data da coleta em branco.
+/**
+ * Entidade Amostra.
+ * @author Diego.
+ */
+entity Amostra {
+	
+	// Atributo dataHora.
+    // não deve ser obrigatório e as amostras
+    // por padrão devem ser ordenadas pela data
+    // ficando as mais novas por primeiro na 
+    // vizualização e as sem data por útimo
+    /** 
+    * Data e hora que a amostra foi coletada.
+	*/
+	dataHoraColeta Instant
+    
+	/**
+    * Observações que forem necessárias para melhorar 
+    * a identificação da amostra.
+	*/
+    observacao String
+    
+	/**
+    * Identificador que "ligue/identifique" essa
+    * amostra em outro sistema.
+	*/
+	identificadorExterno String
+    
+	/**
+    * Identifica se a amostra está ou não no laboratório.
+	*/
+    recebimentoNoLaboratorio Instant
+    
+    // Campos de "audit" (createdBy, createdDate,
+    // lastModifiedBy, lastModifiedDate) utilizando
+    // erança da classe "AbstractAuditingEntity"
+    // da mesma forma que a classe "User" gerada pelo sistema
+    createdBy String maxlength(50)
+    createdDate Instant 
+    lastModifiedBy String maxlength(50)
+    lastModifiedDate Instant
+    //criadoPor User,
+    //criadoEm DateTime,
+    //atualizadoPor User,
+    //atualizadoEm DateTime
+    
+
+}
+
+/**
+ * Entidade Operação.
+ * @author Diego.
+ * Ao criar uma Operação deve existir
+ * uma opção de usar operações passadas
+ * como modelo para sua criação, inclusive
+ * copiando o plano de amostragem
+ */
+entity Operacao {
+    
+	// Atributo descrição.
+    // Deve existir algum tipo de indicação
+    // que mostre a quantidade de amostras
+    // suficiente ou insuficiente para a operação.
+    // Deve existir uma visualização em lista 
+    // de todas as amostras pertencentes a operação
+    // na sua tela de visualização
+    // Deve existir um recurso para facilitar
+    // a conferência do plano de amostragem
+    // durante a criação da operação.
+    // A partir do momento que uma amostra for associada
+    // a uma operação, esta operação não pode ter mais sua
+    // descrição alterada, visto que na etiqueta da amostra
+    // irá aparecer essa descrição para sua identificação.
+	/**
+    * Descreve de forma simples a operação.
+	*/
+    descricao String required 
+    
+	/**
+    * O volume ou peso total da operação. Em metros cúbicos ou toneladas
+	*/
+	volumePeso Integer required
+    
+	/**
+    * O horário de início da operação.
+	*/
+	inicio Instant
+    
+	/**
+    * O horário de término da operação.
+	*/
+	fim Instant
+    
+	// Atributo quantidadeAmostras, mostra
+    // quantas amostras devem fazer parte da operação. 
+    // Foco em cumprir o plano de amostragem.
+    // Uma possível solução seria um botão
+    // para criar novas operações usando 
+    // operações passadas como modelo, outra
+    // solução mais elaborada seria existir 
+    // vários planos de amostragem já
+    // cadastrados, esses planos teriam um nome
+    // e uma lista de amostras, assim sempre
+    // que uma operação selecionar este plano
+    // novas amostras seriam criadas, usando
+    // a lista do plano de amostragem como
+    // modelo.
+    // Outra alternativa seria usar um lembrete como guia.
+	/**
+    * Quantas amostras devem ter nessa operação.
+	*/
+	quantidadeAmostras Integer 
+        
+	/**
+    * Observações que forem necessárias para melhorar 
+    * a descrição dos acontecimentos relativos da operação.
+	*/
+	observacao String
+    
+    
+    // Campos de "audit" (createdBy, createdDate,
+    // lastModifiedBy, lastModifiedDate) utilizando
+    // erança da classe "AbstractAuditingEntity"
+    // da mesma forma que a classe "User" gerada pelo sistema
+    createdBy String maxlength(50)
+    createdDate Instant 
+    lastModifiedBy String maxlength(50)
+    lastModifiedDate Instant
+    //criadoPor User,
+    //criadoEm DateTime,
+    //atualizadoPor User,
+    //atualizadoEm DateTime
+}
+
+
+/**
+ * Entidade TipoOperacao.
+ * @author Diego.
+ */
+entity TipoOperacao {
+
+	/**
+    * Descreve de forma simples um tipo de operação.
+	*/
+    descricao String required
+}
+
+/**
+ * Entidade OrigemAmostra, irá descrever de onde
+ * a amostra foi retirada, linha 01, tanque 02...
+ * O local onde a amostra foi coletada.
+ * @author Diego.
+ */
+entity OrigemAmostra {
+
+	/**
+    * Descreve de forma simples a origem de uma amostra.
+	* O local da coleta, linha, tanque...
+    * A principal informação descritiva da origem do 
+    * produto coletado.
+	*/
+    descricao String required
+}
+
+/**
+ * Entidade TipoAmostra.
+ * @author Diego.
+ */
+entity TipoAmostra {
+
+	/**
+	* Deve descrever de forma simples de qual tipo é a amostra.
+	*/
+    descricao String required
+}
+
+/**
+ * Entidade FinalidadeAmostra.
+ * @author Diego.
+ */
+entity FinalidadeAmostra {
+	
+	// Amostras que tenham alguma finalidade com 
+    // obrigatoriedade de lacre, porém estejam sem lacre,
+    // não poderão ser impressas, mas podem ser criadas.
+	/**
+	* O número do lacre do recipiente da amostra.
+	*/
+    lacre Integer unique
+}
+
+/**
+ * Entidade TipoFinalidadeAmostra.
+ * Irá informar para qual finalidade a amostra
+ * será utilizada, análise, arquivo...
+ * @author Diego.
+ */
+entity TipoFinalidadeAmostra {
+
+	/**
+	* Descreve a finalidade.
+	* A principal informação da finalidade.
+    * Para o que a amostra será usada.
+	*/
+    descricao String required,
+    
+	// Amostras que tenham alguma finalidade sem lacre
+    // com obrigatoriedade de lacre não poderão ser impressas,
+    // porém podem ser criadas.
+	/**
+    * Indica se esse tipo de finalidade deve 
+    * ter obrigatoriedade de uso de lacre.
+	*/
+    obrigatorioLacre Boolean required
+}
+
+/**
+ * Entidade Produto.
+ * @author Diego.
+ */
+entity Produto {
+
+	/**
+	* O código deve ter máximo 3 aracteres.
+    * Deve ser igual ao do BDEMQ
+	*/
+    codigoBDEMQ String required maxlength(3) unique
+    
+	/**
+	* Informa o nome curto do produto.
+    * Deve ser igual ao do BDEMQ
+	*/
+    nomeCurto String required
+    
+	/**
+	* Informa o nome completo do produto.
+    * Deve ser igual ao do BDEMQ
+	*/
+    nomeCompleto String required
+
+}
+
+//============== Fim da Criação das entidades ==========================
+
+
+//================ Início dos relacionamentos ===========================
+
+//define vários relacionamentos ManyToOne com comentários
+//Relacionamentos unidirecionais
+relationship ManyToOne {
+
+	/**
+	* Define a qual operação pertence a amostra
+	*/
+	Amostra{operacao(descricao) required} to Operacao 
+        
+	/**
+	* Define qual é a origem da amostra
+	*/
+	Amostra{origemAmostra(descricao) required} to OrigemAmostra
+        
+	/**
+	* Define qual o produto da amostra
+	*/
+	Operacao{produto(nomeCurto) required} to Produto
+        
+	/**
+	* Define qual o tipo da amostra (Composta, Corrida...)
+	*/
+	Amostra{tipoAmostra(descricao) required} to TipoAmostra
+    
+    /**
+	* Define qual a finalidade da amostra (Arquivo, Análise...)
+	*/
+    FinalidadeAmostra{tipoFinalidadeAmostra(descricao) required}
+    	to TipoFinalidadeAmostra
+    
+    /**
+	* Define de que tipo é o relatório (Supervisor, controle, píer...)
+	*/
+    Relatorio{tipo(nome)} to TipoRelatorio
+           
+    /**
+	* Define os lembretes que servirão como guia para
+    * todos os relatórios desse tipo
+	*/
+    Lembrete{tipoRelatorio(nome)} to TipoRelatorio
+    
+	/**
+    * O lembrete deverá ser exibido sempre que 
+    * uma operação selecionar o mesmo tipoOperacao
+    * do lembrete.
+	*/
+    Lembrete{tipoOperacao(descricao)} to TipoOperacao
+    
+    /**
+	* Define de que tipo é a operação 
+    * (Barcaça - Carga, Caminhão - Descarga...)
+	*/
+	Operacao{tipoOperacao(descricao) required} to TipoOperacao
+    
+	/**
+	* Quem é o relator do status,
+    * o último usuário que atualizou.
+	*/
+	Status{relator(login) required} to User
+    
+    /**
+	* Atributo responsável.
+    * descreve qual será o usuário que deve dar 
+    * a tratativa para resolver o status
+	*/    
+	Status{responsavel(login) required} to User 
+    
+	/**
+	* Quem é o relator do problema.
+	*/
+	Problema{relator(login) required} to User 
+    
+	/**
+	* Quem criou o relatório.
+	*/
+	Relatorio{responsavel(login) required} to User
+    
+    // Enquanto estiver em branco a amostra pode ser alterada
+    // e excluída a qualquer momento e deverá ter outra 
+    // cor de identificação na listagem.
+    /**
+	* Quem retirou a amostra, responsável pela amostragem.
+	*/
+    Amostra{amostradaPor(login)} to User
+    
+    /**
+	* Quem recebeu a amostra no laboratório.
+	*/
+    Amostra{recebidaPor(login)} to User
+}
+
+//define vários relacionamentos OneToMany com comentários
+//Relacionamentos bidirecionais
+relationship OneToMany {
+
+	/**
+	* Todo problema deverá ter pelo menos 
+    * um Status, que será um relato da situação
+    * inicial do problema.
+	*/
+	Problema{status(descricao)} to Status{problema(descricao) required}
+    
+	/**
+	* Descreve quais serão as finalidades de uma amostra
+	*/
+	Amostra{finalidades(lacre)} 
+    	to FinalidadeAmostra{amostra(dataHoraColeta) required}
+}
+
+//define vários relacionamentos ManyToMany com comentários
+relationship ManyToMany {
+	    
+	/**
+	* Irá informar uma
+    * lista de alertas pré definidos.
+	*/
+	Produto{alertas(descricao)} 
+    	to AlertaProduto{produtos(codigo)}
+    
+    
+	/**
+	* Descreve quais usuários podem alterar os relatórios 
+    * desse tipo
+	*/
+	TipoRelatorio{usuariosAut(login)} 
+    	to User{relAutorizados(nome)} 
+
+}
+
+//define vários relacionamentos OneToOne com comentários
+//relationship OneToOne {
+
+//}
+
+//============= Fim dos relacionamentos =============================
+
+
+//============= Comandos úteis =====================================
+
+// Usar um dos comandos abaixo para gerar o código.
+// jhipster jdl ./jhipster-jdl.jdl 
+// jhipster jdl ./my-jdl-file.jdl --json-only
+// By default jdl regenerates only entities which have changed, 
+// if you want all your entities to be regenerated
+// then pass in the --force flag. Please note that this 
+// will overwrite all your local changes to the entity files
+// jhipster jdl ./my-jdl-file.jdl --force
+    
+// Ao término da criação da aplicação terá um arquivo
+// .yo-rc.json
+// este aquivo mostra todas as opções escolhidas durante a criação do projeto
+
+// Alterar a senha no arquivo de configuração do banco de dados em:
+// .../src/main/resources/config/application-dev OU prod.yml
+
+// Usar o comando abaixo dentro do diretório raiz do projeto para iniciar o servidor frontend.
+// npm start
+
+// Usar o comando abaixo dentro do diretório raiz do projeto para iniciar o servidor backend.
+// ./mvnw
+
+// Cypress/Protractor
+// UI integration tests are done with Cypress or Protractor,
+// and are located in the src/test/javascript/e2e folder.
+// Those tests will launch a Web browser and use the application
+// like a real user would do, so you need to have a real application
+// running, with its database set-up.
+// Those tests can be run using: 
+// npm run e2e.
+
+// As regras de negócios ficam dentro de 
+// /src/main/java/.../service
+// criar e usar serviceImpl 
+
+
+// Application “hot restart” with Spring Boot devtools
+// Spring Boot devtools is configured by JHipster, 
+// and will “hot restart” your application when 
+// classes from your project are compiled.
+// To use it within Visual Studio Code, you need to:
+//    Run your application in a terminal, typically by typing ./mvnw
+//    In another terminal, compile your application: ./mvnw compile
+
+// Como conectar ao MySQL
+// mysql -u root -p
+// SHOW DATABASES;
+// USE nome-do-banco;
+// SHOW tables;
+// DESCRIBE nome-da-tabela;
+// SELECT * FROM nome-da-tabela;
+// SELECT * FROM user\G
+// SELECT * FROM user WHERE User="gitpod"\G
+// ALTER USER 'gitpod'@'127.0.0.1' IDENTIFIED BY '';\nFLUSH PRIVILEGES;
+// DROP DATABASE nome-do-banco;
+// DROP DATABASE controleOperacional;
+
+//comando para criar imagem docker, tem que estar na raiz do projeto:
+// ./mvnw  package jib:dockerBuild
+
+//comando para ver a imagem criadas
+//docker images
+
+//comando para rodar a imagem, é preciso criar o arqivo de configuração
+//para a cominicação entre as imagens controleoperacional e a do mysaql
+// docker run controleoperacional
