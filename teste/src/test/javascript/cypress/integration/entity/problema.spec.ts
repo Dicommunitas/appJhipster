@@ -16,7 +16,7 @@ describe('Problema e2e test', () => {
   const problemaPageUrlPattern = new RegExp('/problema(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const problemaSample = { dataVerificacao: '2022-04-06', descricao: 'B2B users', criticidade: 'IMEDIATA', impacto: 'Rodovia strategy' };
+  const problemaSample = { dataVerificacao: '2022-04-07', descricao: 'B2B users', criticidade: 'IMEDIATA', impacto: 'Rodovia strategy' };
 
   let problema: any;
   //let user: any;

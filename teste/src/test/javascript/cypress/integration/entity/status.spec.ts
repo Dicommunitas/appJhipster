@@ -234,11 +234,11 @@ describe('Status e2e test', () => {
 
       cy.get(`[data-cy="dataResolucao"]`).type('2022-04-07').should('have.value', '2022-04-07');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-07T11:00').should('have.value', '2022-04-07T11:00');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-07T11:52').should('have.value', '2022-04-07T11:52');
 
       cy.get(`[data-cy="lastModifiedBy"]`).type('Solutions').should('have.value', 'Solutions');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-07T08:18').should('have.value', '2022-04-07T08:18');
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-07T09:09').should('have.value', '2022-04-07T09:09');
 
       cy.get(`[data-cy="relator"]`).select(1);
       cy.get(`[data-cy="responsavel"]`).select(1);

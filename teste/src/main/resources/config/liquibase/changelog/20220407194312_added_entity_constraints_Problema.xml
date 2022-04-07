@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Problema.
     -->
-    <changeSet id="20220407185138-2" author="jhipster">
+    <changeSet id="20220407194312-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="relator_id"
                                  baseTableName="problema"
