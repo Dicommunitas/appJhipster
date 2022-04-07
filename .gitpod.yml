@@ -1,6 +1,6 @@
 #image:
 #  file: .gitpod.dockerfile
-#tasks:
+tasks:
 - init: docker-compose up 
 #  command: java -jar target/*.jar
 #
@@ -9,9 +9,9 @@
 #- port: 8080
 #  onOpen: open-preview
 #
-#vscode:
-#  extensions:
-#    - redhat.java
-#    - vscjava.vscode-java-debug
-#    - vscjava.vscode-java-test
-#    - pivotal.vscode-spring-boot
+vscode:
+  extensions:
+    - redhat.java
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-test
+    - pivotal.vscode-spring-boot
