@@ -1,7 +1,7 @@
 #image:
 #  file: .gitpod.dockerfile
 #tasks:
-#- init: ./mvnw package -DskipTests
+- init: docker-compose up 
 #  command: java -jar target/*.jar
 #
 # exposed ports
