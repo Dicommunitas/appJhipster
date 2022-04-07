@@ -2,10 +2,7 @@
 #  file: .gitpod.dockerfile
 tasks:
 - init: docker-compose -f controleOperacional/src/main/docker/mysql.yml up -d
-- command:  nvm install v16.14.2 && sleep 5
-- command:  nvm use v16.14.2 && sleep 5
-- command:  npm install -g npm@8.6.0  && sleep 5
-- command:  npm install -g generator-jhipster
+- command:  nvm install v16.14.2 && sleep 5 && nvm use v16.14.2 && sleep 5 && npm install -g npm@8.6.0  && sleep 5 && npm install -g generator-jhipster
 
 # exposed ports
 ports:
