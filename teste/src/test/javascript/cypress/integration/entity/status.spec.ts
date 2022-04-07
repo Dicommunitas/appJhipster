@@ -40,7 +40,7 @@ describe('Status e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/problemas',
-      body: {"dataVerificacao":"2022-04-06","descricao":"Account transmitter","criticidade":"IMEDIATA","impacto":"Madeira Brand Architect","dataFinalizacao":"2022-04-07","foto":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci5wbmc=","fotoContentType":"unknown"},
+      body: {"dataVerificacao":"2022-04-07","descricao":"Account transmitter","criticidade":"IMEDIATA","impacto":"Madeira Brand Architect","dataFinalizacao":"2022-04-07","foto":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci5wbmc=","fotoContentType":"unknown"},
     }).then(({ body }) => {
       problema = body;
     });
@@ -232,13 +232,13 @@ describe('Status e2e test', () => {
 
       cy.get(`[data-cy="prazo"]`).type('2022-04-07').should('have.value', '2022-04-07');
 
-      cy.get(`[data-cy="dataResolucao"]`).type('2022-04-06').should('have.value', '2022-04-06');
+      cy.get(`[data-cy="dataResolucao"]`).type('2022-04-07').should('have.value', '2022-04-07');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-07T06:04').should('have.value', '2022-04-07T06:04');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-07T11:00').should('have.value', '2022-04-07T11:00');
 
       cy.get(`[data-cy="lastModifiedBy"]`).type('Solutions').should('have.value', 'Solutions');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-07T03:22').should('have.value', '2022-04-07T03:22');
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-07T08:18').should('have.value', '2022-04-07T08:18');
 
       cy.get(`[data-cy="relator"]`).select(1);
       cy.get(`[data-cy="responsavel"]`).select(1);

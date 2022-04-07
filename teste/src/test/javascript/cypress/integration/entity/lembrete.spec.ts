@@ -157,11 +157,11 @@ describe('Lembrete e2e test', () => {
 
       cy.get(`[data-cy="createdBy"]`).type('concept Rústico').should('have.value', 'concept Rústico');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-06T22:37').should('have.value', '2022-04-06T22:37');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-07T03:33').should('have.value', '2022-04-07T03:33');
 
       cy.get(`[data-cy="lastModifiedBy"]`).type('turquesa Acre').should('have.value', 'turquesa Acre');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-06T16:47').should('have.value', '2022-04-06T16:47');
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-06T21:43').should('have.value', '2022-04-06T21:43');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

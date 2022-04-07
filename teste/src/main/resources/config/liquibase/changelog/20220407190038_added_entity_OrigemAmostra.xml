@@ -7,14 +7,14 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity TipoAmostra.
+        Added the entity OrigemAmostra.
     -->
-    <changeSet id="20220407140545-1" author="jhipster">
-        <createTable tableName="tipo_amostra" remarks="Entidade TipoAmostra.\n@author Diego.">
+    <changeSet id="20220407190038-1" author="jhipster">
+        <createTable tableName="origem_amostra" remarks="Entidade OrigemAmostra, irá descrever de onde\na amostra foi retirada, linha 01, tanque 02...\nO local onde a amostra foi coletada.\n@author Diego.">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="descricao" type="varchar(255)" remarks="Deve descrever de forma simples de qual tipo é a amostra.">
+            <column name="descricao" type="varchar(255)" remarks="Descreve de forma simples a origem de uma amostra.\nO local da coleta, linha, tanque...\nA principal informação descritiva da origem do\nproduto coletado.">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -31,11 +31,11 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220407140545-1-data" author="jhipster" context="faker">
+    <changeSet id="20220407190038-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/tipo_amostra.csv"
+                  file="config/liquibase/fake-data/origem_amostra.csv"
                   separator=";"
-                  tableName="tipo_amostra"
+                  tableName="origem_amostra"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="descricao" type="string"/>
