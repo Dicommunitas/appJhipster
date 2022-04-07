@@ -2,7 +2,7 @@
 #  file: .gitpod.dockerfile
 tasks:
 - init: docker-compose -f controleOperacional/src/main/docker/mysql.yml up -d
-#  command: java -jar target/*.jar
+  command: npm install -g generator-jhipster
 
 # exposed ports
 ports:
