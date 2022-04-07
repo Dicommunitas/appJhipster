@@ -3,7 +3,7 @@
 tasks:
 - init: docker-compose -f controleOperacional/src/main/docker/mysql.yml up -d
   #nvm install v16.14.2 && nvm use v16.14.2 &&
-  command: nvm install v16.14.2 && nvm use v16.14.2 && npm install -g generator-jhipster
+  command: nvm install v16.14.2 && nvm use v16.14.2 && npm install -g npm@8.6.0 && npm install -g generator-jhipster
 
 # exposed ports
 ports:
