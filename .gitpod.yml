@@ -1,7 +1,7 @@
 image:
   file: .gitpod.dockerfile
-tasks:
-- init: docker-compose up -d
+#tasks:
+#- init: docker-compose up -d
 #  command: java -jar target/*.jar
 #
 # exposed ports
