@@ -1,7 +1,7 @@
-image:
-  file: .gitpod.dockerfile
-#tasks:
-#- init: docker-compose -f controleOperacional/src/main/docker/mysql.yml up -d
+#image:
+#  file: .gitpod.dockerfile
+tasks:
+- init: docker-compose -f controleOperacional/src/main/docker/mysql.yml up -d
 #  command: java -jar target/*.jar
 
 # exposed ports
