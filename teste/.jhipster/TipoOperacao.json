@@ -1,0 +1,23 @@
+{
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220407140345",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "tipo_operacao",
+  "fields": [
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"],
+      "javadoc": "Descreve de forma simples um tipo de operação."
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Entidade TipoOperacao.\\n@author Diego.",
+  "jpaMetamodelFiltering": false,
+  "name": "TipoOperacao",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

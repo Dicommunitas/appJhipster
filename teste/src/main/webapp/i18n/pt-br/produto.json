@@ -1,0 +1,32 @@
+{
+  "controleOperacionalApp": {
+    "produto": {
+      "home": {
+        "title": "Produtos",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Produto",
+        "createOrEditLabel": "Criar ou editar Produto",
+        "notFound": "Nenhum Produto encontrado"
+      },
+      "created": "Um novo Produto foi criado com o identificador {{ param }}",
+      "updated": "Um Produto foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Produto foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Produto {{ id }}?"
+      },
+      "detail": {
+        "title": "Produto"
+      },
+      "id": "ID",
+      "codigoBDEMQ": "Codigo BDEMQ",
+      "nomeCurto": "Nome Curto",
+      "nomeCompleto": "Nome Completo",
+      "alertas": "Alertas",
+      "help": {
+        "codigoBDEMQ": "O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ",
+        "nomeCurto": "Informa o nome curto do produto.\nDeve ser igual ao do BDEMQ",
+        "nomeCompleto": "Informa o nome completo do produto.\nDeve ser igual ao do BDEMQ"
+      }
+    }
+  }
+}

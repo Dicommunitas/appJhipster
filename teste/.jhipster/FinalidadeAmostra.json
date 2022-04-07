@@ -1,0 +1,41 @@
+{
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220407140645",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "finalidade_amostra",
+  "fields": [
+    {
+      "fieldName": "lacre",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["unique"],
+      "javadoc": "O número do lacre do recipiente da amostra."
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Entidade FinalidadeAmostra.\\n@author Diego.",
+  "jpaMetamodelFiltering": false,
+  "name": "FinalidadeAmostra",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "javadoc": "Define qual a finalidade da amostra (Arquivo, Análise...)",
+      "otherEntityField": "descricao",
+      "otherEntityName": "tipoFinalidadeAmostra",
+      "otherEntityRelationshipName": "finalidadeAmostra",
+      "relationshipName": "tipoFinalidadeAmostra",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "dataHoraColeta",
+      "otherEntityName": "amostra",
+      "otherEntityRelationshipName": "finalidades",
+      "relationshipName": "amostra",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceImpl"
+}
