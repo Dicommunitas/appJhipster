@@ -13,4 +13,5 @@ services:
     ports:
       - 127.0.0.1:3306:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
-    #command: mysql -e "USE mysql;\nCREATE USER 'gitpod'@'127.0.0.1' IDENTIFIED BY '';\nGRANT ALL PRIVILEGES ON * . * TO 'gitpod'@'127.0.0.1';\nFLUSH PRIVILEGES;\n"
+  jhipster:
+    image: jhipster/jhipster:latest 
