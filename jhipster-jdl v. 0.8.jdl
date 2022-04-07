@@ -817,3 +817,12 @@ relationship ManyToMany {
 // DROP DATABASE nome-do-banco;
 // DROP DATABASE controleOperacional;
 
+//comando para criar imagem docker, tem que estar na raiz do projeto:
+// ./mvnw  package jib:dockerBuild
+
+//comando para ver a imagem criadas
+//docker images
+
+//comando para rodar a imagem, é preciso criar o arqivo de configuração
+//para a cominicação entre as imagens controleoperacional e a do mysaql
+// docker run controleoperacional
