@@ -1,0 +1,109 @@
+{
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220407165133",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "amostra",
+  "fields": [
+    {
+      "fieldName": "dataHoraColeta",
+      "fieldType": "Instant",
+      "javadoc": "Data e hora que a amostra foi coletada."
+    },
+    {
+      "fieldName": "observacao",
+      "fieldType": "String",
+      "javadoc": "Observações que forem necessárias para melhorar\\na identificação da amostra."
+    },
+    {
+      "fieldName": "identificadorExterno",
+      "fieldType": "String",
+      "javadoc": "Identificador que \"ligue/identifique\" essa\\namostra em outro sistema."
+    },
+    {
+      "fieldName": "recebimentoNoLaboratorio",
+      "fieldType": "Instant",
+      "javadoc": "Identifica se a amostra está ou não no laboratório."
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Entidade Amostra.\\n@author Diego.",
+  "jpaMetamodelFiltering": true,
+  "name": "Amostra",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [
+    {
+      "javadoc": "Descreve quais serão as finalidades de uma amostra",
+      "otherEntityField": "lacre",
+      "otherEntityName": "finalidadeAmostra",
+      "otherEntityRelationshipName": "amostra",
+      "relationshipName": "finalidades",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "javadoc": "Define a qual operação pertence a amostra",
+      "otherEntityField": "descricao",
+      "otherEntityName": "operacao",
+      "otherEntityRelationshipName": "amostra",
+      "relationshipName": "operacao",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "javadoc": "Define qual é a origem da amostra",
+      "otherEntityField": "descricao",
+      "otherEntityName": "origemAmostra",
+      "otherEntityRelationshipName": "amostra",
+      "relationshipName": "origemAmostra",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "javadoc": "Define qual o tipo da amostra (Composta, Corrida...)",
+      "otherEntityField": "descricao",
+      "otherEntityName": "tipoAmostra",
+      "otherEntityRelationshipName": "amostra",
+      "relationshipName": "tipoAmostra",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "javadoc": "Quem retirou a amostra, responsável pela amostragem.",
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "amostra",
+      "relationshipName": "amostradaPor",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "javadoc": "Quem recebeu a amostra no laboratório.",
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "amostra",
+      "relationshipName": "recebidaPor",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

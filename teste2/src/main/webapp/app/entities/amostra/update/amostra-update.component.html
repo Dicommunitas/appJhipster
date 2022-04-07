@@ -1,0 +1,305 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-amostra-heading"
+        data-cy="AmostraCreateUpdateHeading"
+        jhiTranslate="controleOperacionalApp.amostra.home.createOrEditLabel"
+      >
+        Create or edit a Amostra
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="controleOperacionalApp.amostra.dataHoraColeta"
+            for="field_dataHoraColeta"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.dataHoraColeta' | translate"
+            >Data Hora Coleta</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_dataHoraColeta"
+              data-cy="dataHoraColeta"
+              type="datetime-local"
+              class="form-control"
+              name="dataHoraColeta"
+              formControlName="dataHoraColeta"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="controleOperacionalApp.amostra.observacao"
+            for="field_observacao"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.observacao' | translate"
+            >Observacao</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="observacao"
+            id="field_observacao"
+            data-cy="observacao"
+            formControlName="observacao"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="controleOperacionalApp.amostra.identificadorExterno"
+            for="field_identificadorExterno"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.identificadorExterno' | translate"
+            >Identificador Externo</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="identificadorExterno"
+            id="field_identificadorExterno"
+            data-cy="identificadorExterno"
+            formControlName="identificadorExterno"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="controleOperacionalApp.amostra.recebimentoNoLaboratorio"
+            for="field_recebimentoNoLaboratorio"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.recebimentoNoLaboratorio' | translate"
+            >Recebimento No Laboratorio</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_recebimentoNoLaboratorio"
+              data-cy="recebimentoNoLaboratorio"
+              type="datetime-local"
+              class="form-control"
+              name="recebimentoNoLaboratorio"
+              formControlName="recebimentoNoLaboratorio"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.createdBy" for="field_createdBy">Created By</label>
+          <input type="text" class="form-control" name="createdBy" id="field_createdBy" data-cy="createdBy" formControlName="createdBy" />
+          <div *ngIf="editForm.get('createdBy')!.invalid && (editForm.get('createdBy')!.dirty || editForm.get('createdBy')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('createdBy')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 50 }"
+            >
+              This field cannot be longer than 50 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.createdDate" for="field_createdDate">Created Date</label>
+          <div class="d-flex">
+            <input
+              id="field_createdDate"
+              data-cy="createdDate"
+              type="datetime-local"
+              class="form-control"
+              name="createdDate"
+              formControlName="createdDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.lastModifiedBy" for="field_lastModifiedBy"
+            >Last Modified By</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="lastModifiedBy"
+            id="field_lastModifiedBy"
+            data-cy="lastModifiedBy"
+            formControlName="lastModifiedBy"
+          />
+          <div
+            *ngIf="
+              editForm.get('lastModifiedBy')!.invalid && (editForm.get('lastModifiedBy')!.dirty || editForm.get('lastModifiedBy')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastModifiedBy')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 50 }"
+            >
+              This field cannot be longer than 50 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.lastModifiedDate" for="field_lastModifiedDate"
+            >Last Modified Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_lastModifiedDate"
+              data-cy="lastModifiedDate"
+              type="datetime-local"
+              class="form-control"
+              name="lastModifiedDate"
+              formControlName="lastModifiedDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.operacao" for="field_operacao">Operacao</label>
+          <select class="form-control" id="field_operacao" data-cy="operacao" name="operacao" formControlName="operacao">
+            <option *ngIf="!editForm.get('operacao')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="operacaoOption.id === editForm.get('operacao')!.value?.id ? editForm.get('operacao')!.value : operacaoOption"
+              *ngFor="let operacaoOption of operacaosSharedCollection; trackBy: trackOperacaoById"
+            >
+              {{ operacaoOption.descricao }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['operacao'])!.invalid && (editForm.get(['operacao'])!.dirty || editForm.get(['operacao'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['operacao'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.origemAmostra" for="field_origemAmostra"
+            >Origem Amostra</label
+          >
+          <select
+            class="form-control"
+            id="field_origemAmostra"
+            data-cy="origemAmostra"
+            name="origemAmostra"
+            formControlName="origemAmostra"
+          >
+            <option *ngIf="!editForm.get('origemAmostra')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="
+                origemAmostraOption.id === editForm.get('origemAmostra')!.value?.id
+                  ? editForm.get('origemAmostra')!.value
+                  : origemAmostraOption
+              "
+              *ngFor="let origemAmostraOption of origemAmostrasSharedCollection; trackBy: trackOrigemAmostraById"
+            >
+              {{ origemAmostraOption.descricao }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['origemAmostra'])!.invalid && (editForm.get(['origemAmostra'])!.dirty || editForm.get(['origemAmostra'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['origemAmostra'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.tipoAmostra" for="field_tipoAmostra">Tipo Amostra</label>
+          <select class="form-control" id="field_tipoAmostra" data-cy="tipoAmostra" name="tipoAmostra" formControlName="tipoAmostra">
+            <option *ngIf="!editForm.get('tipoAmostra')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="
+                tipoAmostraOption.id === editForm.get('tipoAmostra')!.value?.id ? editForm.get('tipoAmostra')!.value : tipoAmostraOption
+              "
+              *ngFor="let tipoAmostraOption of tipoAmostrasSharedCollection; trackBy: trackTipoAmostraById"
+            >
+              {{ tipoAmostraOption.descricao }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="editForm.get(['tipoAmostra'])!.invalid && (editForm.get(['tipoAmostra'])!.dirty || editForm.get(['tipoAmostra'])!.touched)"
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['tipoAmostra'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.amostradaPor" for="field_amostradaPor"
+            >Amostrada Por</label
+          >
+          <select class="form-control" id="field_amostradaPor" data-cy="amostradaPor" name="amostradaPor" formControlName="amostradaPor">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="userOption.id === editForm.get('amostradaPor')!.value?.id ? editForm.get('amostradaPor')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+            >
+              {{ userOption.login }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.recebidaPor" for="field_recebidaPor">Recebida Por</label>
+          <select class="form-control" id="field_recebidaPor" data-cy="recebidaPor" name="recebidaPor" formControlName="recebidaPor">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="userOption.id === editForm.get('recebidaPor')!.value?.id ? editForm.get('recebidaPor')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+            >
+              {{ userOption.login }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

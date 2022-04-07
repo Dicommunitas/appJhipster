@@ -1,0 +1,27 @@
+{
+  "controleOperacionalApp": {
+    "tipoOperacao": {
+      "home": {
+        "title": "Tipo Operacaos",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Tipo Operacao",
+        "createOrEditLabel": "Create or edit a Tipo Operacao",
+        "notFound": "No Tipo Operacaos found"
+      },
+      "created": "A new Tipo Operacao is created with identifier {{ param }}",
+      "updated": "A Tipo Operacao is updated with identifier {{ param }}",
+      "deleted": "A Tipo Operacao is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Tipo Operacao {{ id }}?"
+      },
+      "detail": {
+        "title": "Tipo Operacao"
+      },
+      "id": "ID",
+      "descricao": "Descricao",
+      "help": {
+        "descricao": "Descreve de forma simples um tipo de operação."
+      }
+    }
+  }
+}

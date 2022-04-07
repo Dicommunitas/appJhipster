@@ -1,0 +1,23 @@
+{
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220407165433",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "origem_amostra",
+  "fields": [
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"],
+      "javadoc": "Descreve de forma simples a origem de uma amostra.\\nO local da coleta, linha, tanque...\\nA principal informação descritiva da origem do\\nproduto coletado."
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Entidade OrigemAmostra, irá descrever de onde\\na amostra foi retirada, linha 01, tanque 02...\\nO local onde a amostra foi coletada.\\n@author Diego.",
+  "jpaMetamodelFiltering": false,
+  "name": "OrigemAmostra",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

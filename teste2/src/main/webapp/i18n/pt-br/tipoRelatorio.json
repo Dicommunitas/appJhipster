@@ -1,0 +1,28 @@
+{
+  "controleOperacionalApp": {
+    "tipoRelatorio": {
+      "home": {
+        "title": "Tipo Relatorios",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Tipo Relatorio",
+        "createOrEditLabel": "Criar ou editar Tipo Relatorio",
+        "notFound": "Nenhum Tipo Relatorio encontrado"
+      },
+      "created": "Um novo Tipo Relatorio foi criado com o identificador {{ param }}",
+      "updated": "Um Tipo Relatorio foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Tipo Relatorio foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Tipo Relatorio {{ id }}?"
+      },
+      "detail": {
+        "title": "Tipo Relatorio"
+      },
+      "id": "ID",
+      "nome": "Nome",
+      "usuariosAut": "Usuarios Aut",
+      "help": {
+        "nome": "Nome dado ao grupo de relatórios."
+      }
+    }
+  }
+}

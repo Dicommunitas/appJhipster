@@ -1,0 +1,37 @@
+{
+  "controleOperacionalApp": {
+    "status": {
+      "home": {
+        "title": "Statuses",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Status",
+        "createOrEditLabel": "Create or edit a Status",
+        "notFound": "No Statuses found"
+      },
+      "created": "A new Status is created with identifier {{ param }}",
+      "updated": "A Status is updated with identifier {{ param }}",
+      "deleted": "A Status is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Status {{ id }}?"
+      },
+      "detail": {
+        "title": "Status"
+      },
+      "id": "ID",
+      "descricao": "Descricao",
+      "prazo": "Prazo",
+      "dataResolucao": "Data Resolucao",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
+      "relator": "Relator",
+      "responsavel": "Responsavel",
+      "problema": "Problema",
+      "help": {
+        "descricao": "Descreve o status, a situação que está sendo tratada\nque impede que o problema seja finalizado.",
+        "prazo": "O prazo em que o status deve ser resolvido.",
+        "dataResolucao": "Indica em que data o status foi resolvido."
+      }
+    }
+  }
+}

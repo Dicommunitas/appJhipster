@@ -1,0 +1,54 @@
+{
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220407164833",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "relatorio",
+  "fields": [
+    {
+      "fieldName": "dataHora",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"],
+      "javadoc": "Data e hora que o relatório foi criado."
+    },
+    {
+      "fieldName": "relato",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"],
+      "javadoc": "Relato descritivo. As informações pertinentes para o relatório."
+    },
+    {
+      "fieldName": "linksExternos",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "javadoc": "Links e lembretes de apoio para o relatório."
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Entidade Relatorio.\\n@author Diego.\\nNa tela de visualização/edição de um relatório\\ndeve ser mostrado uma lista das operações com fim em branco\\nou início em até 12 horas antes da hora de criação do relatório,\\numa lista dos problemas com o campo aceitarFinalizacao em falso\\ne uma lista das amostras criadas em até 12 horas antes da\\ncriação do relatório.\\nTambém deve ser apresentado um \"satatus\" do\\nplano de amostragem.\\n\\nUm relatório só pode ser alterado/excluído por quem o criou\\ne se ele for o último relatório do seu tipo.\\n\\nNa tela de visualização/edição de um relatório\\ndeve ser mostrado as telas dos linksExternos\\nexemplo a tela do Paranaguá pilots.\\n\\nAo usar iframe verificar o funcionamento de links com\\ncaminhos relativos, para dentro do projeto com links internos,\\ne caminhos absolutos, para links externos.\\nhttps:",
+  "jpaMetamodelFiltering": true,
+  "name": "Relatorio",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [
+    {
+      "javadoc": "Define de que tipo é o relatório (Supervisor, controle, píer...)",
+      "otherEntityField": "nome",
+      "otherEntityName": "tipoRelatorio",
+      "otherEntityRelationshipName": "relatorio",
+      "relationshipName": "tipo",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "javadoc": "Quem criou o relatório.",
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "relatorio",
+      "relationshipName": "responsavel",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceImpl"
+}
