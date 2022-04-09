@@ -820,7 +820,7 @@ relationship ManyToMany {
 //comando para criar imagem docker, tem que estar na raiz do projeto:
 // ./mvnw  package jib:dockerBuild
 
-//comando para ver a imagem criadas
+//comando para ver as imagens criadas
 //docker images
 
 //comando para rodar a imagem, é preciso criar o arqivo de configuração
