@@ -1,9 +1,9 @@
 #image:
 #  file: .gitpod.dockerfile
 tasks:
-- init: nvm install v16.14.2 && sleep 1 && nvm use v16.14.2 && sleep 1 && npm -v && npm install -g npm@8.6.0 && npm -v && sleep 1 && npm install -g generator-jhipster
-- command: docker ps #-compose -f controleOperacional/src/main/docker/mysql.yml up -d
-- command: cd controleOperacional/ && ./mvnw  package jib:dockerBuild
+- init: nvm install v16.14.2 && nvm use v16.14.2 && npm -v && npm install -g npm@8.6.0 && npm -v && npm install -g generator-jhipster
+- command: docker images #-compose -f controleOperacional/src/main/docker/mysql.yml up -d
+- command: cd controleOperacional/ && ./mvnw  package jib:dockerBuild && docker images
 
 # exposed ports
 ports:
