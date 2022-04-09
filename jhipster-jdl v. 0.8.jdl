@@ -823,6 +823,5 @@ relationship ManyToMany {
 //comando para ver as imagens criadas
 //docker images
 
-//comando para rodar a imagem, é preciso criar o arqivo de configuração
-//para a cominicação entre as imagens controleoperacional e a do mysaql
+//comando para rodar a imagem:
 // docker run controleoperacional
