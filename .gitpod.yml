@@ -2,7 +2,7 @@
 #  file: .gitpod.dockerfile
 tasks:
 - init: nvm install v16.14.2 && nvm use v16.14.2 && npm -v && npm install -g npm@8.6.0 && npm -v && npm install -g generator-jhipster
-- command: docker system prune -a && cd controleOperacional/ && ./mvnw  package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
+- command: docker system prune -af && cd controleOperacional/ && ./mvnw  package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
 
 # exposed ports
 ports:
