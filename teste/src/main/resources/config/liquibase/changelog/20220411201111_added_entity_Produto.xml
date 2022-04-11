@@ -7,18 +7,38 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity AlertaProduto.
+        Added the entity Produto.
     -->
-    <changeSet id="20220411193415-1" author="jhipster">
-        <createTable tableName="alerta_produto" remarks="Entidade AlertasProduto.\n@author Diego.\nIrá descrever alertas para produtos (Benzeno, Inflamável...)">
+    <changeSet id="20220411201111-1" author="jhipster">
+        <createTable tableName="produto" remarks="Entidade Produto.\n@author Diego.">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="descricao" type="varchar(255)" remarks="Descreve um alerta para ser usado nos produtos,\nalgo que deva ser tratado com cuidado.">
+            <column name="codigo_bdemq" type="varchar(3)" remarks="O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_produto__codigo_bdemq" />
+            </column>
+            <column name="nome_curto" type="varchar(255)" remarks="Informa o nome curto do produto.\nDeve ser igual ao do BDEMQ">
+                <constraints nullable="false" />
+            </column>
+            <column name="nome_completo" type="varchar(255)" remarks="Informa o nome completo do produto.\nDeve ser igual ao do BDEMQ">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+    </changeSet>
+
+    <changeSet id="20220411201111-1-relations" author="jhipster">
+
+        <createTable tableName="rel_produto__alertas">
+            <column name="alertas_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="produto_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="produto_id, alertas_id" tableName="rel_produto__alertas"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -31,14 +51,16 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220411193415-1-data" author="jhipster" context="faker">
+    <changeSet id="20220411201111-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/alerta_produto.csv"
+                  file="config/liquibase/fake-data/produto.csv"
                   separator=";"
-                  tableName="alerta_produto"
+                  tableName="produto"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="descricao" type="string"/>
+            <column name="codigo_bdemq" type="string"/>
+            <column name="nome_curto" type="string"/>
+            <column name="nome_completo" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

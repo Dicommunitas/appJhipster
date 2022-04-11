@@ -16,7 +16,7 @@ describe('Relatorio e2e test', () => {
   const relatorioPageUrlPattern = new RegExp('/relatorio(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const relatorioSample = { dataHora: '2022-04-11T06:17:44.678Z', relato: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
+  const relatorioSample = { dataHora: '2022-04-11T06:43:40.678Z', relato: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
 
   let relatorio: any;
   //let user: any;
@@ -209,7 +209,7 @@ describe('Relatorio e2e test', () => {
     });
 
     it.skip('should create an instance of Relatorio', () => {
-      cy.get(`[data-cy="dataHora"]`).type('2022-04-11T08:13').should('have.value', '2022-04-11T08:13');
+      cy.get(`[data-cy="dataHora"]`).type('2022-04-11T08:39').should('have.value', '2022-04-11T08:39');
 
       cy.get(`[data-cy="relato"]`)
         .type('../fake-data/blob/hipster.txt')

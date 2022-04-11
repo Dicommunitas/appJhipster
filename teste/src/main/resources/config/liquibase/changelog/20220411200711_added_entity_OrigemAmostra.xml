@@ -7,32 +7,18 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity TipoRelatorio.
+        Added the entity OrigemAmostra.
     -->
-    <changeSet id="20220411193615-1" author="jhipster">
-        <createTable tableName="tipo_relatorio" remarks="Entidade TipoRelatorio.\n@author Diego.\nO TipoRelatorio irá descrever de que tipo é\no relatório, relatório de sutur, relatório píer, cco...\nDeve existir uma tela com um botão para listar todos\nos relatórios agrupados por seus tipos.">
+    <changeSet id="20220411200711-1" author="jhipster">
+        <createTable tableName="origem_amostra" remarks="Entidade OrigemAmostra, irá descrever de onde\na amostra foi retirada, linha 01, tanque 02...\nO local onde a amostra foi coletada.\n@author Diego.">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nome" type="varchar(255)" remarks="Nome dado ao grupo de relatórios.">
+            <column name="descricao" type="varchar(255)" remarks="Descreve de forma simples a origem de uma amostra.\nO local da coleta, linha, tanque...\nA principal informação descritiva da origem do\nproduto coletado.">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-    </changeSet>
-
-    <changeSet id="20220411193615-1-relations" author="jhipster">
-
-        <createTable tableName="rel_tipo_relatorio__usuarios_aut">
-            <column name="usuarios_aut_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="tipo_relatorio_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="tipo_relatorio_id, usuarios_aut_id" tableName="rel_tipo_relatorio__usuarios_aut"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -45,14 +31,14 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220411193615-1-data" author="jhipster" context="faker">
+    <changeSet id="20220411200711-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/tipo_relatorio.csv"
+                  file="config/liquibase/fake-data/origem_amostra.csv"
                   separator=";"
-                  tableName="tipo_relatorio"
+                  tableName="origem_amostra"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="nome" type="string"/>
+            <column name="descricao" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
