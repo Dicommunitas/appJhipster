@@ -21,7 +21,7 @@ export class ProdutoUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    codigoBDEMQ: [null, [Validators.required, Validators.maxLength(3)]],
+    codigoBDEMQ: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
     nomeCurto: [null, [Validators.required]],
     nomeCompleto: [null, [Validators.required]],
     alertas: [],

@@ -16,7 +16,7 @@ describe('Status e2e test', () => {
   const statusPageUrlPattern = new RegExp('/status(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const statusSample = { descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=', prazo: '2022-04-07' };
+  const statusSample = { descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=', prazo: '2022-04-11' };
 
   let status: any;
   //let user: any;
@@ -40,7 +40,7 @@ describe('Status e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/problemas',
-      body: {"dataVerificacao":"2022-04-07","descricao":"Account transmitter","criticidade":"IMEDIATA","impacto":"Madeira Brand Architect","dataFinalizacao":"2022-04-07","foto":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci5wbmc=","fotoContentType":"unknown"},
+      body: {"dataVerificacao":"2022-04-11","descricao":"Account transmitter","criticidade":"IMEDIATA","impacto":"Madeira Brand Architect","dataFinalizacao":"2022-04-11","foto":"Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci5wbmc=","fotoContentType":"unknown"},
     }).then(({ body }) => {
       problema = body;
     });
@@ -230,15 +230,15 @@ describe('Status e2e test', () => {
         .invoke('val')
         .should('match', new RegExp('../fake-data/blob/hipster.txt'));
 
-      cy.get(`[data-cy="prazo"]`).type('2022-04-07').should('have.value', '2022-04-07');
+      cy.get(`[data-cy="prazo"]`).type('2022-04-11').should('have.value', '2022-04-11');
 
-      cy.get(`[data-cy="dataResolucao"]`).type('2022-04-07').should('have.value', '2022-04-07');
+      cy.get(`[data-cy="dataResolucao"]`).type('2022-04-11').should('have.value', '2022-04-11');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-07T12:42').should('have.value', '2022-04-07T12:42');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-11T11:41').should('have.value', '2022-04-11T11:41');
 
       cy.get(`[data-cy="lastModifiedBy"]`).type('Solutions').should('have.value', 'Solutions');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-07T09:59').should('have.value', '2022-04-07T09:59');
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-11T08:58').should('have.value', '2022-04-11T08:58');
 
       cy.get(`[data-cy="relator"]`).select(1);
       cy.get(`[data-cy="responsavel"]`).select(1);

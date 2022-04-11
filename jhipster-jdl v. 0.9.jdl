@@ -600,7 +600,7 @@ entity Produto {
 	* O código deve ter máximo 3 aracteres.
     * Deve ser igual ao do BDEMQ
 	*/
-    codigoBDEMQ String required maxlength(3) unique
+    codigoBDEMQ String required maxlength(3) minlength(3) unique
     
 	/**
 	* Informa o nome curto do produto.
@@ -811,18 +811,6 @@ relationship ManyToMany {
 // SHOW tables;
 // DESCRIBE nome-da-tabela;
 // SELECT * FROM nome-da-tabela;
-// SELECT * FROM user\G
-// SELECT * FROM user WHERE User="gitpod"\G
-// ALTER USER 'gitpod'@'127.0.0.1' IDENTIFIED BY '';\nFLUSH PRIVILEGES;
 // DROP DATABASE nome-do-banco;
 // DROP DATABASE controleOperacional;
 
-//comando para criar imagem docker, tem que estar na raiz do projeto:
-// ./mvnw  package jib:dockerBuild
-
-//comando para ver a imagem criadas
-//docker images
-
-//comando para rodar a imagem, é preciso criar o arqivo de configuração
-//para a cominicação entre as imagens controleoperacional e a do mysaql
-// docker run controleoperacional

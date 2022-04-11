@@ -9,7 +9,7 @@
     <!--
         Added the entity Operacao.
     -->
-    <changeSet id="20220407204028-1" author="jhipster">
+    <changeSet id="20220411193915-1" author="jhipster">
         <createTable tableName="operacao" remarks="Entidade Operação.\n@author Diego.\nAo criar uma Operação deve existir\numa opção de usar operações passadas\ncomo modelo para sua criação, inclusive\ncopiando o plano de amostragem">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -68,7 +68,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220407204028-1-data" author="jhipster" context="faker">
+    <changeSet id="20220411193915-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/operacao.csv"
                   separator=";"

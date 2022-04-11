@@ -40,7 +40,7 @@ describe('FinalidadeAmostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/amostras',
-      body: {"dataHoraColeta":"2022-04-07T17:28:02.305Z","observacao":"copying","identificadorExterno":"Prático FTP","recebimentoNoLaboratorio":"2022-04-07T05:48:41.785Z","createdBy":"user-centric Marginal","createdDate":"2022-04-07T12:10:25.451Z","lastModifiedBy":"protocol Monitored","lastModifiedDate":"2022-04-07T09:04:11.311Z"},
+      body: {"dataHoraColeta":"2022-04-11T16:26:49.305Z","observacao":"copying","identificadorExterno":"Prático FTP","recebimentoNoLaboratorio":"2022-04-11T04:47:28.785Z","createdBy":"user-centric Marginal","createdDate":"2022-04-11T11:09:12.451Z","lastModifiedBy":"protocol Monitored","lastModifiedDate":"2022-04-11T08:02:58.311Z"},
     }).then(({ body }) => {
       amostra = body;
     });
