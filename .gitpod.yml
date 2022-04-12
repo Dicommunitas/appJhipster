@@ -2,8 +2,13 @@
 #  file: .gitpod.dockerfile
 tasks:
 - init: nvm install v16.14.2 && nvm use v16.14.2 && npm -v && npm install -g npm@8.6.0 && npm -v && npm install -g generator-jhipster
-- command: docker system prune -af && cd controleOperacional/ && ./mvnw -Pprod package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
-- command: cd controleOperacional/ && docker-compose -f src/main/docker/hazelcast-management-center.yml up -d
+
+# comando para rodar em modo produção via docker
+#- command: docker system prune -af && cd controleOperacional/ && ./mvnw -Pprod package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
+- command: docker system prune -af && cd teste/ && ./mvnw -Pprod package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
+
+# comando para rodar em modo dev via pacote java
+#- command: cd controleOperacional/ && docker-compose -f src/main/docker/hazelcast-management-center.yml up -d && docker-compose -f src/main/docker/mysql.yml up -d && ./mvnw
 
 # exposed ports
 ports:
