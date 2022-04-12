@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity Amostra.
+    -->
+    <changeSet id="20220412230126-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="operacao_id"
+                                 baseTableName="amostra"
+                                 constraintName="fk_amostra__operacao_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="operacao"/>
+
+        <addForeignKeyConstraint baseColumnNames="origem_amostra_id"
+                                 baseTableName="amostra"
+                                 constraintName="fk_amostra__origem_amostra_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="origem_amostra"/>
+
+        <addForeignKeyConstraint baseColumnNames="tipo_amostra_id"
+                                 baseTableName="amostra"
+                                 constraintName="fk_amostra__tipo_amostra_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tipo_amostra"/>
+
+        <addForeignKeyConstraint baseColumnNames="amostrada_por_id"
+                                 baseTableName="amostra"
+                                 constraintName="fk_amostra__amostrada_por_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="recebida_por_id"
+                                 baseTableName="amostra"
+                                 constraintName="fk_amostra__recebida_por_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+    </changeSet>
+</databaseChangeLog>

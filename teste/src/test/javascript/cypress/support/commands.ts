@@ -79,14 +79,12 @@ export const classInvalid = 'ng-invalid';
 export const classValid = 'ng-valid';
 
 Cypress.Commands.add('authenticatedRequest', (data: any) => {
-  return cy.getCookie('XSRF-TOKEN').then(csrfCookie => {
-    return cy.request({
-      ...data,
-      headers: {
-        ...data.headers,
-        'X-XSRF-TOKEN': csrfCookie?.value,
-      },
-    });
+  const bearerToken = JSON.parse(sessionStorage.getItem(Cypress.env('jwtStorageName')));
+  return cy.request({
+    ...data,
+    auth: {
+      bearer: bearerToken,
+    },
   });
 });
 
@@ -103,7 +101,8 @@ Cypress.Commands.add('login', (username: string, password: string) => {
         method: 'POST',
         body: { username, password },
         url: Cypress.env('authenticationUrl'),
-        form: true,
+      }).then(({ body: { id_token } }) => {
+        sessionStorage.setItem(Cypress.env('jwtStorageName'), JSON.stringify(id_token));
       });
     },
     {

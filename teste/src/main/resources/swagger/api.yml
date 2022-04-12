@@ -20,14 +20,15 @@ components:
             $ref: 'https://opensource.zalando.com/problem/schema.yaml#/Problem'
 
   securitySchemes:
-    sessionId:
-      type: apiKey
-      name: JSESSIONID
-      in: cookie
-    csrf:
-      type: apiKey
-      name: XSRF-TOKEN
-      in: cookie
+    jwt:
+      type: http
+      description: JWT Authentication
+      scheme: bearer
+      bearerFormat: JWT
+    basic:
+      type: http
+      description: Basic Authentication
+      scheme: basic
 security:
-  - sessionId: []
-  - csrf: []
+  - jwt: []
+  - basic: []

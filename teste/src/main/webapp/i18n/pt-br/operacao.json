@@ -1,0 +1,43 @@
+{
+  "controleOperacionalApp": {
+    "operacao": {
+      "home": {
+        "title": "Operacaos",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Operacao",
+        "createOrEditLabel": "Criar ou editar Operacao",
+        "notFound": "Nenhum Operacao encontrado"
+      },
+      "created": "Um novo Operacao foi criado com o identificador {{ param }}",
+      "updated": "Um Operacao foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Operacao foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Operacao {{ id }}?"
+      },
+      "detail": {
+        "title": "Operacao"
+      },
+      "id": "ID",
+      "descricao": "Descricao",
+      "volumePeso": "Volume Peso",
+      "inicio": "Inicio",
+      "fim": "Fim",
+      "quantidadeAmostras": "Quantidade Amostras",
+      "observacao": "Observacao",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
+      "produto": "Produto",
+      "tipoOperacao": "Tipo Operacao",
+      "help": {
+        "descricao": "Descreve de forma simples a operação.",
+        "volumePeso": "O volume ou peso total da operação. Em metros cúbicos ou toneladas",
+        "inicio": "O horário de início da operação.",
+        "fim": "O horário de término da operação.",
+        "quantidadeAmostras": "Quantas amostras devem ter nessa operação.",
+        "observacao": "Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação."
+      }
+    }
+  }
+}

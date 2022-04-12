@@ -1,0 +1,43 @@
+{
+  "controleOperacionalApp": {
+    "amostra": {
+      "home": {
+        "title": "Amostras",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Amostra",
+        "createOrEditLabel": "Criar ou editar Amostra",
+        "notFound": "Nenhum Amostra encontrado"
+      },
+      "created": "Um novo Amostra foi criado com o identificador {{ param }}",
+      "updated": "Um Amostra foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Amostra foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Amostra {{ id }}?"
+      },
+      "detail": {
+        "title": "Amostra"
+      },
+      "id": "ID",
+      "dataHoraColeta": "Data Hora Coleta",
+      "observacao": "Observacao",
+      "identificadorExterno": "Identificador Externo",
+      "recebimentoNoLaboratorio": "Recebimento No Laboratorio",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
+      "finalidades": "Finalidades",
+      "operacao": "Operacao",
+      "origemAmostra": "Origem Amostra",
+      "tipoAmostra": "Tipo Amostra",
+      "amostradaPor": "Amostrada Por",
+      "recebidaPor": "Recebida Por",
+      "help": {
+        "dataHoraColeta": "Data e hora que a amostra foi coletada.",
+        "observacao": "Observações que forem necessárias para melhorar\na identificação da amostra.",
+        "identificadorExterno": "Identificador que &#34;ligue/identifique&#34; essa\namostra em outro sistema.",
+        "recebimentoNoLaboratorio": "Identifica se a amostra está ou não no laboratório."
+      }
+    }
+  }
+}

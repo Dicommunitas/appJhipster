@@ -1,0 +1,111 @@
+<div>
+  <h2 id="page-heading" data-cy="ProblemaHeading">
+    <span jhiTranslate="controleOperacionalApp.problema.home.title">Problemas</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="reset()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="controleOperacionalApp.problema.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-problema"
+        [routerLink]="['/problema/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="controleOperacionalApp.problema.home.createLabel"> Create a new Problema </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="problemas?.length === 0">
+    <span jhiTranslate="controleOperacionalApp.problema.home.notFound">No problemas found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="problemas && problemas.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="reset()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="dataVerificacao">
+            <span jhiTranslate="controleOperacionalApp.problema.dataVerificacao">Data Verificacao</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="descricao">
+            <span jhiTranslate="controleOperacionalApp.problema.descricao">Descricao</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="criticidade">
+            <span jhiTranslate="controleOperacionalApp.problema.criticidade">Criticidade</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="impacto">
+            <span jhiTranslate="controleOperacionalApp.problema.impacto">Impacto</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="dataFinalizacao">
+            <span jhiTranslate="controleOperacionalApp.problema.dataFinalizacao">Data Finalizacao</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="foto">
+            <span jhiTranslate="controleOperacionalApp.problema.foto">Foto</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="relator.login">
+            <span jhiTranslate="controleOperacionalApp.problema.relator">Relator</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+        <tr *ngFor="let problema of problemas; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/problema', problema.id, 'view']">{{ problema.id }}</a>
+          </td>
+          <td>{{ problema.dataVerificacao | formatMediumDate }}</td>
+          <td>{{ problema.descricao }}</td>
+          <td jhiTranslate="{{ 'controleOperacionalApp.Criticidade.' + problema.criticidade }}">{{ problema.criticidade }}</td>
+          <td>{{ problema.impacto }}</td>
+          <td>{{ problema.dataFinalizacao | formatMediumDate }}</td>
+          <td>
+            <a *ngIf="problema.foto" (click)="openFile(problema.foto, problema.fotoContentType)">
+              <img [src]="'data:' + problema.fotoContentType + ';base64,' + problema.foto" style="max-height: 30px" alt="problema image" />
+            </a>
+            <span *ngIf="problema.foto">{{ problema.fotoContentType }}, {{ byteSize(problema.foto) }}</span>
+          </td>
+          <td>
+            {{ problema.relator?.login }}
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/problema', problema.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/problema', problema.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(problema)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

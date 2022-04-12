@@ -7,6 +7,20 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entidades",
+        "problema": "Problema",
+        "status": "Status",
+        "alertaProduto": "Alerta Produto",
+        "relatorio": "Relatorio",
+        "tipoRelatorio": "Tipo Relatorio",
+        "lembrete": "Lembrete",
+        "amostra": "Amostra",
+        "operacao": "Operacao",
+        "tipoOperacao": "Tipo Operacao",
+        "origemAmostra": "Origem Amostra",
+        "tipoAmostra": "Tipo Amostra",
+        "finalidadeAmostra": "Finalidade Amostra",
+        "tipoFinalidadeAmostra": "Tipo Finalidade Amostra",
+        "produto": "Produto",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

@@ -13,9 +13,19 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+eureka:
+  client:
+    enabled: false
+  instance:
+    appname: controleOperacional
+    instanceId: controleOperacional:${spring.application.instance-id:${random.value}}
+
 spring:
   application:
     name: controleOperacional
+  cloud:
+    config:
+      enabled: false
 
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
@@ -94,9 +104,12 @@ jhipster:
     from: test@localhost
     base-url: http://127.0.0.1:8080
   security:
-    remember-me:
-      # security key (this key should be unique for your application, and kept secret)
-      key: 182aab8f480833d44de6b6367ee770e26f09d4969e36cc5868e3dc52ca873dec26b1204bc559f51447a61209bcfbdae25f4a
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
+        base64-secret: MThiMGZkMWU1ZGEwMGY3OGMxOTRlN2VhZTJmYjlkN2VlZGQyMTE4YmI3YzRjZjM4MTM5YThkNTliZjAxZDE5ZGE2YjM0MDc5NzlkMGY3NTc1Y2Q0NjQ4OGMzMzY5MjZiNDIwYWU5ODMzMTU0NTk0YzE4OWM5MWZiNjA2YTQ2OGM=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
