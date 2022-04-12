@@ -9,7 +9,7 @@ tasks:
 
 # comando para rodar/gerar o DB
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d
-#- command: cd teste/ && ./mvnw
+#- command: cd teste/ && docker-compose -f src/main/docker/hazelcast-management-center.yml up -d && ./mvnw
 
 # exposed ports
 ports:
