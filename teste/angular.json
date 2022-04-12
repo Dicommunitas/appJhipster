@@ -69,7 +69,8 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
-            }
+            },
+            "instrumenter": {}
           },
           "defaultConfiguration": "production"
         },

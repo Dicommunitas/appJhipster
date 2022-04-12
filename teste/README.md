@@ -36,13 +36,6 @@ npm install
 
 We use npm scripts and [Angular CLI][] with [Webpack][] as our build system.
 
-If you are using hazelcast as a cache, you will have to launch a cache server.
-To start your cache server, run:
-
-```
-docker-compose -f src/main/docker/hazelcast-management-center.yml up -d
-```
-
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
@@ -200,6 +193,24 @@ To use those tests, you must install Gatling from [https://gatling.io/](https://
 
 For more information, refer to the [Running tests page][].
 
+### E2E Webapp Code Coverage
+
+When using Cypress, you can generate code coverage report by running your dev server with instrumented code:
+
+Build your Angular application with instrumented code:
+
+    npm run webapp:instrumenter
+
+Start your backend without compiling frontend:
+
+    npm run backend:start
+
+Start your Cypress end to end testing:
+
+    npm run e2e:cypress:coverage
+
+The coverage report is generated under `./coverage/lcov-report/`
+
 ### Code quality
 
 Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
@@ -264,7 +275,6 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 7.8.1 archive]: https://www.jhipster.tech
 [using jhipster in development]: https://www.jhipster.tech/development/
-[service discovery and configuration with the jhipster-registry]: https://www.jhipster.tech/microservices-architecture/#jhipster-registry
 [using docker and docker-compose]: https://www.jhipster.tech/docker-compose
 [using jhipster in production]: https://www.jhipster.tech/production/
 [running tests page]: https://www.jhipster.tech/running-tests/
