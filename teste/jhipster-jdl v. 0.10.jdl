@@ -602,7 +602,7 @@ entity Produto {
 	* O código deve ter máximo 3 aracteres.
     * Deve ser igual ao do BDEMQ
 	*/
-    codigoBDEMQ String required maxlength(3) minlength(3) //unique
+    codigoBDEMQ String required maxlength(3) minlength(3) unique
     
 	/**
 	* Informa o nome curto do produto.
