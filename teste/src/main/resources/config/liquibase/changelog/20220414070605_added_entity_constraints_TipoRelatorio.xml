@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity TipoRelatorio.
     -->
-    <changeSet id="20220412225926-2" author="jhipster">
+    <changeSet id="20220414070605-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="tipo_relatorio_id"
                                  baseTableName="rel_tipo_relatorio__usuarios_aut"

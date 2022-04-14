@@ -22,6 +22,9 @@ tasks:
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d
 #- command: cd teste/ && docker-compose -f src/main/docker/hazelcast-management-center.yml up -d && ./mvnw
 
+# comando para limpar CheckSums do liquibase
+#- command: ./mvnw liquibase:clearCheckSums
+
 # exposed ports
 ports:
 - port: 8080

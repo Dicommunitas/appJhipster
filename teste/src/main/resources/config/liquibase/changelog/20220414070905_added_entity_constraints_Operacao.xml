@@ -4,19 +4,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
     <!--
-        Added the constraints for entity Lembrete.
+        Added the constraints for entity Operacao.
     -->
-    <changeSet id="20220412230026-2" author="jhipster">
+    <changeSet id="20220414070905-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="tipo_relatorio_id"
-                                 baseTableName="lembrete"
-                                 constraintName="fk_lembrete__tipo_relatorio_id"
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                                 baseTableName="operacao"
+                                 constraintName="fk_operacao__produto_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="tipo_relatorio"/>
+                                 referencedTableName="produto"/>
 
         <addForeignKeyConstraint baseColumnNames="tipo_operacao_id"
-                                 baseTableName="lembrete"
-                                 constraintName="fk_lembrete__tipo_operacao_id"
+                                 baseTableName="operacao"
+                                 constraintName="fk_operacao__tipo_operacao_id"
                                  referencedColumnNames="id"
                                  referencedTableName="tipo_operacao"/>
     </changeSet>

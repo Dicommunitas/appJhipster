@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220412230126",
+  "changelogDate": "20220414070805",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "amostra",

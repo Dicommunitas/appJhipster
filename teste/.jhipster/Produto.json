@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220412230826",
+  "changelogDate": "20220414071505",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "produto",
@@ -8,7 +8,7 @@
     {
       "fieldName": "codigoBDEMQ",
       "fieldType": "String",
-      "fieldValidateRules": ["required", "maxlength", "minlength", "unique"],
+      "fieldValidateRules": ["required", "maxlength", "minlength"],
       "fieldValidateRulesMaxlength": "3",
       "fieldValidateRulesMinlength": "3",
       "javadoc": "O código deve ter máximo 3 aracteres.\\nDeve ser igual ao do BDEMQ"

@@ -29,7 +29,7 @@ public class Produto implements Serializable {
      */
     @NotNull
     @Size(min = 3, max = 3)
-    @Column(name = "codigo_bdemq", length = 3, nullable = false, unique = true)
+    @Column(name = "codigo_bdemq", length = 3, nullable = false)
     private String codigoBDEMQ;
 
     /**

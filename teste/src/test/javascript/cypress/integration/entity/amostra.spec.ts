@@ -33,7 +33,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/operacaos',
-      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-04-11T23:32:40.755Z","fim":"2022-04-12T12:28:03.791Z","quantidadeAmostras":73104,"observacao":"payment TCP","createdBy":"Forward Computador envisioneer","createdDate":"2022-04-12T06:06:17.240Z","lastModifiedBy":"applications","lastModifiedDate":"2022-04-12T08:12:52.708Z"},
+      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-04-13T07:39:19.755Z","fim":"2022-04-13T20:34:42.791Z","quantidadeAmostras":73104,"observacao":"payment TCP","createdBy":"Forward Computador envisioneer","createdDate":"2022-04-13T14:12:56.240Z","lastModifiedBy":"applications","lastModifiedDate":"2022-04-13T16:19:31.708Z"},
     }).then(({ body }) => {
       operacao = body;
     });
@@ -260,21 +260,21 @@ describe('Amostra e2e test', () => {
     });
 
     it.skip('should create an instance of Amostra', () => {
-      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-04-12T10:59').should('have.value', '2022-04-12T10:59');
+      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-04-13T19:06').should('have.value', '2022-04-13T19:06');
 
       cy.get(`[data-cy="observacao"]`).type('Filipinas').should('have.value', 'Filipinas');
 
       cy.get(`[data-cy="identificadorExterno"]`).type('Focused').should('have.value', 'Focused');
 
-      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-04-12T12:59').should('have.value', '2022-04-12T12:59');
+      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-04-13T21:05').should('have.value', '2022-04-13T21:05');
 
       cy.get(`[data-cy="createdBy"]`).type('Associate').should('have.value', 'Associate');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-12T19:55').should('have.value', '2022-04-12T19:55');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-14T04:01').should('have.value', '2022-04-14T04:01');
 
       cy.get(`[data-cy="lastModifiedBy"]`).type('integrate schemas').should('have.value', 'integrate schemas');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-12T10:38').should('have.value', '2022-04-12T10:38');
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-13T18:45').should('have.value', '2022-04-13T18:45');
 
       cy.get(`[data-cy="operacao"]`).select(1);
       cy.get(`[data-cy="origemAmostra"]`).select(1);
