@@ -12,6 +12,12 @@ tasks:
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d && ./mvnw 
 - command: docker system prune -af && cd controleOperacional/ && ./mvnw -Pdev package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
 
+#Working with Angular/React
+#Running Webpack
+#This step is required to see changes in your TypeScript code and have live reloading of your client-side code.
+#Running Webpack is the default task in the package.json file, so it is enough to run:
+#- command: npm start
+
 # comando para rodar/gerar o DB
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d
 #- command: cd teste/ && docker-compose -f src/main/docker/hazelcast-management-center.yml up -d && ./mvnw
