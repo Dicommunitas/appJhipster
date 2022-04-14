@@ -9,7 +9,7 @@ tasks:
 
 # comando para rodar em modo dev
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d && ./mvnw 
-- command: docker system prune -af && cd controleOperacional/ && ./mvnw -Pdev package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up -d && exit
+- command: docker system prune -af && cd controleOperacional/ && ./mvnw -Pdev package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
 
 # comando para rodar/gerar o DB
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d
