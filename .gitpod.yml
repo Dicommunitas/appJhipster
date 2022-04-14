@@ -1,8 +1,21 @@
 #image:
 #  file: .gitpod.dockerfile
+
 tasks:
 # comando para instalar as dependências
 - init: nvm install v16.14.2 && nvm use v16.14.2 && npm -v && npm install -g npm@8.6.0 && npm -v && npm install -g generator-jhipster
+- name: Passing environment variable
+  env:
+    _JAVA_OPTIONS: "-Xmx512m -Xms256m"
+    SPRING_PROFILES_ACTIVE: "dev"
+
+#  - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+#  - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+#  - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+#  - SPRING_DATASOURCE_URL=jdbc:mysql://controleoperacional-mysql:3306/controleoperacional?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+#  - SPRING_LIQUIBASE_URL=jdbc:mysql://controleoperacional-mysql:3306/controleoperacional?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+#  - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+
 
 # comando para rodar em modo produção via docker
 #- command: docker system prune -af && cd controleOperacional/ && ./mvnw -Pprod package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up -d && exit
@@ -27,7 +40,7 @@ tasks:
 
 # exposed ports
 ports:
-- port: 8080
+- port: 8080:8080
   onOpen: open-preview
 
 vscode:
