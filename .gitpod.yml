@@ -33,14 +33,19 @@ tasks:
 
 # comando para rodar/gerar o DB
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d
-#- command: cd teste/ && docker-compose -f src/main/docker/hazelcast-management-center.yml up -d && ./mvnw
 
 # comando para limpar CheckSums do liquibase
 #- command: ./mvnw liquibase:clearCheckSums
 
+# comando para gerar um novo “change log” para o liquibase
+#Modify your JPA entity (add a field, a relationship, etc.)
+#Compile your application (this works on the compiled Java code, so don’t forget to compile!)
+#Run ./mvnw liquibase:diff (or ./mvnw compile liquibase:diff to compile before)
+#- command: ./mvnw compile liquibase:diff
+
 # exposed ports
 ports:
-- port: 8080:8080
+- port: 8080
   onOpen: open-preview
 
 vscode:
