@@ -1,0 +1,227 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="gitpod (generated)" id="1649930289843-52">
+        <addColumn tableName="lembrete">
+            <column name="created_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-53">
+        <addColumn tableName="operacao">
+            <column name="created_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-54">
+        <addColumn tableName="lembrete">
+            <column name="created_date" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-55">
+        <addColumn tableName="operacao">
+            <column name="created_date" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-56">
+        <addColumn tableName="status">
+            <column name="created_date" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-57">
+        <addColumn tableName="lembrete">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-58">
+        <addColumn tableName="operacao">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-59">
+        <addColumn tableName="status">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-60">
+        <addColumn tableName="lembrete">
+            <column name="last_modified_date" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-61">
+        <addColumn tableName="operacao">
+            <column name="last_modified_date" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-62">
+        <addColumn tableName="status">
+            <column name="last_modified_date" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-63">
+        <addColumn tableName="operacao">
+            <column name="produto_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-64">
+        <addForeignKeyConstraint baseColumnNames="produto_id" baseTableName="operacao" constraintName="FKle5wuy8f6t4wu3kgwf92mxccg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="produto" validate="true"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-65">
+        <dropForeignKeyConstraint baseTableName="amostra" constraintName="fk_amostra__produto_id"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-66">
+        <dropColumn columnName="produto_id" tableName="amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-1">
+        <setTableRemarks tableName="alerta_produto"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-2">
+        <setTableRemarks tableName="amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-3">
+        <setTableRemarks tableName="finalidade_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-4">
+        <setTableRemarks tableName="lembrete"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-5">
+        <setTableRemarks tableName="operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-6">
+        <setTableRemarks tableName="origem_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-7">
+        <setTableRemarks tableName="problema"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-8">
+        <setTableRemarks tableName="produto"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-9">
+        <setTableRemarks tableName="relatorio"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-10">
+        <setTableRemarks tableName="status"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-11">
+        <setTableRemarks tableName="tipo_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-12">
+        <setTableRemarks tableName="tipo_finalidade_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-13">
+        <setTableRemarks tableName="tipo_operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-14">
+        <setTableRemarks tableName="tipo_relatorio"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-15">
+        <setColumnRemarks columnName="codigo_bdemq" tableName="produto"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-16">
+        <dropNotNullConstraint columnDataType="varchar(50)" columnName="created_by" tableName="amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-17">
+        <setColumnRemarks columnName="criticidade" tableName="problema"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-18">
+        <setColumnRemarks columnName="data_finalizacao" tableName="problema"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-19">
+        <setColumnRemarks columnName="data_hora" tableName="relatorio"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-20">
+        <setColumnRemarks columnName="data_hora_coleta" tableName="amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-21">
+        <setColumnRemarks columnName="data_resolucao" tableName="status"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-22">
+        <setColumnRemarks columnName="data_verificacao" tableName="problema"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-23">
+        <setColumnRemarks columnName="descricao" tableName="alerta_produto"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-24">
+        <setColumnRemarks columnName="descricao" tableName="lembrete"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-25">
+        <setColumnRemarks columnName="descricao" tableName="operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-26">
+        <setColumnRemarks columnName="descricao" tableName="origem_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-27">
+        <setColumnRemarks columnName="descricao" tableName="problema"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-28">
+        <setColumnRemarks columnName="descricao" tableName="status"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-29">
+        <setColumnRemarks columnName="descricao" tableName="tipo_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-30">
+        <setColumnRemarks columnName="descricao" tableName="tipo_finalidade_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-31">
+        <setColumnRemarks columnName="descricao" tableName="tipo_operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-32">
+        <setColumnRemarks columnName="fim" tableName="operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-33">
+        <setColumnRemarks columnName="foto" tableName="problema"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-34">
+        <setColumnRemarks columnName="identificador_externo" tableName="amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-35">
+        <setColumnRemarks columnName="impacto" tableName="problema"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-36">
+        <setColumnRemarks columnName="inicio" tableName="operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-37">
+        <setColumnRemarks columnName="lacre" tableName="finalidade_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-38">
+        <setColumnRemarks columnName="links_externos" tableName="relatorio"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-39">
+        <setColumnRemarks columnName="nome" tableName="lembrete"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-40">
+        <setColumnRemarks columnName="nome" tableName="tipo_relatorio"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-41">
+        <setColumnRemarks columnName="nome_completo" tableName="produto"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-42">
+        <setColumnRemarks columnName="nome_curto" tableName="produto"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-43">
+        <setColumnRemarks columnName="obrigatorio_lacre" tableName="tipo_finalidade_amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-44">
+        <setColumnRemarks columnName="observacao" tableName="amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-45">
+        <setColumnRemarks columnName="observacao" tableName="operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-46">
+        <setColumnRemarks columnName="prazo" tableName="status"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-47">
+        <dropNotNullConstraint columnDataType="int" columnName="quantidade_amostras" tableName="operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-48">
+        <setColumnRemarks columnName="quantidade_amostras" tableName="operacao"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-49">
+        <setColumnRemarks columnName="recebimento_no_laboratorio" tableName="amostra"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-50">
+        <setColumnRemarks columnName="relato" tableName="relatorio"/>
+    </changeSet>
+    <changeSet author="gitpod (generated)" id="1649930289843-51">
+        <setColumnRemarks columnName="volume_peso" tableName="operacao"/>
+    </changeSet>
+</databaseChangeLog>

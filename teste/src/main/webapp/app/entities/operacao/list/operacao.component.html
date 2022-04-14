@@ -1,0 +1,133 @@
+<div>
+  <h2 id="page-heading" data-cy="OperacaoHeading">
+    <span jhiTranslate="controleOperacionalApp.operacao.home.title">Operacaos</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="reset()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="controleOperacionalApp.operacao.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-operacao"
+        [routerLink]="['/operacao/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="controleOperacionalApp.operacao.home.createLabel"> Create a new Operacao </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="operacaos?.length === 0">
+    <span jhiTranslate="controleOperacionalApp.operacao.home.notFound">No operacaos found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="operacaos && operacaos.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="reset()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="descricao">
+            <span jhiTranslate="controleOperacionalApp.operacao.descricao">Descricao</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="volumePeso">
+            <span jhiTranslate="controleOperacionalApp.operacao.volumePeso">Volume Peso</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="inicio">
+            <span jhiTranslate="controleOperacionalApp.operacao.inicio">Inicio</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="fim">
+            <span jhiTranslate="controleOperacionalApp.operacao.fim">Fim</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="quantidadeAmostras">
+            <span jhiTranslate="controleOperacionalApp.operacao.quantidadeAmostras">Quantidade Amostras</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="observacao">
+            <span jhiTranslate="controleOperacionalApp.operacao.observacao">Observacao</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="createdBy">
+            <span jhiTranslate="controleOperacionalApp.operacao.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="createdDate">
+            <span jhiTranslate="controleOperacionalApp.operacao.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <span jhiTranslate="controleOperacionalApp.operacao.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedDate">
+            <span jhiTranslate="controleOperacionalApp.operacao.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="produto.nomeCurto">
+            <span jhiTranslate="controleOperacionalApp.operacao.produto">Produto</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tipoOperacao.descricao">
+            <span jhiTranslate="controleOperacionalApp.operacao.tipoOperacao">Tipo Operacao</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+        <tr *ngFor="let operacao of operacaos; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/operacao', operacao.id, 'view']">{{ operacao.id }}</a>
+          </td>
+          <td>{{ operacao.descricao }}</td>
+          <td>{{ operacao.volumePeso }}</td>
+          <td>{{ operacao.inicio | formatMediumDatetime }}</td>
+          <td>{{ operacao.fim | formatMediumDatetime }}</td>
+          <td>{{ operacao.quantidadeAmostras }}</td>
+          <td>{{ operacao.observacao }}</td>
+          <td>{{ operacao.createdBy }}</td>
+          <td>{{ operacao.createdDate | formatMediumDatetime }}</td>
+          <td>{{ operacao.lastModifiedBy }}</td>
+          <td>{{ operacao.lastModifiedDate | formatMediumDatetime }}</td>
+          <td>
+            <div *ngIf="operacao.produto">
+              <a [routerLink]="['/produto', operacao.produto?.id, 'view']">{{ operacao.produto?.nomeCurto }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="operacao.tipoOperacao">
+              <a [routerLink]="['/tipo-operacao', operacao.tipoOperacao?.id, 'view']">{{ operacao.tipoOperacao?.descricao }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/operacao', operacao.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/operacao', operacao.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(operacao)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
