@@ -1,11 +1,18 @@
 id;descricao
-1;circuit Comores Savings
-2;Concreto
-3;Legacy Lustroso
-4;synergies optical Rua
-5;Rondônia
-6;Lempira &
-7;Brinquedos mobile
-8;driver Gerais
-9;Saúde Teclado
-10;ametista collaborative
+1;(Navio) Carga / Load
+2;(Navio) Descarga / Discharge
+3;(Navio) Abastecimento
+4;(Rebocador) Abastecimento
+5;(Vagão) Descarga
+6;(Caminhão) Descarga
+7;(Olapa) Refluxo
+8;(Olapa) Fluxo
+9;Recertificação
+10;(Navio) Trânsito / Transit
+11;(Barcaça) Carga
+12;Transferência Interna
+13;Geração de Vapor
+14;Drenagem de Linha
+15;Drenagem de Tanque
+16;(Barcaça) Descarga
+
