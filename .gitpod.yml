@@ -22,7 +22,8 @@ tasks:
 #- command: docker system prune -af && cd teste/ && ./mvnw -Pprod package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
 
 # comando para rodar em modo dev
-#- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d && ./mvnw -Pdev,no-liquibase 
+#- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d && ./mvnw
+- command: cd teste/ && docker-compose -f src/main/docker/mysql.yml up -d && ./mvnw
 #- command: docker system prune -af && cd controleOperacional/ && ./mvnw -Pdev package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
 
 #Working with Angular/React
