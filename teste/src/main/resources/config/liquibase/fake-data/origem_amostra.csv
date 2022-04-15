@@ -1,11 +1,62 @@
-id;descricao
-1;grid-enabled virtual
-2;synergies
-3;portals Central synthesizing
-4;Centralized
-5;Future-proofed
-6;grená
-7;grow mesh Sapatos
-8;Front-line withdrawal Account
-9;Cross-platform
-10;Cambridgeshire SCSI
+descricao;id
+(Píer) L3 GA 12";1
+(Píer) L3 NDD12";2
+(Píer) L3 ODB 12";3
+(Píer) L3 QAV 16";4
+(Píer) L3 MTBE 12";5
+(Píer) L3 METANOL 12";6
+(Píer) L3 LTN 12";7
+(Píer) L3 OC 12";8
+(Píer) MF ABT 10";9
+(Píer) MGO ABT 8";10
+TQ-001;11
+TQ-002;12
+TQ-101;13
+TQ-102;14
+TQ-103;15
+TQ-105;16
+TQ-106;17
+TQ-107;18
+TQ-109;19
+TQ-111;20
+TQ-113;21
+TQ-201;22
+TQ-203;23
+TQ-204;24
+TQ-205;25
+TQ-206;26
+TQ-207;27
+TQ-209;28
+TQ-210;29
+TQ-211;30
+TQ-212;31
+TQ-301;32
+TQ-302;33
+TQ-303;34
+TQ-304;35
+TQ-305;36
+TQ-306;37
+TQ-401;38
+TQ-402;39
+TQ-403;40
+E01;41
+E02;42
+E03;43
+Navio / Vessel;44
+Vagão;45
+Caminhão;46
+Barcaça;47
+Olapa;48
+(Píer) L3 DSM 12";49
+Caldeira;50
+(Área) L3 GA 12";51
+(Área) L3 NDD 16";52
+(Área) L3 ODB 12";53
+(Área) L3 DSM 12";54
+REPAR;55
+TQ-208;56
+(Área) L3 OC 12";57
+TOMADA 1 DA LINHA DE DG DE CT;58
+TOMADA 2 DA LINHA DE DG DE CT;59
+
+
