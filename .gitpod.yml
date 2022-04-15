@@ -3,7 +3,7 @@
 
 tasks:
 # comando para instalar as dependências
-- init: sleep 2 && nvm install v16.14.2 && nvm use v16.14.2 && npm -v && npm install -g npm@8.6.0 && npm -v && npm install -g generator-jhipster
+- init: nvm install v16.14.2 && nvm use v16.14.2 && npm -v && npm install -g npm@8.6.0 && npm -v && npm install -g generator-jhipster
 #- name: Passing environment variable
 #  env:
 #    _JAVA_OPTIONS: "-Xmx512m -Xms256m"
