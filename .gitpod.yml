@@ -1,3 +1,4 @@
+---
 #image:
 #  file: .gitpod.dockerfile
 
@@ -25,25 +26,20 @@ tasks:
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d && ./mvnw
 - command: cd teste/ && docker-compose -f src/main/docker/mysql.yml up -d && ./mvnw
 #- command: docker system prune -af && cd controleOperacional/ && ./mvnw -Pdev package jib:dockerBuild && docker-compose -f src/main/docker/app.yml up
-
 #Working with Angular/React
 #Running Webpack
 #This step is required to see changes in your TypeScript code and have live reloading of your client-side code.
 #Running Webpack is the default task in the package.json file, so it is enough to run:
 #- command: npm start
-
 # comando para rodar/gerar o DB
 #- command: cd controleOperacional/ && docker-compose -f src/main/docker/mysql.yml up -d
-
 # comando para limpar CheckSums do liquibase
 #- command: ./mvnw liquibase:clearCheckSums
-
 # comando para gerar um novo “change log” para o liquibase
 #Modify your JPA entity (add a field, a relationship, etc.)
 #Compile your application (this works on the compiled Java code, so don’t forget to compile!)
 #Run ./mvnw liquibase:diff (or ./mvnw compile liquibase:diff to compile before)
 #- command: ./mvnw compile liquibase:diff
-
 # exposed ports
 ports:
 - port: 8080
@@ -55,3 +51,4 @@ vscode:
     - vscjava.vscode-java-debug
     - vscjava.vscode-java-test
     - pivotal.vscode-spring-boot
+    - mechatroner.rainbow-csv
