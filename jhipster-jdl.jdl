@@ -395,7 +395,7 @@ entity Amostra {
     * Observações que forem necessárias para melhorar 
     * a identificação da origem amostra.
 	*/
-    descricaoDeOrigen String
+    descricaoDeOrigem String
     
 	/**
     * Observações que forem necessárias para melhorar 
@@ -740,7 +740,7 @@ relationship OneToMany {
 	* Descreve quais serão as finalidades de uma amostra
 	*/
 	Amostra{finalidades(lacre)} 
-    	to FinalidadeAmostra{amostra(dataHoraColeta) required}
+    	to FinalidadeAmostra{amostra(id) required}
 }
 
 //define vários relacionamentos ManyToMany com comentários
