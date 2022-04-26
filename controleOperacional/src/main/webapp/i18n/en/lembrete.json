@@ -20,6 +20,10 @@
       "id": "ID",
       "nome": "Nome",
       "descricao": "Descricao",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
       "tipoRelatorio": "Tipo Relatorio",
       "tipoOperacao": "Tipo Operacao",
       "help": {

@@ -14,8 +14,6 @@ import { IOperacao } from 'app/entities/operacao/operacao.model';
 import { OperacaoService } from 'app/entities/operacao/service/operacao.service';
 import { IOrigemAmostra } from 'app/entities/origem-amostra/origem-amostra.model';
 import { OrigemAmostraService } from 'app/entities/origem-amostra/service/origem-amostra.service';
-import { IProduto } from 'app/entities/produto/produto.model';
-import { ProdutoService } from 'app/entities/produto/service/produto.service';
 import { ITipoAmostra } from 'app/entities/tipo-amostra/tipo-amostra.model';
 import { TipoAmostraService } from 'app/entities/tipo-amostra/service/tipo-amostra.service';
 import { IUser } from 'app/entities/user/user.model';
@@ -30,7 +28,6 @@ export class AmostraUpdateComponent implements OnInit {
 
   operacaosSharedCollection: IOperacao[] = [];
   origemAmostrasSharedCollection: IOrigemAmostra[] = [];
-  produtosSharedCollection: IProduto[] = [];
   tipoAmostrasSharedCollection: ITipoAmostra[] = [];
   usersSharedCollection: IUser[] = [];
 
@@ -40,13 +37,12 @@ export class AmostraUpdateComponent implements OnInit {
     observacao: [],
     identificadorExterno: [],
     recebimentoNoLaboratorio: [],
-    createdBy: [null, [Validators.required]],
+    createdBy: [null, [Validators.maxLength(50)]],
     createdDate: [],
-    lastModifiedBy: [],
+    lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
     operacao: [null, Validators.required],
     origemAmostra: [null, Validators.required],
-    produto: [null, Validators.required],
     tipoAmostra: [null, Validators.required],
     amostradaPor: [],
     recebidaPor: [],
@@ -56,7 +52,6 @@ export class AmostraUpdateComponent implements OnInit {
     protected amostraService: AmostraService,
     protected operacaoService: OperacaoService,
     protected origemAmostraService: OrigemAmostraService,
-    protected produtoService: ProdutoService,
     protected tipoAmostraService: TipoAmostraService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
@@ -93,23 +88,19 @@ export class AmostraUpdateComponent implements OnInit {
     }
   }
 
-  trackOperacaoById(index: number, item: IOperacao): number {
+  trackOperacaoById(_index: number, item: IOperacao): number {
     return item.id!;
   }
 
-  trackOrigemAmostraById(index: number, item: IOrigemAmostra): number {
+  trackOrigemAmostraById(_index: number, item: IOrigemAmostra): number {
     return item.id!;
   }
 
-  trackProdutoById(index: number, item: IProduto): number {
+  trackTipoAmostraById(_index: number, item: ITipoAmostra): number {
     return item.id!;
   }
 
-  trackTipoAmostraById(index: number, item: ITipoAmostra): number {
-    return item.id!;
-  }
-
-  trackUserById(index: number, item: IUser): number {
+  trackUserById(_index: number, item: IUser): number {
     return item.id!;
   }
 
@@ -145,7 +136,6 @@ export class AmostraUpdateComponent implements OnInit {
       lastModifiedDate: amostra.lastModifiedDate ? amostra.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       operacao: amostra.operacao,
       origemAmostra: amostra.origemAmostra,
-      produto: amostra.produto,
       tipoAmostra: amostra.tipoAmostra,
       amostradaPor: amostra.amostradaPor,
       recebidaPor: amostra.recebidaPor,
@@ -159,7 +149,6 @@ export class AmostraUpdateComponent implements OnInit {
       this.origemAmostrasSharedCollection,
       amostra.origemAmostra
     );
-    this.produtosSharedCollection = this.produtoService.addProdutoToCollectionIfMissing(this.produtosSharedCollection, amostra.produto);
     this.tipoAmostrasSharedCollection = this.tipoAmostraService.addTipoAmostraToCollectionIfMissing(
       this.tipoAmostrasSharedCollection,
       amostra.tipoAmostra
@@ -191,14 +180,6 @@ export class AmostraUpdateComponent implements OnInit {
         )
       )
       .subscribe((origemAmostras: IOrigemAmostra[]) => (this.origemAmostrasSharedCollection = origemAmostras));
-
-    this.produtoService
-      .query()
-      .pipe(map((res: HttpResponse<IProduto[]>) => res.body ?? []))
-      .pipe(
-        map((produtos: IProduto[]) => this.produtoService.addProdutoToCollectionIfMissing(produtos, this.editForm.get('produto')!.value))
-      )
-      .subscribe((produtos: IProduto[]) => (this.produtosSharedCollection = produtos));
 
     this.tipoAmostraService
       .query()
@@ -247,7 +228,6 @@ export class AmostraUpdateComponent implements OnInit {
         : undefined,
       operacao: this.editForm.get(['operacao'])!.value,
       origemAmostra: this.editForm.get(['origemAmostra'])!.value,
-      produto: this.editForm.get(['produto'])!.value,
       tipoAmostra: this.editForm.get(['tipoAmostra'])!.value,
       amostradaPor: this.editForm.get(['amostradaPor'])!.value,
       recebidaPor: this.editForm.get(['recebidaPor'])!.value,

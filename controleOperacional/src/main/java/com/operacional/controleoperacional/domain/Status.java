@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -42,6 +43,16 @@ public class Status implements Serializable {
      */
     @Column(name = "data_resolucao")
     private LocalDate dataResolucao;
+
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @Size(max = 50)
+    @Column(name = "last_modified_by", length = 50)
+    private String lastModifiedBy;
+
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
 
     /**
      * Quem é o relator do status,\no último usuário que atualizou.
@@ -116,6 +127,45 @@ public class Status implements Serializable {
         this.dataResolucao = dataResolucao;
     }
 
+    public Instant getCreatedDate() {
+        return this.createdDate;
+    }
+
+    public Status createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return this.lastModifiedBy;
+    }
+
+    public Status lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return this.lastModifiedDate;
+    }
+
+    public Status lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public User getRelator() {
         return this.relator;
     }
@@ -182,6 +232,9 @@ public class Status implements Serializable {
             ", descricao='" + getDescricao() + "'" +
             ", prazo='" + getPrazo() + "'" +
             ", dataResolucao='" + getDataResolucao() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

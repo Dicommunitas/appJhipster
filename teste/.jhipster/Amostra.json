@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220414100135",
+  "changelogDate": "20220426100707",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "amostra",
@@ -9,6 +9,11 @@
       "fieldName": "dataHoraColeta",
       "fieldType": "Instant",
       "javadoc": "Data e hora que a amostra foi coletada."
+    },
+    {
+      "fieldName": "descricaoDeOrigen",
+      "fieldType": "String",
+      "javadoc": "Observações que forem necessárias para melhorar\\na identificação da origem amostra."
     },
     {
       "fieldName": "observacao",

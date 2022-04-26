@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import dayjs from 'dayjs/esm';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IStatus, Status } from '../status.model';
 
 import { StatusService } from './status.service';
@@ -28,6 +28,9 @@ describe('Status Service', () => {
       descricao: 'AAAAAAA',
       prazo: currentDate,
       dataResolucao: currentDate,
+      createdDate: currentDate,
+      lastModifiedBy: 'AAAAAAA',
+      lastModifiedDate: currentDate,
     };
   });
 
@@ -37,6 +40,8 @@ describe('Status Service', () => {
         {
           prazo: currentDate.format(DATE_FORMAT),
           dataResolucao: currentDate.format(DATE_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -54,6 +59,8 @@ describe('Status Service', () => {
           id: 0,
           prazo: currentDate.format(DATE_FORMAT),
           dataResolucao: currentDate.format(DATE_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -62,6 +69,8 @@ describe('Status Service', () => {
         {
           prazo: currentDate,
           dataResolucao: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -80,6 +89,9 @@ describe('Status Service', () => {
           descricao: 'BBBBBB',
           prazo: currentDate.format(DATE_FORMAT),
           dataResolucao: currentDate.format(DATE_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -88,6 +100,8 @@ describe('Status Service', () => {
         {
           prazo: currentDate,
           dataResolucao: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -115,6 +129,8 @@ describe('Status Service', () => {
         {
           prazo: currentDate,
           dataResolucao: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -133,6 +149,9 @@ describe('Status Service', () => {
           descricao: 'BBBBBB',
           prazo: currentDate.format(DATE_FORMAT),
           dataResolucao: currentDate.format(DATE_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -141,6 +160,8 @@ describe('Status Service', () => {
         {
           prazo: currentDate,
           dataResolucao: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -190,7 +211,7 @@ describe('Status Service', () => {
       });
 
       it('should add only unique Status to an array', () => {
-        const statusArray: IStatus[] = [{ id: 123 }, { id: 456 }, { id: 39377 }];
+        const statusArray: IStatus[] = [{ id: 123 }, { id: 456 }, { id: 66528 }];
         const statusCollection: IStatus[] = [{ id: 123 }];
         expectedResult = service.addStatusToCollectionIfMissing(statusCollection, ...statusArray);
         expect(expectedResult).toHaveLength(3);

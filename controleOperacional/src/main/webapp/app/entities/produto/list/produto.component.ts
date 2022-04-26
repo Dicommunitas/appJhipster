@@ -68,7 +68,7 @@ export class ProdutoComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IProduto): number {
+  trackId(_index: number, item: IProduto): number {
     return item.id!;
   }
 

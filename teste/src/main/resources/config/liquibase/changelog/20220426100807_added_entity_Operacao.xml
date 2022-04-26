@@ -9,7 +9,7 @@
     <!--
         Added the entity Operacao.
     -->
-    <changeSet id="20220307002158-1" author="jhipster">
+    <changeSet id="20220426100807-1" author="jhipster">
         <createTable tableName="operacao" remarks="Entidade Operação.\n@author Diego.\nAo criar uma Operação deve existir\numa opção de usar operações passadas\ncomo modelo para sua criação, inclusive\ncopiando o plano de amostragem">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -27,10 +27,25 @@
                 <constraints nullable="true" />
             </column>
             <column name="quantidade_amostras" type="integer" remarks="Quantas amostras devem ter nessa operação.">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="observacao" type="varchar(255)" remarks="Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.">
                 <constraints nullable="true" />
+            </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="true" />
+            </column>
+            <column name="created_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_modified_by" type="varchar(50)">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_modified_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="produto_id" type="bigint">
+                <constraints nullable="false" />
             </column>
             <column name="tipo_operacao_id" type="bigint">
                 <constraints nullable="false" />
@@ -39,6 +54,8 @@
         </createTable>
         <dropDefaultValue tableName="operacao" columnName="inicio" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="operacao" columnName="fim" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="operacao" columnName="created_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="operacao" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -51,7 +68,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220307002158-1-data" author="jhipster" context="faker">
+    <changeSet id="20220426100807-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/operacao.csv"
                   separator=";"
@@ -64,6 +81,11 @@
             <column name="fim" type="date"/>
             <column name="quantidade_amostras" type="numeric"/>
             <column name="observacao" type="string"/>
+            <column name="created_by" type="string"/>
+            <column name="created_date" type="date"/>
+            <column name="last_modified_by" type="string"/>
+            <column name="last_modified_date" type="date"/>
+            <column name="produto_id" type="numeric"/>
             <column name="tipo_operacao_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

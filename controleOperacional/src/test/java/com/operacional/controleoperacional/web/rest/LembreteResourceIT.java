@@ -2,22 +2,32 @@ package com.operacional.controleoperacional.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.operacional.controleoperacional.IntegrationTest;
 import com.operacional.controleoperacional.domain.Lembrete;
 import com.operacional.controleoperacional.repository.LembreteRepository;
+import com.operacional.controleoperacional.service.LembreteService;
 import com.operacional.controleoperacional.service.dto.LembreteDTO;
 import com.operacional.controleoperacional.service.mapper.LembreteMapper;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +38,7 @@ import org.springframework.util.Base64Utils;
  * Integration tests for the {@link LembreteResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class LembreteResourceIT {
@@ -38,6 +49,18 @@ class LembreteResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_LAST_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_LAST_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final String ENTITY_API_URL = "/api/lembretes";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -47,8 +70,14 @@ class LembreteResourceIT {
     @Autowired
     private LembreteRepository lembreteRepository;
 
+    @Mock
+    private LembreteRepository lembreteRepositoryMock;
+
     @Autowired
     private LembreteMapper lembreteMapper;
+
+    @Mock
+    private LembreteService lembreteServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -65,7 +94,13 @@ class LembreteResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Lembrete createEntity(EntityManager em) {
-        Lembrete lembrete = new Lembrete().nome(DEFAULT_NOME).descricao(DEFAULT_DESCRICAO);
+        Lembrete lembrete = new Lembrete()
+            .nome(DEFAULT_NOME)
+            .descricao(DEFAULT_DESCRICAO)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
+            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
         return lembrete;
     }
 
@@ -76,7 +111,13 @@ class LembreteResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Lembrete createUpdatedEntity(EntityManager em) {
-        Lembrete lembrete = new Lembrete().nome(UPDATED_NOME).descricao(UPDATED_DESCRICAO);
+        Lembrete lembrete = new Lembrete()
+            .nome(UPDATED_NOME)
+            .descricao(UPDATED_DESCRICAO)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         return lembrete;
     }
 
@@ -101,6 +142,10 @@ class LembreteResourceIT {
         Lembrete testLembrete = lembreteList.get(lembreteList.size() - 1);
         assertThat(testLembrete.getNome()).isEqualTo(DEFAULT_NOME);
         assertThat(testLembrete.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testLembrete.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testLembrete.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testLembrete.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testLembrete.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -153,7 +198,29 @@ class LembreteResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(lembrete.getId().intValue())))
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllLembretesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(lembreteServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restLembreteMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(lembreteServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllLembretesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(lembreteServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restLembreteMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(lembreteServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -169,7 +236,11 @@ class LembreteResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(lembrete.getId().intValue()))
             .andExpect(jsonPath("$.nome").value(DEFAULT_NOME))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
+            .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()));
     }
 
     @Test
@@ -191,7 +262,13 @@ class LembreteResourceIT {
         Lembrete updatedLembrete = lembreteRepository.findById(lembrete.getId()).get();
         // Disconnect from session so that the updates on updatedLembrete are not directly saved in db
         em.detach(updatedLembrete);
-        updatedLembrete.nome(UPDATED_NOME).descricao(UPDATED_DESCRICAO);
+        updatedLembrete
+            .nome(UPDATED_NOME)
+            .descricao(UPDATED_DESCRICAO)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         LembreteDTO lembreteDTO = lembreteMapper.toDto(updatedLembrete);
 
         restLembreteMockMvc
@@ -208,6 +285,10 @@ class LembreteResourceIT {
         Lembrete testLembrete = lembreteList.get(lembreteList.size() - 1);
         assertThat(testLembrete.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testLembrete.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testLembrete.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testLembrete.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testLembrete.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testLembrete.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -287,7 +368,12 @@ class LembreteResourceIT {
         Lembrete partialUpdatedLembrete = new Lembrete();
         partialUpdatedLembrete.setId(lembrete.getId());
 
-        partialUpdatedLembrete.nome(UPDATED_NOME).descricao(UPDATED_DESCRICAO);
+        partialUpdatedLembrete
+            .nome(UPDATED_NOME)
+            .descricao(UPDATED_DESCRICAO)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
 
         restLembreteMockMvc
             .perform(
@@ -303,6 +389,10 @@ class LembreteResourceIT {
         Lembrete testLembrete = lembreteList.get(lembreteList.size() - 1);
         assertThat(testLembrete.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testLembrete.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testLembrete.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testLembrete.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testLembrete.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testLembrete.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -317,7 +407,13 @@ class LembreteResourceIT {
         Lembrete partialUpdatedLembrete = new Lembrete();
         partialUpdatedLembrete.setId(lembrete.getId());
 
-        partialUpdatedLembrete.nome(UPDATED_NOME).descricao(UPDATED_DESCRICAO);
+        partialUpdatedLembrete
+            .nome(UPDATED_NOME)
+            .descricao(UPDATED_DESCRICAO)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
 
         restLembreteMockMvc
             .perform(
@@ -333,6 +429,10 @@ class LembreteResourceIT {
         Lembrete testLembrete = lembreteList.get(lembreteList.size() - 1);
         assertThat(testLembrete.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testLembrete.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testLembrete.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testLembrete.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testLembrete.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testLembrete.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test

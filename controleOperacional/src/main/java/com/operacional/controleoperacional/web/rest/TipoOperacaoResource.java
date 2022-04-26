@@ -90,7 +90,7 @@ public class TipoOperacaoResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        TipoOperacaoDTO result = tipoOperacaoService.save(tipoOperacaoDTO);
+        TipoOperacaoDTO result = tipoOperacaoService.update(tipoOperacaoDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, tipoOperacaoDTO.getId().toString()))

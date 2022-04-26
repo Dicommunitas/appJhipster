@@ -1,11 +1,12 @@
 package com.operacional.controleoperacional.repository;
 
 import com.operacional.controleoperacional.domain.Produto;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.annotations.QueryHints;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -14,7 +15,7 @@ import org.springframework.data.domain.PageImpl;
  */
 public class ProdutoRepositoryWithBagRelationshipsImpl implements ProdutoRepositoryWithBagRelationships {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
@@ -29,7 +30,7 @@ public class ProdutoRepositoryWithBagRelationshipsImpl implements ProdutoReposit
 
     @Override
     public List<Produto> fetchBagRelationships(List<Produto> produtos) {
-        return Optional.of(produtos).map(this::fetchAlertas).get();
+        return Optional.of(produtos).map(this::fetchAlertas).orElse(Collections.emptyList());
     }
 
     Produto fetchAlertas(Produto result) {

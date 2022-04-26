@@ -89,7 +89,7 @@ public class LembreteResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        LembreteDTO result = lembreteService.save(lembreteDTO);
+        LembreteDTO result = lembreteService.update(lembreteDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, lembreteDTO.getId().toString()))

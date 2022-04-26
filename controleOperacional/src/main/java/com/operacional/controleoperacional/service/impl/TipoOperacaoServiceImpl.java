@@ -41,6 +41,14 @@ public class TipoOperacaoServiceImpl implements TipoOperacaoService {
     }
 
     @Override
+    public TipoOperacaoDTO update(TipoOperacaoDTO tipoOperacaoDTO) {
+        log.debug("Request to save TipoOperacao : {}", tipoOperacaoDTO);
+        TipoOperacao tipoOperacao = tipoOperacaoMapper.toEntity(tipoOperacaoDTO);
+        tipoOperacao = tipoOperacaoRepository.save(tipoOperacao);
+        return tipoOperacaoMapper.toDto(tipoOperacao);
+    }
+
+    @Override
     public Optional<TipoOperacaoDTO> partialUpdate(TipoOperacaoDTO tipoOperacaoDTO) {
         log.debug("Request to partially update TipoOperacao : {}", tipoOperacaoDTO);
 

@@ -35,6 +35,10 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.nome">Nome</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.descricao">Descricao</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.createdBy">Created By</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.createdDate">Created Date</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.lastModifiedBy">Last Modified By</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.lastModifiedDate">Last Modified Date</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.tipoRelatorio">Tipo Relatorio</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.lembrete.tipoOperacao">Tipo Operacao</span></th>
           <th scope="col"></th>
@@ -47,6 +51,10 @@
           </td>
           <td>{{ lembrete.nome }}</td>
           <td>{{ lembrete.descricao }}</td>
+          <td>{{ lembrete.createdBy }}</td>
+          <td>{{ lembrete.createdDate | formatMediumDatetime }}</td>
+          <td>{{ lembrete.lastModifiedBy }}</td>
+          <td>{{ lembrete.lastModifiedDate | formatMediumDatetime }}</td>
           <td>
             <div *ngIf="lembrete.tipoRelatorio">
               <a [routerLink]="['/tipo-relatorio', lembrete.tipoRelatorio?.id, 'view']">{{ lembrete.tipoRelatorio?.nome }}</a>

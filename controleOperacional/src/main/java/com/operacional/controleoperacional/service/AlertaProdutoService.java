@@ -17,6 +17,14 @@ public interface AlertaProdutoService {
     AlertaProdutoDTO save(AlertaProdutoDTO alertaProdutoDTO);
 
     /**
+     * Updates a alertaProduto.
+     *
+     * @param alertaProdutoDTO the entity to update.
+     * @return the persisted entity.
+     */
+    AlertaProdutoDTO update(AlertaProdutoDTO alertaProdutoDTO);
+
+    /**
      * Partially updates a alertaProduto.
      *
      * @param alertaProdutoDTO the entity to update partially.

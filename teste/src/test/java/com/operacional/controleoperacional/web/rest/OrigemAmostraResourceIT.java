@@ -34,6 +34,9 @@ class OrigemAmostraResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_OBRIGATORIA_DESCRICAO = false;
+    private static final Boolean UPDATED_OBRIGATORIA_DESCRICAO = true;
+
     private static final String ENTITY_API_URL = "/api/origem-amostras";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -61,7 +64,7 @@ class OrigemAmostraResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static OrigemAmostra createEntity(EntityManager em) {
-        OrigemAmostra origemAmostra = new OrigemAmostra().descricao(DEFAULT_DESCRICAO);
+        OrigemAmostra origemAmostra = new OrigemAmostra().descricao(DEFAULT_DESCRICAO).obrigatoriaDescricao(DEFAULT_OBRIGATORIA_DESCRICAO);
         return origemAmostra;
     }
 
@@ -72,7 +75,7 @@ class OrigemAmostraResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static OrigemAmostra createUpdatedEntity(EntityManager em) {
-        OrigemAmostra origemAmostra = new OrigemAmostra().descricao(UPDATED_DESCRICAO);
+        OrigemAmostra origemAmostra = new OrigemAmostra().descricao(UPDATED_DESCRICAO).obrigatoriaDescricao(UPDATED_OBRIGATORIA_DESCRICAO);
         return origemAmostra;
     }
 
@@ -98,6 +101,7 @@ class OrigemAmostraResourceIT {
         assertThat(origemAmostraList).hasSize(databaseSizeBeforeCreate + 1);
         OrigemAmostra testOrigemAmostra = origemAmostraList.get(origemAmostraList.size() - 1);
         assertThat(testOrigemAmostra.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testOrigemAmostra.getObrigatoriaDescricao()).isEqualTo(DEFAULT_OBRIGATORIA_DESCRICAO);
     }
 
     @Test
@@ -153,7 +157,8 @@ class OrigemAmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(origemAmostra.getId().intValue())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
+            .andExpect(jsonPath("$.[*].obrigatoriaDescricao").value(hasItem(DEFAULT_OBRIGATORIA_DESCRICAO.booleanValue())));
     }
 
     @Test
@@ -168,7 +173,8 @@ class OrigemAmostraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(origemAmostra.getId().intValue()))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
+            .andExpect(jsonPath("$.obrigatoriaDescricao").value(DEFAULT_OBRIGATORIA_DESCRICAO.booleanValue()));
     }
 
     @Test
@@ -190,7 +196,7 @@ class OrigemAmostraResourceIT {
         OrigemAmostra updatedOrigemAmostra = origemAmostraRepository.findById(origemAmostra.getId()).get();
         // Disconnect from session so that the updates on updatedOrigemAmostra are not directly saved in db
         em.detach(updatedOrigemAmostra);
-        updatedOrigemAmostra.descricao(UPDATED_DESCRICAO);
+        updatedOrigemAmostra.descricao(UPDATED_DESCRICAO).obrigatoriaDescricao(UPDATED_OBRIGATORIA_DESCRICAO);
         OrigemAmostraDTO origemAmostraDTO = origemAmostraMapper.toDto(updatedOrigemAmostra);
 
         restOrigemAmostraMockMvc
@@ -206,6 +212,7 @@ class OrigemAmostraResourceIT {
         assertThat(origemAmostraList).hasSize(databaseSizeBeforeUpdate);
         OrigemAmostra testOrigemAmostra = origemAmostraList.get(origemAmostraList.size() - 1);
         assertThat(testOrigemAmostra.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testOrigemAmostra.getObrigatoriaDescricao()).isEqualTo(UPDATED_OBRIGATORIA_DESCRICAO);
     }
 
     @Test
@@ -287,7 +294,7 @@ class OrigemAmostraResourceIT {
         OrigemAmostra partialUpdatedOrigemAmostra = new OrigemAmostra();
         partialUpdatedOrigemAmostra.setId(origemAmostra.getId());
 
-        partialUpdatedOrigemAmostra.descricao(UPDATED_DESCRICAO);
+        partialUpdatedOrigemAmostra.descricao(UPDATED_DESCRICAO).obrigatoriaDescricao(UPDATED_OBRIGATORIA_DESCRICAO);
 
         restOrigemAmostraMockMvc
             .perform(
@@ -302,6 +309,7 @@ class OrigemAmostraResourceIT {
         assertThat(origemAmostraList).hasSize(databaseSizeBeforeUpdate);
         OrigemAmostra testOrigemAmostra = origemAmostraList.get(origemAmostraList.size() - 1);
         assertThat(testOrigemAmostra.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testOrigemAmostra.getObrigatoriaDescricao()).isEqualTo(UPDATED_OBRIGATORIA_DESCRICAO);
     }
 
     @Test
@@ -316,7 +324,7 @@ class OrigemAmostraResourceIT {
         OrigemAmostra partialUpdatedOrigemAmostra = new OrigemAmostra();
         partialUpdatedOrigemAmostra.setId(origemAmostra.getId());
 
-        partialUpdatedOrigemAmostra.descricao(UPDATED_DESCRICAO);
+        partialUpdatedOrigemAmostra.descricao(UPDATED_DESCRICAO).obrigatoriaDescricao(UPDATED_OBRIGATORIA_DESCRICAO);
 
         restOrigemAmostraMockMvc
             .perform(
@@ -331,6 +339,7 @@ class OrigemAmostraResourceIT {
         assertThat(origemAmostraList).hasSize(databaseSizeBeforeUpdate);
         OrigemAmostra testOrigemAmostra = origemAmostraList.get(origemAmostraList.size() - 1);
         assertThat(testOrigemAmostra.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testOrigemAmostra.getObrigatoriaDescricao()).isEqualTo(UPDATED_OBRIGATORIA_DESCRICAO);
     }
 
     @Test

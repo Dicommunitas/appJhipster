@@ -7,6 +7,9 @@ export interface IStatus {
   descricao?: string;
   prazo?: dayjs.Dayjs;
   dataResolucao?: dayjs.Dayjs | null;
+  createdDate?: dayjs.Dayjs | null;
+  lastModifiedBy?: string | null;
+  lastModifiedDate?: dayjs.Dayjs | null;
   relator?: IUser;
   responsavel?: IUser;
   problema?: IProblema;
@@ -18,6 +21,9 @@ export class Status implements IStatus {
     public descricao?: string,
     public prazo?: dayjs.Dayjs,
     public dataResolucao?: dayjs.Dayjs | null,
+    public createdDate?: dayjs.Dayjs | null,
+    public lastModifiedBy?: string | null,
+    public lastModifiedDate?: dayjs.Dayjs | null,
     public relator?: IUser,
     public responsavel?: IUser,
     public problema?: IProblema

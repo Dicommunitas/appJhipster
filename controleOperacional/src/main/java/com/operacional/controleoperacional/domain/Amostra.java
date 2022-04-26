@@ -16,7 +16,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "amostra")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Amostra extends AbstractAuditingEntity implements Serializable {
+public class Amostra implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,20 @@ public class Amostra extends AbstractAuditingEntity implements Serializable {
     @Column(name = "recebimento_no_laboratorio")
     private Instant recebimentoNoLaboratorio;
 
-    
+    @Size(max = 50)
+    @Column(name = "created_by", length = 50)
+    private String createdBy;
+
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @Size(max = 50)
+    @Column(name = "last_modified_by", length = 50)
+    private String lastModifiedBy;
+
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
+
     /**
      * Descreve quais serão as finalidades de uma amostra
      */
@@ -63,7 +76,7 @@ public class Amostra extends AbstractAuditingEntity implements Serializable {
      */
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "tipoOperacao" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "produto", "tipoOperacao" }, allowSetters = true)
     private Operacao operacao;
 
     /**
@@ -72,14 +85,6 @@ public class Amostra extends AbstractAuditingEntity implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     private OrigemAmostra origemAmostra;
-
-    /**
-     * Define qual o produto da amostra
-     */
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties(value = { "alertas" }, allowSetters = true)
-    private Produto produto;
 
     /**
      * Define qual o tipo da amostra (Composta, Corrida...)
@@ -166,7 +171,59 @@ public class Amostra extends AbstractAuditingEntity implements Serializable {
     public void setRecebimentoNoLaboratorio(Instant recebimentoNoLaboratorio) {
         this.recebimentoNoLaboratorio = recebimentoNoLaboratorio;
     }
-   
+
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
+
+    public Amostra createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return this.createdDate;
+    }
+
+    public Amostra createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return this.lastModifiedBy;
+    }
+
+    public Amostra lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return this.lastModifiedDate;
+    }
+
+    public Amostra lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public Set<FinalidadeAmostra> getFinalidades() {
         return this.finalidades;
     }
@@ -221,19 +278,6 @@ public class Amostra extends AbstractAuditingEntity implements Serializable {
 
     public Amostra origemAmostra(OrigemAmostra origemAmostra) {
         this.setOrigemAmostra(origemAmostra);
-        return this;
-    }
-
-    public Produto getProduto() {
-        return this.produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
-
-    public Amostra produto(Produto produto) {
-        this.setProduto(produto);
         return this;
     }
 

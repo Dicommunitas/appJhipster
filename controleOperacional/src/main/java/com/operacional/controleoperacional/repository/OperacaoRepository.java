@@ -27,14 +27,16 @@ public interface OperacaoRepository extends JpaRepository<Operacao, Long>, JpaSp
     }
 
     @Query(
-        value = "select distinct operacao from Operacao operacao left join fetch operacao.tipoOperacao",
+        value = "select distinct operacao from Operacao operacao left join fetch operacao.produto left join fetch operacao.tipoOperacao",
         countQuery = "select count(distinct operacao) from Operacao operacao"
     )
     Page<Operacao> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct operacao from Operacao operacao left join fetch operacao.tipoOperacao")
+    @Query("select distinct operacao from Operacao operacao left join fetch operacao.produto left join fetch operacao.tipoOperacao")
     List<Operacao> findAllWithToOneRelationships();
 
-    @Query("select operacao from Operacao operacao left join fetch operacao.tipoOperacao where operacao.id =:id")
+    @Query(
+        "select operacao from Operacao operacao left join fetch operacao.produto left join fetch operacao.tipoOperacao where operacao.id =:id"
+    )
     Optional<Operacao> findOneWithToOneRelationships(@Param("id") Long id);
 }

@@ -41,6 +41,14 @@ public class OrigemAmostraServiceImpl implements OrigemAmostraService {
     }
 
     @Override
+    public OrigemAmostraDTO update(OrigemAmostraDTO origemAmostraDTO) {
+        log.debug("Request to save OrigemAmostra : {}", origemAmostraDTO);
+        OrigemAmostra origemAmostra = origemAmostraMapper.toEntity(origemAmostraDTO);
+        origemAmostra = origemAmostraRepository.save(origemAmostra);
+        return origemAmostraMapper.toDto(origemAmostra);
+    }
+
+    @Override
     public Optional<OrigemAmostraDTO> partialUpdate(OrigemAmostraDTO origemAmostraDTO) {
         log.debug("Request to partially update OrigemAmostra : {}", origemAmostraDTO);
 

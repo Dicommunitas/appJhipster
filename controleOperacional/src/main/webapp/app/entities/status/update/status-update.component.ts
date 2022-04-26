@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import dayjs from 'dayjs/esm';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { IStatus, Status } from '../status.model';
 import { StatusService } from '../service/status.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -30,6 +33,9 @@ export class StatusUpdateComponent implements OnInit {
     descricao: [null, [Validators.required]],
     prazo: [null, [Validators.required]],
     dataResolucao: [],
+    createdDate: [],
+    lastModifiedBy: [null, [Validators.maxLength(50)]],
+    lastModifiedDate: [],
     relator: [null, Validators.required],
     responsavel: [null, Validators.required],
     problema: [null, Validators.required],
@@ -47,6 +53,12 @@ export class StatusUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ status }) => {
+      if (status.id === undefined) {
+        const today = dayjs().startOf('day');
+        status.createdDate = today;
+        status.lastModifiedDate = today;
+      }
+
       this.updateForm(status);
 
       this.loadRelationshipsOptions();
@@ -84,11 +96,11 @@ export class StatusUpdateComponent implements OnInit {
     }
   }
 
-  trackUserById(index: number, item: IUser): number {
+  trackUserById(_index: number, item: IUser): number {
     return item.id!;
   }
 
-  trackProblemaById(index: number, item: IProblema): number {
+  trackProblemaById(_index: number, item: IProblema): number {
     return item.id!;
   }
 
@@ -117,6 +129,9 @@ export class StatusUpdateComponent implements OnInit {
       descricao: status.descricao,
       prazo: status.prazo,
       dataResolucao: status.dataResolucao,
+      createdDate: status.createdDate ? status.createdDate.format(DATE_TIME_FORMAT) : null,
+      lastModifiedBy: status.lastModifiedBy,
+      lastModifiedDate: status.lastModifiedDate ? status.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       relator: status.relator,
       responsavel: status.responsavel,
       problema: status.problema,
@@ -159,6 +174,13 @@ export class StatusUpdateComponent implements OnInit {
       descricao: this.editForm.get(['descricao'])!.value,
       prazo: this.editForm.get(['prazo'])!.value,
       dataResolucao: this.editForm.get(['dataResolucao'])!.value,
+      createdDate: this.editForm.get(['createdDate'])!.value
+        ? dayjs(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
+        ? dayjs(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       relator: this.editForm.get(['relator'])!.value,
       responsavel: this.editForm.get(['responsavel'])!.value,
       problema: this.editForm.get(['problema'])!.value,

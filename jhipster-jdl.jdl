@@ -370,7 +370,6 @@ entity Lembrete {
 
 entity User {
 }
-
     
 // Verificar a aplicabilidade de criar previamente 
 // amostras em bloco, exemplo, ao criar uma operação nova (usando
@@ -391,6 +390,12 @@ entity Amostra {
     * Data e hora que a amostra foi coletada.
 	*/
 	dataHoraColeta Instant
+    
+	/**
+    * Observações que forem necessárias para melhorar 
+    * a identificação da origem amostra.
+	*/
+    descricaoDeOrigen String
     
 	/**
     * Observações que forem necessárias para melhorar 
@@ -538,6 +543,12 @@ entity OrigemAmostra {
     * produto coletado.
 	*/
     descricao String required
+    
+	/**
+    * Informa se a amostra deve ter uma
+	* descricao de origem.
+	*/
+    obrigatoriaDescricao Boolean
 }
 
 /**
@@ -815,3 +826,4 @@ relationship ManyToMany {
 // SELECT * FROM nome-da-tabela;
 // DROP DATABASE nome-do-banco;
 // DROP DATABASE controleOperacional;
+

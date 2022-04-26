@@ -91,11 +91,11 @@ export class RelatorioUpdateComponent implements OnInit {
     }
   }
 
-  trackTipoRelatorioById(index: number, item: ITipoRelatorio): number {
+  trackTipoRelatorioById(_index: number, item: ITipoRelatorio): number {
     return item.id!;
   }
 
-  trackUserById(index: number, item: IUser): number {
+  trackUserById(_index: number, item: IUser): number {
     return item.id!;
   }
 

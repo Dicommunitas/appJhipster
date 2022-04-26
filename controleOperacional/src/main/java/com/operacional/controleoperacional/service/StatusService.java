@@ -19,6 +19,14 @@ public interface StatusService {
     StatusDTO save(StatusDTO statusDTO);
 
     /**
+     * Updates a status.
+     *
+     * @param statusDTO the entity to update.
+     * @return the persisted entity.
+     */
+    StatusDTO update(StatusDTO statusDTO);
+
+    /**
      * Partially updates a status.
      *
      * @param statusDTO the entity to update partially.

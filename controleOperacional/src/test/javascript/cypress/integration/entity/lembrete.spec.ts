@@ -16,7 +16,7 @@ describe('Lembrete e2e test', () => {
   const lembretePageUrlPattern = new RegExp('/lembrete(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const lembreteSample = { nome: 'concept Rústico', descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
+  const lembreteSample = { nome: 'Berkshire User-friendly', descricao: 'Li4vZmFrZS1kYXRhL2Jsb2IvaGlwc3Rlci50eHQ=' };
 
   let lembrete: any;
 
@@ -154,6 +154,14 @@ describe('Lembrete e2e test', () => {
         .type('../fake-data/blob/hipster.txt')
         .invoke('val')
         .should('match', new RegExp('../fake-data/blob/hipster.txt'));
+
+      cy.get(`[data-cy="createdBy"]`).type('concept Rústico').should('have.value', 'concept Rústico');
+
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-13T18:37').should('have.value', '2022-04-13T18:37');
+
+      cy.get(`[data-cy="lastModifiedBy"]`).type('turquesa Acre').should('have.value', 'turquesa Acre');
+
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-13T12:47').should('have.value', '2022-04-13T12:47');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

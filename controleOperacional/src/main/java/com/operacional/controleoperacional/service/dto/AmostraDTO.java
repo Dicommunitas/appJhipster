@@ -38,11 +38,12 @@ public class AmostraDTO implements Serializable {
     @Schema(description = "Identifica se a amostra está ou não no laboratório.")
     private Instant recebimentoNoLaboratorio;
 
-    @NotNull
+    @Size(max = 50)
     private String createdBy;
 
     private Instant createdDate;
 
+    @Size(max = 50)
     private String lastModifiedBy;
 
     private Instant lastModifiedDate;
@@ -50,8 +51,6 @@ public class AmostraDTO implements Serializable {
     private OperacaoDTO operacao;
 
     private OrigemAmostraDTO origemAmostra;
-
-    private ProdutoDTO produto;
 
     private TipoAmostraDTO tipoAmostra;
 
@@ -147,14 +146,6 @@ public class AmostraDTO implements Serializable {
         this.origemAmostra = origemAmostra;
     }
 
-    public ProdutoDTO getProduto() {
-        return produto;
-    }
-
-    public void setProduto(ProdutoDTO produto) {
-        this.produto = produto;
-    }
-
     public TipoAmostraDTO getTipoAmostra() {
         return tipoAmostra;
     }
@@ -215,7 +206,6 @@ public class AmostraDTO implements Serializable {
             ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", operacao=" + getOperacao() +
             ", origemAmostra=" + getOrigemAmostra() +
-            ", produto=" + getProduto() +
             ", tipoAmostra=" + getTipoAmostra() +
             ", amostradaPor=" + getAmostradaPor() +
             ", recebidaPor=" + getRecebidaPor() +

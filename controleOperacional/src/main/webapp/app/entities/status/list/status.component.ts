@@ -35,7 +35,7 @@ export class StatusComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IStatus): number {
+  trackId(_index: number, item: IStatus): number {
     return item.id!;
   }
 

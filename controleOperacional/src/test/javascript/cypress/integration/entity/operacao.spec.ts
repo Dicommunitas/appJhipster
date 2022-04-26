@@ -16,9 +16,10 @@ describe('Operacao e2e test', () => {
   const operacaoPageUrlPattern = new RegExp('/operacao(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const operacaoSample = { descricao: 'set', volumePeso: 722, quantidadeAmostras: 62873 };
+  const operacaoSample = { descricao: 'Peixe hierarchy Open-source', volumePeso: 32003 };
 
   let operacao: any;
+  let produto: any;
   let tipoOperacao: any;
 
   beforeEach(() => {
@@ -26,6 +27,14 @@ describe('Operacao e2e test', () => {
   });
 
   beforeEach(() => {
+    // create an instance at the required relationship entity:
+    cy.authenticatedRequest({
+      method: 'POST',
+      url: '/api/produtos',
+      body: { codigoBDEMQ: 'Fre', nomeCurto: '(customarily stable interface', nomeCompleto: 'Genérico Lead' },
+    }).then(({ body }) => {
+      produto = body;
+    });
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
       method: 'POST',
@@ -44,6 +53,11 @@ describe('Operacao e2e test', () => {
 
   beforeEach(() => {
     // Simulate relationships api for better performance and reproducibility.
+    cy.intercept('GET', '/api/produtos', {
+      statusCode: 200,
+      body: [produto],
+    });
+
     cy.intercept('GET', '/api/tipo-operacaos', {
       statusCode: 200,
       body: [tipoOperacao],
@@ -62,6 +76,14 @@ describe('Operacao e2e test', () => {
   });
 
   afterEach(() => {
+    if (produto) {
+      cy.authenticatedRequest({
+        method: 'DELETE',
+        url: `/api/produtos/${produto.id}`,
+      }).then(() => {
+        produto = undefined;
+      });
+    }
     if (tipoOperacao) {
       cy.authenticatedRequest({
         method: 'DELETE',
@@ -113,6 +135,7 @@ describe('Operacao e2e test', () => {
           url: '/api/operacaos',
           body: {
             ...operacaoSample,
+            produto: produto,
             tipoOperacao: tipoOperacao,
           },
         }).then(({ body }) => {
@@ -189,14 +212,23 @@ describe('Operacao e2e test', () => {
 
       cy.get(`[data-cy="volumePeso"]`).type('14105').should('have.value', '14105');
 
-      cy.get(`[data-cy="inicio"]`).type('2022-03-06T14:33').should('have.value', '2022-03-06T14:33');
+      cy.get(`[data-cy="inicio"]`).type('2022-04-14T00:14').should('have.value', '2022-04-14T00:14');
 
-      cy.get(`[data-cy="fim"]`).type('2022-03-06T15:54').should('have.value', '2022-03-06T15:54');
+      cy.get(`[data-cy="fim"]`).type('2022-04-14T01:35').should('have.value', '2022-04-14T01:35');
 
       cy.get(`[data-cy="quantidadeAmostras"]`).type('60880').should('have.value', '60880');
 
       cy.get(`[data-cy="observacao"]`).type('azul').should('have.value', 'azul');
 
+      cy.get(`[data-cy="createdBy"]`).type('set').should('have.value', 'set');
+
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-14T09:52').should('have.value', '2022-04-14T09:52');
+
+      cy.get(`[data-cy="lastModifiedBy"]`).type('e-commerce program').should('have.value', 'e-commerce program');
+
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-14T09:58').should('have.value', '2022-04-14T09:58');
+
+      cy.get(`[data-cy="produto"]`).select(1);
       cy.get(`[data-cy="tipoOperacao"]`).select(1);
 
       cy.get(entityCreateSaveButtonSelector).click();

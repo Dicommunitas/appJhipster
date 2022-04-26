@@ -34,7 +34,7 @@ export class OrigemAmostraComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IOrigemAmostra): number {
+  trackId(_index: number, item: IOrigemAmostra): number {
     return item.id!;
   }
 

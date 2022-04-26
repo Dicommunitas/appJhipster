@@ -61,10 +61,10 @@ public class ProblemaDTO implements Serializable {
     private LocalDate dataFinalizacao;
 
     /**
-     * Uma imagem que possa facilitar a identificação do problema.
+     * Uma imagem que possa facilitar a identificação do problema.\nA imagem não pode ter mai que 40KB.
      */
 
-    @Schema(description = "Uma imagem que possa facilitar a identificação do problema.")
+    @Schema(description = "Uma imagem que possa facilitar a identificação do problema.\nA imagem não pode ter mai que 40KB.")
     @Lob
     private byte[] foto;
 

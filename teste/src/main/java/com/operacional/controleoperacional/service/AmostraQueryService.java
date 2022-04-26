@@ -93,6 +93,9 @@ public class AmostraQueryService extends QueryService<Amostra> {
             if (criteria.getDataHoraColeta() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataHoraColeta(), Amostra_.dataHoraColeta));
             }
+            if (criteria.getDescricaoDeOrigen() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDescricaoDeOrigen(), Amostra_.descricaoDeOrigen));
+            }
             if (criteria.getObservacao() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getObservacao(), Amostra_.observacao));
             }

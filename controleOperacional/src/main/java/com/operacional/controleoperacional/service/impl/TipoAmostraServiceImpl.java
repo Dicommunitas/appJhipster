@@ -41,6 +41,14 @@ public class TipoAmostraServiceImpl implements TipoAmostraService {
     }
 
     @Override
+    public TipoAmostraDTO update(TipoAmostraDTO tipoAmostraDTO) {
+        log.debug("Request to save TipoAmostra : {}", tipoAmostraDTO);
+        TipoAmostra tipoAmostra = tipoAmostraMapper.toEntity(tipoAmostraDTO);
+        tipoAmostra = tipoAmostraRepository.save(tipoAmostra);
+        return tipoAmostraMapper.toDto(tipoAmostra);
+    }
+
+    @Override
     public Optional<TipoAmostraDTO> partialUpdate(TipoAmostraDTO tipoAmostraDTO) {
         log.debug("Request to partially update TipoAmostra : {}", tipoAmostraDTO);
 

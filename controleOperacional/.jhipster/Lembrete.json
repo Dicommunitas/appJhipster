@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220307001958",
+  "changelogDate": "20220414100035",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "lembrete",
@@ -17,6 +17,26 @@
       "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"],
       "javadoc": "Lembrete de apoio para relatório e/ou operação."
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
     }
   ],
   "fluentMethods": true,

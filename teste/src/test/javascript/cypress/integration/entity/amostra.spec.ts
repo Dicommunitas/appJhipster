@@ -33,7 +33,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/operacaos',
-      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-04-13T10:32:49.755Z","fim":"2022-04-13T23:28:12.791Z","quantidadeAmostras":73104,"observacao":"payment TCP","createdBy":"Forward Computador envisioneer","createdDate":"2022-04-13T17:06:26.240Z","lastModifiedBy":"applications","lastModifiedDate":"2022-04-13T19:13:01.708Z"},
+      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-04-25T10:38:21.755Z","fim":"2022-04-25T23:33:44.791Z","quantidadeAmostras":73104,"observacao":"payment TCP","createdBy":"Forward Computador envisioneer","createdDate":"2022-04-25T17:11:58.240Z","lastModifiedBy":"applications","lastModifiedDate":"2022-04-25T19:18:33.708Z"},
     }).then(({ body }) => {
       operacao = body;
     });
@@ -41,7 +41,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/origem-amostras',
-      body: {"descricao":"Catarina navigate"},
+      body: {"descricao":"Catarina navigate","obrigatoriaDescricao":false},
     }).then(({ body }) => {
       origemAmostra = body;
     });
@@ -260,21 +260,23 @@ describe('Amostra e2e test', () => {
     });
 
     it.skip('should create an instance of Amostra', () => {
-      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-04-13T21:59').should('have.value', '2022-04-13T21:59');
+      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-04-25T22:05').should('have.value', '2022-04-25T22:05');
 
-      cy.get(`[data-cy="observacao"]`).type('Filipinas').should('have.value', 'Filipinas');
+      cy.get(`[data-cy="descricaoDeOrigen"]`).type('Filipinas').should('have.value', 'Filipinas');
 
-      cy.get(`[data-cy="identificadorExterno"]`).type('Focused').should('have.value', 'Focused');
+      cy.get(`[data-cy="observacao"]`).type('Focused').should('have.value', 'Focused');
 
-      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-04-13T23:59').should('have.value', '2022-04-13T23:59');
+      cy.get(`[data-cy="identificadorExterno"]`).type('Industrial Teclado').should('have.value', 'Industrial Teclado');
 
-      cy.get(`[data-cy="createdBy"]`).type('Associate').should('have.value', 'Associate');
+      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-04-26T00:27').should('have.value', '2022-04-26T00:27');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-14T06:55').should('have.value', '2022-04-14T06:55');
+      cy.get(`[data-cy="createdBy"]`).type('Travessa').should('have.value', 'Travessa');
 
-      cy.get(`[data-cy="lastModifiedBy"]`).type('integrate schemas').should('have.value', 'integrate schemas');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-25T17:52').should('have.value', '2022-04-25T17:52');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-13T21:38').should('have.value', '2022-04-13T21:38');
+      cy.get(`[data-cy="lastModifiedBy"]`).type('Borracha Supervisor').should('have.value', 'Borracha Supervisor');
+
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-26T09:56').should('have.value', '2022-04-26T09:56');
 
       cy.get(`[data-cy="operacao"]`).select(1);
       cy.get(`[data-cy="origemAmostra"]`).select(1);

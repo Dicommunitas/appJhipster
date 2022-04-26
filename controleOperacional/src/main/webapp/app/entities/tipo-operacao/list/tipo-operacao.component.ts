@@ -34,7 +34,7 @@ export class TipoOperacaoComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: ITipoOperacao): number {
+  trackId(_index: number, item: ITipoOperacao): number {
     return item.id!;
   }
 

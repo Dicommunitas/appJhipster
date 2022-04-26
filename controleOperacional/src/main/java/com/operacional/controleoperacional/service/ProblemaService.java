@@ -18,6 +18,14 @@ public interface ProblemaService {
     ProblemaDTO save(ProblemaDTO problemaDTO);
 
     /**
+     * Updates a problema.
+     *
+     * @param problemaDTO the entity to update.
+     * @return the persisted entity.
+     */
+    ProblemaDTO update(ProblemaDTO problemaDTO);
+
+    /**
      * Partially updates a problema.
      *
      * @param problemaDTO the entity to update partially.

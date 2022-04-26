@@ -26,6 +26,7 @@ describe('Amostra Service', () => {
     elemDefault = {
       id: 0,
       dataHoraColeta: currentDate,
+      descricaoDeOrigen: 'AAAAAAA',
       observacao: 'AAAAAAA',
       identificadorExterno: 'AAAAAAA',
       recebimentoNoLaboratorio: currentDate,
@@ -89,6 +90,7 @@ describe('Amostra Service', () => {
         {
           id: 1,
           dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
+          descricaoDeOrigen: 'BBBBBB',
           observacao: 'BBBBBB',
           identificadorExterno: 'BBBBBB',
           recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
@@ -121,10 +123,10 @@ describe('Amostra Service', () => {
       const patchObject = Object.assign(
         {
           dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
-          observacao: 'BBBBBB',
-          createdBy: 'BBBBBB',
+          descricaoDeOrigen: 'BBBBBB',
+          recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
           lastModifiedBy: 'BBBBBB',
-          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         new Amostra()
       );
@@ -153,6 +155,7 @@ describe('Amostra Service', () => {
         {
           id: 1,
           dataHoraColeta: currentDate.format(DATE_TIME_FORMAT),
+          descricaoDeOrigen: 'BBBBBB',
           observacao: 'BBBBBB',
           identificadorExterno: 'BBBBBB',
           recebimentoNoLaboratorio: currentDate.format(DATE_TIME_FORMAT),
@@ -219,7 +222,7 @@ describe('Amostra Service', () => {
       });
 
       it('should add only unique Amostra to an array', () => {
-        const amostraArray: IAmostra[] = [{ id: 123 }, { id: 456 }, { id: 3937 }];
+        const amostraArray: IAmostra[] = [{ id: 123 }, { id: 456 }, { id: 82079 }];
         const amostraCollection: IAmostra[] = [{ id: 123 }];
         expectedResult = service.addAmostraToCollectionIfMissing(amostraCollection, ...amostraArray);
         expect(expectedResult).toHaveLength(3);

@@ -4,5 +4,4 @@ id;descricao;obrigatorio_lacre
 3;Arquivo Navio / Vessel Archive;true
 4;Repar;true
 5;Marpol;true
-7;Inspetora;true
-
+6;Inspetora;true

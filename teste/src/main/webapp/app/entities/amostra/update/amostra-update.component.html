@@ -41,6 +41,24 @@
         <div class="row mb-3">
           <label
             class="form-label"
+            jhiTranslate="controleOperacionalApp.amostra.descricaoDeOrigen"
+            for="field_descricaoDeOrigen"
+            [ngbTooltip]="'controleOperacionalApp.amostra.help.descricaoDeOrigen' | translate"
+            >Descricao De Origen</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="descricaoDeOrigen"
+            id="field_descricaoDeOrigen"
+            data-cy="descricaoDeOrigen"
+            formControlName="descricaoDeOrigen"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
             jhiTranslate="controleOperacionalApp.amostra.observacao"
             for="field_observacao"
             [ngbTooltip]="'controleOperacionalApp.amostra.help.observacao' | translate"

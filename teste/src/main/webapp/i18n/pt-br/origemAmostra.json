@@ -19,8 +19,10 @@
       },
       "id": "ID",
       "descricao": "Descricao",
+      "obrigatoriaDescricao": "Obrigatoria Descricao",
       "help": {
-        "descricao": "Descreve de forma simples a origem de uma amostra.\nO local da coleta, linha, tanque...\nA principal informação descritiva da origem do\nproduto coletado."
+        "descricao": "Descreve de forma simples a origem de uma amostra.\nO local da coleta, linha, tanque...\nA principal informação descritiva da origem do\nproduto coletado.",
+        "obrigatoriaDescricao": "Informa se a amostra deve ter uma\ndescricao de origem."
       }
     }
   }

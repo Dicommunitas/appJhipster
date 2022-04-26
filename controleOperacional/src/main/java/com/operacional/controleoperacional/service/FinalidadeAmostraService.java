@@ -19,6 +19,14 @@ public interface FinalidadeAmostraService {
     FinalidadeAmostraDTO save(FinalidadeAmostraDTO finalidadeAmostraDTO);
 
     /**
+     * Updates a finalidadeAmostra.
+     *
+     * @param finalidadeAmostraDTO the entity to update.
+     * @return the persisted entity.
+     */
+    FinalidadeAmostraDTO update(FinalidadeAmostraDTO finalidadeAmostraDTO);
+
+    /**
      * Partially updates a finalidadeAmostra.
      *
      * @param finalidadeAmostraDTO the entity to update partially.

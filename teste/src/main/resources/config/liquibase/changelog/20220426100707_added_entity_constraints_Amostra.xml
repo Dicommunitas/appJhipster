@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Amostra.
     -->
-    <changeSet id="20220307002058-2" author="jhipster">
+    <changeSet id="20220426100707-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="operacao_id"
                                  baseTableName="amostra"
@@ -19,12 +19,6 @@
                                  constraintName="fk_amostra__origem_amostra_id"
                                  referencedColumnNames="id"
                                  referencedTableName="origem_amostra"/>
-
-        <addForeignKeyConstraint baseColumnNames="produto_id"
-                                 baseTableName="amostra"
-                                 constraintName="fk_amostra__produto_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="produto"/>
 
         <addForeignKeyConstraint baseColumnNames="tipo_amostra_id"
                                  baseTableName="amostra"

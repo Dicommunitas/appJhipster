@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,18 +11,27 @@ import com.operacional.controleoperacional.domain.Problema;
 import com.operacional.controleoperacional.domain.Status;
 import com.operacional.controleoperacional.domain.User;
 import com.operacional.controleoperacional.repository.StatusRepository;
+import com.operacional.controleoperacional.service.StatusService;
 import com.operacional.controleoperacional.service.dto.StatusDTO;
 import com.operacional.controleoperacional.service.mapper.StatusMapper;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,6 +42,7 @@ import org.springframework.util.Base64Utils;
  * Integration tests for the {@link StatusResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class StatusResourceIT {
@@ -45,6 +56,15 @@ class StatusResourceIT {
     private static final LocalDate DEFAULT_DATA_RESOLUCAO = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATA_RESOLUCAO = LocalDate.now(ZoneId.systemDefault());
 
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_LAST_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_LAST_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final String ENTITY_API_URL = "/api/statuses";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -54,8 +74,14 @@ class StatusResourceIT {
     @Autowired
     private StatusRepository statusRepository;
 
+    @Mock
+    private StatusRepository statusRepositoryMock;
+
     @Autowired
     private StatusMapper statusMapper;
+
+    @Mock
+    private StatusService statusServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -72,7 +98,13 @@ class StatusResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Status createEntity(EntityManager em) {
-        Status status = new Status().descricao(DEFAULT_DESCRICAO).prazo(DEFAULT_PRAZO).dataResolucao(DEFAULT_DATA_RESOLUCAO);
+        Status status = new Status()
+            .descricao(DEFAULT_DESCRICAO)
+            .prazo(DEFAULT_PRAZO)
+            .dataResolucao(DEFAULT_DATA_RESOLUCAO)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
+            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -100,7 +132,13 @@ class StatusResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Status createUpdatedEntity(EntityManager em) {
-        Status status = new Status().descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).dataResolucao(UPDATED_DATA_RESOLUCAO);
+        Status status = new Status()
+            .descricao(UPDATED_DESCRICAO)
+            .prazo(UPDATED_PRAZO)
+            .dataResolucao(UPDATED_DATA_RESOLUCAO)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -143,6 +181,9 @@ class StatusResourceIT {
         assertThat(testStatus.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(DEFAULT_PRAZO);
         assertThat(testStatus.getDataResolucao()).isEqualTo(DEFAULT_DATA_RESOLUCAO);
+        assertThat(testStatus.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testStatus.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testStatus.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -196,7 +237,28 @@ class StatusResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(status.getId().intValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].prazo").value(hasItem(DEFAULT_PRAZO.toString())))
-            .andExpect(jsonPath("$.[*].dataResolucao").value(hasItem(DEFAULT_DATA_RESOLUCAO.toString())));
+            .andExpect(jsonPath("$.[*].dataResolucao").value(hasItem(DEFAULT_DATA_RESOLUCAO.toString())))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllStatusesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(statusServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restStatusMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(statusServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllStatusesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(statusServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restStatusMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(statusServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -213,7 +275,10 @@ class StatusResourceIT {
             .andExpect(jsonPath("$.id").value(status.getId().intValue()))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
             .andExpect(jsonPath("$.prazo").value(DEFAULT_PRAZO.toString()))
-            .andExpect(jsonPath("$.dataResolucao").value(DEFAULT_DATA_RESOLUCAO.toString()));
+            .andExpect(jsonPath("$.dataResolucao").value(DEFAULT_DATA_RESOLUCAO.toString()))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
+            .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()));
     }
 
     @Test
@@ -235,7 +300,13 @@ class StatusResourceIT {
         Status updatedStatus = statusRepository.findById(status.getId()).get();
         // Disconnect from session so that the updates on updatedStatus are not directly saved in db
         em.detach(updatedStatus);
-        updatedStatus.descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).dataResolucao(UPDATED_DATA_RESOLUCAO);
+        updatedStatus
+            .descricao(UPDATED_DESCRICAO)
+            .prazo(UPDATED_PRAZO)
+            .dataResolucao(UPDATED_DATA_RESOLUCAO)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         StatusDTO statusDTO = statusMapper.toDto(updatedStatus);
 
         restStatusMockMvc
@@ -253,6 +324,9 @@ class StatusResourceIT {
         assertThat(testStatus.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(UPDATED_PRAZO);
         assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
+        assertThat(testStatus.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testStatus.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testStatus.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -332,7 +406,7 @@ class StatusResourceIT {
         Status partialUpdatedStatus = new Status();
         partialUpdatedStatus.setId(status.getId());
 
-        partialUpdatedStatus.dataResolucao(UPDATED_DATA_RESOLUCAO);
+        partialUpdatedStatus.dataResolucao(UPDATED_DATA_RESOLUCAO).lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
 
         restStatusMockMvc
             .perform(
@@ -349,6 +423,9 @@ class StatusResourceIT {
         assertThat(testStatus.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(DEFAULT_PRAZO);
         assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
+        assertThat(testStatus.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testStatus.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testStatus.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -363,7 +440,13 @@ class StatusResourceIT {
         Status partialUpdatedStatus = new Status();
         partialUpdatedStatus.setId(status.getId());
 
-        partialUpdatedStatus.descricao(UPDATED_DESCRICAO).prazo(UPDATED_PRAZO).dataResolucao(UPDATED_DATA_RESOLUCAO);
+        partialUpdatedStatus
+            .descricao(UPDATED_DESCRICAO)
+            .prazo(UPDATED_PRAZO)
+            .dataResolucao(UPDATED_DATA_RESOLUCAO)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
 
         restStatusMockMvc
             .perform(
@@ -380,6 +463,9 @@ class StatusResourceIT {
         assertThat(testStatus.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(UPDATED_PRAZO);
         assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
+        assertThat(testStatus.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testStatus.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testStatus.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test

@@ -19,6 +19,7 @@
       },
       "id": "ID",
       "dataHoraColeta": "Data Hora Coleta",
+      "descricaoDeOrigen": "Descricao De Origen",
       "observacao": "Observacao",
       "identificadorExterno": "Identificador Externo",
       "recebimentoNoLaboratorio": "Recebimento No Laboratorio",
@@ -34,6 +35,7 @@
       "recebidaPor": "Recebida Por",
       "help": {
         "dataHoraColeta": "Data e hora que a amostra foi coletada.",
+        "descricaoDeOrigen": "Observações que forem necessárias para melhorar\na identificação da origem amostra.",
         "observacao": "Observações que forem necessárias para melhorar\na identificação da amostra.",
         "identificadorExterno": "Identificador que &#34;ligue/identifique&#34; essa\namostra em outro sistema.",
         "recebimentoNoLaboratorio": "Identifica se a amostra está ou não no laboratório."

@@ -41,6 +41,14 @@ public class AlertaProdutoServiceImpl implements AlertaProdutoService {
     }
 
     @Override
+    public AlertaProdutoDTO update(AlertaProdutoDTO alertaProdutoDTO) {
+        log.debug("Request to save AlertaProduto : {}", alertaProdutoDTO);
+        AlertaProduto alertaProduto = alertaProdutoMapper.toEntity(alertaProdutoDTO);
+        alertaProduto = alertaProdutoRepository.save(alertaProduto);
+        return alertaProdutoMapper.toDto(alertaProduto);
+    }
+
+    @Override
     public Optional<AlertaProdutoDTO> partialUpdate(AlertaProdutoDTO alertaProdutoDTO) {
         log.debug("Request to partially update AlertaProduto : {}", alertaProdutoDTO);
 

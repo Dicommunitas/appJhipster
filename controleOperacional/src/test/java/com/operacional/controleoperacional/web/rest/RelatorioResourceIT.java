@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,19 +11,26 @@ import com.operacional.controleoperacional.domain.Relatorio;
 import com.operacional.controleoperacional.domain.TipoRelatorio;
 import com.operacional.controleoperacional.domain.User;
 import com.operacional.controleoperacional.repository.RelatorioRepository;
+import com.operacional.controleoperacional.service.RelatorioService;
 import com.operacional.controleoperacional.service.criteria.RelatorioCriteria;
 import com.operacional.controleoperacional.service.dto.RelatorioDTO;
 import com.operacional.controleoperacional.service.mapper.RelatorioMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,6 +41,7 @@ import org.springframework.util.Base64Utils;
  * Integration tests for the {@link RelatorioResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class RelatorioResourceIT {
@@ -55,8 +64,14 @@ class RelatorioResourceIT {
     @Autowired
     private RelatorioRepository relatorioRepository;
 
+    @Mock
+    private RelatorioRepository relatorioRepositoryMock;
+
     @Autowired
     private RelatorioMapper relatorioMapper;
+
+    @Mock
+    private RelatorioService relatorioServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -174,6 +189,24 @@ class RelatorioResourceIT {
             .andExpect(jsonPath("$.[*].dataHora").value(hasItem(DEFAULT_DATA_HORA.toString())))
             .andExpect(jsonPath("$.[*].relato").value(hasItem(DEFAULT_RELATO.toString())))
             .andExpect(jsonPath("$.[*].linksExternos").value(hasItem(DEFAULT_LINKS_EXTERNOS.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllRelatoriosWithEagerRelationshipsIsEnabled() throws Exception {
+        when(relatorioServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restRelatorioMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(relatorioServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllRelatoriosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(relatorioServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restRelatorioMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(relatorioServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test

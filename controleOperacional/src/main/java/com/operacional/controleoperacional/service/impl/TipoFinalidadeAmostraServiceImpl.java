@@ -44,6 +44,14 @@ public class TipoFinalidadeAmostraServiceImpl implements TipoFinalidadeAmostraSe
     }
 
     @Override
+    public TipoFinalidadeAmostraDTO update(TipoFinalidadeAmostraDTO tipoFinalidadeAmostraDTO) {
+        log.debug("Request to save TipoFinalidadeAmostra : {}", tipoFinalidadeAmostraDTO);
+        TipoFinalidadeAmostra tipoFinalidadeAmostra = tipoFinalidadeAmostraMapper.toEntity(tipoFinalidadeAmostraDTO);
+        tipoFinalidadeAmostra = tipoFinalidadeAmostraRepository.save(tipoFinalidadeAmostra);
+        return tipoFinalidadeAmostraMapper.toDto(tipoFinalidadeAmostra);
+    }
+
+    @Override
     public Optional<TipoFinalidadeAmostraDTO> partialUpdate(TipoFinalidadeAmostraDTO tipoFinalidadeAmostraDTO) {
         log.debug("Request to partially update TipoFinalidadeAmostra : {}", tipoFinalidadeAmostraDTO);
 

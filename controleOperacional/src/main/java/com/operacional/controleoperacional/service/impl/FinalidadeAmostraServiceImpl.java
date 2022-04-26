@@ -46,6 +46,14 @@ public class FinalidadeAmostraServiceImpl implements FinalidadeAmostraService {
     }
 
     @Override
+    public FinalidadeAmostraDTO update(FinalidadeAmostraDTO finalidadeAmostraDTO) {
+        log.debug("Request to save FinalidadeAmostra : {}", finalidadeAmostraDTO);
+        FinalidadeAmostra finalidadeAmostra = finalidadeAmostraMapper.toEntity(finalidadeAmostraDTO);
+        finalidadeAmostra = finalidadeAmostraRepository.save(finalidadeAmostra);
+        return finalidadeAmostraMapper.toDto(finalidadeAmostra);
+    }
+
+    @Override
     public Optional<FinalidadeAmostraDTO> partialUpdate(FinalidadeAmostraDTO finalidadeAmostraDTO) {
         log.debug("Request to partially update FinalidadeAmostra : {}", finalidadeAmostraDTO);
 

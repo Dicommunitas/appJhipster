@@ -34,7 +34,7 @@ export class FinalidadeAmostraComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IFinalidadeAmostra): number {
+  trackId(_index: number, item: IFinalidadeAmostra): number {
     return item.id!;
   }
 

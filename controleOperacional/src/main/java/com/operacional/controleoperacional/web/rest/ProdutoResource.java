@@ -99,7 +99,7 @@ public class ProdutoResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        ProdutoDTO result = produtoService.save(produtoDTO);
+        ProdutoDTO result = produtoService.update(produtoDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, produtoDTO.getId().toString()))

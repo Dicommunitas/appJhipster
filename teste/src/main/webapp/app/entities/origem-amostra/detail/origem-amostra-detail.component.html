@@ -26,6 +26,16 @@
         <dd>
           <span>{{ origemAmostra.descricao }}</span>
         </dd>
+        <dt>
+          <span
+            jhiTranslate="controleOperacionalApp.origemAmostra.obrigatoriaDescricao"
+            [ngbTooltip]="'controleOperacionalApp.origemAmostra.help.obrigatoriaDescricao' | translate"
+            >Obrigatoria Descricao</span
+          >
+        </dt>
+        <dd>
+          <span>{{ origemAmostra.obrigatoriaDescricao }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -16,12 +16,11 @@ describe('Amostra e2e test', () => {
   const amostraPageUrlPattern = new RegExp('/amostra(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const amostraSample = { createdBy: 'Fiji' };
+  const amostraSample = {};
 
   let amostra: any;
   //let operacao: any;
   //let origemAmostra: any;
-  //let produto: any;
   //let tipoAmostra: any;
 
   beforeEach(() => {
@@ -34,7 +33,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/operacaos',
-      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-03-06T00:52:12.755Z","fim":"2022-03-06T13:47:35.791Z","quantidadeAmostras":73104,"observacao":"payment TCP"},
+      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-04-13T10:32:49.755Z","fim":"2022-04-13T23:28:12.791Z","quantidadeAmostras":73104,"observacao":"payment TCP","createdBy":"Forward Computador envisioneer","createdDate":"2022-04-13T17:06:26.240Z","lastModifiedBy":"applications","lastModifiedDate":"2022-04-13T19:13:01.708Z"},
     }).then(({ body }) => {
       operacao = body;
     });
@@ -45,14 +44,6 @@ describe('Amostra e2e test', () => {
       body: {"descricao":"Catarina navigate"},
     }).then(({ body }) => {
       origemAmostra = body;
-    });
-    // create an instance at the required relationship entity:
-    cy.authenticatedRequest({
-      method: 'POST',
-      url: '/api/produtos',
-      body: {"codigoBDEMQ":"Cas","nomeCurto":"Turismo virtual maximized","nomeCompleto":"optical SQL"},
-    }).then(({ body }) => {
-      produto = body;
     });
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
@@ -87,11 +78,6 @@ describe('Amostra e2e test', () => {
     cy.intercept('GET', '/api/origem-amostras', {
       statusCode: 200,
       body: [origemAmostra],
-    });
-
-    cy.intercept('GET', '/api/produtos', {
-      statusCode: 200,
-      body: [produto],
     });
 
     cy.intercept('GET', '/api/tipo-amostras', {
@@ -134,14 +120,6 @@ describe('Amostra e2e test', () => {
         url: `/api/origem-amostras/${origemAmostra.id}`,
       }).then(() => {
         origemAmostra = undefined;
-      });
-    }
-    if (produto) {
-      cy.authenticatedRequest({
-        method: 'DELETE',
-        url: `/api/produtos/${produto.id}`,
-      }).then(() => {
-        produto = undefined;
       });
     }
     if (tipoAmostra) {
@@ -199,7 +177,6 @@ describe('Amostra e2e test', () => {
             ...amostraSample,
             operacao: operacao,
             origemAmostra: origemAmostra,
-            produto: produto,
             tipoAmostra: tipoAmostra,
           },
         }).then(({ body }) => {
@@ -283,25 +260,24 @@ describe('Amostra e2e test', () => {
     });
 
     it.skip('should create an instance of Amostra', () => {
-      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-03-06T12:19').should('have.value', '2022-03-06T12:19');
+      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-04-13T21:59').should('have.value', '2022-04-13T21:59');
 
       cy.get(`[data-cy="observacao"]`).type('Filipinas').should('have.value', 'Filipinas');
 
       cy.get(`[data-cy="identificadorExterno"]`).type('Focused').should('have.value', 'Focused');
 
-      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-03-06T14:18').should('have.value', '2022-03-06T14:18');
+      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-04-13T23:59').should('have.value', '2022-04-13T23:59');
 
       cy.get(`[data-cy="createdBy"]`).type('Associate').should('have.value', 'Associate');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-03-06T21:14').should('have.value', '2022-03-06T21:14');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-14T06:55').should('have.value', '2022-04-14T06:55');
 
       cy.get(`[data-cy="lastModifiedBy"]`).type('integrate schemas').should('have.value', 'integrate schemas');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-03-06T11:57').should('have.value', '2022-03-06T11:57');
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-13T21:38').should('have.value', '2022-04-13T21:38');
 
       cy.get(`[data-cy="operacao"]`).select(1);
       cy.get(`[data-cy="origemAmostra"]`).select(1);
-      cy.get(`[data-cy="produto"]`).select(1);
       cy.get(`[data-cy="tipoAmostra"]`).select(1);
 
       cy.get(entityCreateSaveButtonSelector).click();

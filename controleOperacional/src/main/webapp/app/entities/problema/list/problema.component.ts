@@ -74,7 +74,7 @@ export class ProblemaComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IProblema): number {
+  trackId(_index: number, item: IProblema): number {
     return item.id!;
   }
 

@@ -40,6 +40,14 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public ProdutoDTO update(ProdutoDTO produtoDTO) {
+        log.debug("Request to save Produto : {}", produtoDTO);
+        Produto produto = produtoMapper.toEntity(produtoDTO);
+        produto = produtoRepository.save(produto);
+        return produtoMapper.toDto(produto);
+    }
+
+    @Override
     public Optional<ProdutoDTO> partialUpdate(ProdutoDTO produtoDTO) {
         log.debug("Request to partially update Produto : {}", produtoDTO);
 

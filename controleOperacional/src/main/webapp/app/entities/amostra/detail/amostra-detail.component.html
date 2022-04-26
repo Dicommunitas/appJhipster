@@ -82,12 +82,6 @@
             <a [routerLink]="['/origem-amostra', amostra.origemAmostra?.id, 'view']">{{ amostra.origemAmostra?.descricao }}</a>
           </div>
         </dd>
-        <dt><span jhiTranslate="controleOperacionalApp.amostra.produto">Produto</span></dt>
-        <dd>
-          <div *ngIf="amostra.produto">
-            <a [routerLink]="['/produto', amostra.produto?.id, 'view']">{{ amostra.produto?.nomeCurto }}</a>
-          </div>
-        </dd>
         <dt><span jhiTranslate="controleOperacionalApp.amostra.tipoAmostra">Tipo Amostra</span></dt>
         <dd>
           <div *ngIf="amostra.tipoAmostra">

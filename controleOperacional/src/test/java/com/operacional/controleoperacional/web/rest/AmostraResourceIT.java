@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,23 +11,29 @@ import com.operacional.controleoperacional.domain.Amostra;
 import com.operacional.controleoperacional.domain.FinalidadeAmostra;
 import com.operacional.controleoperacional.domain.Operacao;
 import com.operacional.controleoperacional.domain.OrigemAmostra;
-import com.operacional.controleoperacional.domain.Produto;
 import com.operacional.controleoperacional.domain.TipoAmostra;
 import com.operacional.controleoperacional.domain.User;
 import com.operacional.controleoperacional.repository.AmostraRepository;
+import com.operacional.controleoperacional.service.AmostraService;
 import com.operacional.controleoperacional.service.criteria.AmostraCriteria;
 import com.operacional.controleoperacional.service.dto.AmostraDTO;
 import com.operacional.controleoperacional.service.mapper.AmostraMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link AmostraResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class AmostraResourceIT {
@@ -73,8 +81,14 @@ class AmostraResourceIT {
     @Autowired
     private AmostraRepository amostraRepository;
 
+    @Mock
+    private AmostraRepository amostraRepositoryMock;
+
     @Autowired
     private AmostraMapper amostraMapper;
+
+    @Mock
+    private AmostraService amostraServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -96,11 +110,10 @@ class AmostraResourceIT {
             .observacao(DEFAULT_OBSERVACAO)
             .identificadorExterno(DEFAULT_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(DEFAULT_RECEBIMENTO_NO_LABORATORIO)
-            //.createdBy(DEFAULT_CREATED_BY)
-            //.createdDate(DEFAULT_CREATED_DATE)
-            //.lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
-            //.lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
-            ;
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
+            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
         // Add required entity
         Operacao operacao;
         if (TestUtil.findAll(em, Operacao.class).isEmpty()) {
@@ -121,16 +134,6 @@ class AmostraResourceIT {
             origemAmostra = TestUtil.findAll(em, OrigemAmostra.class).get(0);
         }
         amostra.setOrigemAmostra(origemAmostra);
-        // Add required entity
-        Produto produto;
-        if (TestUtil.findAll(em, Produto.class).isEmpty()) {
-            produto = ProdutoResourceIT.createEntity(em);
-            em.persist(produto);
-            em.flush();
-        } else {
-            produto = TestUtil.findAll(em, Produto.class).get(0);
-        }
-        amostra.setProduto(produto);
         // Add required entity
         TipoAmostra tipoAmostra;
         if (TestUtil.findAll(em, TipoAmostra.class).isEmpty()) {
@@ -156,11 +159,10 @@ class AmostraResourceIT {
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
-            //.createdBy(UPDATED_CREATED_BY)
-            //.createdDate(UPDATED_CREATED_DATE)
-            //.lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            //.lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
-            ;
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         // Add required entity
         Operacao operacao;
         if (TestUtil.findAll(em, Operacao.class).isEmpty()) {
@@ -181,16 +183,6 @@ class AmostraResourceIT {
             origemAmostra = TestUtil.findAll(em, OrigemAmostra.class).get(0);
         }
         amostra.setOrigemAmostra(origemAmostra);
-        // Add required entity
-        Produto produto;
-        if (TestUtil.findAll(em, Produto.class).isEmpty()) {
-            produto = ProdutoResourceIT.createUpdatedEntity(em);
-            em.persist(produto);
-            em.flush();
-        } else {
-            produto = TestUtil.findAll(em, Produto.class).get(0);
-        }
-        amostra.setProduto(produto);
         // Add required entity
         TipoAmostra tipoAmostra;
         if (TestUtil.findAll(em, TipoAmostra.class).isEmpty()) {
@@ -254,24 +246,6 @@ class AmostraResourceIT {
 
     @Test
     @Transactional
-    void checkCreatedByIsRequired() throws Exception {
-        int databaseSizeBeforeTest = amostraRepository.findAll().size();
-        // set the field null
-        amostra.setCreatedBy(null);
-
-        // Create the Amostra, which fails.
-        AmostraDTO amostraDTO = amostraMapper.toDto(amostra);
-
-        restAmostraMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(amostraDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Amostra> amostraList = amostraRepository.findAll();
-        assertThat(amostraList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllAmostras() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
@@ -290,6 +264,24 @@ class AmostraResourceIT {
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllAmostrasWithEagerRelationshipsIsEnabled() throws Exception {
+        when(amostraServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restAmostraMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(amostraServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllAmostrasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(amostraServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restAmostraMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(amostraServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -934,32 +926,6 @@ class AmostraResourceIT {
 
     @Test
     @Transactional
-    void getAllAmostrasByProdutoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        amostraRepository.saveAndFlush(amostra);
-        Produto produto;
-        if (TestUtil.findAll(em, Produto.class).isEmpty()) {
-            produto = ProdutoResourceIT.createEntity(em);
-            em.persist(produto);
-            em.flush();
-        } else {
-            produto = TestUtil.findAll(em, Produto.class).get(0);
-        }
-        em.persist(produto);
-        em.flush();
-        amostra.setProduto(produto);
-        amostraRepository.saveAndFlush(amostra);
-        Long produtoId = produto.getId();
-
-        // Get all the amostraList where produto equals to produtoId
-        defaultAmostraShouldBeFound("produtoId.equals=" + produtoId);
-
-        // Get all the amostraList where produto equals to (produtoId + 1)
-        defaultAmostraShouldNotBeFound("produtoId.equals=" + (produtoId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllAmostrasByTipoAmostraIsEqualToSomething() throws Exception {
         // Initialize the database
         amostraRepository.saveAndFlush(amostra);
@@ -1105,11 +1071,10 @@ class AmostraResourceIT {
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
-            //.createdBy(UPDATED_CREATED_BY)
-            //.createdDate(UPDATED_CREATED_DATE)
-            //.lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            //.lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
-            ;
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         AmostraDTO amostraDTO = amostraMapper.toDto(updatedAmostra);
 
         restAmostraMockMvc
@@ -1215,9 +1180,8 @@ class AmostraResourceIT {
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
-            //.createdBy(UPDATED_CREATED_BY)
-            //.lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
-            ;
+            .createdBy(UPDATED_CREATED_BY)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
 
         restAmostraMockMvc
             .perform(
@@ -1258,11 +1222,10 @@ class AmostraResourceIT {
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
-            //.createdBy(UPDATED_CREATED_BY)
-            //.createdDate(UPDATED_CREATED_DATE)
-            //.lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            //.lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
-            ;
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
 
         restAmostraMockMvc
             .perform(

@@ -43,6 +43,14 @@ public class TipoRelatorioServiceImpl implements TipoRelatorioService {
     }
 
     @Override
+    public TipoRelatorioDTO update(TipoRelatorioDTO tipoRelatorioDTO) {
+        log.debug("Request to save TipoRelatorio : {}", tipoRelatorioDTO);
+        TipoRelatorio tipoRelatorio = tipoRelatorioMapper.toEntity(tipoRelatorioDTO);
+        tipoRelatorio = tipoRelatorioRepository.save(tipoRelatorio);
+        return tipoRelatorioMapper.toDto(tipoRelatorio);
+    }
+
+    @Override
     public Optional<TipoRelatorioDTO> partialUpdate(TipoRelatorioDTO tipoRelatorioDTO) {
         log.debug("Request to partially update TipoRelatorio : {}", tipoRelatorioDTO);
 

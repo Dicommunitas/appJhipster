@@ -43,6 +43,14 @@ public class LembreteServiceImpl implements LembreteService {
     }
 
     @Override
+    public LembreteDTO update(LembreteDTO lembreteDTO) {
+        log.debug("Request to save Lembrete : {}", lembreteDTO);
+        Lembrete lembrete = lembreteMapper.toEntity(lembreteDTO);
+        lembrete = lembreteRepository.save(lembrete);
+        return lembreteMapper.toDto(lembrete);
+    }
+
+    @Override
     public Optional<LembreteDTO> partialUpdate(LembreteDTO lembreteDTO) {
         log.debug("Request to partially update Lembrete : {}", lembreteDTO);
 

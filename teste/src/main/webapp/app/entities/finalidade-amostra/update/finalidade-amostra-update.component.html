@@ -83,7 +83,7 @@
               [ngValue]="amostraOption.id === editForm.get('amostra')!.value?.id ? editForm.get('amostra')!.value : amostraOption"
               *ngFor="let amostraOption of amostrasSharedCollection; trackBy: trackAmostraById"
             >
-              {{ amostraOption.dataHoraColeta }}
+              {{ amostraOption.id }}
             </option>
           </select>
         </div>

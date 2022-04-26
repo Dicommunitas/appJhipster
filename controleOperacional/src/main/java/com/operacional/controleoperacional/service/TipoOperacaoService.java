@@ -17,6 +17,14 @@ public interface TipoOperacaoService {
     TipoOperacaoDTO save(TipoOperacaoDTO tipoOperacaoDTO);
 
     /**
+     * Updates a tipoOperacao.
+     *
+     * @param tipoOperacaoDTO the entity to update.
+     * @return the persisted entity.
+     */
+    TipoOperacaoDTO update(TipoOperacaoDTO tipoOperacaoDTO);
+
+    /**
      * Partially updates a tipoOperacao.
      *
      * @param tipoOperacaoDTO the entity to update partially.

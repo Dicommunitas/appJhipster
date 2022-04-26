@@ -8,6 +8,8 @@ import { of, Subject, from } from 'rxjs';
 
 import { OperacaoService } from '../service/operacao.service';
 import { IOperacao, Operacao } from '../operacao.model';
+import { IProduto } from 'app/entities/produto/produto.model';
+import { ProdutoService } from 'app/entities/produto/service/produto.service';
 import { ITipoOperacao } from 'app/entities/tipo-operacao/tipo-operacao.model';
 import { TipoOperacaoService } from 'app/entities/tipo-operacao/service/tipo-operacao.service';
 
@@ -18,6 +20,7 @@ describe('Operacao Management Update Component', () => {
   let fixture: ComponentFixture<OperacaoUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let operacaoService: OperacaoService;
+  let produtoService: ProdutoService;
   let tipoOperacaoService: TipoOperacaoService;
 
   beforeEach(() => {
@@ -40,12 +43,32 @@ describe('Operacao Management Update Component', () => {
     fixture = TestBed.createComponent(OperacaoUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     operacaoService = TestBed.inject(OperacaoService);
+    produtoService = TestBed.inject(ProdutoService);
     tipoOperacaoService = TestBed.inject(TipoOperacaoService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call Produto query and add missing value', () => {
+      const operacao: IOperacao = { id: 456 };
+      const produto: IProduto = { id: 65765 };
+      operacao.produto = produto;
+
+      const produtoCollection: IProduto[] = [{ id: 75519 }];
+      jest.spyOn(produtoService, 'query').mockReturnValue(of(new HttpResponse({ body: produtoCollection })));
+      const additionalProdutos = [produto];
+      const expectedCollection: IProduto[] = [...additionalProdutos, ...produtoCollection];
+      jest.spyOn(produtoService, 'addProdutoToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ operacao });
+      comp.ngOnInit();
+
+      expect(produtoService.query).toHaveBeenCalled();
+      expect(produtoService.addProdutoToCollectionIfMissing).toHaveBeenCalledWith(produtoCollection, ...additionalProdutos);
+      expect(comp.produtosSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call TipoOperacao query and add missing value', () => {
       const operacao: IOperacao = { id: 456 };
       const tipoOperacao: ITipoOperacao = { id: 65365 };
@@ -70,6 +93,8 @@ describe('Operacao Management Update Component', () => {
 
     it('Should update editForm', () => {
       const operacao: IOperacao = { id: 456 };
+      const produto: IProduto = { id: 28462 };
+      operacao.produto = produto;
       const tipoOperacao: ITipoOperacao = { id: 3154 };
       operacao.tipoOperacao = tipoOperacao;
 
@@ -77,6 +102,7 @@ describe('Operacao Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(operacao));
+      expect(comp.produtosSharedCollection).toContain(produto);
       expect(comp.tipoOperacaosSharedCollection).toContain(tipoOperacao);
     });
   });
@@ -146,6 +172,14 @@ describe('Operacao Management Update Component', () => {
   });
 
   describe('Tracking relationships identifiers', () => {
+    describe('trackProdutoById', () => {
+      it('Should return tracked Produto primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackProdutoById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
     describe('trackTipoOperacaoById', () => {
       it('Should return tracked TipoOperacao primary key', () => {
         const entity = { id: 123 };

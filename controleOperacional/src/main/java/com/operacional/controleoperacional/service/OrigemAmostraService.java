@@ -17,6 +17,14 @@ public interface OrigemAmostraService {
     OrigemAmostraDTO save(OrigemAmostraDTO origemAmostraDTO);
 
     /**
+     * Updates a origemAmostra.
+     *
+     * @param origemAmostraDTO the entity to update.
+     * @return the persisted entity.
+     */
+    OrigemAmostraDTO update(OrigemAmostraDTO origemAmostraDTO);
+
+    /**
      * Partially updates a origemAmostra.
      *
      * @param origemAmostraDTO the entity to update partially.

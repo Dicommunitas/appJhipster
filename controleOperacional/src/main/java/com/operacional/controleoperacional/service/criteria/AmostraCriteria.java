@@ -51,8 +51,6 @@ public class AmostraCriteria implements Serializable, Criteria {
 
     private LongFilter origemAmostraId;
 
-    private LongFilter produtoId;
-
     private LongFilter tipoAmostraId;
 
     private LongFilter amostradaPorId;
@@ -76,7 +74,6 @@ public class AmostraCriteria implements Serializable, Criteria {
         this.finalidadesId = other.finalidadesId == null ? null : other.finalidadesId.copy();
         this.operacaoId = other.operacaoId == null ? null : other.operacaoId.copy();
         this.origemAmostraId = other.origemAmostraId == null ? null : other.origemAmostraId.copy();
-        this.produtoId = other.produtoId == null ? null : other.produtoId.copy();
         this.tipoAmostraId = other.tipoAmostraId == null ? null : other.tipoAmostraId.copy();
         this.amostradaPorId = other.amostradaPorId == null ? null : other.amostradaPorId.copy();
         this.recebidaPorId = other.recebidaPorId == null ? null : other.recebidaPorId.copy();
@@ -268,21 +265,6 @@ public class AmostraCriteria implements Serializable, Criteria {
         this.origemAmostraId = origemAmostraId;
     }
 
-    public LongFilter getProdutoId() {
-        return produtoId;
-    }
-
-    public LongFilter produtoId() {
-        if (produtoId == null) {
-            produtoId = new LongFilter();
-        }
-        return produtoId;
-    }
-
-    public void setProdutoId(LongFilter produtoId) {
-        this.produtoId = produtoId;
-    }
-
     public LongFilter getTipoAmostraId() {
         return tipoAmostraId;
     }
@@ -358,7 +340,6 @@ public class AmostraCriteria implements Serializable, Criteria {
             Objects.equals(finalidadesId, that.finalidadesId) &&
             Objects.equals(operacaoId, that.operacaoId) &&
             Objects.equals(origemAmostraId, that.origemAmostraId) &&
-            Objects.equals(produtoId, that.produtoId) &&
             Objects.equals(tipoAmostraId, that.tipoAmostraId) &&
             Objects.equals(amostradaPorId, that.amostradaPorId) &&
             Objects.equals(recebidaPorId, that.recebidaPorId) &&
@@ -381,7 +362,6 @@ public class AmostraCriteria implements Serializable, Criteria {
             finalidadesId,
             operacaoId,
             origemAmostraId,
-            produtoId,
             tipoAmostraId,
             amostradaPorId,
             recebidaPorId,
@@ -405,7 +385,6 @@ public class AmostraCriteria implements Serializable, Criteria {
             (finalidadesId != null ? "finalidadesId=" + finalidadesId + ", " : "") +
             (operacaoId != null ? "operacaoId=" + operacaoId + ", " : "") +
             (origemAmostraId != null ? "origemAmostraId=" + origemAmostraId + ", " : "") +
-            (produtoId != null ? "produtoId=" + produtoId + ", " : "") +
             (tipoAmostraId != null ? "tipoAmostraId=" + tipoAmostraId + ", " : "") +
             (amostradaPorId != null ? "amostradaPorId=" + amostradaPorId + ", " : "") +
             (recebidaPorId != null ? "recebidaPorId=" + recebidaPorId + ", " : "") +

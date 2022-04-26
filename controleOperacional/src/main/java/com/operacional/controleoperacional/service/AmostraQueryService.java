@@ -140,12 +140,6 @@ public class AmostraQueryService extends QueryService<Amostra> {
                         )
                     );
             }
-            if (criteria.getProdutoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getProdutoId(), root -> root.join(Amostra_.produto, JoinType.LEFT).get(Produto_.id))
-                    );
-            }
             if (criteria.getTipoAmostraId() != null) {
                 specification =
                     specification.and(

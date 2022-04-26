@@ -21,6 +21,12 @@ public class AmostraDTO implements Serializable {
     private Instant dataHoraColeta;
 
     /**
+     * Observações que forem necessárias para melhorar\na identificação da origem amostra.
+     */
+    @Schema(description = "Observações que forem necessárias para melhorar\na identificação da origem amostra.")
+    private String descricaoDeOrigen;
+
+    /**
      * Observações que forem necessárias para melhorar\na identificação da amostra.
      */
     @Schema(description = "Observações que forem necessárias para melhorar\na identificação da amostra.")
@@ -72,6 +78,14 @@ public class AmostraDTO implements Serializable {
 
     public void setDataHoraColeta(Instant dataHoraColeta) {
         this.dataHoraColeta = dataHoraColeta;
+    }
+
+    public String getDescricaoDeOrigen() {
+        return descricaoDeOrigen;
+    }
+
+    public void setDescricaoDeOrigen(String descricaoDeOrigen) {
+        this.descricaoDeOrigen = descricaoDeOrigen;
     }
 
     public String getObservacao() {
@@ -197,6 +211,7 @@ public class AmostraDTO implements Serializable {
         return "AmostraDTO{" +
             "id=" + getId() +
             ", dataHoraColeta='" + getDataHoraColeta() + "'" +
+            ", descricaoDeOrigen='" + getDescricaoDeOrigen() + "'" +
             ", observacao='" + getObservacao() + "'" +
             ", identificadorExterno='" + getIdentificadorExterno() + "'" +
             ", recebimentoNoLaboratorio='" + getRecebimentoNoLaboratorio() + "'" +

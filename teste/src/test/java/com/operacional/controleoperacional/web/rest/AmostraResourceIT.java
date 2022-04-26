@@ -51,6 +51,9 @@ class AmostraResourceIT {
     private static final Instant DEFAULT_DATA_HORA_COLETA = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_HORA_COLETA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final String DEFAULT_DESCRICAO_DE_ORIGEN = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRICAO_DE_ORIGEN = "BBBBBBBBBB";
+
     private static final String DEFAULT_OBSERVACAO = "AAAAAAAAAA";
     private static final String UPDATED_OBSERVACAO = "BBBBBBBBBB";
 
@@ -107,6 +110,7 @@ class AmostraResourceIT {
     public static Amostra createEntity(EntityManager em) {
         Amostra amostra = new Amostra()
             .dataHoraColeta(DEFAULT_DATA_HORA_COLETA)
+            .descricaoDeOrigen(DEFAULT_DESCRICAO_DE_ORIGEN)
             .observacao(DEFAULT_OBSERVACAO)
             .identificadorExterno(DEFAULT_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(DEFAULT_RECEBIMENTO_NO_LABORATORIO)
@@ -156,6 +160,7 @@ class AmostraResourceIT {
     public static Amostra createUpdatedEntity(EntityManager em) {
         Amostra amostra = new Amostra()
             .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
+            .descricaoDeOrigen(UPDATED_DESCRICAO_DE_ORIGEN)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
@@ -216,6 +221,7 @@ class AmostraResourceIT {
         assertThat(amostraList).hasSize(databaseSizeBeforeCreate + 1);
         Amostra testAmostra = amostraList.get(amostraList.size() - 1);
         assertThat(testAmostra.getDataHoraColeta()).isEqualTo(DEFAULT_DATA_HORA_COLETA);
+        assertThat(testAmostra.getDescricaoDeOrigen()).isEqualTo(DEFAULT_DESCRICAO_DE_ORIGEN);
         assertThat(testAmostra.getObservacao()).isEqualTo(DEFAULT_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(DEFAULT_IDENTIFICADOR_EXTERNO);
         assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(DEFAULT_RECEBIMENTO_NO_LABORATORIO);
@@ -257,6 +263,7 @@ class AmostraResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amostra.getId().intValue())))
             .andExpect(jsonPath("$.[*].dataHoraColeta").value(hasItem(DEFAULT_DATA_HORA_COLETA.toString())))
+            .andExpect(jsonPath("$.[*].descricaoDeOrigen").value(hasItem(DEFAULT_DESCRICAO_DE_ORIGEN)))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
             .andExpect(jsonPath("$.[*].identificadorExterno").value(hasItem(DEFAULT_IDENTIFICADOR_EXTERNO)))
             .andExpect(jsonPath("$.[*].recebimentoNoLaboratorio").value(hasItem(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString())))
@@ -297,6 +304,7 @@ class AmostraResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(amostra.getId().intValue()))
             .andExpect(jsonPath("$.dataHoraColeta").value(DEFAULT_DATA_HORA_COLETA.toString()))
+            .andExpect(jsonPath("$.descricaoDeOrigen").value(DEFAULT_DESCRICAO_DE_ORIGEN))
             .andExpect(jsonPath("$.observacao").value(DEFAULT_OBSERVACAO))
             .andExpect(jsonPath("$.identificadorExterno").value(DEFAULT_IDENTIFICADOR_EXTERNO))
             .andExpect(jsonPath("$.recebimentoNoLaboratorio").value(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString()))
@@ -374,6 +382,84 @@ class AmostraResourceIT {
 
         // Get all the amostraList where dataHoraColeta is null
         defaultAmostraShouldNotBeFound("dataHoraColeta.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDescricaoDeOrigenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where descricaoDeOrigen equals to DEFAULT_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldBeFound("descricaoDeOrigen.equals=" + DEFAULT_DESCRICAO_DE_ORIGEN);
+
+        // Get all the amostraList where descricaoDeOrigen equals to UPDATED_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldNotBeFound("descricaoDeOrigen.equals=" + UPDATED_DESCRICAO_DE_ORIGEN);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDescricaoDeOrigenIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where descricaoDeOrigen not equals to DEFAULT_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldNotBeFound("descricaoDeOrigen.notEquals=" + DEFAULT_DESCRICAO_DE_ORIGEN);
+
+        // Get all the amostraList where descricaoDeOrigen not equals to UPDATED_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldBeFound("descricaoDeOrigen.notEquals=" + UPDATED_DESCRICAO_DE_ORIGEN);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDescricaoDeOrigenIsInShouldWork() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where descricaoDeOrigen in DEFAULT_DESCRICAO_DE_ORIGEN or UPDATED_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldBeFound("descricaoDeOrigen.in=" + DEFAULT_DESCRICAO_DE_ORIGEN + "," + UPDATED_DESCRICAO_DE_ORIGEN);
+
+        // Get all the amostraList where descricaoDeOrigen equals to UPDATED_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldNotBeFound("descricaoDeOrigen.in=" + UPDATED_DESCRICAO_DE_ORIGEN);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDescricaoDeOrigenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where descricaoDeOrigen is not null
+        defaultAmostraShouldBeFound("descricaoDeOrigen.specified=true");
+
+        // Get all the amostraList where descricaoDeOrigen is null
+        defaultAmostraShouldNotBeFound("descricaoDeOrigen.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDescricaoDeOrigenContainsSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where descricaoDeOrigen contains DEFAULT_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldBeFound("descricaoDeOrigen.contains=" + DEFAULT_DESCRICAO_DE_ORIGEN);
+
+        // Get all the amostraList where descricaoDeOrigen contains UPDATED_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldNotBeFound("descricaoDeOrigen.contains=" + UPDATED_DESCRICAO_DE_ORIGEN);
+    }
+
+    @Test
+    @Transactional
+    void getAllAmostrasByDescricaoDeOrigenNotContainsSomething() throws Exception {
+        // Initialize the database
+        amostraRepository.saveAndFlush(amostra);
+
+        // Get all the amostraList where descricaoDeOrigen does not contain DEFAULT_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldNotBeFound("descricaoDeOrigen.doesNotContain=" + DEFAULT_DESCRICAO_DE_ORIGEN);
+
+        // Get all the amostraList where descricaoDeOrigen does not contain UPDATED_DESCRICAO_DE_ORIGEN
+        defaultAmostraShouldBeFound("descricaoDeOrigen.doesNotContain=" + UPDATED_DESCRICAO_DE_ORIGEN);
     }
 
     @Test
@@ -1012,6 +1098,7 @@ class AmostraResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amostra.getId().intValue())))
             .andExpect(jsonPath("$.[*].dataHoraColeta").value(hasItem(DEFAULT_DATA_HORA_COLETA.toString())))
+            .andExpect(jsonPath("$.[*].descricaoDeOrigen").value(hasItem(DEFAULT_DESCRICAO_DE_ORIGEN)))
             .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
             .andExpect(jsonPath("$.[*].identificadorExterno").value(hasItem(DEFAULT_IDENTIFICADOR_EXTERNO)))
             .andExpect(jsonPath("$.[*].recebimentoNoLaboratorio").value(hasItem(DEFAULT_RECEBIMENTO_NO_LABORATORIO.toString())))
@@ -1068,6 +1155,7 @@ class AmostraResourceIT {
         em.detach(updatedAmostra);
         updatedAmostra
             .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
+            .descricaoDeOrigen(UPDATED_DESCRICAO_DE_ORIGEN)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
@@ -1090,6 +1178,7 @@ class AmostraResourceIT {
         assertThat(amostraList).hasSize(databaseSizeBeforeUpdate);
         Amostra testAmostra = amostraList.get(amostraList.size() - 1);
         assertThat(testAmostra.getDataHoraColeta()).isEqualTo(UPDATED_DATA_HORA_COLETA);
+        assertThat(testAmostra.getDescricaoDeOrigen()).isEqualTo(UPDATED_DESCRICAO_DE_ORIGEN);
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
         assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);
@@ -1177,11 +1266,12 @@ class AmostraResourceIT {
         partialUpdatedAmostra.setId(amostra.getId());
 
         partialUpdatedAmostra
+            .descricaoDeOrigen(UPDATED_DESCRICAO_DE_ORIGEN)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
-            .createdBy(UPDATED_CREATED_BY)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
 
         restAmostraMockMvc
             .perform(
@@ -1196,13 +1286,14 @@ class AmostraResourceIT {
         assertThat(amostraList).hasSize(databaseSizeBeforeUpdate);
         Amostra testAmostra = amostraList.get(amostraList.size() - 1);
         assertThat(testAmostra.getDataHoraColeta()).isEqualTo(DEFAULT_DATA_HORA_COLETA);
+        assertThat(testAmostra.getDescricaoDeOrigen()).isEqualTo(UPDATED_DESCRICAO_DE_ORIGEN);
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
         assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);
-        assertThat(testAmostra.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
-        assertThat(testAmostra.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
-        assertThat(testAmostra.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
-        assertThat(testAmostra.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
+        assertThat(testAmostra.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testAmostra.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testAmostra.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testAmostra.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -1219,6 +1310,7 @@ class AmostraResourceIT {
 
         partialUpdatedAmostra
             .dataHoraColeta(UPDATED_DATA_HORA_COLETA)
+            .descricaoDeOrigen(UPDATED_DESCRICAO_DE_ORIGEN)
             .observacao(UPDATED_OBSERVACAO)
             .identificadorExterno(UPDATED_IDENTIFICADOR_EXTERNO)
             .recebimentoNoLaboratorio(UPDATED_RECEBIMENTO_NO_LABORATORIO)
@@ -1240,6 +1332,7 @@ class AmostraResourceIT {
         assertThat(amostraList).hasSize(databaseSizeBeforeUpdate);
         Amostra testAmostra = amostraList.get(amostraList.size() - 1);
         assertThat(testAmostra.getDataHoraColeta()).isEqualTo(UPDATED_DATA_HORA_COLETA);
+        assertThat(testAmostra.getDescricaoDeOrigen()).isEqualTo(UPDATED_DESCRICAO_DE_ORIGEN);
         assertThat(testAmostra.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
         assertThat(testAmostra.getIdentificadorExterno()).isEqualTo(UPDATED_IDENTIFICADOR_EXTERNO);
         assertThat(testAmostra.getRecebimentoNoLaboratorio()).isEqualTo(UPDATED_RECEBIMENTO_NO_LABORATORIO);

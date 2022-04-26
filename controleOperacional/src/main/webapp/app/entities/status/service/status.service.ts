@@ -78,6 +78,8 @@ export class StatusService {
     return Object.assign({}, status, {
       prazo: status.prazo?.isValid() ? status.prazo.format(DATE_FORMAT) : undefined,
       dataResolucao: status.dataResolucao?.isValid() ? status.dataResolucao.format(DATE_FORMAT) : undefined,
+      createdDate: status.createdDate?.isValid() ? status.createdDate.toJSON() : undefined,
+      lastModifiedDate: status.lastModifiedDate?.isValid() ? status.lastModifiedDate.toJSON() : undefined,
     });
   }
 
@@ -85,6 +87,8 @@ export class StatusService {
     if (res.body) {
       res.body.prazo = res.body.prazo ? dayjs(res.body.prazo) : undefined;
       res.body.dataResolucao = res.body.dataResolucao ? dayjs(res.body.dataResolucao) : undefined;
+      res.body.createdDate = res.body.createdDate ? dayjs(res.body.createdDate) : undefined;
+      res.body.lastModifiedDate = res.body.lastModifiedDate ? dayjs(res.body.lastModifiedDate) : undefined;
     }
     return res;
   }
@@ -94,6 +98,8 @@ export class StatusService {
       res.body.forEach((status: IStatus) => {
         status.prazo = status.prazo ? dayjs(status.prazo) : undefined;
         status.dataResolucao = status.dataResolucao ? dayjs(status.dataResolucao) : undefined;
+        status.createdDate = status.createdDate ? dayjs(status.createdDate) : undefined;
+        status.lastModifiedDate = status.lastModifiedDate ? dayjs(status.lastModifiedDate) : undefined;
       });
     }
     return res;

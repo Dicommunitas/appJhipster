@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220414100435",
+  "changelogDate": "20220426101007",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "origem_amostra",
@@ -10,6 +10,11 @@
       "fieldType": "String",
       "fieldValidateRules": ["required"],
       "javadoc": "Descreve de forma simples a origem de uma amostra.\\nO local da coleta, linha, tanque...\\nA principal informação descritiva da origem do\\nproduto coletado."
+    },
+    {
+      "fieldName": "obrigatoriaDescricao",
+      "fieldType": "Boolean",
+      "javadoc": "Informa se a amostra deve ter uma\\ndescricao de origem."
     }
   ],
   "fluentMethods": true,

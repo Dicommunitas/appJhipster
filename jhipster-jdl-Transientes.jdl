@@ -1,0 +1,137 @@
+
+//============== Criando as entidades =================================
+
+
+//============== Fim da Criação das entidades ==========================
+
+
+//============== Início da Criação das entidades Transientes ===============
+
+
+/**
+ * Entidade AmostraNavio.
+ * @author Diego.
+ * Transient
+ */
+ // testar "yo jhipster:entity about --skip-server"
+entity AmostraNavio {
+	
+	/**
+	* Nome do berço de atracação
+	*/
+    berco String required
+	
+	/**
+	* Nome do navio
+	*/
+    nomeNavio String required
+	
+	/**
+	* Viagem do navio
+	*/
+    viagem String required
+}
+
+/**
+ * Entidade TqNavioBombordo.
+ * @author Diego.
+ * Transient
+ */
+ // testar "yo jhipster:entity about --skip-server"
+entity TqNavioBombordo {
+	
+	/**
+	* Nome do TQ
+	*/
+    nomeTanque String required
+}
+
+/**
+ * Entidade TqNavioBoreste.
+ * @author Diego.
+ * Transient
+ */
+ // testar "yo jhipster:entity about --skip-server"
+entity TqNavioBoreste {
+	
+	/**
+	* Nome do TQ
+	*/
+    nomeTanque String required
+}
+
+/**
+ * Entidade TqNavioCentral.
+ * @author Diego.
+ * Transient
+ */
+ // testar "yo jhipster:entity about --skip-server"
+entity TqNavioCentral {
+	
+	/**
+	* Nome do TQ
+	*/
+    nomeTanque String required
+}
+//============== Fim da Criação das entidades Transientes ==================
+
+
+//================ Início dos relacionamentos ===========================
+
+//define vários relacionamentos ManyToOne com comentários
+//Relacionamentos unidirecionais
+//relationship ManyToOne {
+
+//}
+
+//define vários relacionamentos OneToMany com comentários
+//Relacionamentos bidirecionais
+//relationship OneToMany {
+
+//}
+
+//define vários relacionamentos ManyToMany com comentários
+relationship ManyToMany {
+	     
+	/**
+	* Irá informar uma
+    * lista de tanques pré definidos.
+	*/
+	AmostraNavio{TqNavioBombordo(nomeTanque)} 
+    	to TqNavioBombordo{AmostraNavio}
+	    
+	/**
+	* Irá informar uma
+    * lista de tanques pré definidos.
+	*/
+	AmostraNavio{TqNavioBoreste(nomeTanque)} 
+    	to TqNavioBoreste{AmostraNavio}
+	    
+	/**
+	* Irá informar uma
+    * lista de tanques pré definidos.
+	*/
+	AmostraNavio{TqNavioCentral(nomeTanque)} 
+    	to TqNavioCentral{AmostraNavio}
+
+}
+
+//define vários relacionamentos OneToOne com comentários
+//relationship OneToOne {
+
+//}
+
+//============= Fim dos relacionamentos =============================
+
+
+//============= Comandos úteis =====================================
+
+// Usar um dos comandos abaixo para gerar o código.
+// jhipster jdl ./jhipster-jdl.jdl 
+// jhipster jdl ./my-jdl-file.jdl --json-only
+// By default jdl regenerates only entities which have changed, 
+// if you want all your entities to be regenerated
+// then pass in the --force flag. Please note that this 
+// will overwrite all your local changes to the entity files
+// jhipster jdl ./my-jdl-file.jdl --force
+    

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -17,26 +19,37 @@ export class LembreteService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(lembrete: ILembrete): Observable<EntityResponseType> {
-    return this.http.post<ILembrete>(this.resourceUrl, lembrete, { observe: 'response' });
+    const copy = this.convertDateFromClient(lembrete);
+    return this.http
+      .post<ILembrete>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   update(lembrete: ILembrete): Observable<EntityResponseType> {
-    return this.http.put<ILembrete>(`${this.resourceUrl}/${getLembreteIdentifier(lembrete) as number}`, lembrete, { observe: 'response' });
+    const copy = this.convertDateFromClient(lembrete);
+    return this.http
+      .put<ILembrete>(`${this.resourceUrl}/${getLembreteIdentifier(lembrete) as number}`, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   partialUpdate(lembrete: ILembrete): Observable<EntityResponseType> {
-    return this.http.patch<ILembrete>(`${this.resourceUrl}/${getLembreteIdentifier(lembrete) as number}`, lembrete, {
-      observe: 'response',
-    });
+    const copy = this.convertDateFromClient(lembrete);
+    return this.http
+      .patch<ILembrete>(`${this.resourceUrl}/${getLembreteIdentifier(lembrete) as number}`, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http.get<ILembrete>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http
+      .get<ILembrete>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<ILembrete[]>(this.resourceUrl, { params: options, observe: 'response' });
+    return this.http
+      .get<ILembrete[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -58,5 +71,30 @@ export class LembreteService {
       return [...lembretesToAdd, ...lembreteCollection];
     }
     return lembreteCollection;
+  }
+
+  protected convertDateFromClient(lembrete: ILembrete): ILembrete {
+    return Object.assign({}, lembrete, {
+      createdDate: lembrete.createdDate?.isValid() ? lembrete.createdDate.toJSON() : undefined,
+      lastModifiedDate: lembrete.lastModifiedDate?.isValid() ? lembrete.lastModifiedDate.toJSON() : undefined,
+    });
+  }
+
+  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+    if (res.body) {
+      res.body.createdDate = res.body.createdDate ? dayjs(res.body.createdDate) : undefined;
+      res.body.lastModifiedDate = res.body.lastModifiedDate ? dayjs(res.body.lastModifiedDate) : undefined;
+    }
+    return res;
+  }
+
+  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+    if (res.body) {
+      res.body.forEach((lembrete: ILembrete) => {
+        lembrete.createdDate = lembrete.createdDate ? dayjs(lembrete.createdDate) : undefined;
+        lembrete.lastModifiedDate = lembrete.lastModifiedDate ? dayjs(lembrete.lastModifiedDate) : undefined;
+      });
+    }
+    return res;
   }
 }

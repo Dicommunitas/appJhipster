@@ -65,9 +65,6 @@
           <th scope="col" jhiSortBy="origemAmostra.descricao">
             <span jhiTranslate="controleOperacionalApp.amostra.origemAmostra">Origem Amostra</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="produto.nomeCurto">
-            <span jhiTranslate="controleOperacionalApp.amostra.produto">Produto</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col" jhiSortBy="tipoAmostra.descricao">
             <span jhiTranslate="controleOperacionalApp.amostra.tipoAmostra">Tipo Amostra</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -101,11 +98,6 @@
           <td>
             <div *ngIf="amostra.origemAmostra">
               <a [routerLink]="['/origem-amostra', amostra.origemAmostra?.id, 'view']">{{ amostra.origemAmostra?.descricao }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="amostra.produto">
-              <a [routerLink]="['/produto', amostra.produto?.id, 'view']">{{ amostra.produto?.nomeCurto }}</a>
             </div>
           </td>
           <td>

@@ -40,6 +40,14 @@ public class ProblemaServiceImpl implements ProblemaService {
     }
 
     @Override
+    public ProblemaDTO update(ProblemaDTO problemaDTO) {
+        log.debug("Request to save Problema : {}", problemaDTO);
+        Problema problema = problemaMapper.toEntity(problemaDTO);
+        problema = problemaRepository.save(problema);
+        return problemaMapper.toDto(problema);
+    }
+
+    @Override
     public Optional<ProblemaDTO> partialUpdate(ProblemaDTO problemaDTO) {
         log.debug("Request to partially update Problema : {}", problemaDTO);
 

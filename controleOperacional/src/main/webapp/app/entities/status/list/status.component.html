@@ -36,6 +36,9 @@
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.descricao">Descricao</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.prazo">Prazo</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.dataResolucao">Data Resolucao</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.status.createdDate">Created Date</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.status.lastModifiedBy">Last Modified By</span></th>
+          <th scope="col"><span jhiTranslate="controleOperacionalApp.status.lastModifiedDate">Last Modified Date</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.relator">Relator</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.responsavel">Responsavel</span></th>
           <th scope="col"><span jhiTranslate="controleOperacionalApp.status.problema">Problema</span></th>
@@ -50,6 +53,9 @@
           <td>{{ status.descricao }}</td>
           <td>{{ status.prazo | formatMediumDate }}</td>
           <td>{{ status.dataResolucao | formatMediumDate }}</td>
+          <td>{{ status.createdDate | formatMediumDatetime }}</td>
+          <td>{{ status.lastModifiedBy }}</td>
+          <td>{{ status.lastModifiedDate | formatMediumDatetime }}</td>
           <td>
             {{ status.relator?.login }}
           </td>

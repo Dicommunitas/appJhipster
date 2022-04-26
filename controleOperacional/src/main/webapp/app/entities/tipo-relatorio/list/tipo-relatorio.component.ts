@@ -34,7 +34,7 @@ export class TipoRelatorioComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: ITipoRelatorio): number {
+  trackId(_index: number, item: ITipoRelatorio): number {
     return item.id!;
   }
 

@@ -52,4 +52,3 @@ vscode:
     - vscjava.vscode-java-test
     - pivotal.vscode-spring-boot
     - mechatroner.rainbow-csv
-    - eamodio.gitlens

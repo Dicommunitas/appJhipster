@@ -18,6 +18,14 @@ public interface ProdutoService {
     ProdutoDTO save(ProdutoDTO produtoDTO);
 
     /**
+     * Updates a produto.
+     *
+     * @param produtoDTO the entity to update.
+     * @return the persisted entity.
+     */
+    ProdutoDTO update(ProdutoDTO produtoDTO);
+
+    /**
      * Partially updates a produto.
      *
      * @param produtoDTO the entity to update partially.

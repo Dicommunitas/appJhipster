@@ -11,6 +11,7 @@ application {
     serviceDiscoveryType eureka
     
     authenticationType jwt
+    //authenticationType session
     // **** não consegui fazer funcionar oauth2 *****
     //authenticationType oauth2
     prodDatabaseType mysql
@@ -19,6 +20,7 @@ application {
     //Mecanismo de cache para 
     //o banco de dados
     cacheProvider hazelcast
+    //cacheProvider ehcache
     enableHibernateCache true
     
     buildTool maven
@@ -368,7 +370,6 @@ entity Lembrete {
 
 entity User {
 }
-
     
 // Verificar a aplicabilidade de criar previamente 
 // amostras em bloco, exemplo, ao criar uma operação nova (usando
@@ -389,6 +390,12 @@ entity Amostra {
     * Data e hora que a amostra foi coletada.
 	*/
 	dataHoraColeta Instant
+    
+	/**
+    * Observações que forem necessárias para melhorar 
+    * a identificação da origem amostra.
+	*/
+    descricaoDeOrigen String
     
 	/**
     * Observações que forem necessárias para melhorar 
@@ -536,6 +543,12 @@ entity OrigemAmostra {
     * produto coletado.
 	*/
     descricao String required
+    
+	/**
+    * Informa se a amostra deve ter uma
+	* descricao de origem.
+	*/
+    obrigatoriaDescricao Boolean
 }
 
 /**
@@ -600,7 +613,7 @@ entity Produto {
 	* O código deve ter máximo 3 aracteres.
     * Deve ser igual ao do BDEMQ
 	*/
-    codigoBDEMQ String required maxlength(3) unique
+    codigoBDEMQ String required maxlength(3) minlength(3) unique
     
 	/**
 	* Informa o nome curto do produto.

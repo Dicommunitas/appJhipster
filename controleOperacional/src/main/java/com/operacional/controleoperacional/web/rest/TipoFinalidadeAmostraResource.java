@@ -94,7 +94,7 @@ public class TipoFinalidadeAmostraResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        TipoFinalidadeAmostraDTO result = tipoFinalidadeAmostraService.save(tipoFinalidadeAmostraDTO);
+        TipoFinalidadeAmostraDTO result = tipoFinalidadeAmostraService.update(tipoFinalidadeAmostraDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, tipoFinalidadeAmostraDTO.getId().toString()))

@@ -36,6 +36,9 @@
           <th scope="col" jhiSortBy="dataHoraColeta">
             <span jhiTranslate="controleOperacionalApp.amostra.dataHoraColeta">Data Hora Coleta</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="descricaoDeOrigen">
+            <span jhiTranslate="controleOperacionalApp.amostra.descricaoDeOrigen">Descricao De Origen</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="observacao">
             <span jhiTranslate="controleOperacionalApp.amostra.observacao">Observacao</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -83,6 +86,7 @@
             <a [routerLink]="['/amostra', amostra.id, 'view']">{{ amostra.id }}</a>
           </td>
           <td>{{ amostra.dataHoraColeta | formatMediumDatetime }}</td>
+          <td>{{ amostra.descricaoDeOrigen }}</td>
           <td>{{ amostra.observacao }}</td>
           <td>{{ amostra.identificadorExterno }}</td>
           <td>{{ amostra.recebimentoNoLaboratorio | formatMediumDatetime }}</td>

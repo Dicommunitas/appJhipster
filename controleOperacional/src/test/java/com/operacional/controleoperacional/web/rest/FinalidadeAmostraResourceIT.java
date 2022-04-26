@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,16 +11,23 @@ import com.operacional.controleoperacional.domain.Amostra;
 import com.operacional.controleoperacional.domain.FinalidadeAmostra;
 import com.operacional.controleoperacional.domain.TipoFinalidadeAmostra;
 import com.operacional.controleoperacional.repository.FinalidadeAmostraRepository;
+import com.operacional.controleoperacional.service.FinalidadeAmostraService;
 import com.operacional.controleoperacional.service.dto.FinalidadeAmostraDTO;
 import com.operacional.controleoperacional.service.mapper.FinalidadeAmostraMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link FinalidadeAmostraResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class FinalidadeAmostraResourceIT {
@@ -45,8 +54,14 @@ class FinalidadeAmostraResourceIT {
     @Autowired
     private FinalidadeAmostraRepository finalidadeAmostraRepository;
 
+    @Mock
+    private FinalidadeAmostraRepository finalidadeAmostraRepositoryMock;
+
     @Autowired
     private FinalidadeAmostraMapper finalidadeAmostraMapper;
+
+    @Mock
+    private FinalidadeAmostraService finalidadeAmostraServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -180,6 +195,24 @@ class FinalidadeAmostraResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(finalidadeAmostra.getId().intValue())))
             .andExpect(jsonPath("$.[*].lacre").value(hasItem(DEFAULT_LACRE)));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllFinalidadeAmostrasWithEagerRelationshipsIsEnabled() throws Exception {
+        when(finalidadeAmostraServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restFinalidadeAmostraMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(finalidadeAmostraServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllFinalidadeAmostrasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(finalidadeAmostraServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restFinalidadeAmostraMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(finalidadeAmostraServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test

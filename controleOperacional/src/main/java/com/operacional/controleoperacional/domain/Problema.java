@@ -62,7 +62,7 @@ public class Problema implements Serializable {
     private LocalDate dataFinalizacao;
 
     /**
-     * Uma imagem que possa facilitar a identificação do problema.
+     * Uma imagem que possa facilitar a identificação do problema.\nA imagem não pode ter mai que 40KB.
      */
     @Lob
     @Column(name = "foto")

@@ -108,6 +108,24 @@ public class OperacaoQueryService extends QueryService<Operacao> {
             if (criteria.getObservacao() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getObservacao(), Operacao_.observacao));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Operacao_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Operacao_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Operacao_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Operacao_.lastModifiedDate));
+            }
+            if (criteria.getProdutoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getProdutoId(), root -> root.join(Operacao_.produto, JoinType.LEFT).get(Produto_.id))
+                    );
+            }
             if (criteria.getTipoOperacaoId() != null) {
                 specification =
                     specification.and(

@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.service.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
@@ -31,6 +32,16 @@ public class LembreteDTO implements Serializable {
     @Lob
     private String descricao;
 
+    @Size(max = 50)
+    private String createdBy;
+
+    private Instant createdDate;
+
+    @Size(max = 50)
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
+
     private TipoRelatorioDTO tipoRelatorio;
 
     private TipoOperacaoDTO tipoOperacao;
@@ -57,6 +68,38 @@ public class LembreteDTO implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public TipoRelatorioDTO getTipoRelatorio() {
@@ -103,6 +146,10 @@ public class LembreteDTO implements Serializable {
             "id=" + getId() +
             ", nome='" + getNome() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", tipoRelatorio=" + getTipoRelatorio() +
             ", tipoOperacao=" + getTipoOperacao() +
             "}";

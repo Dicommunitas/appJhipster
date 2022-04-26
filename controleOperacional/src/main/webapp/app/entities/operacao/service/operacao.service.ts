@@ -77,6 +77,8 @@ export class OperacaoService {
     return Object.assign({}, operacao, {
       inicio: operacao.inicio?.isValid() ? operacao.inicio.toJSON() : undefined,
       fim: operacao.fim?.isValid() ? operacao.fim.toJSON() : undefined,
+      createdDate: operacao.createdDate?.isValid() ? operacao.createdDate.toJSON() : undefined,
+      lastModifiedDate: operacao.lastModifiedDate?.isValid() ? operacao.lastModifiedDate.toJSON() : undefined,
     });
   }
 
@@ -84,6 +86,8 @@ export class OperacaoService {
     if (res.body) {
       res.body.inicio = res.body.inicio ? dayjs(res.body.inicio) : undefined;
       res.body.fim = res.body.fim ? dayjs(res.body.fim) : undefined;
+      res.body.createdDate = res.body.createdDate ? dayjs(res.body.createdDate) : undefined;
+      res.body.lastModifiedDate = res.body.lastModifiedDate ? dayjs(res.body.lastModifiedDate) : undefined;
     }
     return res;
   }
@@ -93,6 +97,8 @@ export class OperacaoService {
       res.body.forEach((operacao: IOperacao) => {
         operacao.inicio = operacao.inicio ? dayjs(operacao.inicio) : undefined;
         operacao.fim = operacao.fim ? dayjs(operacao.fim) : undefined;
+        operacao.createdDate = operacao.createdDate ? dayjs(operacao.createdDate) : undefined;
+        operacao.lastModifiedDate = operacao.lastModifiedDate ? dayjs(operacao.lastModifiedDate) : undefined;
       });
     }
     return res;

@@ -12,8 +12,6 @@ import { IOperacao } from 'app/entities/operacao/operacao.model';
 import { OperacaoService } from 'app/entities/operacao/service/operacao.service';
 import { IOrigemAmostra } from 'app/entities/origem-amostra/origem-amostra.model';
 import { OrigemAmostraService } from 'app/entities/origem-amostra/service/origem-amostra.service';
-import { IProduto } from 'app/entities/produto/produto.model';
-import { ProdutoService } from 'app/entities/produto/service/produto.service';
 import { ITipoAmostra } from 'app/entities/tipo-amostra/tipo-amostra.model';
 import { TipoAmostraService } from 'app/entities/tipo-amostra/service/tipo-amostra.service';
 
@@ -29,7 +27,6 @@ describe('Amostra Management Update Component', () => {
   let amostraService: AmostraService;
   let operacaoService: OperacaoService;
   let origemAmostraService: OrigemAmostraService;
-  let produtoService: ProdutoService;
   let tipoAmostraService: TipoAmostraService;
   let userService: UserService;
 
@@ -55,7 +52,6 @@ describe('Amostra Management Update Component', () => {
     amostraService = TestBed.inject(AmostraService);
     operacaoService = TestBed.inject(OperacaoService);
     origemAmostraService = TestBed.inject(OrigemAmostraService);
-    produtoService = TestBed.inject(ProdutoService);
     tipoAmostraService = TestBed.inject(TipoAmostraService);
     userService = TestBed.inject(UserService);
 
@@ -104,25 +100,6 @@ describe('Amostra Management Update Component', () => {
       expect(comp.origemAmostrasSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Produto query and add missing value', () => {
-      const amostra: IAmostra = { id: 456 };
-      const produto: IProduto = { id: 10568 };
-      amostra.produto = produto;
-
-      const produtoCollection: IProduto[] = [{ id: 48074 }];
-      jest.spyOn(produtoService, 'query').mockReturnValue(of(new HttpResponse({ body: produtoCollection })));
-      const additionalProdutos = [produto];
-      const expectedCollection: IProduto[] = [...additionalProdutos, ...produtoCollection];
-      jest.spyOn(produtoService, 'addProdutoToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ amostra });
-      comp.ngOnInit();
-
-      expect(produtoService.query).toHaveBeenCalled();
-      expect(produtoService.addProdutoToCollectionIfMissing).toHaveBeenCalledWith(produtoCollection, ...additionalProdutos);
-      expect(comp.produtosSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should call TipoAmostra query and add missing value', () => {
       const amostra: IAmostra = { id: 456 };
       const tipoAmostra: ITipoAmostra = { id: 91619 };
@@ -169,8 +146,6 @@ describe('Amostra Management Update Component', () => {
       amostra.operacao = operacao;
       const origemAmostra: IOrigemAmostra = { id: 25637 };
       amostra.origemAmostra = origemAmostra;
-      const produto: IProduto = { id: 24178 };
-      amostra.produto = produto;
       const tipoAmostra: ITipoAmostra = { id: 30560 };
       amostra.tipoAmostra = tipoAmostra;
       const amostradaPor: IUser = { id: 53678 };
@@ -184,7 +159,6 @@ describe('Amostra Management Update Component', () => {
       expect(comp.editForm.value).toEqual(expect.objectContaining(amostra));
       expect(comp.operacaosSharedCollection).toContain(operacao);
       expect(comp.origemAmostrasSharedCollection).toContain(origemAmostra);
-      expect(comp.produtosSharedCollection).toContain(produto);
       expect(comp.tipoAmostrasSharedCollection).toContain(tipoAmostra);
       expect(comp.usersSharedCollection).toContain(amostradaPor);
       expect(comp.usersSharedCollection).toContain(recebidaPor);
@@ -268,14 +242,6 @@ describe('Amostra Management Update Component', () => {
       it('Should return tracked OrigemAmostra primary key', () => {
         const entity = { id: 123 };
         const trackResult = comp.trackOrigemAmostraById(0, entity);
-        expect(trackResult).toEqual(entity.id);
-      });
-    });
-
-    describe('trackProdutoById', () => {
-      it('Should return tracked Produto primary key', () => {
-        const entity = { id: 123 };
-        const trackResult = comp.trackProdutoById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });

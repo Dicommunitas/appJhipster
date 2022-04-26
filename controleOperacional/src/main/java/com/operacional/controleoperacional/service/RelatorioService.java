@@ -18,6 +18,14 @@ public interface RelatorioService {
     RelatorioDTO save(RelatorioDTO relatorioDTO);
 
     /**
+     * Updates a relatorio.
+     *
+     * @param relatorioDTO the entity to update.
+     * @return the persisted entity.
+     */
+    RelatorioDTO update(RelatorioDTO relatorioDTO);
+
+    /**
      * Partially updates a relatorio.
      *
      * @param relatorioDTO the entity to update partially.

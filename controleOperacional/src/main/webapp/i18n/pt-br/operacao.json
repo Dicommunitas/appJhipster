@@ -24,6 +24,11 @@
       "fim": "Fim",
       "quantidadeAmostras": "Quantidade Amostras",
       "observacao": "Observacao",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
+      "produto": "Produto",
       "tipoOperacao": "Tipo Operacao",
       "help": {
         "descricao": "Descreve de forma simples a operação.",

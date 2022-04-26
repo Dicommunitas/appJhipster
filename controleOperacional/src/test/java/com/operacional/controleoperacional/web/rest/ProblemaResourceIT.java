@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -11,19 +12,26 @@ import com.operacional.controleoperacional.domain.Status;
 import com.operacional.controleoperacional.domain.User;
 import com.operacional.controleoperacional.domain.enumeration.Criticidade;
 import com.operacional.controleoperacional.repository.ProblemaRepository;
+import com.operacional.controleoperacional.service.ProblemaService;
 import com.operacional.controleoperacional.service.criteria.ProblemaCriteria;
 import com.operacional.controleoperacional.service.dto.ProblemaDTO;
 import com.operacional.controleoperacional.service.mapper.ProblemaMapper;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,6 +42,7 @@ import org.springframework.util.Base64Utils;
  * Integration tests for the {@link ProblemaResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class ProblemaResourceIT {
@@ -69,8 +78,14 @@ class ProblemaResourceIT {
     @Autowired
     private ProblemaRepository problemaRepository;
 
+    @Mock
+    private ProblemaRepository problemaRepositoryMock;
+
     @Autowired
     private ProblemaMapper problemaMapper;
+
+    @Mock
+    private ProblemaService problemaServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -264,6 +279,24 @@ class ProblemaResourceIT {
             .andExpect(jsonPath("$.[*].dataFinalizacao").value(hasItem(DEFAULT_DATA_FINALIZACAO.toString())))
             .andExpect(jsonPath("$.[*].fotoContentType").value(hasItem(DEFAULT_FOTO_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].foto").value(hasItem(Base64Utils.encodeToString(DEFAULT_FOTO))));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllProblemasWithEagerRelationshipsIsEnabled() throws Exception {
+        when(problemaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restProblemaMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(problemaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllProblemasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(problemaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restProblemaMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(problemaServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test

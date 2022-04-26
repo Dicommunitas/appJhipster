@@ -59,11 +59,11 @@ export class FinalidadeAmostraUpdateComponent implements OnInit {
     }
   }
 
-  trackTipoFinalidadeAmostraById(index: number, item: ITipoFinalidadeAmostra): number {
+  trackTipoFinalidadeAmostraById(_index: number, item: ITipoFinalidadeAmostra): number {
     return item.id!;
   }
 
-  trackAmostraById(index: number, item: IAmostra): number {
+  trackAmostraById(_index: number, item: IAmostra): number {
     return item.id!;
   }
 

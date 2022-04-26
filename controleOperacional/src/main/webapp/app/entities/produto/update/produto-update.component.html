@@ -43,6 +43,14 @@
             </small>
             <small
               class="form-text text-danger"
+              *ngIf="editForm.get('codigoBDEMQ')?.errors?.minlength"
+              jhiTranslate="entity.validation.minlength"
+              [translateValues]="{ min: 3 }"
+            >
+              This field is required to be at least 3 characters.
+            </small>
+            <small
+              class="form-text text-danger"
               *ngIf="editForm.get('codigoBDEMQ')?.errors?.maxlength"
               jhiTranslate="entity.validation.maxlength"
               [translateValues]="{ max: 3 }"

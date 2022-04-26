@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220307001558",
+  "changelogDate": "20220414095635",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "status",
@@ -22,6 +22,20 @@
       "fieldName": "dataResolucao",
       "fieldType": "LocalDate",
       "javadoc": "Indica em que data o status foi resolvido."
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
     }
   ],
   "fluentMethods": true,

@@ -40,6 +40,14 @@ public class RelatorioServiceImpl implements RelatorioService {
     }
 
     @Override
+    public RelatorioDTO update(RelatorioDTO relatorioDTO) {
+        log.debug("Request to save Relatorio : {}", relatorioDTO);
+        Relatorio relatorio = relatorioMapper.toEntity(relatorioDTO);
+        relatorio = relatorioRepository.save(relatorio);
+        return relatorioMapper.toDto(relatorio);
+    }
+
+    @Override
     public Optional<RelatorioDTO> partialUpdate(RelatorioDTO relatorioDTO) {
         log.debug("Request to partially update Relatorio : {}", relatorioDTO);
 

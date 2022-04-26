@@ -89,7 +89,7 @@ public class StatusResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        StatusDTO result = statusService.save(statusDTO);
+        StatusDTO result = statusService.update(statusDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, statusDTO.getId().toString()))

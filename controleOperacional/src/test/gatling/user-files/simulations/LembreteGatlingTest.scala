@@ -73,6 +73,10 @@ class LembreteGatlingTest extends Simulation {
             .body(StringBody("""{
                 "nome":"SAMPLE_TEXT"
                 , "descricao":null
+                , "createdBy":"SAMPLE_TEXT"
+                , "createdDate":"2020-01-01T00:00:00.000Z"
+                , "lastModifiedBy":"SAMPLE_TEXT"
+                , "lastModifiedDate":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_lembrete_url"))).exitHereIfFailed

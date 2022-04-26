@@ -32,7 +32,7 @@
         "criticidade": "Gravidade do problema.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
         "impacto": "O impácto do problema para o sistema como um todo.\nSe o problema tiver criticidade IMEDIATA\no atributo impácto não pode estar em branco",
         "dataFinalizacao": "Imforma se o problema foi finalizado/sanado.\nSomente quem criou o problema tem permisão\npara informar sua finalização.\nO problema só pode ser finalizado se ele tiver\ntodos os seus status resolvidos.",
-        "foto": "Uma imagem que possa facilitar a identificação do problema."
+        "foto": "Uma imagem que possa facilitar a identificação do problema.\nA imagem não pode ter mai que 40KB."
       }
     }
   }

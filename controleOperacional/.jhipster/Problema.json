@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220307001458",
+  "changelogDate": "20220414095535",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "problema",
@@ -41,8 +41,8 @@
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "image",
       "fieldValidateRules": ["maxbytes"],
-      "fieldValidateRulesMaxbytes": "500",
-      "javadoc": "Uma imagem que possa facilitar a identificação do problema."
+      "fieldValidateRulesMaxbytes": "40000",
+      "javadoc": "Uma imagem que possa facilitar a identificação do problema.\\nA imagem não pode ter mai que 40KB."
     }
   ],
   "fluentMethods": true,

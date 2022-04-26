@@ -16,7 +16,7 @@ describe('Problema e2e test', () => {
   const problemaPageUrlPattern = new RegExp('/problema(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const problemaSample = { dataVerificacao: '2022-04-13', descricao: 'B2B users', criticidade: 'IMEDIATA', impacto: 'Rodovia strategy' };
+  const problemaSample = { dataVerificacao: '2022-04-25', descricao: 'B2B users', criticidade: 'IMEDIATA', impacto: 'Rodovia strategy' };
 
   let problema: any;
   //let user: any;
@@ -209,7 +209,7 @@ describe('Problema e2e test', () => {
     });
 
     it.skip('should create an instance of Problema', () => {
-      cy.get(`[data-cy="dataVerificacao"]`).type('2022-04-14').should('have.value', '2022-04-14');
+      cy.get(`[data-cy="dataVerificacao"]`).type('2022-04-26').should('have.value', '2022-04-26');
 
       cy.get(`[data-cy="descricao"]`).type('invoice monitor Loan').should('have.value', 'invoice monitor Loan');
 
@@ -217,7 +217,7 @@ describe('Problema e2e test', () => {
 
       cy.get(`[data-cy="impacto"]`).type('Fantástico Prático Bicicleta').should('have.value', 'Fantástico Prático Bicicleta');
 
-      cy.get(`[data-cy="dataFinalizacao"]`).type('2022-04-14').should('have.value', '2022-04-14');
+      cy.get(`[data-cy="dataFinalizacao"]`).type('2022-04-26').should('have.value', '2022-04-26');
 
       cy.setFieldImageAsBytesOfEntity('foto', 'integration-test.png', 'image/png');
 

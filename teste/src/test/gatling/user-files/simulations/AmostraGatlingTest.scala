@@ -72,6 +72,7 @@ class AmostraGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "dataHoraColeta":"2020-01-01T00:00:00.000Z"
+                , "descricaoDeOrigen":"SAMPLE_TEXT"
                 , "observacao":"SAMPLE_TEXT"
                 , "identificadorExterno":"SAMPLE_TEXT"
                 , "recebimentoNoLaboratorio":"2020-01-01T00:00:00.000Z"

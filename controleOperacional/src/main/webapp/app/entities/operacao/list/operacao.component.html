@@ -52,6 +52,21 @@
           <th scope="col" jhiSortBy="observacao">
             <span jhiTranslate="controleOperacionalApp.operacao.observacao">Observacao</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="createdBy">
+            <span jhiTranslate="controleOperacionalApp.operacao.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="createdDate">
+            <span jhiTranslate="controleOperacionalApp.operacao.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <span jhiTranslate="controleOperacionalApp.operacao.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedDate">
+            <span jhiTranslate="controleOperacionalApp.operacao.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="produto.nomeCurto">
+            <span jhiTranslate="controleOperacionalApp.operacao.produto">Produto</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="tipoOperacao.descricao">
             <span jhiTranslate="controleOperacionalApp.operacao.tipoOperacao">Tipo Operacao</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -69,6 +84,15 @@
           <td>{{ operacao.fim | formatMediumDatetime }}</td>
           <td>{{ operacao.quantidadeAmostras }}</td>
           <td>{{ operacao.observacao }}</td>
+          <td>{{ operacao.createdBy }}</td>
+          <td>{{ operacao.createdDate | formatMediumDatetime }}</td>
+          <td>{{ operacao.lastModifiedBy }}</td>
+          <td>{{ operacao.lastModifiedDate | formatMediumDatetime }}</td>
+          <td>
+            <div *ngIf="operacao.produto">
+              <a [routerLink]="['/produto', operacao.produto?.id, 'view']">{{ operacao.produto?.nomeCurto }}</a>
+            </div>
+          </td>
           <td>
             <div *ngIf="operacao.tipoOperacao">
               <a [routerLink]="['/tipo-operacao', operacao.tipoOperacao?.id, 'view']">{{ operacao.tipoOperacao?.descricao }}</a>

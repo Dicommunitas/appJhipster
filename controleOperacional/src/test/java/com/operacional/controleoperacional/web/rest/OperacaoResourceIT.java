@@ -2,26 +2,35 @@ package com.operacional.controleoperacional.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.operacional.controleoperacional.IntegrationTest;
 import com.operacional.controleoperacional.domain.Operacao;
+import com.operacional.controleoperacional.domain.Produto;
 import com.operacional.controleoperacional.domain.TipoOperacao;
 import com.operacional.controleoperacional.repository.OperacaoRepository;
+import com.operacional.controleoperacional.service.OperacaoService;
 import com.operacional.controleoperacional.service.criteria.OperacaoCriteria;
 import com.operacional.controleoperacional.service.dto.OperacaoDTO;
 import com.operacional.controleoperacional.service.mapper.OperacaoMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link OperacaoResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class OperacaoResourceIT {
@@ -55,6 +65,18 @@ class OperacaoResourceIT {
     private static final String DEFAULT_OBSERVACAO = "AAAAAAAAAA";
     private static final String UPDATED_OBSERVACAO = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_LAST_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_LAST_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final String ENTITY_API_URL = "/api/operacaos";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -64,8 +86,14 @@ class OperacaoResourceIT {
     @Autowired
     private OperacaoRepository operacaoRepository;
 
+    @Mock
+    private OperacaoRepository operacaoRepositoryMock;
+
     @Autowired
     private OperacaoMapper operacaoMapper;
+
+    @Mock
+    private OperacaoService operacaoServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -88,7 +116,21 @@ class OperacaoResourceIT {
             .inicio(DEFAULT_INICIO)
             .fim(DEFAULT_FIM)
             .quantidadeAmostras(DEFAULT_QUANTIDADE_AMOSTRAS)
-            .observacao(DEFAULT_OBSERVACAO);
+            .observacao(DEFAULT_OBSERVACAO)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
+            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
+        // Add required entity
+        Produto produto;
+        if (TestUtil.findAll(em, Produto.class).isEmpty()) {
+            produto = ProdutoResourceIT.createEntity(em);
+            em.persist(produto);
+            em.flush();
+        } else {
+            produto = TestUtil.findAll(em, Produto.class).get(0);
+        }
+        operacao.setProduto(produto);
         // Add required entity
         TipoOperacao tipoOperacao;
         if (TestUtil.findAll(em, TipoOperacao.class).isEmpty()) {
@@ -115,7 +157,21 @@ class OperacaoResourceIT {
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
-            .observacao(UPDATED_OBSERVACAO);
+            .observacao(UPDATED_OBSERVACAO)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+        // Add required entity
+        Produto produto;
+        if (TestUtil.findAll(em, Produto.class).isEmpty()) {
+            produto = ProdutoResourceIT.createUpdatedEntity(em);
+            em.persist(produto);
+            em.flush();
+        } else {
+            produto = TestUtil.findAll(em, Produto.class).get(0);
+        }
+        operacao.setProduto(produto);
         // Add required entity
         TipoOperacao tipoOperacao;
         if (TestUtil.findAll(em, TipoOperacao.class).isEmpty()) {
@@ -154,6 +210,10 @@ class OperacaoResourceIT {
         assertThat(testOperacao.getFim()).isEqualTo(DEFAULT_FIM);
         assertThat(testOperacao.getQuantidadeAmostras()).isEqualTo(DEFAULT_QUANTIDADE_AMOSTRAS);
         assertThat(testOperacao.getObservacao()).isEqualTo(DEFAULT_OBSERVACAO);
+        assertThat(testOperacao.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testOperacao.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testOperacao.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testOperacao.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -213,24 +273,6 @@ class OperacaoResourceIT {
 
     @Test
     @Transactional
-    void checkQuantidadeAmostrasIsRequired() throws Exception {
-        int databaseSizeBeforeTest = operacaoRepository.findAll().size();
-        // set the field null
-        operacao.setQuantidadeAmostras(null);
-
-        // Create the Operacao, which fails.
-        OperacaoDTO operacaoDTO = operacaoMapper.toDto(operacao);
-
-        restOperacaoMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(operacaoDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Operacao> operacaoList = operacaoRepository.findAll();
-        assertThat(operacaoList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllOperacaos() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
@@ -246,7 +288,29 @@ class OperacaoResourceIT {
             .andExpect(jsonPath("$.[*].inicio").value(hasItem(DEFAULT_INICIO.toString())))
             .andExpect(jsonPath("$.[*].fim").value(hasItem(DEFAULT_FIM.toString())))
             .andExpect(jsonPath("$.[*].quantidadeAmostras").value(hasItem(DEFAULT_QUANTIDADE_AMOSTRAS)))
-            .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)));
+            .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllOperacaosWithEagerRelationshipsIsEnabled() throws Exception {
+        when(operacaoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restOperacaoMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(operacaoServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllOperacaosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(operacaoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restOperacaoMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(operacaoServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -266,7 +330,11 @@ class OperacaoResourceIT {
             .andExpect(jsonPath("$.inicio").value(DEFAULT_INICIO.toString()))
             .andExpect(jsonPath("$.fim").value(DEFAULT_FIM.toString()))
             .andExpect(jsonPath("$.quantidadeAmostras").value(DEFAULT_QUANTIDADE_AMOSTRAS))
-            .andExpect(jsonPath("$.observacao").value(DEFAULT_OBSERVACAO));
+            .andExpect(jsonPath("$.observacao").value(DEFAULT_OBSERVACAO))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
+            .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()));
     }
 
     @Test
@@ -757,6 +825,292 @@ class OperacaoResourceIT {
 
     @Test
     @Transactional
+    void getAllOperacaosByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdBy equals to DEFAULT_CREATED_BY
+        defaultOperacaoShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the operacaoList where createdBy equals to UPDATED_CREATED_BY
+        defaultOperacaoShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedByIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdBy not equals to DEFAULT_CREATED_BY
+        defaultOperacaoShouldNotBeFound("createdBy.notEquals=" + DEFAULT_CREATED_BY);
+
+        // Get all the operacaoList where createdBy not equals to UPDATED_CREATED_BY
+        defaultOperacaoShouldBeFound("createdBy.notEquals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultOperacaoShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the operacaoList where createdBy equals to UPDATED_CREATED_BY
+        defaultOperacaoShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdBy is not null
+        defaultOperacaoShouldBeFound("createdBy.specified=true");
+
+        // Get all the operacaoList where createdBy is null
+        defaultOperacaoShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedByContainsSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdBy contains DEFAULT_CREATED_BY
+        defaultOperacaoShouldBeFound("createdBy.contains=" + DEFAULT_CREATED_BY);
+
+        // Get all the operacaoList where createdBy contains UPDATED_CREATED_BY
+        defaultOperacaoShouldNotBeFound("createdBy.contains=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdBy does not contain DEFAULT_CREATED_BY
+        defaultOperacaoShouldNotBeFound("createdBy.doesNotContain=" + DEFAULT_CREATED_BY);
+
+        // Get all the operacaoList where createdBy does not contain UPDATED_CREATED_BY
+        defaultOperacaoShouldBeFound("createdBy.doesNotContain=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdDate equals to DEFAULT_CREATED_DATE
+        defaultOperacaoShouldBeFound("createdDate.equals=" + DEFAULT_CREATED_DATE);
+
+        // Get all the operacaoList where createdDate equals to UPDATED_CREATED_DATE
+        defaultOperacaoShouldNotBeFound("createdDate.equals=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdDate not equals to DEFAULT_CREATED_DATE
+        defaultOperacaoShouldNotBeFound("createdDate.notEquals=" + DEFAULT_CREATED_DATE);
+
+        // Get all the operacaoList where createdDate not equals to UPDATED_CREATED_DATE
+        defaultOperacaoShouldBeFound("createdDate.notEquals=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdDate in DEFAULT_CREATED_DATE or UPDATED_CREATED_DATE
+        defaultOperacaoShouldBeFound("createdDate.in=" + DEFAULT_CREATED_DATE + "," + UPDATED_CREATED_DATE);
+
+        // Get all the operacaoList where createdDate equals to UPDATED_CREATED_DATE
+        defaultOperacaoShouldNotBeFound("createdDate.in=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByCreatedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where createdDate is not null
+        defaultOperacaoShouldBeFound("createdDate.specified=true");
+
+        // Get all the operacaoList where createdDate is null
+        defaultOperacaoShouldNotBeFound("createdDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedBy equals to DEFAULT_LAST_MODIFIED_BY
+        defaultOperacaoShouldBeFound("lastModifiedBy.equals=" + DEFAULT_LAST_MODIFIED_BY);
+
+        // Get all the operacaoList where lastModifiedBy equals to UPDATED_LAST_MODIFIED_BY
+        defaultOperacaoShouldNotBeFound("lastModifiedBy.equals=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedByIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedBy not equals to DEFAULT_LAST_MODIFIED_BY
+        defaultOperacaoShouldNotBeFound("lastModifiedBy.notEquals=" + DEFAULT_LAST_MODIFIED_BY);
+
+        // Get all the operacaoList where lastModifiedBy not equals to UPDATED_LAST_MODIFIED_BY
+        defaultOperacaoShouldBeFound("lastModifiedBy.notEquals=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedBy in DEFAULT_LAST_MODIFIED_BY or UPDATED_LAST_MODIFIED_BY
+        defaultOperacaoShouldBeFound("lastModifiedBy.in=" + DEFAULT_LAST_MODIFIED_BY + "," + UPDATED_LAST_MODIFIED_BY);
+
+        // Get all the operacaoList where lastModifiedBy equals to UPDATED_LAST_MODIFIED_BY
+        defaultOperacaoShouldNotBeFound("lastModifiedBy.in=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedBy is not null
+        defaultOperacaoShouldBeFound("lastModifiedBy.specified=true");
+
+        // Get all the operacaoList where lastModifiedBy is null
+        defaultOperacaoShouldNotBeFound("lastModifiedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedByContainsSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedBy contains DEFAULT_LAST_MODIFIED_BY
+        defaultOperacaoShouldBeFound("lastModifiedBy.contains=" + DEFAULT_LAST_MODIFIED_BY);
+
+        // Get all the operacaoList where lastModifiedBy contains UPDATED_LAST_MODIFIED_BY
+        defaultOperacaoShouldNotBeFound("lastModifiedBy.contains=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedBy does not contain DEFAULT_LAST_MODIFIED_BY
+        defaultOperacaoShouldNotBeFound("lastModifiedBy.doesNotContain=" + DEFAULT_LAST_MODIFIED_BY);
+
+        // Get all the operacaoList where lastModifiedBy does not contain UPDATED_LAST_MODIFIED_BY
+        defaultOperacaoShouldBeFound("lastModifiedBy.doesNotContain=" + UPDATED_LAST_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedDate equals to DEFAULT_LAST_MODIFIED_DATE
+        defaultOperacaoShouldBeFound("lastModifiedDate.equals=" + DEFAULT_LAST_MODIFIED_DATE);
+
+        // Get all the operacaoList where lastModifiedDate equals to UPDATED_LAST_MODIFIED_DATE
+        defaultOperacaoShouldNotBeFound("lastModifiedDate.equals=" + UPDATED_LAST_MODIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedDate not equals to DEFAULT_LAST_MODIFIED_DATE
+        defaultOperacaoShouldNotBeFound("lastModifiedDate.notEquals=" + DEFAULT_LAST_MODIFIED_DATE);
+
+        // Get all the operacaoList where lastModifiedDate not equals to UPDATED_LAST_MODIFIED_DATE
+        defaultOperacaoShouldBeFound("lastModifiedDate.notEquals=" + UPDATED_LAST_MODIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedDate in DEFAULT_LAST_MODIFIED_DATE or UPDATED_LAST_MODIFIED_DATE
+        defaultOperacaoShouldBeFound("lastModifiedDate.in=" + DEFAULT_LAST_MODIFIED_DATE + "," + UPDATED_LAST_MODIFIED_DATE);
+
+        // Get all the operacaoList where lastModifiedDate equals to UPDATED_LAST_MODIFIED_DATE
+        defaultOperacaoShouldNotBeFound("lastModifiedDate.in=" + UPDATED_LAST_MODIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByLastModifiedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+
+        // Get all the operacaoList where lastModifiedDate is not null
+        defaultOperacaoShouldBeFound("lastModifiedDate.specified=true");
+
+        // Get all the operacaoList where lastModifiedDate is null
+        defaultOperacaoShouldNotBeFound("lastModifiedDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOperacaosByProdutoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        operacaoRepository.saveAndFlush(operacao);
+        Produto produto;
+        if (TestUtil.findAll(em, Produto.class).isEmpty()) {
+            produto = ProdutoResourceIT.createEntity(em);
+            em.persist(produto);
+            em.flush();
+        } else {
+            produto = TestUtil.findAll(em, Produto.class).get(0);
+        }
+        em.persist(produto);
+        em.flush();
+        operacao.setProduto(produto);
+        operacaoRepository.saveAndFlush(operacao);
+        Long produtoId = produto.getId();
+
+        // Get all the operacaoList where produto equals to produtoId
+        defaultOperacaoShouldBeFound("produtoId.equals=" + produtoId);
+
+        // Get all the operacaoList where produto equals to (produtoId + 1)
+        defaultOperacaoShouldNotBeFound("produtoId.equals=" + (produtoId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllOperacaosByTipoOperacaoIsEqualToSomething() throws Exception {
         // Initialize the database
         operacaoRepository.saveAndFlush(operacao);
@@ -795,7 +1149,11 @@ class OperacaoResourceIT {
             .andExpect(jsonPath("$.[*].inicio").value(hasItem(DEFAULT_INICIO.toString())))
             .andExpect(jsonPath("$.[*].fim").value(hasItem(DEFAULT_FIM.toString())))
             .andExpect(jsonPath("$.[*].quantidadeAmostras").value(hasItem(DEFAULT_QUANTIDADE_AMOSTRAS)))
-            .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)));
+            .andExpect(jsonPath("$.[*].observacao").value(hasItem(DEFAULT_OBSERVACAO)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
 
         // Check, that the count call also returns 1
         restOperacaoMockMvc
@@ -849,7 +1207,11 @@ class OperacaoResourceIT {
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
-            .observacao(UPDATED_OBSERVACAO);
+            .observacao(UPDATED_OBSERVACAO)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         OperacaoDTO operacaoDTO = operacaoMapper.toDto(updatedOperacao);
 
         restOperacaoMockMvc
@@ -870,6 +1232,10 @@ class OperacaoResourceIT {
         assertThat(testOperacao.getFim()).isEqualTo(UPDATED_FIM);
         assertThat(testOperacao.getQuantidadeAmostras()).isEqualTo(UPDATED_QUANTIDADE_AMOSTRAS);
         assertThat(testOperacao.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
+        assertThat(testOperacao.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testOperacao.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testOperacao.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testOperacao.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -949,7 +1315,7 @@ class OperacaoResourceIT {
         Operacao partialUpdatedOperacao = new Operacao();
         partialUpdatedOperacao.setId(operacao.getId());
 
-        partialUpdatedOperacao.descricao(UPDATED_DESCRICAO).fim(UPDATED_FIM);
+        partialUpdatedOperacao.descricao(UPDATED_DESCRICAO).fim(UPDATED_FIM).lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
 
         restOperacaoMockMvc
             .perform(
@@ -969,6 +1335,10 @@ class OperacaoResourceIT {
         assertThat(testOperacao.getFim()).isEqualTo(UPDATED_FIM);
         assertThat(testOperacao.getQuantidadeAmostras()).isEqualTo(DEFAULT_QUANTIDADE_AMOSTRAS);
         assertThat(testOperacao.getObservacao()).isEqualTo(DEFAULT_OBSERVACAO);
+        assertThat(testOperacao.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testOperacao.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testOperacao.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testOperacao.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -989,7 +1359,11 @@ class OperacaoResourceIT {
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
-            .observacao(UPDATED_OBSERVACAO);
+            .observacao(UPDATED_OBSERVACAO)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
 
         restOperacaoMockMvc
             .perform(
@@ -1009,6 +1383,10 @@ class OperacaoResourceIT {
         assertThat(testOperacao.getFim()).isEqualTo(UPDATED_FIM);
         assertThat(testOperacao.getQuantidadeAmostras()).isEqualTo(UPDATED_QUANTIDADE_AMOSTRAS);
         assertThat(testOperacao.getObservacao()).isEqualTo(UPDATED_OBSERVACAO);
+        assertThat(testOperacao.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testOperacao.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testOperacao.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testOperacao.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test

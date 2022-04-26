@@ -17,6 +17,14 @@ public interface TipoFinalidadeAmostraService {
     TipoFinalidadeAmostraDTO save(TipoFinalidadeAmostraDTO tipoFinalidadeAmostraDTO);
 
     /**
+     * Updates a tipoFinalidadeAmostra.
+     *
+     * @param tipoFinalidadeAmostraDTO the entity to update.
+     * @return the persisted entity.
+     */
+    TipoFinalidadeAmostraDTO update(TipoFinalidadeAmostraDTO tipoFinalidadeAmostraDTO);
+
+    /**
      * Partially updates a tipoFinalidadeAmostra.
      *
      * @param tipoFinalidadeAmostraDTO the entity to update partially.

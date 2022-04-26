@@ -40,6 +40,14 @@ public class OperacaoServiceImpl implements OperacaoService {
     }
 
     @Override
+    public OperacaoDTO update(OperacaoDTO operacaoDTO) {
+        log.debug("Request to save Operacao : {}", operacaoDTO);
+        Operacao operacao = operacaoMapper.toEntity(operacaoDTO);
+        operacao = operacaoRepository.save(operacao);
+        return operacaoMapper.toDto(operacao);
+    }
+
+    @Override
     public Optional<OperacaoDTO> partialUpdate(OperacaoDTO operacaoDTO) {
         log.debug("Request to partially update Operacao : {}", operacaoDTO);
 

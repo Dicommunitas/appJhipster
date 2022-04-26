@@ -32,6 +32,22 @@
         <dd>
           <span>{{ lembrete.descricao }}</span>
         </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.lembrete.createdBy">Created By</span></dt>
+        <dd>
+          <span>{{ lembrete.createdBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.lembrete.createdDate">Created Date</span></dt>
+        <dd>
+          <span>{{ lembrete.createdDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.lembrete.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ lembrete.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.lembrete.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+          <span>{{ lembrete.lastModifiedDate | formatMediumDatetime }}</span>
+        </dd>
         <dt><span jhiTranslate="controleOperacionalApp.lembrete.tipoRelatorio">Tipo Relatorio</span></dt>
         <dd>
           <div *ngIf="lembrete.tipoRelatorio">

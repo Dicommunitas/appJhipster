@@ -90,7 +90,7 @@ public class OrigemAmostraResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        OrigemAmostraDTO result = origemAmostraService.save(origemAmostraDTO);
+        OrigemAmostraDTO result = origemAmostraService.update(origemAmostraDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, origemAmostraDTO.getId().toString()))

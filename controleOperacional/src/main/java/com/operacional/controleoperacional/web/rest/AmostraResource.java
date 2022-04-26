@@ -99,7 +99,7 @@ public class AmostraResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        AmostraDTO result = amostraService.save(amostraDTO);
+        AmostraDTO result = amostraService.update(amostraDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, amostraDTO.getId().toString()))

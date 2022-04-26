@@ -35,7 +35,7 @@ export class LembreteComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: ILembrete): number {
+  trackId(_index: number, item: ILembrete): number {
     return item.id!;
   }
 

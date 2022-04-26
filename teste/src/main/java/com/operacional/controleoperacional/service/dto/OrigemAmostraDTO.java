@@ -25,6 +25,12 @@ public class OrigemAmostraDTO implements Serializable {
     )
     private String descricao;
 
+    /**
+     * Informa se a amostra deve ter uma\ndescricao de origem.
+     */
+    @Schema(description = "Informa se a amostra deve ter uma\ndescricao de origem.")
+    private Boolean obrigatoriaDescricao;
+
     public Long getId() {
         return id;
     }
@@ -39,6 +45,14 @@ public class OrigemAmostraDTO implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Boolean getObrigatoriaDescricao() {
+        return obrigatoriaDescricao;
+    }
+
+    public void setObrigatoriaDescricao(Boolean obrigatoriaDescricao) {
+        this.obrigatoriaDescricao = obrigatoriaDescricao;
     }
 
     @Override
@@ -68,6 +82,7 @@ public class OrigemAmostraDTO implements Serializable {
         return "OrigemAmostraDTO{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
+            ", obrigatoriaDescricao='" + getObrigatoriaDescricao() + "'" +
             "}";
     }
 }

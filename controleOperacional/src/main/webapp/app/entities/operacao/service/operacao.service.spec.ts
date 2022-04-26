@@ -31,6 +31,10 @@ describe('Operacao Service', () => {
       fim: currentDate,
       quantidadeAmostras: 0,
       observacao: 'AAAAAAA',
+      createdBy: 'AAAAAAA',
+      createdDate: currentDate,
+      lastModifiedBy: 'AAAAAAA',
+      lastModifiedDate: currentDate,
     };
   });
 
@@ -40,6 +44,8 @@ describe('Operacao Service', () => {
         {
           inicio: currentDate.format(DATE_TIME_FORMAT),
           fim: currentDate.format(DATE_TIME_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -57,6 +63,8 @@ describe('Operacao Service', () => {
           id: 0,
           inicio: currentDate.format(DATE_TIME_FORMAT),
           fim: currentDate.format(DATE_TIME_FORMAT),
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -65,6 +73,8 @@ describe('Operacao Service', () => {
         {
           inicio: currentDate,
           fim: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -86,6 +96,10 @@ describe('Operacao Service', () => {
           fim: currentDate.format(DATE_TIME_FORMAT),
           quantidadeAmostras: 1,
           observacao: 'BBBBBB',
+          createdBy: 'BBBBBB',
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -94,6 +108,8 @@ describe('Operacao Service', () => {
         {
           inicio: currentDate,
           fim: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -111,6 +127,9 @@ describe('Operacao Service', () => {
           descricao: 'BBBBBB',
           fim: currentDate.format(DATE_TIME_FORMAT),
           quantidadeAmostras: 1,
+          createdBy: 'BBBBBB',
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
         },
         new Operacao()
       );
@@ -121,6 +140,8 @@ describe('Operacao Service', () => {
         {
           inicio: currentDate,
           fim: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -142,6 +163,10 @@ describe('Operacao Service', () => {
           fim: currentDate.format(DATE_TIME_FORMAT),
           quantidadeAmostras: 1,
           observacao: 'BBBBBB',
+          createdBy: 'BBBBBB',
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -150,6 +175,8 @@ describe('Operacao Service', () => {
         {
           inicio: currentDate,
           fim: currentDate,
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
         },
         returnedFromService
       );
@@ -199,7 +226,7 @@ describe('Operacao Service', () => {
       });
 
       it('should add only unique Operacao to an array', () => {
-        const operacaoArray: IOperacao[] = [{ id: 123 }, { id: 456 }, { id: 77722 }];
+        const operacaoArray: IOperacao[] = [{ id: 123 }, { id: 456 }, { id: 76151 }];
         const operacaoCollection: IOperacao[] = [{ id: 123 }];
         expectedResult = service.addOperacaoToCollectionIfMissing(operacaoCollection, ...operacaoArray);
         expect(expectedResult).toHaveLength(3);

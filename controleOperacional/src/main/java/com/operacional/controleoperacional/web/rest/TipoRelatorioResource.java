@@ -90,7 +90,7 @@ public class TipoRelatorioResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        TipoRelatorioDTO result = tipoRelatorioService.save(tipoRelatorioDTO);
+        TipoRelatorioDTO result = tipoRelatorioService.update(tipoRelatorioDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, tipoRelatorioDTO.getId().toString()))

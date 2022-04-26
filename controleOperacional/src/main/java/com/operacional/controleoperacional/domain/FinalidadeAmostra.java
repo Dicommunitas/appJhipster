@@ -38,7 +38,7 @@ public class FinalidadeAmostra implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties(
-        value = { "finalidades", "operacao", "origemAmostra", "produto", "tipoAmostra", "amostradaPor", "recebidaPor" },
+        value = { "finalidades", "operacao", "origemAmostra", "tipoAmostra", "amostradaPor", "recebidaPor" },
         allowSetters = true
     )
     private Amostra amostra;

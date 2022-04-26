@@ -19,6 +19,14 @@ public interface TipoRelatorioService {
     TipoRelatorioDTO save(TipoRelatorioDTO tipoRelatorioDTO);
 
     /**
+     * Updates a tipoRelatorio.
+     *
+     * @param tipoRelatorioDTO the entity to update.
+     * @return the persisted entity.
+     */
+    TipoRelatorioDTO update(TipoRelatorioDTO tipoRelatorioDTO);
+
+    /**
      * Partially updates a tipoRelatorio.
      *
      * @param tipoRelatorioDTO the entity to update partially.

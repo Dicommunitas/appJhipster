@@ -43,6 +43,14 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
+    public StatusDTO update(StatusDTO statusDTO) {
+        log.debug("Request to save Status : {}", statusDTO);
+        Status status = statusMapper.toEntity(statusDTO);
+        status = statusRepository.save(status);
+        return statusMapper.toDto(status);
+    }
+
+    @Override
     public Optional<StatusDTO> partialUpdate(StatusDTO statusDTO) {
         log.debug("Request to partially update Status : {}", statusDTO);
 

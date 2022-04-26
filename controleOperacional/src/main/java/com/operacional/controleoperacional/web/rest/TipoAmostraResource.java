@@ -89,7 +89,7 @@ public class TipoAmostraResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        TipoAmostraDTO result = tipoAmostraService.save(tipoAmostraDTO);
+        TipoAmostraDTO result = tipoAmostraService.update(tipoAmostraDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, tipoAmostraDTO.getId().toString()))

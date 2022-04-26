@@ -45,8 +45,7 @@ public class OperacaoDTO implements Serializable {
     /**
      * Quantas amostras devem ter nessa operação.
      */
-    @NotNull
-    @Schema(description = "Quantas amostras devem ter nessa operação.", required = true)
+    @Schema(description = "Quantas amostras devem ter nessa operação.")
     private Integer quantidadeAmostras;
 
     /**
@@ -54,6 +53,18 @@ public class OperacaoDTO implements Serializable {
      */
     @Schema(description = "Observações que forem necessárias para melhorar\na descrição dos acontecimentos relativos da operação.")
     private String observacao;
+
+    @Size(max = 50)
+    private String createdBy;
+
+    private Instant createdDate;
+
+    @Size(max = 50)
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
+
+    private ProdutoDTO produto;
 
     private TipoOperacaoDTO tipoOperacao;
 
@@ -113,6 +124,46 @@ public class OperacaoDTO implements Serializable {
         this.observacao = observacao;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public ProdutoDTO getProduto() {
+        return produto;
+    }
+
+    public void setProduto(ProdutoDTO produto) {
+        this.produto = produto;
+    }
+
     public TipoOperacaoDTO getTipoOperacao() {
         return tipoOperacao;
     }
@@ -153,6 +204,11 @@ public class OperacaoDTO implements Serializable {
             ", fim='" + getFim() + "'" +
             ", quantidadeAmostras=" + getQuantidadeAmostras() +
             ", observacao='" + getObservacao() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
+            ", produto=" + getProduto() +
             ", tipoOperacao=" + getTipoOperacao() +
             "}";
     }

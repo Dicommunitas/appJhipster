@@ -33,18 +33,18 @@ public interface AmostraRepository extends JpaRepository<Amostra, Long>, JpaSpec
     }
 
     @Query(
-        value = "select distinct amostra from Amostra amostra left join fetch amostra.operacao left join fetch amostra.origemAmostra left join fetch amostra.produto left join fetch amostra.tipoAmostra left join fetch amostra.amostradaPor left join fetch amostra.recebidaPor",
+        value = "select distinct amostra from Amostra amostra left join fetch amostra.operacao left join fetch amostra.origemAmostra left join fetch amostra.tipoAmostra left join fetch amostra.amostradaPor left join fetch amostra.recebidaPor",
         countQuery = "select count(distinct amostra) from Amostra amostra"
     )
     Page<Amostra> findAllWithToOneRelationships(Pageable pageable);
 
     @Query(
-        "select distinct amostra from Amostra amostra left join fetch amostra.operacao left join fetch amostra.origemAmostra left join fetch amostra.produto left join fetch amostra.tipoAmostra left join fetch amostra.amostradaPor left join fetch amostra.recebidaPor"
+        "select distinct amostra from Amostra amostra left join fetch amostra.operacao left join fetch amostra.origemAmostra left join fetch amostra.tipoAmostra left join fetch amostra.amostradaPor left join fetch amostra.recebidaPor"
     )
     List<Amostra> findAllWithToOneRelationships();
 
     @Query(
-        "select amostra from Amostra amostra left join fetch amostra.operacao left join fetch amostra.origemAmostra left join fetch amostra.produto left join fetch amostra.tipoAmostra left join fetch amostra.amostradaPor left join fetch amostra.recebidaPor where amostra.id =:id"
+        "select amostra from Amostra amostra left join fetch amostra.operacao left join fetch amostra.origemAmostra left join fetch amostra.tipoAmostra left join fetch amostra.amostradaPor left join fetch amostra.recebidaPor where amostra.id =:id"
     )
     Optional<Amostra> findOneWithToOneRelationships(@Param("id") Long id);
 }

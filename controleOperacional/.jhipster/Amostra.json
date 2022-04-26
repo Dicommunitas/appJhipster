@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220307002058",
+  "changelogDate": "20220414100135",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "amostra",
@@ -28,7 +28,8 @@
     {
       "fieldName": "createdBy",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
     },
     {
       "fieldName": "createdDate",
@@ -36,7 +37,9 @@
     },
     {
       "fieldName": "lastModifiedBy",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
     },
     {
       "fieldName": "lastModifiedDate",
@@ -73,15 +76,6 @@
       "otherEntityName": "origemAmostra",
       "otherEntityRelationshipName": "amostra",
       "relationshipName": "origemAmostra",
-      "relationshipType": "many-to-one",
-      "relationshipValidateRules": "required"
-    },
-    {
-      "javadoc": "Define qual o produto da amostra",
-      "otherEntityField": "nomeCurto",
-      "otherEntityName": "produto",
-      "otherEntityRelationshipName": "amostra",
-      "relationshipName": "produto",
       "relationshipType": "many-to-one",
       "relationshipValidateRules": "required"
     },

@@ -101,10 +101,11 @@
           <div *ngIf="editForm.get('createdBy')!.invalid && (editForm.get('createdBy')!.dirty || editForm.get('createdBy')!.touched)">
             <small
               class="form-text text-danger"
-              *ngIf="editForm.get('createdBy')?.errors?.required"
-              jhiTranslate="entity.validation.required"
+              *ngIf="editForm.get('createdBy')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 50 }"
             >
-              This field is required.
+              This field cannot be longer than 50 characters.
             </small>
           </div>
         </div>
@@ -136,6 +137,20 @@
             data-cy="lastModifiedBy"
             formControlName="lastModifiedBy"
           />
+          <div
+            *ngIf="
+              editForm.get('lastModifiedBy')!.invalid && (editForm.get('lastModifiedBy')!.dirty || editForm.get('lastModifiedBy')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastModifiedBy')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 50 }"
+            >
+              This field cannot be longer than 50 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -209,28 +224,6 @@
           <small
             class="form-text text-danger"
             *ngIf="editForm.get(['origemAmostra'])?.errors?.required"
-            jhiTranslate="entity.validation.required"
-          >
-            This field is required.
-          </small>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="controleOperacionalApp.amostra.produto" for="field_produto">Produto</label>
-          <select class="form-control" id="field_produto" data-cy="produto" name="produto" formControlName="produto">
-            <option *ngIf="!editForm.get('produto')!.value" [ngValue]="null" selected></option>
-            <option
-              [ngValue]="produtoOption.id === editForm.get('produto')!.value?.id ? editForm.get('produto')!.value : produtoOption"
-              *ngFor="let produtoOption of produtosSharedCollection; trackBy: trackProdutoById"
-            >
-              {{ produtoOption.nomeCurto }}
-            </option>
-          </select>
-        </div>
-        <div *ngIf="editForm.get(['produto'])!.invalid && (editForm.get(['produto'])!.dirty || editForm.get(['produto'])!.touched)">
-          <small
-            class="form-text text-danger"
-            *ngIf="editForm.get(['produto'])?.errors?.required"
             jhiTranslate="entity.validation.required"
           >
             This field is required.

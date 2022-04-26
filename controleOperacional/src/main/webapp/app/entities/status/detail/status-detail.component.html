@@ -42,6 +42,18 @@
         <dd>
           <span>{{ status.dataResolucao | formatMediumDate }}</span>
         </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.status.createdDate">Created Date</span></dt>
+        <dd>
+          <span>{{ status.createdDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.status.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ status.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.status.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+          <span>{{ status.lastModifiedDate | formatMediumDatetime }}</span>
+        </dd>
         <dt><span jhiTranslate="controleOperacionalApp.status.relator">Relator</span></dt>
         <dd>
           <span>{{ status.relator?.login }}</span>

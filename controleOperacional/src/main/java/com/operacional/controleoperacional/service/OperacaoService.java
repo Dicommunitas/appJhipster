@@ -18,6 +18,14 @@ public interface OperacaoService {
     OperacaoDTO save(OperacaoDTO operacaoDTO);
 
     /**
+     * Updates a operacao.
+     *
+     * @param operacaoDTO the entity to update.
+     * @return the persisted entity.
+     */
+    OperacaoDTO update(OperacaoDTO operacaoDTO);
+
+    /**
      * Partially updates a operacao.
      *
      * @param operacaoDTO the entity to update partially.

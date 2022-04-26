@@ -32,6 +32,12 @@ public class Amostra implements Serializable {
     private Instant dataHoraColeta;
 
     /**
+     * Observações que forem necessárias para melhorar\na identificação da origem amostra.
+     */
+    @Column(name = "descricao_de_origen")
+    private String descricaoDeOrigen;
+
+    /**
      * Observações que forem necessárias para melhorar\na identificação da amostra.
      */
     @Column(name = "observacao")
@@ -131,6 +137,19 @@ public class Amostra implements Serializable {
 
     public void setDataHoraColeta(Instant dataHoraColeta) {
         this.dataHoraColeta = dataHoraColeta;
+    }
+
+    public String getDescricaoDeOrigen() {
+        return this.descricaoDeOrigen;
+    }
+
+    public Amostra descricaoDeOrigen(String descricaoDeOrigen) {
+        this.setDescricaoDeOrigen(descricaoDeOrigen);
+        return this;
+    }
+
+    public void setDescricaoDeOrigen(String descricaoDeOrigen) {
+        this.descricaoDeOrigen = descricaoDeOrigen;
     }
 
     public String getObservacao() {
@@ -345,6 +364,7 @@ public class Amostra implements Serializable {
         return "Amostra{" +
             "id=" + getId() +
             ", dataHoraColeta='" + getDataHoraColeta() + "'" +
+            ", descricaoDeOrigen='" + getDescricaoDeOrigen() + "'" +
             ", observacao='" + getObservacao() + "'" +
             ", identificadorExterno='" + getIdentificadorExterno() + "'" +
             ", recebimentoNoLaboratorio='" + getRecebimentoNoLaboratorio() + "'" +

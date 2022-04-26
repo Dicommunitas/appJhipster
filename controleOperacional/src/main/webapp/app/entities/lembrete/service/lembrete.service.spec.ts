@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import dayjs from 'dayjs/esm';
 
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { ILembrete, Lembrete } from '../lembrete.model';
 
 import { LembreteService } from './lembrete.service';
@@ -10,6 +12,7 @@ describe('Lembrete Service', () => {
   let httpMock: HttpTestingController;
   let elemDefault: ILembrete;
   let expectedResult: ILembrete | ILembrete[] | boolean | null;
+  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,17 +21,28 @@ describe('Lembrete Service', () => {
     expectedResult = null;
     service = TestBed.inject(LembreteService);
     httpMock = TestBed.inject(HttpTestingController);
+    currentDate = dayjs();
 
     elemDefault = {
       id: 0,
       nome: 'AAAAAAA',
       descricao: 'AAAAAAA',
+      createdBy: 'AAAAAAA',
+      createdDate: currentDate,
+      lastModifiedBy: 'AAAAAAA',
+      lastModifiedDate: currentDate,
     };
   });
 
   describe('Service methods', () => {
     it('should find an element', () => {
-      const returnedFromService = Object.assign({}, elemDefault);
+      const returnedFromService = Object.assign(
+        {
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
+        },
+        elemDefault
+      );
 
       service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -41,11 +55,19 @@ describe('Lembrete Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign({}, returnedFromService);
+      const expected = Object.assign(
+        {
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
+        },
+        returnedFromService
+      );
 
       service.create(new Lembrete()).subscribe(resp => (expectedResult = resp.body));
 
@@ -60,11 +82,21 @@ describe('Lembrete Service', () => {
           id: 1,
           nome: 'BBBBBB',
           descricao: 'BBBBBB',
+          createdBy: 'BBBBBB',
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign({}, returnedFromService);
+      const expected = Object.assign(
+        {
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
+        },
+        returnedFromService
+      );
 
       service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -77,13 +109,21 @@ describe('Lembrete Service', () => {
       const patchObject = Object.assign(
         {
           nome: 'BBBBBB',
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         new Lembrete()
       );
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
-      const expected = Object.assign({}, returnedFromService);
+      const expected = Object.assign(
+        {
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
+        },
+        returnedFromService
+      );
 
       service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -98,11 +138,21 @@ describe('Lembrete Service', () => {
           id: 1,
           nome: 'BBBBBB',
           descricao: 'BBBBBB',
+          createdBy: 'BBBBBB',
+          createdDate: currentDate.format(DATE_TIME_FORMAT),
+          lastModifiedBy: 'BBBBBB',
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign({}, returnedFromService);
+      const expected = Object.assign(
+        {
+          createdDate: currentDate,
+          lastModifiedDate: currentDate,
+        },
+        returnedFromService
+      );
 
       service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -149,7 +199,7 @@ describe('Lembrete Service', () => {
       });
 
       it('should add only unique Lembrete to an array', () => {
-        const lembreteArray: ILembrete[] = [{ id: 123 }, { id: 456 }, { id: 23692 }];
+        const lembreteArray: ILembrete[] = [{ id: 123 }, { id: 456 }, { id: 6876 }];
         const lembreteCollection: ILembrete[] = [{ id: 123 }];
         expectedResult = service.addLembreteToCollectionIfMissing(lembreteCollection, ...lembreteArray);
         expect(expectedResult).toHaveLength(3);

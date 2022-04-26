@@ -37,7 +37,7 @@
         <dt><span jhiTranslate="controleOperacionalApp.finalidadeAmostra.amostra">Amostra</span></dt>
         <dd>
           <div *ngIf="finalidadeAmostra.amostra">
-            <a [routerLink]="['/amostra', finalidadeAmostra.amostra?.id, 'view']">{{ finalidadeAmostra.amostra?.dataHoraColeta }}</a>
+            <a [routerLink]="['/amostra', finalidadeAmostra.amostra?.id, 'view']">{{ finalidadeAmostra.amostra?.id }}</a>
           </div>
         </dd>
       </dl>

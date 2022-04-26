@@ -28,6 +28,12 @@ public class OrigemAmostra implements Serializable {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
+    /**
+     * Informa se a amostra deve ter uma\ndescricao de origem.
+     */
+    @Column(name = "obrigatoria_descricao")
+    private Boolean obrigatoriaDescricao;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -56,6 +62,19 @@ public class OrigemAmostra implements Serializable {
         this.descricao = descricao;
     }
 
+    public Boolean getObrigatoriaDescricao() {
+        return this.obrigatoriaDescricao;
+    }
+
+    public OrigemAmostra obrigatoriaDescricao(Boolean obrigatoriaDescricao) {
+        this.setObrigatoriaDescricao(obrigatoriaDescricao);
+        return this;
+    }
+
+    public void setObrigatoriaDescricao(Boolean obrigatoriaDescricao) {
+        this.obrigatoriaDescricao = obrigatoriaDescricao;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -81,6 +100,7 @@ public class OrigemAmostra implements Serializable {
         return "OrigemAmostra{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
+            ", obrigatoriaDescricao='" + getObrigatoriaDescricao() + "'" +
             "}";
     }
 }

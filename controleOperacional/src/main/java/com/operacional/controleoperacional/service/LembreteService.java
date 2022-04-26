@@ -19,6 +19,14 @@ public interface LembreteService {
     LembreteDTO save(LembreteDTO lembreteDTO);
 
     /**
+     * Updates a lembrete.
+     *
+     * @param lembreteDTO the entity to update.
+     * @return the persisted entity.
+     */
+    LembreteDTO update(LembreteDTO lembreteDTO);
+
+    /**
      * Partially updates a lembrete.
      *
      * @param lembreteDTO the entity to update partially.

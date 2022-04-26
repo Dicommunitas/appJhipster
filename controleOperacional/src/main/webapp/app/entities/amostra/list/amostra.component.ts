@@ -68,7 +68,7 @@ export class AmostraComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IAmostra): number {
+  trackId(_index: number, item: IAmostra): number {
     return item.id!;
   }
 

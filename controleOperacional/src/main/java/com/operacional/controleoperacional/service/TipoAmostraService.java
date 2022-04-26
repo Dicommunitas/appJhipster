@@ -17,6 +17,14 @@ public interface TipoAmostraService {
     TipoAmostraDTO save(TipoAmostraDTO tipoAmostraDTO);
 
     /**
+     * Updates a tipoAmostra.
+     *
+     * @param tipoAmostraDTO the entity to update.
+     * @return the persisted entity.
+     */
+    TipoAmostraDTO update(TipoAmostraDTO tipoAmostraDTO);
+
+    /**
      * Partially updates a tipoAmostra.
      *
      * @param tipoAmostraDTO the entity to update partially.

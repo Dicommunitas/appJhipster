@@ -34,6 +34,7 @@ export class AmostraUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     dataHoraColeta: [],
+    descricaoDeOrigen: [],
     observacao: [],
     identificadorExterno: [],
     recebimentoNoLaboratorio: [],
@@ -127,6 +128,7 @@ export class AmostraUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: amostra.id,
       dataHoraColeta: amostra.dataHoraColeta ? amostra.dataHoraColeta.format(DATE_TIME_FORMAT) : null,
+      descricaoDeOrigen: amostra.descricaoDeOrigen,
       observacao: amostra.observacao,
       identificadorExterno: amostra.identificadorExterno,
       recebimentoNoLaboratorio: amostra.recebimentoNoLaboratorio ? amostra.recebimentoNoLaboratorio.format(DATE_TIME_FORMAT) : null,
@@ -213,6 +215,7 @@ export class AmostraUpdateComponent implements OnInit {
       dataHoraColeta: this.editForm.get(['dataHoraColeta'])!.value
         ? dayjs(this.editForm.get(['dataHoraColeta'])!.value, DATE_TIME_FORMAT)
         : undefined,
+      descricaoDeOrigen: this.editForm.get(['descricaoDeOrigen'])!.value,
       observacao: this.editForm.get(['observacao'])!.value,
       identificadorExterno: this.editForm.get(['identificadorExterno'])!.value,
       recebimentoNoLaboratorio: this.editForm.get(['recebimentoNoLaboratorio'])!.value

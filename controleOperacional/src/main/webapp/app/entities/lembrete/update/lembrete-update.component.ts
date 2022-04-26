@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import dayjs from 'dayjs/esm';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { ILembrete, Lembrete } from '../lembrete.model';
 import { LembreteService } from '../service/lembrete.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -29,6 +32,10 @@ export class LembreteUpdateComponent implements OnInit {
     id: [],
     nome: [null, [Validators.required]],
     descricao: [null, [Validators.required]],
+    createdBy: [null, [Validators.maxLength(50)]],
+    createdDate: [],
+    lastModifiedBy: [null, [Validators.maxLength(50)]],
+    lastModifiedDate: [],
     tipoRelatorio: [],
     tipoOperacao: [],
   });
@@ -45,6 +52,12 @@ export class LembreteUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ lembrete }) => {
+      if (lembrete.id === undefined) {
+        const today = dayjs().startOf('day');
+        lembrete.createdDate = today;
+        lembrete.lastModifiedDate = today;
+      }
+
       this.updateForm(lembrete);
 
       this.loadRelationshipsOptions();
@@ -82,11 +95,11 @@ export class LembreteUpdateComponent implements OnInit {
     }
   }
 
-  trackTipoRelatorioById(index: number, item: ITipoRelatorio): number {
+  trackTipoRelatorioById(_index: number, item: ITipoRelatorio): number {
     return item.id!;
   }
 
-  trackTipoOperacaoById(index: number, item: ITipoOperacao): number {
+  trackTipoOperacaoById(_index: number, item: ITipoOperacao): number {
     return item.id!;
   }
 
@@ -114,6 +127,10 @@ export class LembreteUpdateComponent implements OnInit {
       id: lembrete.id,
       nome: lembrete.nome,
       descricao: lembrete.descricao,
+      createdBy: lembrete.createdBy,
+      createdDate: lembrete.createdDate ? lembrete.createdDate.format(DATE_TIME_FORMAT) : null,
+      lastModifiedBy: lembrete.lastModifiedBy,
+      lastModifiedDate: lembrete.lastModifiedDate ? lembrete.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       tipoRelatorio: lembrete.tipoRelatorio,
       tipoOperacao: lembrete.tipoOperacao,
     });
@@ -156,6 +173,14 @@ export class LembreteUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       nome: this.editForm.get(['nome'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
+      createdBy: this.editForm.get(['createdBy'])!.value,
+      createdDate: this.editForm.get(['createdDate'])!.value
+        ? dayjs(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
+        ? dayjs(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       tipoRelatorio: this.editForm.get(['tipoRelatorio'])!.value,
       tipoOperacao: this.editForm.get(['tipoOperacao'])!.value,
     };

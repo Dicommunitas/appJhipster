@@ -7,11 +7,5 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link TipoFinalidadeAmostra} and its DTO {@link TipoFinalidadeAmostraDTO}.
  */
-@Mapper(componentModel = "spring", uses = {})
-public interface TipoFinalidadeAmostraMapper extends EntityMapper<TipoFinalidadeAmostraDTO, TipoFinalidadeAmostra> {
-    @Named("descricao")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "descricao", source = "descricao")
-    TipoFinalidadeAmostraDTO toDtoDescricao(TipoFinalidadeAmostra tipoFinalidadeAmostra);
-}
+@Mapper(componentModel = "spring")
+public interface TipoFinalidadeAmostraMapper extends EntityMapper<TipoFinalidadeAmostraDTO, TipoFinalidadeAmostra> {}

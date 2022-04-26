@@ -18,6 +18,14 @@ public interface AmostraService {
     AmostraDTO save(AmostraDTO amostraDTO);
 
     /**
+     * Updates a amostra.
+     *
+     * @param amostraDTO the entity to update.
+     * @return the persisted entity.
+     */
+    AmostraDTO update(AmostraDTO amostraDTO);
+
+    /**
      * Partially updates a amostra.
      *
      * @param amostraDTO the entity to update partially.

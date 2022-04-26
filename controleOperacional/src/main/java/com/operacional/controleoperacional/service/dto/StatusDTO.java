@@ -2,6 +2,7 @@ package com.operacional.controleoperacional.service.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Lob;
@@ -41,6 +42,13 @@ public class StatusDTO implements Serializable {
     @Schema(description = "Indica em que data o status foi resolvido.")
     private LocalDate dataResolucao;
 
+    private Instant createdDate;
+
+    @Size(max = 50)
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
+
     private UserDTO relator;
 
     private UserDTO responsavel;
@@ -77,6 +85,30 @@ public class StatusDTO implements Serializable {
 
     public void setDataResolucao(LocalDate dataResolucao) {
         this.dataResolucao = dataResolucao;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public UserDTO getRelator() {
@@ -132,6 +164,9 @@ public class StatusDTO implements Serializable {
             ", descricao='" + getDescricao() + "'" +
             ", prazo='" + getPrazo() + "'" +
             ", dataResolucao='" + getDataResolucao() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", relator=" + getRelator() +
             ", responsavel=" + getResponsavel() +
             ", problema=" + getProblema() +

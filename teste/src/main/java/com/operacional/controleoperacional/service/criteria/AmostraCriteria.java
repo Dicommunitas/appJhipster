@@ -31,6 +31,8 @@ public class AmostraCriteria implements Serializable, Criteria {
 
     private InstantFilter dataHoraColeta;
 
+    private StringFilter descricaoDeOrigen;
+
     private StringFilter observacao;
 
     private StringFilter identificadorExterno;
@@ -64,6 +66,7 @@ public class AmostraCriteria implements Serializable, Criteria {
     public AmostraCriteria(AmostraCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.dataHoraColeta = other.dataHoraColeta == null ? null : other.dataHoraColeta.copy();
+        this.descricaoDeOrigen = other.descricaoDeOrigen == null ? null : other.descricaoDeOrigen.copy();
         this.observacao = other.observacao == null ? null : other.observacao.copy();
         this.identificadorExterno = other.identificadorExterno == null ? null : other.identificadorExterno.copy();
         this.recebimentoNoLaboratorio = other.recebimentoNoLaboratorio == null ? null : other.recebimentoNoLaboratorio.copy();
@@ -113,6 +116,21 @@ public class AmostraCriteria implements Serializable, Criteria {
 
     public void setDataHoraColeta(InstantFilter dataHoraColeta) {
         this.dataHoraColeta = dataHoraColeta;
+    }
+
+    public StringFilter getDescricaoDeOrigen() {
+        return descricaoDeOrigen;
+    }
+
+    public StringFilter descricaoDeOrigen() {
+        if (descricaoDeOrigen == null) {
+            descricaoDeOrigen = new StringFilter();
+        }
+        return descricaoDeOrigen;
+    }
+
+    public void setDescricaoDeOrigen(StringFilter descricaoDeOrigen) {
+        this.descricaoDeOrigen = descricaoDeOrigen;
     }
 
     public StringFilter getObservacao() {
@@ -330,6 +348,7 @@ public class AmostraCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(dataHoraColeta, that.dataHoraColeta) &&
+            Objects.equals(descricaoDeOrigen, that.descricaoDeOrigen) &&
             Objects.equals(observacao, that.observacao) &&
             Objects.equals(identificadorExterno, that.identificadorExterno) &&
             Objects.equals(recebimentoNoLaboratorio, that.recebimentoNoLaboratorio) &&
@@ -352,6 +371,7 @@ public class AmostraCriteria implements Serializable, Criteria {
         return Objects.hash(
             id,
             dataHoraColeta,
+            descricaoDeOrigen,
             observacao,
             identificadorExterno,
             recebimentoNoLaboratorio,
@@ -375,6 +395,7 @@ public class AmostraCriteria implements Serializable, Criteria {
         return "AmostraCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (dataHoraColeta != null ? "dataHoraColeta=" + dataHoraColeta + ", " : "") +
+            (descricaoDeOrigen != null ? "descricaoDeOrigen=" + descricaoDeOrigen + ", " : "") +
             (observacao != null ? "observacao=" + observacao + ", " : "") +
             (identificadorExterno != null ? "identificadorExterno=" + identificadorExterno + ", " : "") +
             (recebimentoNoLaboratorio != null ? "recebimentoNoLaboratorio=" + recebimentoNoLaboratorio + ", " : "") +

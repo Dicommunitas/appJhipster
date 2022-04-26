@@ -8,6 +8,7 @@ import { IUser } from 'app/entities/user/user.model';
 export interface IAmostra {
   id?: number;
   dataHoraColeta?: dayjs.Dayjs | null;
+  descricaoDeOrigen?: string | null;
   observacao?: string | null;
   identificadorExterno?: string | null;
   recebimentoNoLaboratorio?: dayjs.Dayjs | null;
@@ -27,6 +28,7 @@ export class Amostra implements IAmostra {
   constructor(
     public id?: number,
     public dataHoraColeta?: dayjs.Dayjs | null,
+    public descricaoDeOrigen?: string | null,
     public observacao?: string | null,
     public identificadorExterno?: string | null,
     public recebimentoNoLaboratorio?: dayjs.Dayjs | null,

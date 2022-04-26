@@ -19,7 +19,7 @@ public class ProdutoDTO implements Serializable {
      * O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ
      */
     @NotNull
-    @Size(max = 3)
+    @Size(min = 3, max = 3)
     @Schema(description = "O código deve ter máximo 3 aracteres.\nDeve ser igual ao do BDEMQ", required = true)
     private String codigoBDEMQ;
 

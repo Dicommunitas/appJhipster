@@ -103,7 +103,7 @@ public class RelatorioResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        RelatorioDTO result = relatorioService.save(relatorioDTO);
+        RelatorioDTO result = relatorioService.update(relatorioDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, relatorioDTO.getId().toString()))

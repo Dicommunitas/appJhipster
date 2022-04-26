@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220307002158",
+  "changelogDate": "20220414100235",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "operacao",
@@ -30,13 +30,32 @@
     {
       "fieldName": "quantidadeAmostras",
       "fieldType": "Integer",
-      "fieldValidateRules": ["required"],
       "javadoc": "Quantas amostras devem ter nessa operação."
     },
     {
       "fieldName": "observacao",
       "fieldType": "String",
       "javadoc": "Observações que forem necessárias para melhorar\\na descrição dos acontecimentos relativos da operação."
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
     }
   ],
   "fluentMethods": true,
@@ -46,6 +65,15 @@
   "pagination": "infinite-scroll",
   "readOnly": false,
   "relationships": [
+    {
+      "javadoc": "Define qual o produto da amostra",
+      "otherEntityField": "nomeCurto",
+      "otherEntityName": "produto",
+      "otherEntityRelationshipName": "operacao",
+      "relationshipName": "produto",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
     {
       "javadoc": "Define de que tipo é a operação\\n(Barcaça - Carga, Caminhão - Descarga...)",
       "otherEntityField": "descricao",

@@ -72,6 +72,28 @@
         <dd>
           <span>{{ operacao.observacao }}</span>
         </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.createdBy">Created By</span></dt>
+        <dd>
+          <span>{{ operacao.createdBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.createdDate">Created Date</span></dt>
+        <dd>
+          <span>{{ operacao.createdDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ operacao.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>
+          <span>{{ operacao.lastModifiedDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleOperacionalApp.operacao.produto">Produto</span></dt>
+        <dd>
+          <div *ngIf="operacao.produto">
+            <a [routerLink]="['/produto', operacao.produto?.id, 'view']">{{ operacao.produto?.nomeCurto }}</a>
+          </div>
+        </dd>
         <dt><span jhiTranslate="controleOperacionalApp.operacao.tipoOperacao">Tipo Operacao</span></dt>
         <dd>
           <div *ngIf="operacao.tipoOperacao">

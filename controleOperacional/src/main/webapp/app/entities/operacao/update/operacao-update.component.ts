@@ -10,6 +10,8 @@ import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 import { IOperacao, Operacao } from '../operacao.model';
 import { OperacaoService } from '../service/operacao.service';
+import { IProduto } from 'app/entities/produto/produto.model';
+import { ProdutoService } from 'app/entities/produto/service/produto.service';
 import { ITipoOperacao } from 'app/entities/tipo-operacao/tipo-operacao.model';
 import { TipoOperacaoService } from 'app/entities/tipo-operacao/service/tipo-operacao.service';
 
@@ -20,6 +22,7 @@ import { TipoOperacaoService } from 'app/entities/tipo-operacao/service/tipo-ope
 export class OperacaoUpdateComponent implements OnInit {
   isSaving = false;
 
+  produtosSharedCollection: IProduto[] = [];
   tipoOperacaosSharedCollection: ITipoOperacao[] = [];
 
   editForm = this.fb.group({
@@ -28,13 +31,19 @@ export class OperacaoUpdateComponent implements OnInit {
     volumePeso: [null, [Validators.required]],
     inicio: [],
     fim: [],
-    quantidadeAmostras: [null, [Validators.required]],
+    quantidadeAmostras: [],
     observacao: [],
+    createdBy: [null, [Validators.maxLength(50)]],
+    createdDate: [],
+    lastModifiedBy: [null, [Validators.maxLength(50)]],
+    lastModifiedDate: [],
+    produto: [null, Validators.required],
     tipoOperacao: [null, Validators.required],
   });
 
   constructor(
     protected operacaoService: OperacaoService,
+    protected produtoService: ProdutoService,
     protected tipoOperacaoService: TipoOperacaoService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
@@ -46,6 +55,8 @@ export class OperacaoUpdateComponent implements OnInit {
         const today = dayjs().startOf('day');
         operacao.inicio = today;
         operacao.fim = today;
+        operacao.createdDate = today;
+        operacao.lastModifiedDate = today;
       }
 
       this.updateForm(operacao);
@@ -68,7 +79,11 @@ export class OperacaoUpdateComponent implements OnInit {
     }
   }
 
-  trackTipoOperacaoById(index: number, item: ITipoOperacao): number {
+  trackProdutoById(_index: number, item: IProduto): number {
+    return item.id!;
+  }
+
+  trackTipoOperacaoById(_index: number, item: ITipoOperacao): number {
     return item.id!;
   }
 
@@ -100,9 +115,15 @@ export class OperacaoUpdateComponent implements OnInit {
       fim: operacao.fim ? operacao.fim.format(DATE_TIME_FORMAT) : null,
       quantidadeAmostras: operacao.quantidadeAmostras,
       observacao: operacao.observacao,
+      createdBy: operacao.createdBy,
+      createdDate: operacao.createdDate ? operacao.createdDate.format(DATE_TIME_FORMAT) : null,
+      lastModifiedBy: operacao.lastModifiedBy,
+      lastModifiedDate: operacao.lastModifiedDate ? operacao.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
+      produto: operacao.produto,
       tipoOperacao: operacao.tipoOperacao,
     });
 
+    this.produtosSharedCollection = this.produtoService.addProdutoToCollectionIfMissing(this.produtosSharedCollection, operacao.produto);
     this.tipoOperacaosSharedCollection = this.tipoOperacaoService.addTipoOperacaoToCollectionIfMissing(
       this.tipoOperacaosSharedCollection,
       operacao.tipoOperacao
@@ -110,6 +131,14 @@ export class OperacaoUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
+    this.produtoService
+      .query()
+      .pipe(map((res: HttpResponse<IProduto[]>) => res.body ?? []))
+      .pipe(
+        map((produtos: IProduto[]) => this.produtoService.addProdutoToCollectionIfMissing(produtos, this.editForm.get('produto')!.value))
+      )
+      .subscribe((produtos: IProduto[]) => (this.produtosSharedCollection = produtos));
+
     this.tipoOperacaoService
       .query()
       .pipe(map((res: HttpResponse<ITipoOperacao[]>) => res.body ?? []))
@@ -131,6 +160,15 @@ export class OperacaoUpdateComponent implements OnInit {
       fim: this.editForm.get(['fim'])!.value ? dayjs(this.editForm.get(['fim'])!.value, DATE_TIME_FORMAT) : undefined,
       quantidadeAmostras: this.editForm.get(['quantidadeAmostras'])!.value,
       observacao: this.editForm.get(['observacao'])!.value,
+      createdBy: this.editForm.get(['createdBy'])!.value,
+      createdDate: this.editForm.get(['createdDate'])!.value
+        ? dayjs(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
+        ? dayjs(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      produto: this.editForm.get(['produto'])!.value,
       tipoOperacao: this.editForm.get(['tipoOperacao'])!.value,
     };
   }

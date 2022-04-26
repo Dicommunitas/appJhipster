@@ -103,7 +103,7 @@ public class ProblemaResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        ProblemaDTO result = problemaService.save(problemaDTO);
+        ProblemaDTO result = problemaService.update(problemaDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, problemaDTO.getId().toString()))

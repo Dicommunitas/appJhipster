@@ -74,7 +74,7 @@ export class RelatorioComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IRelatorio): number {
+  trackId(_index: number, item: IRelatorio): number {
     return item.id!;
   }
 

@@ -40,6 +40,14 @@ public class AmostraServiceImpl implements AmostraService {
     }
 
     @Override
+    public AmostraDTO update(AmostraDTO amostraDTO) {
+        log.debug("Request to save Amostra : {}", amostraDTO);
+        Amostra amostra = amostraMapper.toEntity(amostraDTO);
+        amostra = amostraRepository.save(amostra);
+        return amostraMapper.toDto(amostra);
+    }
+
+    @Override
     public Optional<AmostraDTO> partialUpdate(AmostraDTO amostraDTO) {
         log.debug("Request to partially update Amostra : {}", amostraDTO);
 

@@ -1,11 +1,12 @@
 package com.operacional.controleoperacional.repository;
 
 import com.operacional.controleoperacional.domain.TipoRelatorio;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.annotations.QueryHints;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -14,7 +15,7 @@ import org.springframework.data.domain.PageImpl;
  */
 public class TipoRelatorioRepositoryWithBagRelationshipsImpl implements TipoRelatorioRepositoryWithBagRelationships {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
@@ -33,7 +34,7 @@ public class TipoRelatorioRepositoryWithBagRelationshipsImpl implements TipoRela
 
     @Override
     public List<TipoRelatorio> fetchBagRelationships(List<TipoRelatorio> tipoRelatorios) {
-        return Optional.of(tipoRelatorios).map(this::fetchUsuariosAuts).get();
+        return Optional.of(tipoRelatorios).map(this::fetchUsuariosAuts).orElse(Collections.emptyList());
     }
 
     TipoRelatorio fetchUsuariosAuts(TipoRelatorio result) {
