@@ -826,4 +826,3 @@ relationship ManyToMany {
 // SELECT * FROM nome-da-tabela;
 // DROP DATABASE nome-do-banco;
 // DROP DATABASE controleOperacional;
-
