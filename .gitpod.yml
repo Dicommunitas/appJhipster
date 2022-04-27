@@ -3,8 +3,34 @@
 #  file: .gitpod.dockerfile
 
 tasks:
-# comando para instalar as dependências
+# comando para instalar as dependências:
+
+# Instalando o Java:
+# sudo apt update
+# sudo apt install default-jre
+# java -version 
+# deve retornar:
+# openjdk version "11.0.15" 2022-04-19
+
+# Instalando o Docker e Docker Compose:
+# sudo apt update
+# sudo apt install apt-transport-https ca-certificates curl software-properties-common
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+# sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+# sudo apt update
+# sudo apt install docker-ce
+# sudo chmod 666 /var/run/docker.sock
+# sudo usermod -aG docker ${USER}
+# sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# sudo chmod +x /usr/local/bin/docker-compose
+
+# Instalando o jHipster (não obrigatório para rodar o projeto, apenas necessário para criar alterações usando o jHipster):
+# sudo apt update
+# curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+# source ~/.profile
 - init: nvm install v16.14.2 && nvm use v16.14.2 && npm -v && npm install -g npm@8.6.0 && npm -v && npm install -g generator-jhipster
+
+
 #- name: Passing environment variable
 #  env:
 #    _JAVA_OPTIONS: "-Xmx512m -Xms256m"
