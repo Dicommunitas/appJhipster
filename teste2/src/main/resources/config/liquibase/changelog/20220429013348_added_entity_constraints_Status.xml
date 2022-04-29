@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Status.
     -->
-    <changeSet id="20220428232849-2" author="jhipster">
+    <changeSet id="20220429013348-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="relator_id"
                                  baseTableName="status"

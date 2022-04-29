@@ -212,9 +212,9 @@ describe('Operacao e2e test', () => {
 
       cy.get(`[data-cy="volumePeso"]`).type('14105').should('have.value', '14105');
 
-      cy.get(`[data-cy="inicio"]`).type('2022-04-28T13:46').should('have.value', '2022-04-28T13:46');
+      cy.get(`[data-cy="inicio"]`).type('2022-04-28T15:51').should('have.value', '2022-04-28T15:51');
 
-      cy.get(`[data-cy="fim"]`).type('2022-04-28T15:07').should('have.value', '2022-04-28T15:07');
+      cy.get(`[data-cy="fim"]`).type('2022-04-28T17:12').should('have.value', '2022-04-28T17:12');
 
       cy.get(`[data-cy="quantidadeAmostras"]`).type('60880').should('have.value', '60880');
 
@@ -222,11 +222,11 @@ describe('Operacao e2e test', () => {
 
       cy.get(`[data-cy="createdBy"]`).type('set').should('have.value', 'set');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-28T23:24').should('have.value', '2022-04-28T23:24');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-29T01:29').should('have.value', '2022-04-29T01:29');
 
       cy.get(`[data-cy="lastModifiedBy"]`).type('e-commerce program').should('have.value', 'e-commerce program');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-28T23:30').should('have.value', '2022-04-28T23:30');
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-29T01:35').should('have.value', '2022-04-29T01:35');
 
       cy.get(`[data-cy="produto"]`).select(1);
       cy.get(`[data-cy="tipoOperacao"]`).select(1);

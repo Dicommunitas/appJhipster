@@ -33,7 +33,7 @@ describe('Amostra e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/operacaos',
-      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-04-28T00:05:03.755Z","fim":"2022-04-28T13:00:26.791Z","quantidadeAmostras":73104,"observacao":"payment TCP","createdBy":"Forward Computador envisioneer","createdDate":"2022-04-28T06:38:40.240Z","lastModifiedBy":"applications","lastModifiedDate":"2022-04-28T08:45:15.708Z"},
+      body: {"descricao":"Orchestrator","volumePeso":32077,"inicio":"2022-04-28T02:10:02.755Z","fim":"2022-04-28T15:05:25.791Z","quantidadeAmostras":73104,"observacao":"payment TCP","createdBy":"Forward Computador envisioneer","createdDate":"2022-04-28T08:43:39.240Z","lastModifiedBy":"applications","lastModifiedDate":"2022-04-28T10:50:14.708Z"},
     }).then(({ body }) => {
       operacao = body;
     });
@@ -260,7 +260,7 @@ describe('Amostra e2e test', () => {
     });
 
     it.skip('should create an instance of Amostra', () => {
-      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-04-28T11:31').should('have.value', '2022-04-28T11:31');
+      cy.get(`[data-cy="dataHoraColeta"]`).type('2022-04-28T13:36').should('have.value', '2022-04-28T13:36');
 
       cy.get(`[data-cy="descricaoDeOrigem"]`).type('Filipinas').should('have.value', 'Filipinas');
 
@@ -268,15 +268,15 @@ describe('Amostra e2e test', () => {
 
       cy.get(`[data-cy="identificadorExterno"]`).type('Industrial Teclado').should('have.value', 'Industrial Teclado');
 
-      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-04-28T13:54').should('have.value', '2022-04-28T13:54');
+      cy.get(`[data-cy="recebimentoNoLaboratorio"]`).type('2022-04-28T15:59').should('have.value', '2022-04-28T15:59');
 
       cy.get(`[data-cy="createdBy"]`).type('Travessa').should('have.value', 'Travessa');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-28T07:19').should('have.value', '2022-04-28T07:19');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-28T09:24').should('have.value', '2022-04-28T09:24');
 
       cy.get(`[data-cy="lastModifiedBy"]`).type('Borracha Supervisor').should('have.value', 'Borracha Supervisor');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-28T23:23').should('have.value', '2022-04-28T23:23');
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-29T01:28').should('have.value', '2022-04-29T01:28');
 
       cy.get(`[data-cy="operacao"]`).select(1);
       cy.get(`[data-cy="origemAmostra"]`).select(1);

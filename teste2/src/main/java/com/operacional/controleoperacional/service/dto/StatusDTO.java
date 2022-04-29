@@ -42,6 +42,9 @@ public class StatusDTO implements Serializable {
     @Schema(description = "Indica em que data o status foi resolvido.")
     private LocalDate dataResolucao;
 
+    @Size(max = 50)
+    private String createdBy;
+
     private Instant createdDate;
 
     @Size(max = 50)
@@ -85,6 +88,14 @@ public class StatusDTO implements Serializable {
 
     public void setDataResolucao(LocalDate dataResolucao) {
         this.dataResolucao = dataResolucao;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Instant getCreatedDate() {
@@ -164,6 +175,7 @@ public class StatusDTO implements Serializable {
             ", descricao='" + getDescricao() + "'" +
             ", prazo='" + getPrazo() + "'" +
             ", dataResolucao='" + getDataResolucao() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
             ", lastModifiedDate='" + getLastModifiedDate() + "'" +

@@ -1,6 +1,6 @@
 {
   "applications": ["controleOperacional"],
-  "changelogDate": "20220428232849",
+  "changelogDate": "20220429013348",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "status",
@@ -22,6 +22,12 @@
       "fieldName": "dataResolucao",
       "fieldType": "LocalDate",
       "javadoc": "Indica em que data o status foi resolvido."
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
     },
     {
       "fieldName": "createdDate",

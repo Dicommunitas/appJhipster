@@ -229,7 +229,7 @@ entity Status {
     // lastModifiedBy, lastModifiedDate) utilizando
     // erança da classe "AbstractAuditingEntity"
     // da mesma forma que a classe "User" gerada pelo sistema
-    //createdBy String maxlength(50)
+    createdBy String maxlength(50)
     createdDate Instant 
     lastModifiedBy String maxlength(50)
     lastModifiedDate Instant

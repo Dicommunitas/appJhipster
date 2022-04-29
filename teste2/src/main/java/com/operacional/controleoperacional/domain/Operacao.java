@@ -1,7 +1,7 @@
 package com.operacional.controleoperacional.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
+
 import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -14,7 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "operacao")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Operacao implements Serializable {
+public class Operacao extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
 
@@ -60,20 +60,6 @@ public class Operacao implements Serializable {
      */
     @Column(name = "observacao")
     private String observacao;
-
-    @Size(max = 50)
-    @Column(name = "created_by", length = 50)
-    private String createdBy;
-
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Size(max = 50)
-    @Column(name = "last_modified_by", length = 50)
-    private String lastModifiedBy;
-
-    @Column(name = "last_modified_date")
-    private Instant lastModifiedDate;
 
     /**
      * Define qual o produto da amostra
@@ -181,58 +167,6 @@ public class Operacao implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
-    }
-
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
-
-    public Operacao createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return this.createdDate;
-    }
-
-    public Operacao createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return this.lastModifiedBy;
-    }
-
-    public Operacao lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return this.lastModifiedDate;
-    }
-
-    public Operacao lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Produto getProduto() {

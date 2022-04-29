@@ -234,11 +234,13 @@ describe('Status e2e test', () => {
 
       cy.get(`[data-cy="dataResolucao"]`).type('2022-04-28').should('have.value', '2022-04-28');
 
-      cy.get(`[data-cy="createdDate"]`).type('2022-04-28T15:36').should('have.value', '2022-04-28T15:36');
+      cy.get(`[data-cy="createdBy"]`).type('Congelado').should('have.value', 'Congelado');
 
-      cy.get(`[data-cy="lastModifiedBy"]`).type('Solutions').should('have.value', 'Solutions');
+      cy.get(`[data-cy="createdDate"]`).type('2022-04-28T22:51').should('have.value', '2022-04-28T22:51');
 
-      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-28T12:54').should('have.value', '2022-04-28T12:54');
+      cy.get(`[data-cy="lastModifiedBy"]`).type('caramelo parsing').should('have.value', 'caramelo parsing');
+
+      cy.get(`[data-cy="lastModifiedDate"]`).type('2022-04-28T04:28').should('have.value', '2022-04-28T04:28');
 
       cy.get(`[data-cy="relator"]`).select(1);
       cy.get(`[data-cy="responsavel"]`).select(1);

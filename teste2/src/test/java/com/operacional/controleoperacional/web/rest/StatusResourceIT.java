@@ -56,6 +56,9 @@ class StatusResourceIT {
     private static final LocalDate DEFAULT_DATA_RESOLUCAO = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATA_RESOLUCAO = LocalDate.now(ZoneId.systemDefault());
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
     private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -175,6 +178,7 @@ class StatusResourceIT {
         assertThat(testStatus.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(DEFAULT_PRAZO);
         assertThat(testStatus.getDataResolucao()).isEqualTo(DEFAULT_DATA_RESOLUCAO);
+        assertThat(testStatus.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testStatus.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testStatus.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
         assertThat(testStatus.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
@@ -232,6 +236,7 @@ class StatusResourceIT {
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].prazo").value(hasItem(DEFAULT_PRAZO.toString())))
             .andExpect(jsonPath("$.[*].dataResolucao").value(hasItem(DEFAULT_DATA_RESOLUCAO.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
@@ -270,6 +275,7 @@ class StatusResourceIT {
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
             .andExpect(jsonPath("$.prazo").value(DEFAULT_PRAZO.toString()))
             .andExpect(jsonPath("$.dataResolucao").value(DEFAULT_DATA_RESOLUCAO.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
             .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()));
@@ -315,6 +321,7 @@ class StatusResourceIT {
         assertThat(testStatus.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(UPDATED_PRAZO);
         assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
+        assertThat(testStatus.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testStatus.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testStatus.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
         assertThat(testStatus.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
@@ -414,9 +421,10 @@ class StatusResourceIT {
         assertThat(testStatus.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(DEFAULT_PRAZO);
         assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
+        assertThat(testStatus.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testStatus.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
-        assertThat(testStatus.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
-        assertThat(testStatus.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
+        assertThat(testStatus.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testStatus.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -451,6 +459,7 @@ class StatusResourceIT {
         assertThat(testStatus.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testStatus.getPrazo()).isEqualTo(UPDATED_PRAZO);
         assertThat(testStatus.getDataResolucao()).isEqualTo(UPDATED_DATA_RESOLUCAO);
+        assertThat(testStatus.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testStatus.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testStatus.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
         assertThat(testStatus.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);

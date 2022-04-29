@@ -209,7 +209,7 @@ describe('Problema e2e test', () => {
     });
 
     it.skip('should create an instance of Problema', () => {
-      cy.get(`[data-cy="dataVerificacao"]`).type('2022-04-28').should('have.value', '2022-04-28');
+      cy.get(`[data-cy="dataVerificacao"]`).type('2022-04-29').should('have.value', '2022-04-29');
 
       cy.get(`[data-cy="descricao"]`).type('invoice monitor Loan').should('have.value', 'invoice monitor Loan');
 

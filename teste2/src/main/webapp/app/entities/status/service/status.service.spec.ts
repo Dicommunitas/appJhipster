@@ -28,6 +28,7 @@ describe('Status Service', () => {
       descricao: 'AAAAAAA',
       prazo: currentDate,
       dataResolucao: currentDate,
+      createdBy: 'AAAAAAA',
       createdDate: currentDate,
       lastModifiedBy: 'AAAAAAA',
       lastModifiedDate: currentDate,
@@ -89,6 +90,7 @@ describe('Status Service', () => {
           descricao: 'BBBBBB',
           prazo: currentDate.format(DATE_FORMAT),
           dataResolucao: currentDate.format(DATE_FORMAT),
+          createdBy: 'BBBBBB',
           createdDate: currentDate.format(DATE_TIME_FORMAT),
           lastModifiedBy: 'BBBBBB',
           lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
@@ -119,6 +121,7 @@ describe('Status Service', () => {
           descricao: 'BBBBBB',
           prazo: currentDate.format(DATE_FORMAT),
           dataResolucao: currentDate.format(DATE_FORMAT),
+          lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
         },
         new Status()
       );
@@ -149,6 +152,7 @@ describe('Status Service', () => {
           descricao: 'BBBBBB',
           prazo: currentDate.format(DATE_FORMAT),
           dataResolucao: currentDate.format(DATE_FORMAT),
+          createdBy: 'BBBBBB',
           createdDate: currentDate.format(DATE_TIME_FORMAT),
           lastModifiedBy: 'BBBBBB',
           lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
@@ -211,7 +215,7 @@ describe('Status Service', () => {
       });
 
       it('should add only unique Status to an array', () => {
-        const statusArray: IStatus[] = [{ id: 123 }, { id: 456 }, { id: 66528 }];
+        const statusArray: IStatus[] = [{ id: 123 }, { id: 456 }, { id: 83507 }];
         const statusCollection: IStatus[] = [{ id: 123 }];
         expectedResult = service.addStatusToCollectionIfMissing(statusCollection, ...statusArray);
         expect(expectedResult).toHaveLength(3);

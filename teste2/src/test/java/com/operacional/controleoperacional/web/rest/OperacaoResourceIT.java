@@ -116,11 +116,7 @@ class OperacaoResourceIT {
             .inicio(DEFAULT_INICIO)
             .fim(DEFAULT_FIM)
             .quantidadeAmostras(DEFAULT_QUANTIDADE_AMOSTRAS)
-            .observacao(DEFAULT_OBSERVACAO)
-            .createdBy(DEFAULT_CREATED_BY)
-            .createdDate(DEFAULT_CREATED_DATE)
-            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
-            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
+            .observacao(DEFAULT_OBSERVACAO);
         // Add required entity
         Produto produto;
         if (TestUtil.findAll(em, Produto.class).isEmpty()) {
@@ -157,11 +153,7 @@ class OperacaoResourceIT {
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
-            .observacao(UPDATED_OBSERVACAO)
-            .createdBy(UPDATED_CREATED_BY)
-            .createdDate(UPDATED_CREATED_DATE)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            .observacao(UPDATED_OBSERVACAO);
         // Add required entity
         Produto produto;
         if (TestUtil.findAll(em, Produto.class).isEmpty()) {
@@ -1207,11 +1199,7 @@ class OperacaoResourceIT {
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
-            .observacao(UPDATED_OBSERVACAO)
-            .createdBy(UPDATED_CREATED_BY)
-            .createdDate(UPDATED_CREATED_DATE)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            .observacao(UPDATED_OBSERVACAO);
         OperacaoDTO operacaoDTO = operacaoMapper.toDto(updatedOperacao);
 
         restOperacaoMockMvc
@@ -1315,7 +1303,7 @@ class OperacaoResourceIT {
         Operacao partialUpdatedOperacao = new Operacao();
         partialUpdatedOperacao.setId(operacao.getId());
 
-        partialUpdatedOperacao.descricao(UPDATED_DESCRICAO).fim(UPDATED_FIM).lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+        partialUpdatedOperacao.descricao(UPDATED_DESCRICAO).fim(UPDATED_FIM);
 
         restOperacaoMockMvc
             .perform(
@@ -1359,11 +1347,7 @@ class OperacaoResourceIT {
             .inicio(UPDATED_INICIO)
             .fim(UPDATED_FIM)
             .quantidadeAmostras(UPDATED_QUANTIDADE_AMOSTRAS)
-            .observacao(UPDATED_OBSERVACAO)
-            .createdBy(UPDATED_CREATED_BY)
-            .createdDate(UPDATED_CREATED_DATE)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            .observacao(UPDATED_OBSERVACAO);
 
         restOperacaoMockMvc
             .perform(

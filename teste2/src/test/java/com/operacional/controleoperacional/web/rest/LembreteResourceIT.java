@@ -96,11 +96,7 @@ class LembreteResourceIT {
     public static Lembrete createEntity(EntityManager em) {
         Lembrete lembrete = new Lembrete()
             .nome(DEFAULT_NOME)
-            .descricao(DEFAULT_DESCRICAO)
-            .createdBy(DEFAULT_CREATED_BY)
-            .createdDate(DEFAULT_CREATED_DATE)
-            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
-            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
+            .descricao(DEFAULT_DESCRICAO);
         return lembrete;
     }
 
@@ -113,11 +109,7 @@ class LembreteResourceIT {
     public static Lembrete createUpdatedEntity(EntityManager em) {
         Lembrete lembrete = new Lembrete()
             .nome(UPDATED_NOME)
-            .descricao(UPDATED_DESCRICAO)
-            .createdBy(UPDATED_CREATED_BY)
-            .createdDate(UPDATED_CREATED_DATE)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            .descricao(UPDATED_DESCRICAO);
         return lembrete;
     }
 
@@ -264,11 +256,7 @@ class LembreteResourceIT {
         em.detach(updatedLembrete);
         updatedLembrete
             .nome(UPDATED_NOME)
-            .descricao(UPDATED_DESCRICAO)
-            .createdBy(UPDATED_CREATED_BY)
-            .createdDate(UPDATED_CREATED_DATE)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            .descricao(UPDATED_DESCRICAO);
         LembreteDTO lembreteDTO = lembreteMapper.toDto(updatedLembrete);
 
         restLembreteMockMvc
@@ -370,10 +358,7 @@ class LembreteResourceIT {
 
         partialUpdatedLembrete
             .nome(UPDATED_NOME)
-            .descricao(UPDATED_DESCRICAO)
-            .createdBy(UPDATED_CREATED_BY)
-            .createdDate(UPDATED_CREATED_DATE)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
+            .descricao(UPDATED_DESCRICAO);
 
         restLembreteMockMvc
             .perform(
@@ -409,11 +394,7 @@ class LembreteResourceIT {
 
         partialUpdatedLembrete
             .nome(UPDATED_NOME)
-            .descricao(UPDATED_DESCRICAO)
-            .createdBy(UPDATED_CREATED_BY)
-            .createdDate(UPDATED_CREATED_DATE)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
-            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
+            .descricao(UPDATED_DESCRICAO);
 
         restLembreteMockMvc
             .perform(

@@ -33,6 +33,7 @@ export class StatusUpdateComponent implements OnInit {
     descricao: [null, [Validators.required]],
     prazo: [null, [Validators.required]],
     dataResolucao: [],
+    createdBy: [null, [Validators.maxLength(50)]],
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
@@ -129,6 +130,7 @@ export class StatusUpdateComponent implements OnInit {
       descricao: status.descricao,
       prazo: status.prazo,
       dataResolucao: status.dataResolucao,
+      createdBy: status.createdBy,
       createdDate: status.createdDate ? status.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: status.lastModifiedBy,
       lastModifiedDate: status.lastModifiedDate ? status.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
@@ -174,6 +176,7 @@ export class StatusUpdateComponent implements OnInit {
       descricao: this.editForm.get(['descricao'])!.value,
       prazo: this.editForm.get(['prazo'])!.value,
       dataResolucao: this.editForm.get(['dataResolucao'])!.value,
+      createdBy: this.editForm.get(['createdBy'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value
         ? dayjs(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
         : undefined,

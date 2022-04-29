@@ -182,6 +182,7 @@ public class Status  extends AbstractAuditingEntity{
             ", descricao='" + getDescricao() + "'" +
             ", prazo='" + getPrazo() + "'" +
             ", dataResolucao='" + getDataResolucao() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
             ", lastModifiedDate='" + getLastModifiedDate() + "'" +

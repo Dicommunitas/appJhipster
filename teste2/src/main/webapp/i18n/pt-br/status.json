@@ -21,6 +21,7 @@
       "descricao": "Descricao",
       "prazo": "Prazo",
       "dataResolucao": "Data Resolucao",
+      "createdBy": "Created By",
       "createdDate": "Created Date",
       "lastModifiedBy": "Last Modified By",
       "lastModifiedDate": "Last Modified Date",
