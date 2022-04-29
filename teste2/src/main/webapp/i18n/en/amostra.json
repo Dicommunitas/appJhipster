@@ -1,0 +1,45 @@
+{
+  "controleOperacionalApp": {
+    "amostra": {
+      "home": {
+        "title": "Amostras",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Amostra",
+        "createOrEditLabel": "Create or edit a Amostra",
+        "notFound": "No Amostras found"
+      },
+      "created": "A new Amostra is created with identifier {{ param }}",
+      "updated": "A Amostra is updated with identifier {{ param }}",
+      "deleted": "A Amostra is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Amostra {{ id }}?"
+      },
+      "detail": {
+        "title": "Amostra"
+      },
+      "id": "ID",
+      "dataHoraColeta": "Data Hora Coleta",
+      "descricaoDeOrigem": "Descricao De Origem",
+      "observacao": "Observacao",
+      "identificadorExterno": "Identificador Externo",
+      "recebimentoNoLaboratorio": "Recebimento No Laboratorio",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
+      "finalidades": "Finalidades",
+      "operacao": "Operacao",
+      "origemAmostra": "Origem Amostra",
+      "tipoAmostra": "Tipo Amostra",
+      "amostradaPor": "Amostrada Por",
+      "recebidaPor": "Recebida Por",
+      "help": {
+        "dataHoraColeta": "Data e hora que a amostra foi coletada.",
+        "descricaoDeOrigem": "Observações que forem necessárias para melhorar\na identificação da origem amostra.",
+        "observacao": "Observações que forem necessárias para melhorar\na identificação da amostra.",
+        "identificadorExterno": "Identificador que &#34;ligue/identifique&#34; essa\namostra em outro sistema.",
+        "recebimentoNoLaboratorio": "Identifica se a amostra está ou não no laboratório."
+      }
+    }
+  }
+}

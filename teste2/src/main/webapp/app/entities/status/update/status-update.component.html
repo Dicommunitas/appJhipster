@@ -1,0 +1,235 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-status-heading" data-cy="StatusCreateUpdateHeading" jhiTranslate="controleOperacionalApp.status.home.createOrEditLabel">
+        Create or edit a Status
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="controleOperacionalApp.status.descricao"
+            for="field_descricao"
+            [ngbTooltip]="'controleOperacionalApp.status.help.descricao' | translate"
+            >Descricao</label
+          >
+          <textarea class="form-control" name="descricao" id="field_descricao" data-cy="descricao" formControlName="descricao"></textarea>
+          <div *ngIf="editForm.get('descricao')!.invalid && (editForm.get('descricao')!.dirty || editForm.get('descricao')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('descricao')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="controleOperacionalApp.status.prazo"
+            for="field_prazo"
+            [ngbTooltip]="'controleOperacionalApp.status.help.prazo' | translate"
+            >Prazo</label
+          >
+          <div class="input-group">
+            <input
+              id="field_prazo"
+              data-cy="prazo"
+              type="text"
+              class="form-control"
+              name="prazo"
+              ngbDatepicker
+              #prazoDp="ngbDatepicker"
+              formControlName="prazo"
+            />
+            <button type="button" class="btn btn-secondary" (click)="prazoDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+          <div *ngIf="editForm.get('prazo')!.invalid && (editForm.get('prazo')!.dirty || editForm.get('prazo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('prazo')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="controleOperacionalApp.status.dataResolucao"
+            for="field_dataResolucao"
+            [ngbTooltip]="'controleOperacionalApp.status.help.dataResolucao' | translate"
+            >Data Resolucao</label
+          >
+          <div class="input-group">
+            <input
+              id="field_dataResolucao"
+              data-cy="dataResolucao"
+              type="text"
+              class="form-control"
+              name="dataResolucao"
+              ngbDatepicker
+              #dataResolucaoDp="ngbDatepicker"
+              formControlName="dataResolucao"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dataResolucaoDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.createdDate" for="field_createdDate">Created Date</label>
+          <div class="d-flex">
+            <input
+              id="field_createdDate"
+              data-cy="createdDate"
+              type="datetime-local"
+              class="form-control"
+              name="createdDate"
+              formControlName="createdDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.lastModifiedBy" for="field_lastModifiedBy"
+            >Last Modified By</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="lastModifiedBy"
+            id="field_lastModifiedBy"
+            data-cy="lastModifiedBy"
+            formControlName="lastModifiedBy"
+          />
+          <div
+            *ngIf="
+              editForm.get('lastModifiedBy')!.invalid && (editForm.get('lastModifiedBy')!.dirty || editForm.get('lastModifiedBy')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastModifiedBy')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 50 }"
+            >
+              This field cannot be longer than 50 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.lastModifiedDate" for="field_lastModifiedDate"
+            >Last Modified Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_lastModifiedDate"
+              data-cy="lastModifiedDate"
+              type="datetime-local"
+              class="form-control"
+              name="lastModifiedDate"
+              formControlName="lastModifiedDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.relator" for="field_relator">Relator</label>
+          <select class="form-control" id="field_relator" data-cy="relator" name="relator" formControlName="relator">
+            <option *ngIf="!editForm.get('relator')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="userOption.id === editForm.get('relator')!.value?.id ? editForm.get('relator')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+            >
+              {{ userOption.login }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['relator'])!.invalid && (editForm.get(['relator'])!.dirty || editForm.get(['relator'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['relator'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.responsavel" for="field_responsavel">Responsavel</label>
+          <select class="form-control" id="field_responsavel" data-cy="responsavel" name="responsavel" formControlName="responsavel">
+            <option *ngIf="!editForm.get('responsavel')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="userOption.id === editForm.get('responsavel')!.value?.id ? editForm.get('responsavel')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+            >
+              {{ userOption.login }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="editForm.get(['responsavel'])!.invalid && (editForm.get(['responsavel'])!.dirty || editForm.get(['responsavel'])!.touched)"
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['responsavel'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="controleOperacionalApp.status.problema" for="field_problema">Problema</label>
+          <select class="form-control" id="field_problema" data-cy="problema" name="problema" formControlName="problema">
+            <option *ngIf="!editForm.get('problema')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="problemaOption.id === editForm.get('problema')!.value?.id ? editForm.get('problema')!.value : problemaOption"
+              *ngFor="let problemaOption of problemasSharedCollection; trackBy: trackProblemaById"
+            >
+              {{ problemaOption.descricao }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['problema'])!.invalid && (editForm.get(['problema'])!.dirty || editForm.get(['problema'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['problema'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

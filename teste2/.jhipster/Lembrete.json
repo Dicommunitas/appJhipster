@@ -1,0 +1,67 @@
+{
+  "applications": ["controleOperacional"],
+  "changelogDate": "20220428233249",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "lembrete",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"],
+      "javadoc": "Nome dado para o lembrete"
+    },
+    {
+      "fieldName": "descricao",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"],
+      "javadoc": "Lembrete de apoio para relatório e/ou operação."
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Entidade Lembrete.\\n@author Diego.\\nOs lembrestes devem aparecer nas telas de visualização e edição\\ndos relatórios e das operações, para os quais estiverem associados.\\nIsso deve ocorrer pelos tipos associados com os lembretes.\\nLembretes podem ser associadados a um tipo de relatório e/ou\\num tipo de operação.",
+  "jpaMetamodelFiltering": false,
+  "name": "Lembrete",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "javadoc": "Define os lembretes que servirão como guia para\\ntodos os relatórios desse tipo",
+      "otherEntityField": "nome",
+      "otherEntityName": "tipoRelatorio",
+      "otherEntityRelationshipName": "lembrete",
+      "relationshipName": "tipoRelatorio",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "javadoc": "O lembrete deverá ser exibido sempre que\\numa operação selecionar o mesmo tipoOperacao\\ndo lembrete.",
+      "otherEntityField": "descricao",
+      "otherEntityName": "tipoOperacao",
+      "otherEntityRelationshipName": "lembrete",
+      "relationshipName": "tipoOperacao",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

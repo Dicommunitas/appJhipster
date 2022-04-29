@@ -1,0 +1,29 @@
+{
+  "controleOperacionalApp": {
+    "origemAmostra": {
+      "home": {
+        "title": "Origem Amostras",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Origem Amostra",
+        "createOrEditLabel": "Criar ou editar Origem Amostra",
+        "notFound": "Nenhum Origem Amostra encontrado"
+      },
+      "created": "Um novo Origem Amostra foi criado com o identificador {{ param }}",
+      "updated": "Um Origem Amostra foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Origem Amostra foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Origem Amostra {{ id }}?"
+      },
+      "detail": {
+        "title": "Origem Amostra"
+      },
+      "id": "ID",
+      "descricao": "Descricao",
+      "obrigatoriaDescricao": "Obrigatoria Descricao",
+      "help": {
+        "descricao": "Descreve de forma simples a origem de uma amostra.\nO local da coleta, linha, tanque...\nA principal informação descritiva da origem do\nproduto coletado.",
+        "obrigatoriaDescricao": "Informa se a amostra deve ter uma\ndescricao de origem."
+      }
+    }
+  }
+}

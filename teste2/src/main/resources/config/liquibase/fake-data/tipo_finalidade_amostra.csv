@@ -1,0 +1,7 @@
+id;descricao;obrigatorio_lacre
+1;Arquivo Terminal;true
+2;Análise Terminal;false
+3;Arquivo Navio / Vessel Archive;true
+4;Repar;true
+5;Marpol;true
+6;Inspetora;true
