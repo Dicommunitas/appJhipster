@@ -76,5 +76,5 @@ vscode:
     - redhat.java
     - vscjava.vscode-java-debug
     - vscjava.vscode-java-test
-    - pivotal.vscode-spring-boot
+#    - pivotal.vscode-spring-boot
     - mechatroner.rainbow-csv
