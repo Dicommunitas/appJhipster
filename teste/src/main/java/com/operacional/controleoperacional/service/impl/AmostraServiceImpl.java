@@ -42,6 +42,8 @@ public class AmostraServiceImpl implements AmostraService {
     @Override
     public AmostraDTO update(AmostraDTO amostraDTO) {
         log.debug("Request to save Amostra : {}", amostraDTO);
+        logger.info("Objetos Encontrados: 1");
+        logger.error("Ocorreu um erro ao executar o findById. MSG ORIGINAL: ");
         Amostra amostra = amostraMapper.toEntity(amostraDTO);
         amostra = amostraRepository.save(amostra);
         return amostraMapper.toDto(amostra);
